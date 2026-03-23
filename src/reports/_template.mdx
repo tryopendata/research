@@ -1,0 +1,436 @@
+{/*
+  Report Template
+  ===============
+  Copy this file and rename it to create a new report.
+  The filename becomes the URL slug (e.g., us-economic-health.mdx -> /us-economic-health).
+
+  Required: export const meta with title, date, description, tags.
+  The comments below explain the narrative structure, chart design principles, and anti-patterns.
+
+
+  ============================================================
+  I. NARRATIVE ARCHITECTURE
+  ============================================================
+
+  A data report is an argument, not a dashboard. Every section advances
+  a claim, and every chart is evidence for that claim.
+
+  STRUCTURE (the "Data Storytelling Arc"):
+  1. HOOK — Open with the most surprising or consequential finding.
+     Not methodology ("We analyzed 2.3M records"). Not a truism
+     ("In today's economy..."). A specific, concrete finding that
+     makes the reader want to know why.
+     Good: "One in four Illinois students is chronically absent."
+     Good: "Solar grew 62x in 14 years, but emissions still rose."
+     Bad:  "This report examines attendance trends in Illinois."
+
+  2. NUT GRAF — One paragraph establishing what this report covers,
+     why it matters now, and what's at stake. This is the reader's
+     contract: they now know what they'll get by reading further.
+
+  3. SECTIONS (3-5, each follows the Claim-Chart-Context-Consequence pattern):
+     - Claim:       One sentence stating the section's finding (this becomes the ## heading)
+     - Chart:       Visual evidence supporting the claim
+     - Context:     Interpretation — what the data means, not just what it shows
+     - Consequence: Why it matters, or what question it raises for the next section
+
+     Each section should flow into the next. The consequence of section 2
+     raises the question that section 3 answers. This creates narrative
+     momentum rather than a disconnected list of findings.
+
+  4. CLOSING — Tie threads together. Three strong patterns:
+     - Forward look: project the trend ("At current rates, X reaches Y by 2030")
+     - Callback: return to the opening finding with new context
+     - Quiet statement of fact: one final number, stated plainly, no interpretation needed
+
+     Don't end with caveats or methodology. End with meaning.
+     (Methodology details go in the dedicated "Data sources & methodology"
+     section that follows the closing — see the bottom of this template.)
+
+  PACING:
+  - Never stack two charts back-to-back without narrative prose between them.
+    The reader needs text to process each chart before encountering the next.
+  - After your most important chart, give it a full paragraph of interpretation.
+    Let the finding breathe.
+  - Front-load your most compelling visual. Readers have the most attention early.
+  - Alternate "revelation" beats (here's what the data shows) with "reflection"
+    beats (here's what it means). Revelation is fast; reflection is slower.
+  - 300-500 words per section is a good target. Under 200 feels underdeveloped.
+    Over 700 means the section is probably making two points and should be split.
+
+  PROSE STYLE:
+  - Lead with findings, not methodology.
+  - Use specific numbers: "$31.1 trillion" not "increased significantly."
+  - Connect numbers to human scale: "A percentage point doesn't sound like much,
+    but in a labor force of 168 million, it represents 1.7 million people."
+  - No jargon without context. If you use CPI, explain it means the cost
+    of a standard basket of goods.
+  - Every standalone number needs a comparison: historical anchor ("not seen
+    since 2008"), per-person math ("$1,200 per household"), peer comparison
+    ("ranks 28th of 36 OECD nations"), or human scale.
+  - State findings confidently. Caveat specific measurements inline with
+    numerical ranges when needed. Put methodology details at the end, not
+    woven into every sentence. Over-caveating ("could potentially suggest
+    a possible trend") drains authority.
+
+  THE PROSE-CHART CONTRACT:
+  - Prose sets up the chart (what question does it answer?)
+  - The chart provides visual evidence (it should be interpretable standalone)
+  - Prose interprets the chart (what does it mean, not what does it show)
+  - NEVER write "As shown in Figure 3..." or "The chart below illustrates..."
+    State the finding in prose. Let the chart prove it visually. They reinforce
+    each other but don't depend on each other.
+  - NEVER describe what the chart shows ("the line goes up"). The reader has eyes.
+    Instead, add context the chart can't: "That 3% drop represents 4.2 million people."
+
+
+  ============================================================
+  II. CHART DESIGN PRINCIPLES
+  ============================================================
+
+  CHOOSE THE RIGHT CHART (start with the relationship, not the chart type):
+  - Deviation from a reference:  diverging bar, surplus/deficit line
+  - Correlation:                 scatter, connected scatter, bubble
+  - Ranking:                     bar (horizontal), slope, lollipop
+  - Distribution:                histogram, dot strip, box plot
+  - Change over time:            line (1-5 series), area (volume), column (discrete periods)
+  - Part-to-whole:               donut (2-6 categories), stacked bar, treemap
+  - Magnitude comparison:        bar, column, lollipop
+  - Spatial:                     choropleth, proportional symbol map
+
+  COLOR IS NARRATIVE, NOT DECORATION:
+  - Highlight + gray is the default. Color the protagonist, gray the context.
+    When everything is colored, nothing stands out.
+  - Use semantic color: red for decline/danger/heat, green for growth, blue
+    for neutral. A temperature chart should feel warm. A debt chart should
+    feel alarming. If your colors are arbitrary, you're leaving narrative
+    power on the table.
+  - Diverging palettes when data crosses a meaningful threshold (zero, a
+    target, a baseline). The midpoint must be semantically meaningful, not
+    just the mathematical center.
+  - 1 color + gray covers most editorial work. 2-3 for direct comparisons.
+    4-5 is the max for categorical. 6+ means regroup into "Other" or use
+    small multiples.
+  - Never ship all-blue or rainbow charts without a reason. Ask: what does
+    the color communicate about the data?
+
+  TITLES ARE ASSERTIONS, NOT LABELS:
+  - Chart titles state the finding: "GDP surpassed $31T in mid-2025"
+  - NOT a description of contents: "GDP Over Time"
+  - Subtitles carry metadata: units, time range, geography
+  - Keep the title under 10 words. It should prime the reader for what to
+    look for in the chart.
+  - The title and the visual should agree. If the title says one thing but
+    the chart's visual hierarchy emphasizes something else, fix one of them.
+
+  ANNOTATIONS EARN THEIR PLACE:
+  - Annotate when the reader would ask "what happened here?" at a spike,
+    inflection, crossover, or outlier.
+  - Use range annotations (shaded regions, opacity 0.1-0.15) for notable
+    periods: recessions, policy changes, pandemics.
+  - Use reference lines for meaningful thresholds: zero, targets, averages,
+    historical baselines. Dashed/dotted to distinguish from data lines.
+  - Label key data points directly on the chart, especially endpoints on
+    line charts and outliers on scatter plots.
+  - Budget: 0-3 per chart. More means the chart is telling too many stories.
+    Split it.
+  - Annotation copy: short noun phrases, not sentences. "Pandemic lockdowns"
+    not "This is when pandemic lockdowns began."
+
+  THE 5-SECOND TEST:
+  - Cover the title. Look at the chart. Can you state the takeaway in
+    5 seconds? If not, the visual hierarchy needs work.
+  - Uncover the title. Does it match what you saw? If not, either the
+    title or the chart needs to change.
+  - The "and" test: if you need "and" to describe what a chart shows
+    ("GDP growth AND unemployment AND inflation"), it's doing too much.
+
+  GIVE CONTEXT — "COMPARED TO WHAT?":
+  - A number without a reference point is meaningless. Is 4.2% unemployment
+    good or bad? Is $31T GDP high or low?
+  - Add historical baselines ("pre-pandemic level" dashed line)
+  - Add averages/medians ("national average" reference line)
+  - Add targets/thresholds ("2% inflation target")
+  - Add peer comparisons (gray "OECD average" line behind the country profile)
+  - The chart and the prose should both provide context, through
+    complementary channels.
+
+  CHART-SPECIFIC GUIDANCE:
+  - Line: use labels: { density: "endpoints" } so readers see start/end values.
+    Highlight one series, gray the rest when one trend is the story.
+  - Bar: sort by value for rankings. Use diverging color when values cross zero.
+    Bars MUST start at zero (bar length encodes magnitude).
+  - Scatter: label notable outliers directly with text annotations. Use size
+    for a third variable. Include a reference line at a meaningful threshold.
+  - Area: use for volume emphasis and composition shifts. Give the most
+    important layer the strongest visual weight.
+  - Donut: 2-6 categories max. Highlight the one slice that's the story.
+
+
+  ============================================================
+  III. ANTI-PATTERNS
+  ============================================================
+
+  NARRATIVE:
+  - Opening with methodology instead of a finding
+  - Describing what a chart shows instead of what it means
+  - Sections that don't connect — each should raise a question the next answers
+  - Including a chart because you made it during analysis, not because it
+    advances the argument (exploratory work masquerading as explanatory)
+  - Hedging everything: "could potentially suggest a possible trend"
+  - Charts that exist because "the article needs a visual" rather than
+    because they support a point in the story
+
+  VISUAL:
+  - Truncated y-axis on bar charts (exaggerates differences)
+  - Dual y-axes (almost always misleading — the creator controls the visual
+    relationship by choosing where each axis starts and ends)
+  - Rainbow color palette when 2-3 colors would suffice
+  - Pie charts with more than 6 slices
+  - Legend-dependent reading (label directly on the chart instead)
+  - Inconsistent scales across related charts that invite visual comparison
+  - More than 6 charts in one report (you're not editing enough)
+  - Over 100 rows of inline data per chart (over 500 is a bloat problem)
+
+  DATA:
+  - A number without comparison or context
+  - Jargon without translation
+  - Aggregates that hide important variation ("the national average masks...")
+*/}
+
+export const meta = {
+  title: "Report Title: Make It an Assertion, Not a Label",
+  date: "2026-03-20",
+  description: "One sentence that captures the key finding. Lead with what's interesting, not what you analyzed.",
+  tags: ["topic1", "topic2"],
+}
+
+import { Chart } from '@opendata-ai/openchart-react'
+import { Figure } from '../components/Figure'
+
+{/*
+  ── HOOK ──
+  Open with the most surprising or consequential finding.
+  Immediately establish what's at stake. One to three paragraphs max.
+  If you have a specific person, place, or moment that embodies the
+  data story, open with that and zoom out.
+*/}
+
+Your opening paragraph goes here. State the key finding immediately. A specific
+number, a surprising contrast, a consequential trend. Something that makes the
+reader want to know *why*.
+
+Second paragraph establishes what this report covers, why it matters now, and
+what the reader will learn. This is the nut graf — the reader's contract.
+
+## Section heading is an assertion about the data {/* e.g., "Emissions have nearly doubled since 1970" */}
+
+{/*
+  ── CLAIM → CHART → CONTEXT → CONSEQUENCE ──
+  This is the repeating unit of a data report. The heading states the claim.
+  A sentence or two of setup tells the reader what to look for. The chart
+  provides visual evidence. A paragraph of interpretation adds context the
+  chart can't provide on its own. The final sentence bridges to the next section.
+*/}
+
+One to two sentences of setup. Tell the reader what question this chart answers,
+or what pattern they should notice. Don't describe the chart — set up the finding.
+
+<Figure alt="Describe what the chart shows for accessibility">
+  <Chart spec={{
+    type: "line",
+    data: [
+      { date: "2020-01", series: "Main trend", value: 100 },
+      { date: "2021-01", series: "Main trend", value: 92 },
+      { date: "2022-01", series: "Main trend", value: 108 },
+      { date: "2023-01", series: "Main trend", value: 125 },
+      { date: "2020-01", series: "Comparison", value: 100 },
+      { date: "2021-01", series: "Comparison", value: 103 },
+      { date: "2022-01", series: "Comparison", value: 106 },
+      { date: "2023-01", series: "Comparison", value: 110 },
+    ],
+    encoding: {
+      x: { field: "date", type: "temporal" },
+      y: {
+        field: "value",
+        type: "quantitative",
+        axis: { label: "Y-axis label", format: ",.0f" },
+        scale: { zero: false },
+      },
+      color: { field: "series", type: "nominal" },
+    },
+    annotations: [
+      {
+        type: "range",
+        x1: "2020-06",
+        x2: "2021-03",
+        label: "Notable period",
+        fill: "#94a3b8",
+        opacity: 0.12,
+      },
+      {
+        type: "text",
+        x: "2023-01",
+        y: 125,
+        text: "125",
+        dy: -12,
+        fontSize: 13,
+        fontWeight: 600,
+        fill: "#2563eb",
+      },
+    ],
+    chrome: {
+      title: "Main trend surged 25% while comparison barely moved",
+      subtitle: "Indexed to 100 at January 2020",
+      source: "Data source attribution",
+    },
+    theme: { colors: ["#2563eb", "#d1d5db"] },
+    labels: { density: "endpoints", format: ",.0f" },
+  }} />
+</Figure>
+
+Interpret the chart. Don't restate what it shows — add what it *means*. Connect
+the data to something the reader cares about. Translate the number to human
+scale if it helps ("that's roughly $1,200 per household").
+
+Bridge to the next section: what question does this finding raise?
+
+## The complication or deeper cut {/* e.g., "But the national average masks enormous regional variation" */}
+
+{/*
+  This section complicates, deepens, or reframes the story from section 1.
+  The best data stories aren't just "here's what happened." They're
+  "here's what happened, and here's why it's more interesting than it looks."
+*/}
+
+<Figure alt="Ranking showing which categories improved and which declined">
+  <Chart spec={{
+    type: "bar",
+    data: [
+      { category: "Category A", change: 23.5 },
+      { category: "Category B", change: 12.1 },
+      { category: "Category C", change: -4.8 },
+      { category: "Category D", change: -15.2 },
+    ],
+    encoding: {
+      x: { field: "change", type: "quantitative", axis: { label: "% change", format: "+.0f%" } },
+      y: { field: "category", type: "nominal" },
+      color: {
+        field: "change",
+        type: "quantitative",
+        scale: { domain: [-20, 25], type: "linear" },
+      },
+    },
+    annotations: [
+      { type: "refline", x: 0, stroke: "#6b7280", strokeDasharray: "4 4" },
+    ],
+    chrome: {
+      title: "A and B grew while C and D fell behind",
+      subtitle: "Year-over-year change, 2023 to 2024",
+      source: "Data source",
+    },
+    theme: { colors: ["#16a34a", "#f59e0b", "#dc2626"] },
+    labels: { density: "all", format: "+.1f%" },
+  }} />
+</Figure>
+
+Interpretation paragraph. What explains the divergence? What's the mechanism?
+
+## The relationship or explanation {/* e.g., "Renewable growth alone doesn't predict emission cuts" */}
+
+{/*
+  If your report has a "why" section, this is usually it. Scatter plots,
+  cross-dataset comparisons, or before/after contrasts work well here.
+*/}
+
+<Figure alt="Scatter plot showing relationship between X and Y, with notable outliers labeled">
+  <Chart spec={{
+    type: "scatter",
+    data: [
+      { name: "Item A", x_val: 45, y_val: 7.2, group: "Group 1", weight: 120 },
+      { name: "Item B", x_val: 62, y_val: 6.8, group: "Group 1", weight: 85 },
+      { name: "Item C", x_val: 28, y_val: 5.1, group: "Group 2", weight: 200 },
+      { name: "Item D", x_val: 89, y_val: 7.8, group: "Group 2", weight: 150 },
+      { name: "Item E", x_val: 15, y_val: 4.5, group: "Group 3", weight: 60 },
+    ],
+    encoding: {
+      x: { field: "x_val", type: "quantitative", axis: { label: "X metric", format: ",.0f" } },
+      y: { field: "y_val", type: "quantitative", axis: { label: "Y metric", format: ".1f" } },
+      color: { field: "group", type: "nominal" },
+      size: { field: "weight", type: "quantitative" },
+    },
+    annotations: [
+      { type: "refline", y: 6.0, stroke: "#9ca3af", strokeDasharray: "4 4", label: "Threshold" },
+      { type: "text", x: 89, y: 7.8, text: "Item D", dx: 14, dy: -10, fontSize: 12, fontWeight: 600, fill: "#374151" },
+      { type: "text", x: 15, y: 4.5, text: "Item E", dx: 14, dy: 4, fontSize: 12, fontWeight: 600, fill: "#374151" },
+    ],
+    chrome: {
+      title: "Higher X correlates with higher Y, but Item E breaks the pattern",
+      subtitle: "Each dot is one item, sized by weight. r = 0.82.",
+      source: "Data source",
+    },
+  }} />
+</Figure>
+
+Explain what drives the relationship. Name the outliers and why they matter.
+This is where the analysis earns its keep — not just showing a pattern, but
+explaining the mechanism behind it.
+
+---
+
+{/*
+  ── CLOSING ──
+  Tie threads together. Don't end with caveats or methodology.
+  Three strong patterns:
+  1. Forward look:       "At current rates, X reaches Y by 2030."
+  2. Circular callback:  Return to the opening finding with new context.
+  3. Quiet statement:    One final number, stated plainly.
+*/}
+
+Closing paragraph. Synthesize the sections into a single coherent takeaway.
+What should the reader remember tomorrow? What's the trajectory? End with
+meaning, not a summary.
+
+{/*
+  ── DATA SOURCES & METHODOLOGY ──
+  This section lives after the narrative closing. It's not part of the story,
+  it's the footnotes. The reader who wants to verify a number or understand
+  how you got there should find everything they need here.
+
+  Include:
+  1. DATASETS — Which datasets were queried, from which providers. Use the
+     provider/slug format (e.g., "fred/gdp", "noaa/severe-weather") so someone
+     can trace the exact data. List each dataset on its own line.
+  2. TIME RANGES & FILTERS — What date ranges, geographic filters, or other
+     constraints were applied. If a chart only shows data from 2010-2024,
+     say so here.
+  3. CALCULATIONS — Any derived metrics, aggregations, or transformations
+     that aren't obvious from the raw data. If you computed year-over-year
+     percent change, inflation-adjusted values, per-capita figures, or
+     correlation coefficients, explain the method briefly.
+  4. KNOWN LIMITATIONS — Data gaps, suppressed values, changes in methodology
+     over time, or anything that affects interpretation. For example: "CDC
+     suppresses death counts below 10 for privacy, which may undercount
+     rare causes in small states."
+  5. ACCESS DATE — When the data was pulled. API data can change as providers
+     update their records.
+
+  Keep it concise. This isn't an academic methods section. A few short
+  paragraphs or a bulleted list is fine. The goal is traceability: if someone
+  questions a number in the report, this section tells them where it came
+  from and how it was processed.
+*/}
+
+## Data sources & methodology
+
+**Datasets used:**
+- `provider/dataset-slug` — Brief description of what was pulled from this dataset and the time range covered
+- `provider/dataset-slug` — Brief description
+
+**Calculations & transformations:**
+Describe any derived metrics (inflation adjustments, per-capita normalization, percent change calculations, correlation coefficients, etc.) and the method used.
+
+**Limitations:**
+Note any data gaps, suppressed values, methodology changes over time, or caveats that affect interpretation.
+
+*Data accessed on YYYY-MM-DD via the [OpenData API](https://tryopendata.ai).*

@@ -1,0 +1,12 @@
+{
+  "includeCoAuthoredBy": false,
+  "permissions": {
+    "allow": [],
+    "deny": [],
+    "ask": []
+  },
+  "enabledPlugins": {
+    "ce@claude-essentials": true,
+    "openchart@openchart": true
+  }
+}

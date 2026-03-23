@@ -1,0 +1,12 @@
+node_modules/
+dist/
+bun.lock
+bun.lockb
+*.png
+.playwright-cli/
+demo/
+.env
+.env.*
+!.env.example
+.claude/settings.local.json
+**/.DS_Store

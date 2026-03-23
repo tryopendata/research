@@ -1,0 +1,29 @@
+{
+  "name": "opendata-research",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@mdx-js/react": "^3",
+    "@opendata-ai/openchart-react": "^6",
+    "react": "^19",
+    "react-dom": "^19",
+    "react-router-dom": "^7"
+  },
+  "devDependencies": {
+    "vite": "^6",
+    "@vitejs/plugin-react": "^4",
+    "@tailwindcss/vite": "^4",
+    "@tailwindcss/typography": "^0.5",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@mdx-js/rollup": "^3",
+    "@types/mdx": "^2"
+  }
+}
