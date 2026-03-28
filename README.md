@@ -42,17 +42,24 @@ This is the intended workflow. Claude discovers datasets, queries data, builds c
 
 ### 1. Install the required plugins
 
-Claude Code needs two plugins that aren't bundled with this repo. Install them by running these commands in Claude Code (type `/` to access slash commands):
+Claude Code needs plugins from two marketplaces. Add the marketplaces first, then install the plugins:
 
-```
-/install-plugin openchart
-/install-plugin opendata-api
+```bash
+# Add the marketplaces
+/plugin marketplace add tryopendata/skills
+/plugin marketplace add https://github.com/rileyhilliard/claude-essentials
+
+# Install plugins
+/plugin install opendata
+/plugin install openchart
+/plugin install ce
 ```
 
 | Plugin | What it does |
 |--------|-------------|
+| `opendata` | OpenData REST API querying and dataset discovery |
 | `openchart` | Chart, table, and graph spec authoring |
-| `opendata-api` | OpenData REST API querying and discovery |
+| `ce` | Claude Essentials (writing, architecture, debugging, and other general-purpose skills) |
 
 After installation, verify they appear in `.claude/settings.json` under `enabledPlugins`. The repo also ships local skills in `.claude/skills/` (data journalism writing, data science methodology, browser automation) that load automatically.
 
