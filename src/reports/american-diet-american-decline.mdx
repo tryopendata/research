@@ -1,0 +1,692 @@
+export const meta = {
+  title: "The American Diet, The American Decline",
+  date: "2026-03-25",
+  description: "Americans die nearly four years younger than their peers in other wealthy nations. The food system built over the last half-century helps explain why.",
+  tags: ["health", "agriculture", "longevity", "diet", "food policy"],
+}
+
+import { Chart } from '../components/Chart'
+import { Figure } from '../components/Figure'
+
+Americans live shorter lives than people in every other wealthy democracy. Not by a little. By nearly four years. A gap that has been widening for decades, through Republican and Democratic administrations alike, through economic booms and busts, through one healthcare reform after another.
+
+The usual suspects get plenty of attention: a fragmented healthcare system, gun violence, the opioid crisis. But there's a quieter, more pervasive force at work. Over the last half-century, the United States rebuilt its agricultural system around a handful of commodity crops, flooded the food supply with cheap calories, and watched as diet-related disease became the country's defining health crisis. The other wealthy nations didn't follow the same playbook. Their life expectancy kept climbing. America's stalled.
+
+## Americans were keeping pace with peer nations. Then something changed.
+
+In 1980, the United States was roughly in the middle of the pack among wealthy democracies. At 73.7 years, American life expectancy trailed Japan and Canada but was within a year of Germany and the UK. By 2023, every one of those peers had pulled away. Japan reached 84.7 years. Australia hit 83.9. The United States crawled to 79.3, nearly 4 years behind the group average.
+
+The divergence didn't happen overnight. It accumulated across four decades, accelerating in the mid-1990s and again after 2010. COVID made it impossible to ignore: in 2021, the gap between the US and peer nations blew out to 6.1 years, the widest in the modern record.
+
+<Figure alt="Line chart showing life expectancy from 1980 to 2023 for the US and seven peer nations, with the US falling increasingly behind">
+  <Chart spec={{
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "1980", country: "United States", le: 73.7 },
+      { year: "1986", country: "United States", le: 74.7 },
+      { year: "1992", country: "United States", le: 75.8 },
+      { year: "1998", country: "United States", le: 76.7 },
+      { year: "2004", country: "United States", le: 77.5 },
+      { year: "2010", country: "United States", le: 78.7 },
+      { year: "2016", country: "United States", le: 78.7 },
+      { year: "2019", country: "United States", le: 78.9 },
+      { year: "2020", country: "United States", le: 77.0 },
+      { year: "2021", country: "United States", le: 76.4 },
+      { year: "2023", country: "United States", le: 79.3 },
+      { year: "1980", country: "Japan", le: 76.1 },
+      { year: "1986", country: "Japan", le: 78.2 },
+      { year: "1992", country: "Japan", le: 79.3 },
+      { year: "1998", country: "Japan", le: 80.6 },
+      { year: "2004", country: "Japan", le: 82.1 },
+      { year: "2010", country: "Japan", le: 82.9 },
+      { year: "2016", country: "Japan", le: 84.1 },
+      { year: "2019", country: "Japan", le: 84.4 },
+      { year: "2020", country: "Japan", le: 84.7 },
+      { year: "2021", country: "Japan", le: 84.6 },
+      { year: "2023", country: "Japan", le: 84.7 },
+      { year: "1980", country: "Australia", le: 74.6 },
+      { year: "1986", country: "Australia", le: 76.1 },
+      { year: "1992", country: "Australia", le: 77.5 },
+      { year: "1998", country: "Australia", le: 79.0 },
+      { year: "2004", country: "Australia", le: 80.7 },
+      { year: "2010", country: "Australia", le: 82.0 },
+      { year: "2016", country: "Australia", le: 82.8 },
+      { year: "2019", country: "Australia", le: 83.2 },
+      { year: "2020", country: "Australia", le: 83.7 },
+      { year: "2021", country: "Australia", le: 83.6 },
+      { year: "2023", country: "Australia", le: 83.9 },
+      { year: "1980", country: "France", le: 74.2 },
+      { year: "1986", country: "France", le: 75.6 },
+      { year: "1992", country: "France", le: 77.3 },
+      { year: "1998", country: "France", le: 78.6 },
+      { year: "2004", country: "France", le: 80.3 },
+      { year: "2010", country: "France", le: 81.4 },
+      { year: "2016", country: "France", le: 82.4 },
+      { year: "2019", country: "France", le: 82.7 },
+      { year: "2020", country: "France", le: 82.2 },
+      { year: "2021", country: "France", le: 82.3 },
+      { year: "2023", country: "France", le: 83.3 },
+      { year: "1980", country: "Sweden", le: 75.7 },
+      { year: "1986", country: "Sweden", le: 77.0 },
+      { year: "1992", country: "Sweden", le: 78.1 },
+      { year: "1998", country: "Sweden", le: 79.4 },
+      { year: "2004", country: "Sweden", le: 80.5 },
+      { year: "2010", country: "Sweden", le: 81.5 },
+      { year: "2016", country: "Sweden", le: 82.3 },
+      { year: "2019", country: "Sweden", le: 83.1 },
+      { year: "2020", country: "Sweden", le: 82.4 },
+      { year: "2021", country: "Sweden", le: 83.0 },
+      { year: "2023", country: "Sweden", le: 83.3 },
+      { year: "1980", country: "Canada", le: 75.1 },
+      { year: "1986", country: "Canada", le: 76.5 },
+      { year: "1992", country: "Canada", le: 77.9 },
+      { year: "1998", country: "Canada", le: 78.7 },
+      { year: "2004", country: "Canada", le: 80.0 },
+      { year: "2010", country: "Canada", le: 81.3 },
+      { year: "2016", country: "Canada", le: 82.0 },
+      { year: "2019", country: "Canada", le: 82.3 },
+      { year: "2020", country: "Canada", le: 81.7 },
+      { year: "2021", country: "Canada", le: 82.0 },
+      { year: "2023", country: "Canada", le: 82.6 },
+      { year: "1980", country: "Germany", le: 73.1 },
+      { year: "1986", country: "Germany", le: 74.7 },
+      { year: "1992", country: "Germany", le: 76.0 },
+      { year: "1998", country: "Germany", le: 77.6 },
+      { year: "2004", country: "Germany", le: 79.1 },
+      { year: "2010", country: "Germany", le: 80.1 },
+      { year: "2016", country: "Germany", le: 80.8 },
+      { year: "2019", country: "Germany", le: 81.2 },
+      { year: "2020", country: "Germany", le: 81.0 },
+      { year: "2021", country: "Germany", le: 81.1 },
+      { year: "2023", country: "Germany", le: 81.4 },
+      { year: "1980", country: "United Kingdom", le: 73.6 },
+      { year: "1986", country: "United Kingdom", le: 74.8 },
+      { year: "1992", country: "United Kingdom", le: 76.3 },
+      { year: "1998", country: "United Kingdom", le: 77.3 },
+      { year: "2004", country: "United Kingdom", le: 78.9 },
+      { year: "2010", country: "United Kingdom", le: 80.4 },
+      { year: "2016", country: "United Kingdom", le: 81.1 },
+      { year: "2019", country: "United Kingdom", le: 81.4 },
+      { year: "2020", country: "United Kingdom", le: 80.4 },
+      { year: "2021", country: "United Kingdom", le: 80.7 },
+      { year: "2023", country: "United Kingdom", le: 81.3 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", axis: { title: null }, scale: { nice: false } },
+      y: {
+        field: "le",
+        type: "quantitative",
+        axis: { title: "Life expectancy (years)", format: ".0f" },
+        scale: { domain: [72, 86], nice: false },
+      },
+      color: { field: "country", type: "nominal", scale: { domain: ["United States", "Japan", "Australia", "France", "Sweden", "Canada", "Germany", "United Kingdom"], range: ["#c44e52", "#94a3b8", "#94a3b8", "#94a3b8", "#94a3b8", "#94a3b8", "#94a3b8", "#94a3b8"] } },
+    },
+    annotations: [
+      {
+        type: "range",
+        x1: "2020",
+        x2: "2021",
+        label: "COVID-19",
+        fill: "#94a3b8",
+        opacity: 0.12,
+      },
+    ],
+    chrome: {
+      title: "The US fell behind its peers and never caught up",
+      subtitle: "Life expectancy at birth, selected wealthy nations, 1980-2023",
+      source: "Source: Our World in Data (WHO, national vital statistics)",
+    },
+    labels: { density: "endpoints", format: ".1f" },
+    legend: { position: "right" },
+  }} />
+</Figure>
+
+That 4-year gap translates to roughly 1.3 million cumulative years of life lost every year across the US population compared to what peer-nation mortality rates would produce. It's not an abstraction. It's parents who don't make it to retirement, grandparents who never meet their grandchildren.
+
+What's driving it? The usual suspects explain part of the story. But the timeline of the divergence aligns suspiciously well with another American transformation: the remaking of the food supply.
+
+## America built a food system optimized for quantity, not quality
+
+Starting in the 1970s, US agricultural policy shifted decisively toward maximizing output of a few commodity crops. The 1973 Farm Bill replaced supply management with direct payments tied to production, incentivizing farmers to plant as much corn and soybeans as possible. The results were staggering.
+
+US corn production quadrupled from about 91 million tonnes in 1961 to 390 million tonnes in 2023. Soybean output grew more than sixfold over the same period. This wasn't mainly about feeding people directly. It was about creating cheap inputs for the processed food industry: high-fructose corn syrup, soybean oil, corn-fed livestock, and the thousands of shelf-stable products that fill the center aisles of American supermarkets.
+
+<Figure alt="Line chart showing US corn production quadrupling from 91 million tonnes in 1961 to 390 million tonnes in 2023">
+  <Chart spec={{
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "1961", million_tonnes: 91 },
+      { year: "1965", million_tonnes: 104 },
+      { year: "1969", million_tonnes: 119 },
+      { year: "1973", million_tonnes: 144 },
+      { year: "1977", million_tonnes: 165 },
+      { year: "1981", million_tonnes: 206 },
+      { year: "1985", million_tonnes: 226 },
+      { year: "1989", million_tonnes: 191 },
+      { year: "1993", million_tonnes: 161 },
+      { year: "1997", million_tonnes: 234 },
+      { year: "2001", million_tonnes: 241 },
+      { year: "2005", million_tonnes: 282 },
+      { year: "2009", million_tonnes: 332 },
+      { year: "2013", million_tonnes: 351 },
+      { year: "2017", million_tonnes: 371 },
+      { year: "2021", million_tonnes: 382 },
+      { year: "2023", million_tonnes: 390 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", axis: { title: null }, scale: { nice: false } },
+      y: {
+        field: "million_tonnes",
+        type: "quantitative",
+        axis: { title: "Million tonnes", format: "~s" },
+        scale: { domain: [0, 420], nice: false },
+      },
+    },
+    annotations: [
+      {
+        type: "refline",
+        x: "1973",
+        stroke: "#6b7280",
+        strokeDasharray: "4 4",
+        label: "1973 Farm Bill",
+        labelAnchor: "top",
+      },
+      {
+        type: "refline",
+        x: "2007",
+        stroke: "#6b7280",
+        strokeDasharray: "4 4",
+        label: "Ethanol mandate",
+        labelAnchor: "top",
+      },
+    ],
+    chrome: {
+      title: "US corn production quadrupled in six decades",
+      subtitle: "Annual production in million metric tonnes, 1961-2023",
+      source: "Source: FAO (FAOSTAT crop production database)",
+    },
+    theme: { colors: ["#d47215"] },
+    labels: { density: "endpoints", format: "~s" },
+  }} />
+</Figure>
+
+The cheap calorie machine worked exactly as designed. Americans now spend just 7.7% of their income on food, down from 19% in 1960. That's the lowest share of any major economy. But cheap food isn't the same as good food. The calories that got cheapest were the ones derived from subsidized commodities: sweeteners, refined grains, and industrially processed oils. Fresh produce, which receives virtually no federal subsidy support, stayed expensive.
+
+The result was a fundamental shift in what Americans eat. Per-capita cheese consumption tripled from 11 pounds in 1970 to 37 pounds by 2017, driven largely by the explosion of pizza and fast food. High-fructose corn syrup, essentially nonexistent before 1970, became the dominant sweetener in the American food supply by the mid-1980s. The average American now consumes roughly 3,600 calories per day in available food supply, well above what any peer nation provides.
+
+## Nearly three in four American adults are now overweight
+
+The consequences showed up on the scale first. In 1990, about half of American adults were overweight or obese. By 2022, that figure had climbed to 72.4%, the highest rate among the nations tracked here. The US didn't just lead the pack. It lapped it.
+
+<Figure alt="Line chart showing overweight prevalence from 1990 to 2022, with the US climbing from 51% to 72% while peers grew more slowly and Japan and France stayed low">
+  <Chart spec={{
+    animation: { enter: { duration: 800, ease: "smooth" } },
+    responsive: true,
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "1990", country: "United States", pct: 50.9 },
+      { year: "1994", country: "United States", pct: 54.9 },
+      { year: "1998", country: "United States", pct: 58.8 },
+      { year: "2002", country: "United States", pct: 62.4 },
+      { year: "2006", country: "United States", pct: 65.3 },
+      { year: "2010", country: "United States", pct: 67.6 },
+      { year: "2014", country: "United States", pct: 69.3 },
+      { year: "2018", country: "United States", pct: 70.9 },
+      { year: "2022", country: "United States", pct: 72.4 },
+      { year: "1990", country: "United Kingdom", pct: 45.7 },
+      { year: "1994", country: "United Kingdom", pct: 50.2 },
+      { year: "1998", country: "United Kingdom", pct: 54.3 },
+      { year: "2002", country: "United Kingdom", pct: 57.5 },
+      { year: "2006", country: "United Kingdom", pct: 59.5 },
+      { year: "2010", country: "United Kingdom", pct: 60.4 },
+      { year: "2014", country: "United Kingdom", pct: 60.7 },
+      { year: "2018", country: "United Kingdom", pct: 61.1 },
+      { year: "2022", country: "United Kingdom", pct: 61.4 },
+      { year: "1990", country: "Australia", pct: 45.9 },
+      { year: "1994", country: "Australia", pct: 50.2 },
+      { year: "1998", country: "Australia", pct: 53.8 },
+      { year: "2002", country: "Australia", pct: 56.7 },
+      { year: "2006", country: "Australia", pct: 58.9 },
+      { year: "2010", country: "Australia", pct: 60.4 },
+      { year: "2014", country: "Australia", pct: 61.5 },
+      { year: "2018", country: "Australia", pct: 62.7 },
+      { year: "2022", country: "Australia", pct: 64.0 },
+      { year: "1990", country: "Canada", pct: 47.5 },
+      { year: "1994", country: "Canada", pct: 50.8 },
+      { year: "1998", country: "Canada", pct: 53.7 },
+      { year: "2002", country: "Canada", pct: 56.0 },
+      { year: "2006", country: "Canada", pct: 57.6 },
+      { year: "2010", country: "Canada", pct: 58.4 },
+      { year: "2014", country: "Canada", pct: 58.8 },
+      { year: "2018", country: "Canada", pct: 59.0 },
+      { year: "2022", country: "Canada", pct: 59.2 },
+      { year: "1990", country: "Germany", pct: 47.5 },
+      { year: "1994", country: "Germany", pct: 49.7 },
+      { year: "1998", country: "Germany", pct: 51.8 },
+      { year: "2002", country: "Germany", pct: 53.4 },
+      { year: "2006", country: "Germany", pct: 54.5 },
+      { year: "2010", country: "Germany", pct: 54.9 },
+      { year: "2014", country: "Germany", pct: 54.6 },
+      { year: "2018", country: "Germany", pct: 54.2 },
+      { year: "2022", country: "Germany", pct: 53.8 },
+      { year: "1990", country: "Sweden", pct: 38.9 },
+      { year: "1994", country: "Sweden", pct: 41.4 },
+      { year: "1998", country: "Sweden", pct: 44.1 },
+      { year: "2002", country: "Sweden", pct: 46.5 },
+      { year: "2006", country: "Sweden", pct: 48.3 },
+      { year: "2010", country: "Sweden", pct: 49.3 },
+      { year: "2014", country: "Sweden", pct: 49.7 },
+      { year: "2018", country: "Sweden", pct: 50.1 },
+      { year: "2022", country: "Sweden", pct: 50.6 },
+      { year: "1990", country: "France", pct: 40.9 },
+      { year: "1994", country: "France", pct: 41.0 },
+      { year: "1998", country: "France", pct: 41.3 },
+      { year: "2002", country: "France", pct: 41.6 },
+      { year: "2006", country: "France", pct: 41.3 },
+      { year: "2010", country: "France", pct: 40.1 },
+      { year: "2014", country: "France", pct: 38.3 },
+      { year: "2018", country: "France", pct: 36.3 },
+      { year: "2022", country: "France", pct: 34.3 },
+      { year: "1990", country: "Japan", pct: 18.9 },
+      { year: "1994", country: "Japan", pct: 19.6 },
+      { year: "1998", country: "Japan", pct: 20.2 },
+      { year: "2002", country: "Japan", pct: 20.7 },
+      { year: "2006", country: "Japan", pct: 21.1 },
+      { year: "2010", country: "Japan", pct: 21.5 },
+      { year: "2014", country: "Japan", pct: 22.1 },
+      { year: "2018", country: "Japan", pct: 23.0 },
+      { year: "2022", country: "Japan", pct: 24.0 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", axis: { title: null }, scale: { nice: false } },
+      y: {
+        field: "pct",
+        type: "quantitative",
+        axis: { title: "Adults overweight or obese (%)", format: ".0f%" },
+        scale: { domain: [15, 78], nice: false },
+      },
+      color: { field: "country", type: "nominal", scale: { domain: ["United States", "United Kingdom", "Australia", "Canada", "Germany", "Sweden", "France", "Japan"], range: ["#c44e52", "#94a3b8", "#94a3b8", "#94a3b8", "#94a3b8", "#94a3b8", "#1b7fa3", "#6a9f58"] } },
+    },
+    chrome: {
+      title: "Nearly 3 in 4 American adults are overweight",
+      subtitle: "Prevalence of overweight among adults (BMI >= 25), age-standardized, 1990-2022",
+      source: "Source: Our World in Data (WHO Global Health Observatory)",
+    },
+    labels: { density: "endpoints", format: ".0f%" },
+    legend: { position: "right",
+    offset: { dx: 119, dy: -85 } },
+  }} />
+</Figure>
+
+Japan and France tell the most instructive counter-stories. Japan, where the traditional diet emphasizes fish, rice, vegetables, and portion control, has the lowest overweight rate at 24% and the highest life expectancy at 84.7 years. France, despite its butter-and-cream reputation, actually saw overweight prevalence *decline* from 41% to 34% over three decades. The French paradox isn't really about wine. It's about a food culture that resists industrial processing, values meal structure over snacking, and maintains strict regulations on food additives.
+
+Germany is worth noting too: its overweight rate peaked around 55% in the early 2010s and has been slowly declining, suggesting that policy interventions and cultural shifts can bend the curve.
+
+## The diet-disease pipeline: from overweight to chronic illness
+
+The weight gain wasn't just a cosmetic problem. It fed directly into a surge in diet-related chronic disease. The United States now has a diabetes prevalence of 13.7% among adults ages 20-79, nearly double the rate of most peer nations. Between 2011 and 2024, the US rate grew by 4.3 percentage points while the peer average grew by just 1.5.
+
+<Figure alt="Horizontal bar chart comparing diabetes prevalence across 8 wealthy nations, with the US at 13.7% far ahead of peers" minHeight={0}>
+  <Chart spec={{
+    animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+    responsive: true,
+    mark: "bar",
+    data: [
+      { country: "United States", diabetes: 13.7 },
+      { country: "Japan", diabetes: 8.1 },
+      { country: "Germany", diabetes: 7.8 },
+      { country: "Canada", diabetes: 7.7 },
+      { country: "Australia", diabetes: 7.4 },
+      { country: "United Kingdom", diabetes: 7.4 },
+      { country: "France", diabetes: 6.5 },
+      { country: "Sweden", diabetes: 5.8 },
+    ],
+    encoding: {
+      x: {
+        field: "diabetes",
+        type: "quantitative",
+        axis: { title: "Diabetes prevalence (% of adults 20-79)", format: ".0f%" },
+        scale: { domain: [0, 16], nice: false },
+      },
+      y: { field: "country", type: "nominal", axis: { title: null } },
+      color: { condition: { test: { field: "country", equal: "United States" }, value: "#c44e52" }, value: "#94a3b8" },
+    },
+    chrome: {
+      title: "US diabetes rate is nearly double its peers",
+      subtitle: "Diabetes prevalence, % of population ages 20-79, 2024 estimates",
+      source: "Source: World Bank (World Development Indicators)",
+    },
+    labels: { density: "all", format: ".1f%" },
+    legend: { show: false },
+  }} />
+</Figure>
+
+Diabetes isn't an isolated condition. It multiplies the risk for heart disease, stroke, kidney failure, and dementia. It's one component of a broader category the WHO tracks as "non-communicable disease mortality": the probability of dying between ages 30 and 70 from cardiovascular disease, cancer, diabetes, or chronic respiratory disease.
+
+On this measure, every one of America's peers improved faster. In 2000, the US rate of 17.8% wasn't far from the UK (16.5%) and Germany (16.1%). By 2021, the UK had dropped to 11.0% and Germany to 11.6%. The US barely budged to 13.7%. Sweden cut its NCD mortality nearly in half, from 13.2% to 7.9%.
+
+<Figure alt="Line chart showing NCD mortality rates from 2000 to 2021, with the US declining slower than all peers">
+  <Chart spec={{
+    animation: { enter: { duration: 800, ease: "smooth" } },
+    responsive: true,
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2000", country: "United States", rate: 17.8 },
+      { year: "2003", country: "United States", rate: 16.9 },
+      { year: "2006", country: "United States", rate: 15.6 },
+      { year: "2009", country: "United States", rate: 14.8 },
+      { year: "2012", country: "United States", rate: 14.2 },
+      { year: "2015", country: "United States", rate: 14.0 },
+      { year: "2018", country: "United States", rate: 13.5 },
+      { year: "2021", country: "United States", rate: 13.7 },
+      { year: "2000", country: "Japan", rate: 11.3 },
+      { year: "2003", country: "Japan", rate: 10.5 },
+      { year: "2006", country: "Japan", rate: 10.0 },
+      { year: "2009", country: "Japan", rate: 9.5 },
+      { year: "2012", country: "Japan", rate: 9.4 },
+      { year: "2015", country: "Japan", rate: 8.7 },
+      { year: "2018", country: "Japan", rate: 8.4 },
+      { year: "2021", country: "Japan", rate: 8.0 },
+      { year: "2000", country: "Sweden", rate: 13.2 },
+      { year: "2003", country: "Sweden", rate: 12.3 },
+      { year: "2006", country: "Sweden", rate: 11.4 },
+      { year: "2009", country: "Sweden", rate: 10.6 },
+      { year: "2012", country: "Sweden", rate: 9.8 },
+      { year: "2015", country: "Sweden", rate: 9.2 },
+      { year: "2018", country: "Sweden", rate: 8.7 },
+      { year: "2021", country: "Sweden", rate: 7.9 },
+      { year: "2000", country: "United Kingdom", rate: 16.5 },
+      { year: "2003", country: "United Kingdom", rate: 15.3 },
+      { year: "2006", country: "United Kingdom", rate: 13.8 },
+      { year: "2009", country: "United Kingdom", rate: 12.6 },
+      { year: "2012", country: "United Kingdom", rate: 11.7 },
+      { year: "2015", country: "United Kingdom", rate: 11.3 },
+      { year: "2018", country: "United Kingdom", rate: 11.3 },
+      { year: "2021", country: "United Kingdom", rate: 11.0 },
+      { year: "2000", country: "Germany", rate: 16.1 },
+      { year: "2003", country: "Germany", rate: 15.0 },
+      { year: "2006", country: "Germany", rate: 13.6 },
+      { year: "2009", country: "Germany", rate: 13.2 },
+      { year: "2012", country: "Germany", rate: 12.5 },
+      { year: "2015", country: "Germany", rate: 12.5 },
+      { year: "2018", country: "Germany", rate: 12.1 },
+      { year: "2021", country: "Germany", rate: 11.6 },
+      { year: "2000", country: "France", rate: 14.1 },
+      { year: "2003", country: "France", rate: 13.4 },
+      { year: "2006", country: "France", rate: 12.4 },
+      { year: "2009", country: "France", rate: 11.9 },
+      { year: "2012", country: "France", rate: 11.4 },
+      { year: "2015", country: "France", rate: 10.8 },
+      { year: "2018", country: "France", rate: 10.3 },
+      { year: "2021", country: "France", rate: 10.2 },
+      { year: "2000", country: "Australia", rate: 13.0 },
+      { year: "2003", country: "Australia", rate: 11.8 },
+      { year: "2006", country: "Australia", rate: 10.9 },
+      { year: "2009", country: "Australia", rate: 10.1 },
+      { year: "2012", country: "Australia", rate: 9.4 },
+      { year: "2015", country: "Australia", rate: 9.3 },
+      { year: "2018", country: "Australia", rate: 8.7 },
+      { year: "2021", country: "Australia", rate: 8.3 },
+      { year: "2000", country: "Canada", rate: 14.4 },
+      { year: "2003", country: "Canada", rate: 13.5 },
+      { year: "2006", country: "Canada", rate: 12.3 },
+      { year: "2009", country: "Canada", rate: 11.5 },
+      { year: "2012", country: "Canada", rate: 10.8 },
+      { year: "2015", country: "Canada", rate: 10.4 },
+      { year: "2018", country: "Canada", rate: 9.8 },
+      { year: "2021", country: "Canada", rate: 9.7 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", axis: { title: null }, scale: { nice: false } },
+      y: {
+        field: "rate",
+        type: "quantitative",
+        axis: { title: "Probability of dying ages 30-70 (%)", format: ".0f%" },
+        scale: { domain: [6, 19], nice: false },
+      },
+      color: { field: "country", type: "nominal", scale: { domain: ["United States", "Japan", "Sweden", "United Kingdom", "Germany", "France", "Australia", "Canada"], range: ["#c44e52", "#94a3b8", "#94a3b8", "#94a3b8", "#94a3b8", "#94a3b8", "#94a3b8", "#94a3b8"] } },
+    },
+    chrome: {
+      title: "America's chronic disease burden is declining slower than its peers",
+      subtitle: "Probability of dying from CVD, cancer, diabetes, or chronic respiratory disease, ages 30-70",
+      source: "Source: World Bank (WHO NCD mortality indicator)",
+    },
+    labels: { density: "endpoints", format: ".1f%" },
+    legend: { position: "right" },
+  }} />
+</Figure>
+
+The pattern here is stubborn. While every peer nation made steady progress on chronic disease mortality, the US trajectory flattened after 2012. The gains from better medical treatment were being offset by a population that was getting sicker faster, driven in large part by the metabolic consequences of the American diet.
+
+## The US spends the most on healthcare and gets the least
+
+Here's where the story gets truly paradoxical. The United States spends more per person on healthcare than any other country on Earth. Not a little more. In 2023, the US spent $13,473 per capita, nearly double the $7,253 average of its peers. The gap has been growing for decades.
+
+<Figure alt="Line chart showing healthcare spending per capita from 2000 to 2023, with the US pulling far ahead of all peer nations">
+  <Chart spec={{
+    animation: { enter: { duration: 800, ease: "smooth" } },
+    responsive: true,
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2000", country: "United States", spending: 4549 },
+      { year: "2004", country: "United States", spending: 6072 },
+      { year: "2007", country: "United States", spending: 7154 },
+      { year: "2010", country: "United States", spending: 7836 },
+      { year: "2013", country: "United States", spending: 8412 },
+      { year: "2016", country: "United States", spending: 9536 },
+      { year: "2019", country: "United States", spending: 10550 },
+      { year: "2022", country: "United States", spending: 12586 },
+      { year: "2023", country: "United States", spending: 13473 },
+      { year: "2000", country: "Germany", spending: 2682 },
+      { year: "2004", country: "Germany", spending: 3167 },
+      { year: "2007", country: "Germany", spending: 3628 },
+      { year: "2010", country: "Germany", spending: 4302 },
+      { year: "2013", country: "Germany", spending: 4937 },
+      { year: "2016", country: "Germany", spending: 5670 },
+      { year: "2019", country: "Germany", spending: 6780 },
+      { year: "2022", country: "Germany", spending: 8470 },
+      { year: "2023", country: "Germany", spending: 8306 },
+      { year: "2000", country: "France", spending: 2516 },
+      { year: "2004", country: "France", spending: 2973 },
+      { year: "2007", country: "France", spending: 3541 },
+      { year: "2010", country: "France", spending: 4054 },
+      { year: "2013", country: "France", spending: 4531 },
+      { year: "2016", country: "France", spending: 4968 },
+      { year: "2019", country: "France", spending: 5719 },
+      { year: "2022", country: "France", spending: 6643 },
+      { year: "2023", country: "France", spending: 6719 },
+      { year: "2000", country: "Canada", spending: 2406 },
+      { year: "2004", country: "Canada", spending: 3057 },
+      { year: "2007", country: "Canada", spending: 3711 },
+      { year: "2010", country: "Canada", spending: 4267 },
+      { year: "2013", country: "Canada", spending: 4595 },
+      { year: "2016", country: "Canada", spending: 5104 },
+      { year: "2019", country: "Canada", spending: 5555 },
+      { year: "2022", country: "Canada", spending: 7066 },
+      { year: "2023", country: "Canada", spending: 7355 },
+      { year: "2000", country: "Japan", spending: 1917 },
+      { year: "2004", country: "Japan", spending: 2322 },
+      { year: "2007", country: "Japan", spending: 2722 },
+      { year: "2010", country: "Japan", spending: 3200 },
+      { year: "2013", country: "Japan", spending: 4197 },
+      { year: "2016", country: "Japan", spending: 4324 },
+      { year: "2019", country: "Japan", spending: 4679 },
+      { year: "2022", country: "Japan", spending: 5846 },
+      { year: "2023", country: "Japan", spending: 5365 },
+      { year: "2000", country: "United Kingdom", spending: 1896 },
+      { year: "2004", country: "United Kingdom", spending: 2669 },
+      { year: "2007", country: "United Kingdom", spending: 3112 },
+      { year: "2010", country: "United Kingdom", spending: 3572 },
+      { year: "2013", country: "United Kingdom", spending: 3993 },
+      { year: "2016", country: "United Kingdom", spending: 4349 },
+      { year: "2019", country: "United Kingdom", spending: 4984 },
+      { year: "2022", country: "United Kingdom", spending: 6497 },
+      { year: "2023", country: "United Kingdom", spending: 6365 },
+      { year: "2000", country: "Australia", spending: 2138 },
+      { year: "2004", country: "Australia", spending: 2734 },
+      { year: "2007", country: "Australia", spending: 3177 },
+      { year: "2010", country: "Australia", spending: 3587 },
+      { year: "2013", country: "Australia", spending: 4160 },
+      { year: "2016", country: "Australia", spending: 5026 },
+      { year: "2019", country: "Australia", spending: 5465 },
+      { year: "2022", country: "Australia", spending: 7128 },
+      { year: "2023", country: "Australia", spending: 7691 },
+      { year: "2000", country: "Sweden", spending: 2173 },
+      { year: "2004", country: "Sweden", spending: 2759 },
+      { year: "2007", country: "Sweden", spending: 3273 },
+      { year: "2010", country: "Sweden", spending: 3506 },
+      { year: "2013", country: "Sweden", spending: 5088 },
+      { year: "2016", country: "Sweden", spending: 5551 },
+      { year: "2019", country: "Sweden", spending: 6267 },
+      { year: "2022", country: "Sweden", spending: 7229 },
+      { year: "2023", country: "Sweden", spending: 7512 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", axis: { title: null }, scale: { nice: false } },
+      y: {
+        field: "spending",
+        type: "quantitative",
+        axis: { title: "Per capita (USD PPP)", format: "$~s" },
+        scale: { domain: [0, 14500], nice: false },
+      },
+      color: { field: "country", type: "nominal", scale: { domain: ["United States", "Germany", "France", "Canada", "Japan", "United Kingdom", "Australia", "Sweden"], range: ["#c44e52", "#94a3b8", "#94a3b8", "#94a3b8", "#94a3b8", "#94a3b8", "#94a3b8", "#94a3b8"] } },
+    },
+    chrome: {
+      title: "The US spends nearly twice as much per person on healthcare",
+      subtitle: "Healthcare expenditure per capita, USD purchasing power parity, 2000-2023",
+      source: "Source: Our World in Data (OECD, WHO)",
+    },
+    labels: { density: "endpoints", format: "$,.0f" },
+    legend: { position: "right",
+    offset: { dx: 124, dy: -11 } },
+  }} />
+</Figure>
+
+And what does the US get for that $13,473 per person? Less than any of its peers. The Commonwealth Fund's Mirror Mirror report, which compares healthcare systems across wealthy nations, has ranked the United States dead last in every edition it has published: 2017, 2021, and 2024. Last in health outcomes. Last in equity. Last in access to care.
+
+A substantial portion of that spending goes to managing the downstream consequences of diet-related disease. Diabetes alone cost the US healthcare system an estimated $413 billion in 2022, according to the American Diabetes Association. Cardiovascular disease adds another $250 billion annually. These are diseases strongly linked to diet and obesity, and the US has more of both than any peer nation.
+
+## Spending more, living less: the American health paradox
+
+The relationship between healthcare spending and life expectancy among wealthy nations makes the US position starkly clear. Every other country clusters in a recognizable pattern: more spending generally buys more life. The US breaks that pattern entirely, sitting far to the right (highest spending) and far below (shortest lives).
+
+<Figure alt="Scatter plot showing healthcare spending vs life expectancy, with the US as a dramatic outlier: highest spending, lowest life expectancy">
+  <Chart spec={{
+    animation: { enter: { ease: "snappy", stagger: { delay: 60 } } },
+    responsive: true,
+    mark: "point",
+    data: [
+      { country: "United States", spending: 13473, le: 79.3, overweight: 72.4 },
+      { country: "Germany", spending: 8306, le: 81.4, overweight: 53.8 },
+      { country: "Sweden", spending: 7512, le: 83.3, overweight: 50.6 },
+      { country: "Australia", spending: 7691, le: 83.9, overweight: 64.0 },
+      { country: "Canada", spending: 7355, le: 82.6, overweight: 59.2 },
+      { country: "France", spending: 6719, le: 83.3, overweight: 34.3 },
+      { country: "United Kingdom", spending: 6365, le: 81.3, overweight: 61.4 },
+      { country: "Japan", spending: 5365, le: 84.7, overweight: 24.0 },
+    ],
+    encoding: {
+      x: {
+        field: "spending",
+        type: "quantitative",
+        axis: { title: "Healthcare spending per capita (USD PPP)", format: "$~s" },
+        scale: { nice: false, domain: [4500, 14500] },
+      },
+      y: {
+        field: "le",
+        type: "quantitative",
+        axis: { title: "Life expectancy (years)", format: ".0f" },
+        scale: { domain: [78, 86], nice: false },
+      },
+      size: { field: "overweight", type: "quantitative" },
+      tooltip: [{ field: "country", type: "nominal" }, { field: "spending", type: "quantitative" }, { field: "le", type: "quantitative" }, { field: "overweight", type: "quantitative" }],
+    },
+    annotations: [
+      { type: "text", x: 13473, y: 79.3, text: "United States", dx: -80, dy: 18, fontSize: 13, fontWeight: 600, fill: "#c44e52" },
+      { type: "text", x: 5365, y: 84.7, text: "Japan", dx: -40, dy: -12, fontSize: 13, fontWeight: 600, fill: "#1b7fa3" },
+      { type: "text", x: 6719, y: 83.3, text: "France", dx: -45, dy: -12, fontSize: 12, fill: "#374151" },
+      { type: "text", x: 7691, y: 83.9, text: "Australia", dx: 10, dy: -12, fontSize: 12, fill: "#374151" },
+      { type: "text", x: 8306, y: 81.4, text: "Germany", dx: 10, dy: 5, fontSize: 12, fill: "#374151" },
+      { type: "text", x: 6365, y: 81.3, text: "UK", dx: -25, dy: 14, fontSize: 12, fill: "#374151" },
+      { type: "text", x: 7355, y: 82.6, text: "Canada", dx: 10, dy: 5, fontSize: 12, fill: "#374151" },
+      { type: "text", x: 7512, y: 83.3, text: "Sweden", dx: 10, dy: 5, fontSize: 12, fill: "#374151" },
+    ],
+    chrome: {
+      title: "The US spends the most and lives the least",
+      subtitle: "Healthcare spending vs life expectancy, 2023. Dot size = overweight prevalence.",
+      source: "Source: OWID, World Bank, WHO",
+    },
+    theme: { colors: ["#c44e52"] },
+    labels: { density: "none" },
+    legend: { show: false },
+  }} />
+</Figure>
+
+Japan spends $5,365 per person and its people live to 84.7. France spends $6,719 and reaches 83.3. The US spends $13,473 and can't crack 80. The dot sizes in the chart above encode overweight prevalence, and the pattern is hard to miss: the countries with the lowest overweight rates tend to cluster in the upper left (long lives, moderate spending), while the US sits alone in the lower right with the highest overweight rate, the highest spending, and the shortest life.
+
+No amount of MRI machines, specialty pharmaceuticals, or surgical innovation can fully compensate for a population that is metabolically sicker than its peers. The US healthcare system is, to a significant degree, running an increasingly expensive repair operation on damage that the food system creates upstream.
+
+---
+
+The numbers tell a clear story, even if it's not a comfortable one. The United States engineered a food system that produces cheap, abundant calories with extraordinary efficiency. That system made food affordable. It also made Americans sick. The gap between American life expectancy and that of peer nations widened in almost perfect lockstep with the rise of commodity agriculture, processed food, and diet-related disease.
+
+This isn't a problem that healthcare can solve alone. Japan doesn't outperform the US because it has better hospitals. It outperforms because fewer of its citizens need them for diet-related conditions in the first place. The $6,000 per-person spending gap between the US and the peer average isn't buying better health outcomes. It's managing the consequences of worse ones.
+
+The 4-year life expectancy gap represents a policy choice that Americans make every day without realizing it, embedded in farm bills, school lunch programs, food labeling rules, and the cost structure of a grocery store where a bag of chips is cheaper than a bag of apples. Until the incentives change upstream, the outcomes won't change downstream.
+
+<Figure alt="Horizontal bar chart showing the US gap vs peer average on four key metrics: life expectancy, obesity rate, healthcare spending, and diabetes rate, with red bars where the US is worse and green where better">
+  <Chart spec={{
+    animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+    responsive: true,
+    mark: "bar",
+    data: [
+      { metric: "Life expectancy (years below peer avg)", gap: -3.8, direction: "worse" },
+      { metric: "Obesity rate (pts above peer avg)", gap: 22.3, direction: "worse" },
+      { metric: "Healthcare spending ($ above peer avg)", gap: 6220, direction: "worse" },
+      { metric: "Diabetes rate (pts above peer avg)", gap: 6.7, direction: "worse" },
+    ],
+    encoding: {
+      x: {
+        field: "gap",
+        type: "quantitative",
+        axis: { title: "US vs peer average (raw gap in each metric's unit)", format: "~s" },
+        scale: { nice: false },
+      },
+      y: { field: "metric", type: "nominal", axis: { title: null }, sort: null },
+      color: { condition: { test: { field: "gap", gte: 0 }, value: "#c44e52" }, value: "#4a90d9" },
+    },
+    annotations: [
+      { type: "refline", x: 0, stroke: "#374151", strokeWidth: 1.5 },
+    ],
+    chrome: {
+      title: "On every major health metric, the US trails its peers",
+      subtitle: "US value minus peer-nation average (Japan, Australia, France, Sweden, Canada, Germany, UK). Red = US is worse.",
+      source: "Source: OWID, World Bank, WHO",
+    },
+    labels: { density: "all", format: "~s" },
+    legend: { show: false },
+  }} />
+</Figure>
+
+## Data sources & methodology
+
+**Datasets used:**
+- `owid/life-expectancy` -- Life expectancy at birth by country, 1980-2023. Compiled from WHO and national vital statistics.
+- `owid/obesity` -- Prevalence of overweight among adults (BMI >= 25), age-standardized, 1990-2022. Source: WHO Global Health Observatory.
+- `owid/healthcare-spending` -- Healthcare expenditure per capita in USD PPP, 2000-2024. Source: OECD, WHO.
+- `worldbank/wdi` (indicator SH.DYN.NCOM.ZS) -- NCD mortality: probability of dying from CVD, cancer, diabetes, or chronic respiratory disease between ages 30 and 70, 2000-2021. Source: WHO.
+- `worldbank/wdi` (indicator SH.STA.DIAB.ZS) -- Diabetes prevalence (% of population ages 20-79), 2011 and 2024. Source: International Diabetes Federation.
+- `faostat/crop-production` -- US corn and soybean production, area harvested, and yield, 1961-2024. Source: FAO.
+- `usda/food-expenditure` -- US total personal food expenditures, 1929-2024. Combined with `fred/pce` for food-as-share-of-spending calculations.
+
+**Calculations & transformations:**
+Life expectancy gap calculated as US value minus the unweighted mean of seven peer nations (Japan, Australia, France, Sweden, Canada, Germany, UK). Healthcare spending comparisons use purchasing power parity (PPP) to adjust for cost-of-living differences. Food expenditure share calculated by dividing USDA food expenditure by BEA personal consumption expenditures. Corn production sampled at biennial intervals from the full annual series to reduce chart data density. All overweight prevalence figures are age-standardized to enable cross-country comparison.
+
+**Limitations:**
+The overweight metric (BMI >= 25) combines overweight and obese populations. BMI thresholds may undercount metabolic risk in East Asian populations, where type 2 diabetes develops at lower BMI. Diabetes prevalence data has only two time points (2011, 2024) rather than a continuous series. Per-capita calorie supply data is not available in the API, so dietary changes are described using production data and known consumption studies rather than directly measured intake. NCD mortality combines cardiovascular, cancer, diabetes, and respiratory disease rather than isolating diet-related causes specifically. Agricultural subsidy data is not available through the OpenData API and is discussed using established policy research rather than direct dataset queries.
+
+*Data accessed on 2026-03-25 via the [OpenData API](https://tryopendata.ai).*

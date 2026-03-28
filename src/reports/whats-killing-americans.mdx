@@ -1,0 +1,245 @@
+export const meta = {
+  title: "America Beat Heart Disease, Then Fentanyl Arrived",
+  date: "2026-03-24",
+  description: "Heart disease and cancer death rates have fallen dramatically since 1999, but drug overdoses and suicide have surged fast enough to offset decades of medical progress.",
+  tags: ["health", "mortality", "opioids", "public-health"],
+}
+
+import { Chart } from '../components/Chart'
+import { Figure } from '../components/Figure'
+
+Between 1999 and 2017, the age-adjusted death rate from heart disease fell from 266.5 to 165 per 100,000 people, a 38 percent decline. Cancer dropped from 200.8 to 152.5. These are genuine medical triumphs: better drugs, earlier screening, smoking cessation campaigns, and interventional cardiology saved hundreds of thousands of lives per year.
+
+But during the same period, deaths from "unintentional injuries," a CDC category dominated by drug overdoses, rose from 35.3 to 49.4 per 100,000. Suicides climbed from 10.5 to 14.0. The old killers retreated. The new ones advanced. And by the time fentanyl hit the illicit drug supply around 2016, the new wave was powerful enough to bend the national life expectancy curve downward for the first time in a century.
+
+## The big killers are in retreat
+
+The progress on heart disease and cancer is real and substantial. The heart disease death rate has been falling almost continuously since 1999, driven by statins, blood pressure management, cardiac stents, and declining smoking rates. Cancer followed a similar trajectory, dropping 24 percent over 18 years as screening improved and treatments became more targeted.
+
+<Figure alt="Line chart showing death rate trends indexed to 1999=100, making the divergence between declining and rising causes visually clear">
+  <Chart spec={{
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "1999", cause: "Heart disease", index: 100 },
+      { year: "2002", cause: "Heart disease", index: 92 },
+      { year: "2005", cause: "Heart disease", index: 81 },
+      { year: "2008", cause: "Heart disease", index: 72 },
+      { year: "2011", cause: "Heart disease", index: 65 },
+      { year: "2014", cause: "Heart disease", index: 63 },
+      { year: "2017", cause: "Heart disease", index: 62 },
+      { year: "1999", cause: "Cancer", index: 100 },
+      { year: "2002", cause: "Cancer", index: 97 },
+      { year: "2005", cause: "Cancer", index: 92 },
+      { year: "2008", cause: "Cancer", index: 88 },
+      { year: "2011", cause: "Cancer", index: 84 },
+      { year: "2014", cause: "Cancer", index: 80 },
+      { year: "2017", cause: "Cancer", index: 76 },
+      { year: "1999", cause: "Stroke", index: 100 },
+      { year: "2002", cause: "Stroke", index: 93 },
+      { year: "2005", cause: "Stroke", index: 78 },
+      { year: "2008", cause: "Stroke", index: 68 },
+      { year: "2011", cause: "Stroke", index: 62 },
+      { year: "2014", cause: "Stroke", index: 59 },
+      { year: "2017", cause: "Stroke", index: 61 },
+      { year: "1999", cause: "Unintentional injuries", index: 100 },
+      { year: "2002", cause: "Unintentional injuries", index: 105 },
+      { year: "2005", cause: "Unintentional injuries", index: 112 },
+      { year: "2008", cause: "Unintentional injuries", index: 111 },
+      { year: "2011", cause: "Unintentional injuries", index: 111 },
+      { year: "2014", cause: "Unintentional injuries", index: 115 },
+      { year: "2017", cause: "Unintentional injuries", index: 140 },
+      { year: "1999", cause: "Suicide", index: 100 },
+      { year: "2002", cause: "Suicide", index: 105 },
+      { year: "2005", cause: "Suicide", index: 104 },
+      { year: "2008", cause: "Suicide", index: 110 },
+      { year: "2011", cause: "Suicide", index: 117 },
+      { year: "2014", cause: "Suicide", index: 124 },
+      { year: "2017", cause: "Suicide", index: 133 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "" } },
+      y: {
+        field: "index",
+        type: "quantitative",
+        axis: { title: "Death rate (1999 = 100)", format: ",.0f" },
+        scale: { domain: [50, 150], nice: false },
+      },
+      color: { field: "cause", type: "nominal", scale: { nice: false } },
+    },
+    annotations: [
+      { type: "refline", y: 100, stroke: "#94a3b8", strokeDasharray: "6 4", label: "1999 baseline", labelAnchor: "top" },
+    ],
+    chrome: {
+      title: "The old killers fell 25-40% while the new ones climbed 33-40%",
+      subtitle: "Age-adjusted death rate indexed to 1999 = 100, United States",
+      source: "Source: CDC WONDER / National Vital Statistics System",
+    },
+    theme: { colors: ["#6a9f58", "#4a8a3e", "#94a3b8", "#c44e52", "#e07b39"] },
+    labels: { density: "endpoints", format: ",.0f" },
+    legend: { position: "top" },
+  }} />
+</Figure>
+
+Indexed to their 1999 baselines, the divergence becomes stark. Heart disease fell 38 percent, stroke fell 39 percent, and cancer dropped 24 percent. Genuine, life-saving progress. But unintentional injuries rose 40 percent, with a sharp acceleration after 2014 driven by the opioid crisis. Suicide climbed 33 percent, up nearly every single year. The lines crossing the 100 baseline in opposite directions tell the story that raw death rates obscure: old killers are retreating at roughly the same rate that new ones are advancing.
+
+## Fentanyl rewrote the overdose crisis
+
+The drug overdose epidemic has gone through three distinct waves. The first, beginning in the late 1990s, was driven by prescription opioids like OxyContin. The second, starting around 2010, shifted to heroin as prescribing restrictions tightened. The third wave, synthetic fentanyl, hit around 2013 and has been by far the deadliest.
+
+<Figure alt="Line chart showing opioid deaths rising from 33,000 in 2015 to 83,000 in 2022, with fentanyl dominating by 2020">
+  <Chart spec={{
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2015", category: "Fentanyl/Synthetic", deaths: 9610 },
+      { year: "2016", category: "Fentanyl/Synthetic", deaths: 19500 },
+      { year: "2017", category: "Fentanyl/Synthetic", deaths: 28659 },
+      { year: "2018", category: "Fentanyl/Synthetic", deaths: 31525 },
+      { year: "2019", category: "Fentanyl/Synthetic", deaths: 36603 },
+      { year: "2020", category: "Fentanyl/Synthetic", deaths: 56894 },
+      { year: "2021", category: "Fentanyl/Synthetic", deaths: 71143 },
+      { year: "2022", category: "Fentanyl/Synthetic", deaths: 74829 },
+      { year: "2023", category: "Fentanyl/Synthetic", deaths: 74091 },
+      { year: "2015", category: "Other opioids", deaths: 23593 },
+      { year: "2016", category: "Other opioids", deaths: 22935 },
+      { year: "2017", category: "Other opioids", deaths: 19226 },
+      { year: "2018", category: "Other opioids", deaths: 15571 },
+      { year: "2019", category: "Other opioids", deaths: 13575 },
+      { year: "2020", category: "Other opioids", deaths: 12167 },
+      { year: "2021", category: "Other opioids", deaths: 9854 },
+      { year: "2022", category: "Other opioids", deaths: 8022 },
+      { year: "2023", category: "Other opioids", deaths: 6628 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "" } },
+      y: {
+        field: "deaths",
+        type: "quantitative",
+        axis: { title: "Deaths", format: "~s" },
+        scale: { domain: [0, 80000], nice: false },
+      },
+      color: { field: "category", type: "nominal", scale: { nice: false } },
+    },
+    annotations: [
+      { type: "text", x: "2018", y: 50000, text: "Lines cross in 2017:\nfentanyl overtakes\nall other opioids", fontSize: 11, fontWeight: 500, fill: "#c44e52" },
+    ],
+    chrome: {
+      title: "Fentanyl went from minor player to dominant killer in 8 years",
+      subtitle: "Annual opioid overdose deaths by type, United States, 2015-2023",
+      source: "Source: CDC National Center for Health Statistics",
+    },
+    theme: { colors: ["#c44e52", "#94a3b8"] },
+    labels: { density: "endpoints", format: "~s" },
+  }} />
+</Figure>
+
+In 2015, fentanyl killed about 9,600 Americans. By 2022, it killed 74,829. An eightfold increase in seven years. Fentanyl is so potent (50 to 100 times stronger than morphine) that a lethal dose fits on the tip of a pencil. It's cheap to manufacture, easy to smuggle, and has contaminated the supply of virtually every illicit drug, from counterfeit pills to cocaine to methamphetamine. People who never intended to take an opioid are dying from fentanyl exposure.
+
+The 2024 numbers suggest the curve may finally be bending. Opioid deaths dropped to about 55,000, down roughly a third from the 2022 peak. Whether this represents a sustained decline or a temporary dip remains unclear. Some researchers attribute it to wider availability of naloxone (the overdose-reversing drug) and expanded medication-assisted treatment. Others note that the most vulnerable populations may have already been killed.
+
+## The "deaths of despair" crossover
+
+Princeton economists Anne Case and Angus Deaton coined the term "deaths of despair" to describe the combined toll of drug overdoses, alcoholic liver disease, and suicide, deaths they linked to economic dislocation, social isolation, and the erosion of working-class institutions.
+
+<Figure alt="Bar chart comparing the change in death rates from 1999 to 2017 across major causes, showing heart disease and cancer declining while overdose and suicide increased">
+  <Chart spec={{
+    animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+    responsive: true,
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { cause: "Heart disease", change: -38 },
+      { cause: "Cancer", change: -24 },
+      { cause: "Stroke", change: -39 },
+      { cause: "Influenza/pneumonia", change: -39 },
+      { cause: "Diabetes", change: -14 },
+      { cause: "CLRD (lung disease)", change: -10 },
+      { cause: "Kidney disease", change: 0 },
+      { cause: "Alzheimer's", change: 88 },
+      { cause: "Suicide", change: 33 },
+      { cause: "Unintentional injuries", change: 40 },
+    ],
+    encoding: {
+      x: { field: "change", type: "quantitative", scale: { nice: false }, axis: { title: "Change in age-adjusted death rate, 1999-2017", format: "+.0f%" } },
+      y: { field: "cause", type: "nominal", axis: { title: "" }, scale: { domain: ["Unintentional injuries", "Alzheimer's", "Suicide", "Kidney disease", "CLRD (lung disease)", "Diabetes", "Influenza/pneumonia", "Stroke", "Cancer", "Heart disease"], nice: false } },
+      color: { condition: { test: { field: "change", gte: 0 }, value: "#c44e52" }, value: "#6a9f58" },
+    },
+    annotations: [
+      { type: "refline", x: 0, stroke: "#6b7280", strokeDasharray: "4 4" },
+    ],
+    chrome: {
+      title: "Progress on old killers, retreat on new ones",
+      subtitle: "Percent change in age-adjusted death rate per 100,000, 1999 to 2017",
+      source: "Source: CDC WONDER / National Vital Statistics System",
+    },
+    legend: { show: false },
+    labels: { density: "all", format: "+.0f%" },
+  }} />
+</Figure>
+
+The scorecard is mixed. Heart disease, cancer, and stroke all declined by 24 to 39 percent. Genuine, life-saving progress. Chronic lower respiratory disease (CLRD) — the umbrella term for emphysema, chronic bronchitis, and related lung diseases — fell 10 percent, largely tracking the long decline in smoking. But unintentional injuries rose 40 percent, suicide climbed 33 percent, and Alzheimer's, partly because people are living long enough to develop it, nearly doubled.
+
+The net result: overall age-adjusted mortality declined during this period, meaning Americans as a whole were getting slightly healthier. But the progress slowed dramatically. And from 2015 to 2017, life expectancy actually declined for three consecutive years, something that hadn't happened since the 1918 flu pandemic. Drug overdoses were the primary driver.
+
+## Are we getting healthier?
+
+The honest answer is complicated. On the traditional killers, yes, unambiguously. A 60-year-old American in 2017 was far less likely to die of a heart attack or cancer than a 60-year-old in 1999. Cardiovascular medicine and oncology delivered real gains.
+
+But a 30-year-old American in 2017 was more likely to die than a 30-year-old in 1999. Overdoses and suicides hit younger working-age adults hardest. The opioid epidemic is concentrated among 25-to-54-year-olds, the population that the economy depends on most. This isn't an abstract demographic shift. It's a workforce crisis.
+
+---
+
+We didn't lose the war on the old killers. Heart disease and cancer are in genuine retreat, and the pace of medical innovation suggests they'll continue to decline. The problem is that we opened a new front. The convergence of cheap synthetic drugs, a fractured mental health system, economic precarity, and social isolation created a wave of mortality that medical progress alone can't fix. Statins won't cure fentanyl. Chemotherapy won't treat despair. The question isn't whether American medicine is getting better. It is. The question is whether American society is getting sicker, fast enough to cancel out the gains.
+
+<Figure alt="Diverging horizontal bar chart showing percent change in death rates from 1999 to 2017: heart disease down 38%, cancer down 24%, stroke down 39%, while unintentional injuries rose 40%, suicide rose 33%, and Alzheimer's rose 88%" minHeight={360}>
+  <Chart spec={{
+    animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+    responsive: true,
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { cause: "Heart disease", change: -38, label: "Heart disease  −38%" },
+      { cause: "Cancer", change: -24, label: "Cancer  −24%" },
+      { cause: "Stroke", change: -39, label: "Stroke  −39%" },
+      { cause: "Unintentional injuries", change: 40, label: "Unintentional injuries  +40%" },
+      { cause: "Suicide", change: 33, label: "Suicide  +33%" },
+      { cause: "Alzheimer's", change: 88, label: "Alzheimer's  +88%" },
+    ],
+    encoding: {
+      x: { field: "change", type: "quantitative", scale: { nice: false }, axis: { title: "Change in age-adjusted death rate, 1999–2017", format: "+.0f%" } },
+      y: { field: "cause", type: "nominal", axis: { title: "" }, scale: { domain: ["Unintentional injuries", "Alzheimer's", "Suicide", "Stroke", "Cancer", "Heart disease"], nice: false } },
+      color: { condition: { test: { field: "change", gte: 0 }, value: "#c44e52" }, value: "#6a9f58" },
+    },
+    annotations: [
+      { type: "refline", x: 0, stroke: "#6b7280", strokeDasharray: "4 4" },
+    ],
+    chrome: {
+      title: "Heart disease fell 38% while overdoses and suicide surged",
+      subtitle: "Percent change in age-adjusted death rate per 100,000, United States, 1999 to 2017",
+      source: "Source: CDC WONDER / National Vital Statistics System",
+    },
+    legend: { show: false },
+    labels: { density: "all", format: "+.0f%" },
+  }} />
+</Figure>
+
+## Data sources & methodology
+
+**Datasets used:**
+- `cdc/leading-causes-of-death` — Age-adjusted death rates per 100,000 by cause, national and state level, 1999-2017. Source: CDC WONDER, National Vital Statistics System.
+- `cdc/drug-overdose-deaths` — Drug overdose deaths by drug category (all opioids, synthetic opioids/fentanyl, heroin, etc.), monthly and annually, 2015-2024. Source: CDC National Center for Health Statistics, provisional mortality data.
+
+**Calculations & transformations:**
+- Percent change in death rates computed as (2017 rate - 1999 rate) / 1999 rate.
+- "Other opioids" category computed by subtracting synthetic opioid (fentanyl) deaths from all opioid deaths.
+- Drug overdose figures use December 12-month-ending totals from the CDC provisional data.
+- All mortality rates are age-adjusted to the 2000 US standard population.
+
+**Limitations:**
+- CDC leading causes of death dataset ends at 2017. More recent data (2018-2024) would show COVID-19 as a major cause and further overdose escalation.
+- Drug overdose provisional data for 2024 is incomplete and subject to revision.
+- The CDC suppresses death counts below 10 for privacy, which may undercount rare causes in small states.
+- Age-adjusted rates remove the effect of aging demographics but don't capture geographic or demographic disparities within the national average.
+
+*Data accessed on 2026-03-24 via the [OpenData API](https://tryopendata.ai).*

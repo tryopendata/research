@@ -1,0 +1,709 @@
+export const meta = {
+  title: "Austin Built a Boomtown. Now Comes the Bill.",
+  date: "2026-03-24",
+  description: "Austin added 187,000 residents and issued half a million construction permits in a decade, but the boom left behind demolished neighborhoods, vanishing affordable housing, and deadlier streets.",
+  tags: ["austin", "housing", "growth", "urban-development", "traffic-safety"],
+}
+
+import { Chart } from '../components/Chart'
+import { Figure } from '../components/Figure'
+
+Between 2010 and 2024, Austin added nearly 190,000 residents to a city that started the decade with just over 800,000. Construction cranes became as much a part of the skyline as the Capitol dome. The city issued more than half a million building permits in a single decade, tearing down older homes and replacing them with condos, duplexes, and apartment towers.
+
+But growth at that pace leaves marks. Thousands of affordable housing units have already lost their income restrictions, with thousands more set to expire. Pedestrian deaths have climbed steadily even as total traffic crashes declined. And the construction boom itself peaked years ago, with new building permits dropping 43% from their 2019 high. Austin built a boomtown. The question now is what kind of city it left behind.
+
+## Austin gained 190,000 residents in 14 years, but the rush is fading
+
+The early 2010s were Austin's breakout moment. The city grew at roughly 3% per year from 2011 to 2014, adding 20,000 to 26,000 people annually. That's the kind of growth rate you'd normally associate with a boomtown in a developing country, not a mid-size American city.
+
+<Figure alt="Line chart showing Austin's population growing from 806,000 in 2010 to 994,000 in 2024, with growth rates declining from 3% to under 1%">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2010", population: 806164 },
+      { year: "2011", population: 828459 },
+      { year: "2012", population: 854482 },
+      { year: "2013", population: 875003 },
+      { year: "2014", population: 901170 },
+      { year: "2015", population: 921114 },
+      { year: "2016", population: 939447 },
+      { year: "2017", population: 951553 },
+      { year: "2018", population: 962469 },
+      { year: "2019", population: 978908 },
+      { year: "2020", population: 965893 },
+      { year: "2021", population: 969940 },
+      { year: "2022", population: 979214 },
+      { year: "2023", population: 989583 },
+      { year: "2024", population: 993588 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", axis: { title: "" }, scale: { nice: false } },
+      y: {
+        field: "population",
+        type: "quantitative",
+        axis: { title: "Population", format: "~s" },
+        scale: { domain: [790000, 1010000], nice: false },
+      },
+    },
+    annotations: [
+      {
+        type: "range",
+        x1: "2011",
+        x2: "2014",
+        label: "Peak growth\n~3% per year",
+        fill: "#1b7fa3",
+        opacity: 0.08,
+      },
+      {
+        type: "text",
+        x: "2020",
+        y: 965893,
+        text: "COVID dip",
+        dy: 25,
+        dx: -5,
+        fontSize: 12,
+        fontWeight: 500,
+        fill: "#c44e52",
+      },
+      {
+        type: "text",
+        x: "2024",
+        y: 993588,
+        text: "993,588",
+        dy: -14,
+        dx: -10,
+        fontSize: 13,
+        fontWeight: 600,
+        fill: "#1b7fa3",
+      },
+    ],
+    chrome: {
+      title: "Austin nearly hit 1 million but growth has stalled",
+      subtitle: "City of Austin population, Census Bureau estimates, 2010-2024",
+      source: "Source: U.S. Census Bureau",
+    },
+    theme: { colors: ["#1b7fa3"] },
+    labels: { density: "none" },
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+  }} />
+</Figure>
+
+Then something shifted. Growth rates decelerated steadily after 2014, and by 2017-2019 Austin was adding people at barely 1-2% per year. The pandemic shaved the city's population in 2020 (the only year it actually shrank), and the recovery has been sluggish. In 2024, Austin grew by just 0.4%, roughly 4,000 people. For a city that was once adding 25,000 a year, that's a dramatic cooldown.
+
+The metro area is still growing, but the city proper has shifted from boom to plateau. That context matters for everything that follows: most of Austin's construction infrastructure was built to serve a much faster rate of growth than the city now needs.
+
+## New construction peaked in 2019 and hasn't recovered
+
+Austin's construction machine went into overdrive in the mid-2010s and peaked in 2019, when the city issued 28,000 new construction permits in a single year. That's separate from remodels and repairs, which add another 25,000 annually. The total permit volume hit 75,000 in 2019.
+
+<Figure alt="Line chart showing new construction permits rising from 11,000 in 2010 to a peak of 28,000 in 2019, then falling to 16,000 by 2024">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2010", permits: 11226 },
+      { year: "2011", permits: 12218 },
+      { year: "2012", permits: 16168 },
+      { year: "2013", permits: 18230 },
+      { year: "2014", permits: 18956 },
+      { year: "2015", permits: 19330 },
+      { year: "2016", permits: 23426 },
+      { year: "2017", permits: 25223 },
+      { year: "2018", permits: 25017 },
+      { year: "2019", permits: 28089 },
+      { year: "2020", permits: 26683 },
+      { year: "2021", permits: 26269 },
+      { year: "2022", permits: 24333 },
+      { year: "2023", permits: 16583 },
+      { year: "2024", permits: 16014 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", axis: { title: "" }, scale: { nice: false } },
+      y: {
+        field: "permits",
+        type: "quantitative",
+        axis: { title: "New construction permits", format: "~s" },
+        scale: { domain: [0, 30000], nice: false },
+      },
+    },
+    annotations: [
+      {
+        type: "text",
+        x: "2019",
+        y: 28089,
+        text: "28,089 permits",
+        dy: -14,
+        fontSize: 13,
+        fontWeight: 600,
+        fill: "#1b7fa3",
+      },
+      {
+        type: "text",
+        x: "2024",
+        y: 16014,
+        text: "16,014",
+        dy: -14,
+        dx: -20,
+        fontSize: 13,
+        fontWeight: 600,
+        fill: "#c44e52",
+      },
+      {
+        type: "refline",
+        y: 28089,
+        stroke: "#94a3b8",
+        strokeDasharray: "4 4",
+        label: "",
+      },
+    ],
+    chrome: {
+      title: "Austin's construction boom peaked in 2019 and dropped 43%",
+      subtitle: "New construction permits issued per year, City of Austin, 2010-2024",
+      source: "Source: City of Austin Building Services",
+    },
+    theme: { colors: ["#1b7fa3"] },
+    labels: { density: "none" },
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+  }} />
+</Figure>
+
+Since that peak, new construction has fallen by 43%, dropping to roughly 16,000 permits in both 2023 and 2024. That's back to early-2010s levels, before the boom really took off. Rising interest rates, higher material costs, and a softening rental market all played a role.
+
+But here's what makes Austin's building story more nuanced than a simple boom-and-bust: even as the number of permits fell, the projects got bigger.
+
+## Fewer permits, but bigger projects: the multifamily shift
+
+In 2010, new construction permits produced about 12,500 housing units. By 2022, that number had jumped to 91,200 units, even though the permit count was lower than its 2019 peak. The math tells the story: Austin shifted from single-family construction to massive multifamily projects.
+
+<Figure alt="Line chart comparing new construction permits to housing units produced, showing units surging past permits as multifamily projects dominated">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2010", series: "New construction permits", value: 11226 },
+      { year: "2011", series: "New construction permits", value: 12218 },
+      { year: "2012", series: "New construction permits", value: 16168 },
+      { year: "2013", series: "New construction permits", value: 18230 },
+      { year: "2014", series: "New construction permits", value: 18956 },
+      { year: "2015", series: "New construction permits", value: 19330 },
+      { year: "2016", series: "New construction permits", value: 23426 },
+      { year: "2017", series: "New construction permits", value: 25223 },
+      { year: "2018", series: "New construction permits", value: 25017 },
+      { year: "2019", series: "New construction permits", value: 28089 },
+      { year: "2020", series: "New construction permits", value: 26683 },
+      { year: "2021", series: "New construction permits", value: 26269 },
+      { year: "2022", series: "New construction permits", value: 24333 },
+      { year: "2023", series: "New construction permits", value: 16583 },
+      { year: "2024", series: "New construction permits", value: 16014 },
+      { year: "2010", series: "Housing units produced", value: 12460 },
+      { year: "2011", series: "Housing units produced", value: 22983 },
+      { year: "2012", series: "Housing units produced", value: 35330 },
+      { year: "2013", series: "Housing units produced", value: 42573 },
+      { year: "2014", series: "Housing units produced", value: 42127 },
+      { year: "2015", series: "Housing units produced", value: 48821 },
+      { year: "2016", series: "Housing units produced", value: 48180 },
+      { year: "2017", series: "Housing units produced", value: 48064 },
+      { year: "2018", series: "Housing units produced", value: 58646 },
+      { year: "2019", series: "Housing units produced", value: 63383 },
+      { year: "2020", series: "Housing units produced", value: 72425 },
+      { year: "2021", series: "Housing units produced", value: 75571 },
+      { year: "2022", series: "Housing units produced", value: 91245 },
+      { year: "2023", series: "Housing units produced", value: 72554 },
+      { year: "2024", series: "Housing units produced", value: 62921 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", axis: { title: "" }, scale: { nice: false } },
+      y: {
+        field: "value",
+        type: "quantitative",
+        axis: { title: "", format: "~s" },
+        scale: { domain: [0, 95000], nice: false },
+      },
+      color: { field: "series", type: "nominal" },
+    },
+    annotations: [
+      {
+        type: "text",
+        x: "2022",
+        y: 91245,
+        text: "91k units\nfrom just 24k permits",
+        dy: -18,
+        dx: -50,
+        fontSize: 12,
+        fontWeight: 500,
+        fill: "#c44e52",
+      },
+    ],
+    chrome: {
+      title: "Housing units soared even as permit counts dropped",
+      subtitle: "New construction permits vs. housing units produced, City of Austin, 2010-2024",
+      source: "Source: City of Austin Building Services",
+    },
+    theme: { colors: ["#1b7fa3", "#c44e52"] },
+    labels: { density: "endpoints" },
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+  }} />
+</Figure>
+
+Single-family houses still dominate the permit count: 63,400 permits since 2020. But a category called "five or more family buildings" tells the real density story. Just 5,350 of those permits produced a staggering 295,000 housing units. That's an average of 55 units per permit, compared to roughly one unit per single-family permit.
+
+The gap between the two lines on the chart is Austin's densification story in a single image. In 2010, each new construction permit produced about 1.1 housing units. By 2022, that ratio had climbed to 3.75. Austin didn't just build more. It built bigger.
+
+The growth wasn't spread evenly. Districts 1 and 2, covering north-central Austin and the southeast growth corridor, absorbed the lion's share of new construction since 2020, producing roughly 87,000 and 90,000 housing units respectively. District 8, covering southwest Austin and the Hill Country edge, built just 13,000 units. District 6 in the far northwest built even fewer.
+
+<Figure alt="Horizontal bar chart showing housing units produced by council district since 2020, with Districts 1 and 2 far ahead">
+  <Chart spec={{
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { district: "District 2", units: 90484 },
+      { district: "District 1", units: 86947 },
+      { district: "District 3", units: 54908 },
+      { district: "District 7", units: 45655 },
+      { district: "District 5", units: 40374 },
+      { district: "District 9", units: 30491 },
+      { district: "District 4", units: 30100 },
+      { district: "District 6", units: 26846 },
+      { district: "District 10", units: 18827 },
+      { district: "District 8", units: 13180 },
+    ],
+    encoding: {
+      x: {
+        field: "units",
+        type: "quantitative",
+        axis: { title: "Housing units from new construction", format: "~s" },
+        scale: { nice: false },
+      },
+      y: { field: "district", type: "nominal", axis: { title: "" } },
+      color: {
+        field: "units",
+        type: "quantitative",
+        scale: { range: ["#c8dff0", "#1b7fa3"] },
+      },
+    },
+    chrome: {
+      title: "Two districts absorbed a third of Austin's new housing",
+      subtitle: "Housing units from new construction permits by council district, 2020-2025",
+      source: "Source: City of Austin Building Services",
+    },
+    labels: { density: "all", format: "~s" },
+    animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+    responsive: true,
+  }} />
+</Figure>
+
+That concentration has consequences. Districts absorbing the most construction are also dealing with the most disruption: more traffic, more demolitions, more strain on infrastructure. Meanwhile, the districts building the least are effectively outsourcing their growth to the rest of the city.
+
+## The boom tore down what came before
+
+Construction doesn't just add to a city. It also subtracts. Between 2010 and 2018 (the years for which Austin publishes demolition data), the city issued 10,560 demolition permits. That number more than doubled from 770 in 2010 to a peak of 1,737 in 2015, tracking almost perfectly with the population growth surge.
+
+<Figure alt="Bar chart showing annual demolitions in Austin rising from 770 in 2010 to 1,737 in 2015, then declining to 880 in 2018">
+  <Chart spec={{
+    mark: "bar",
+    data: [
+      { year: "2010", category: "Total demolition", value: 375 },
+      { year: "2010", category: "Partial demolition", value: 395 },
+      { year: "2011", category: "Total demolition", value: 480 },
+      { year: "2011", category: "Partial demolition", value: 537 },
+      { year: "2012", category: "Total demolition", value: 586 },
+      { year: "2012", category: "Partial demolition", value: 564 },
+      { year: "2013", category: "Total demolition", value: 573 },
+      { year: "2013", category: "Partial demolition", value: 654 },
+      { year: "2014", category: "Total demolition", value: 818 },
+      { year: "2014", category: "Partial demolition", value: 725 },
+      { year: "2015", category: "Total demolition", value: 868 },
+      { year: "2015", category: "Partial demolition", value: 869 },
+      { year: "2016", category: "Total demolition", value: 823 },
+      { year: "2016", category: "Partial demolition", value: 846 },
+      { year: "2017", category: "Total demolition", value: 829 },
+      { year: "2017", category: "Partial demolition", value: 738 },
+      { year: "2018", category: "Total demolition", value: 452 },
+      { year: "2018", category: "Partial demolition", value: 428 },
+    ],
+    encoding: {
+      x: { field: "year", type: "ordinal", axis: { title: "" } },
+      y: {
+        field: "value",
+        type: "quantitative",
+        axis: { title: "Demolition permits", format: ",.0f" },
+        scale: { nice: false },
+      },
+      color: { field: "category", type: "nominal" },
+    },
+    chrome: {
+      title: "Austin demolished more than 10,500 structures in nine years",
+      subtitle: "Annual residential demolition permits by type, City of Austin, 2010-2018. Bars are stacked — totals are the sum of both categories",
+      source: "Source: City of Austin",
+    },
+    theme: { colors: ["#c44e52", "#94a3b8"] },
+    labels: { density: "none" },
+    animation: { enter: { ease: "snappy" } },
+    responsive: true,
+  }} />
+</Figure>
+
+Total demolitions, where an entire structure gets razed, made up roughly half the activity each year. These are the visible scars of the boom: a modest 1960s bungalow torn down and replaced by a pair of $700,000 townhomes.
+
+But where those demolitions happened and where affordable housing got built are two very different maps. District 10 in northwest Austin saw the most demolitions of any council district (2,607), yet received only 279 affordable units. District 9, covering the urban core and South Congress corridor, lost 2,084 structures to demolition but at least gained 4,171 affordable units. The districts with the most teardowns were rarely the ones getting the most affordable replacements.
+
+<Figure alt="Scatter plot comparing demolitions to affordable housing units by council district, showing most districts cluster in low-affordable territory regardless of demolition count">
+  <Chart spec={{
+    mark: { type: "point" },
+    data: [
+      { district: "D1", demolitions: 1102, affordable: 3608, new_permits: 27972 },
+      { district: "D2", demolitions: 644, affordable: 4242, new_permits: 24164 },
+      { district: "D3", demolitions: 1275, affordable: 5105, new_permits: 10529 },
+      { district: "D4", demolitions: 414, affordable: 3979, new_permits: 4398 },
+      { district: "D5", demolitions: 1072, affordable: 2118, new_permits: 13068 },
+      { district: "D6", demolitions: 346, affordable: 697, new_permits: 3277 },
+      { district: "D7", demolitions: 1525, affordable: 2140, new_permits: 9989 },
+      { district: "D8", demolitions: 457, affordable: 281, new_permits: 6023 },
+      { district: "D9", demolitions: 2084, affordable: 4171, new_permits: 9176 },
+      { district: "D10", demolitions: 2607, affordable: 279, new_permits: 10391 },
+    ],
+    encoding: {
+      x: {
+        field: "demolitions",
+        type: "quantitative",
+        axis: { title: "Structures demolished (2010-2018)", format: ",.0f" },
+        scale: { nice: false },
+      },
+      y: {
+        field: "affordable",
+        type: "quantitative",
+        axis: { title: "Affordable units (active)", format: ",.0f" },
+        scale: { nice: false },
+      },
+      size: { field: "new_permits", type: "quantitative" },
+      tooltip: [{ field: "district", type: "nominal" }, { field: "demolitions", type: "quantitative" }, { field: "affordable", type: "quantitative" }, { field: "new_permits", type: "quantitative" }],
+    },
+    annotations: [
+      {
+        type: "text",
+        x: 2607,
+        y: 279,
+        text: "D10: most demolished\nfewest affordable",
+        dx: -40,
+        dy: -20,
+        fontSize: 11,
+        fontWeight: 600,
+        fill: "#c44e52",
+        connector: true,
+      },
+      {
+        type: "text",
+        x: 1275,
+        y: 5105,
+        text: "D3: most\naffordable",
+        dx: -40,
+        dy: -15,
+        fontSize: 11,
+        fontWeight: 600,
+        fill: "#1b7fa3",
+        connector: true,
+      },
+      {
+        type: "text",
+        x: 2084,
+        y: 4171,
+        text: "D9",
+        dx: 12,
+        dy: -4,
+        fontSize: 11,
+        fontWeight: 600,
+        fill: "#374151",
+      },
+    ],
+    chrome: {
+      title: "Where Austin tears down and where it builds affordable are different places",
+      subtitle: "Each dot is a council district, sized by new construction permits since 2020. Demolitions 2010-2018 vs. construction permits 2020-2024",
+      source: "Source: City of Austin",
+    },
+    theme: { colors: ["#1b7fa3"] },
+    labels: { density: "none" },
+    animation: { enter: { ease: "snappy", stagger: { delay: 60 } } },
+    responsive: true,
+  }} />
+</Figure>
+
+The construction permit data tells us what replaced those structures. Districts 1 and 2 led in new construction permits since 2020, with 28,000 and 24,000 permits respectively. But the districts that did the most building didn't necessarily do the most affordable building. District 1 issued nearly 28,000 new construction permits but produced only 3,600 affordable units. The boom rebuilt Austin, but it rebuilt it mostly at market rate.
+
+## Austin's affordable housing is disappearing faster than it's being built
+
+For all the construction activity, Austin's affordable housing picture is bleak. The city tracks 2,412 affordable housing developments. Of those, 1,250 projects covering 8,366 units have already lost their affordability restrictions. That's more projects in the "expired" category than in any other status.
+
+<Figure alt="Horizontal bar chart showing affordable housing projects by status, with expired projects outnumbering completed ones">
+  <Chart spec={{
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { status: "Completed", units: 17986, zone: "Active" },
+      { status: "Certified", units: 12538, zone: "Active" },
+      { status: "Under construction", units: 8634, zone: "Active" },
+      { status: "Expired", units: 8366, zone: "Lost" },
+      { status: "Released", units: 718, zone: "Lost" },
+    ],
+    encoding: {
+      x: {
+        field: "units",
+        type: "quantitative",
+        axis: { title: "Affordable units", format: "~s" },
+        scale: { nice: false },
+      },
+      y: { field: "status", type: "nominal", axis: { title: "" } },
+      color: { field: "zone", type: "nominal" },
+    },
+    chrome: {
+      title: "Nearly 9,100 affordable units have already lost protections",
+      subtitle: "Affordable housing units by development status, City of Austin",
+      source: "Source: City of Austin Housing Department",
+    },
+    theme: { colors: ["#1b7fa3", "#c44e52"] },
+    labels: { density: "all", format: ",.0f" },
+    legend: { position: "top" },
+    animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+    responsive: true,
+  }} />
+</Figure>
+
+The 17,986 completed affordable units still under protection sound like a lot until you put them in context. Austin permitted over 91,000 new housing units in 2022 alone. The city's entire stock of income-restricted affordable housing represents less than a fifth of one year's new construction.
+
+And even the protected stock skews toward higher incomes. Seventy-five percent of affordable units serve households earning 50-60% of the area median family income (MFI). Only 918 units, roughly 5% of the total, serve the poorest residents at 30% MFI or below.
+
+<Figure alt="Bar chart showing affordable housing units by income tier, with the 50-60% MFI range dominating and very few units for the poorest residents">
+  <Chart spec={{
+    mark: "bar",
+    data: [
+      { tier: "30% MFI", units: 918, zone: "Deepest need" },
+      { tier: "40% MFI", units: 299, zone: "Deepest need" },
+      { tier: "50% MFI", units: 5733, zone: "Moderate" },
+      { tier: "60% MFI", units: 7852, zone: "Moderate" },
+      { tier: "80% MFI", units: 2660, zone: "Higher income" },
+      { tier: "100% MFI", units: 132, zone: "Higher income" },
+      { tier: "120% MFI", units: 140, zone: "Higher income" },
+    ],
+    encoding: {
+      x: { field: "tier", type: "ordinal", axis: { title: "" } },
+      y: {
+        field: "units",
+        type: "quantitative",
+        axis: { title: "Affordable units", format: "~s" },
+        scale: { nice: false },
+      },
+      color: { field: "zone", type: "nominal" },
+    },
+    annotations: [
+      {
+        type: "text",
+        x: "30% MFI",
+        y: 918,
+        text: "918 units for\nAustin's poorest",
+        dy: -20,
+        dx: 40,
+        fontSize: 12,
+        fontWeight: 500,
+        fill: "#c44e52",
+      },
+    ],
+    chrome: {
+      title: "The poorest Austinites have almost nowhere to go",
+      subtitle: "Completed affordable units by income tier (% of area Median Family Income)",
+      source: "Source: City of Austin Housing Department",
+    },
+    theme: { colors: ["#c44e52", "#d47215", "#94a3b8"] },
+    labels: { density: "all", format: ",.0f" },
+    legend: { position: "top" },
+    animation: { enter: { ease: "snappy" } },
+    responsive: true,
+  }} />
+</Figure>
+
+The pipeline isn't filling the gap fast enough. Another 5,479 affordable units across 179 projects are set to lose their restrictions before 2035. The biggest cliff comes in 2024-2027, when roughly 2,900 units are at risk. For a city that's been building at a furious pace, remarkably little of that construction has been aimed at the people who need affordable housing the most.
+
+## Growth made Austin's streets deadlier
+
+More people, more construction, more traffic. Austin's crash data shows that the city's roads became significantly more lethal over the past decade, even as total crash counts actually declined.
+
+In 2015, the first year with reliable data across all categories, Austin recorded 101 traffic fatalities. By 2022 that number had risen to 117, a record. The trend is made more alarming by the fact that total reported crashes fell from around 17,000 annually in the mid-2010s to 13,000-14,000 by 2021-2023. Fewer crashes, but deadlier ones.
+
+<Figure alt="Line chart showing total crash fatalities and pedestrian deaths rising even as total crash counts declined">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2015", series: "Total deaths", value: 101 },
+      { year: "2016", series: "Total deaths", value: 78 },
+      { year: "2017", series: "Total deaths", value: 75 },
+      { year: "2018", series: "Total deaths", value: 71 },
+      { year: "2019", series: "Total deaths", value: 88 },
+      { year: "2020", series: "Total deaths", value: 92 },
+      { year: "2021", series: "Total deaths", value: 114 },
+      { year: "2022", series: "Total deaths", value: 117 },
+      { year: "2023", series: "Total deaths", value: 90 },
+      { year: "2015", series: "Pedestrian deaths", value: 31 },
+      { year: "2016", series: "Pedestrian deaths", value: 29 },
+      { year: "2017", series: "Pedestrian deaths", value: 22 },
+      { year: "2018", series: "Pedestrian deaths", value: 30 },
+      { year: "2019", series: "Pedestrian deaths", value: 34 },
+      { year: "2020", series: "Pedestrian deaths", value: 33 },
+      { year: "2021", series: "Pedestrian deaths", value: 41 },
+      { year: "2022", series: "Pedestrian deaths", value: 47 },
+      { year: "2023", series: "Pedestrian deaths", value: 38 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", axis: { title: "" }, scale: { nice: false } },
+      y: {
+        field: "value",
+        type: "quantitative",
+        axis: { title: "Deaths", format: ",.0f" },
+        scale: { domain: [0, 125], nice: false },
+      },
+      color: { field: "series", type: "nominal" },
+    },
+    annotations: [
+      {
+        type: "text",
+        x: "2022",
+        y: 117,
+        text: "Record: 117 deaths",
+        dy: -14,
+        dx: -50,
+        fontSize: 12,
+        fontWeight: 600,
+        fill: "#c44e52",
+      },
+    ],
+    chrome: {
+      title: "Austin's roads hit a fatality record in 2022",
+      subtitle: "Annual traffic deaths and pedestrian deaths, City of Austin, 2015-2023",
+      source: "Source: City of Austin / TxDOT CRIS database",
+    },
+    theme: { colors: ["#c44e52", "#d47215"] },
+    labels: { density: "endpoints" },
+    seriesStyles: {
+      "Pedestrian deaths": {
+        strokeWidth: 2,
+      },
+    },
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+  }} />
+</Figure>
+
+Pedestrian deaths tell the sharpest version of this story. In 2015, 31 pedestrians were killed on Austin streets. By 2022, that number had climbed to 47, an increase of more than 50%. Pedestrians now account for roughly 40% of all Austin traffic fatalities, up from about 30% a decade ago.
+
+The construction boom is part of this picture. Construction zone crashes surged alongside the building activity, rising from 280 in 2014 to a peak of 1,176 in 2019. That's more than a 4x increase. While the count dropped during the pandemic, it has rebounded to around 700 crashes per year, with construction zone deaths averaging 5-6 annually since 2022.
+
+<Figure alt="Line chart showing construction zone crashes peaking at 1,176 in 2019 and remaining elevated at 700 per year">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2014", crashes: 280 },
+      { year: "2015", crashes: 546 },
+      { year: "2016", crashes: 898 },
+      { year: "2017", crashes: 1050 },
+      { year: "2018", crashes: 1077 },
+      { year: "2019", crashes: 1176 },
+      { year: "2020", crashes: 987 },
+      { year: "2021", crashes: 585 },
+      { year: "2022", crashes: 368 },
+      { year: "2023", crashes: 718 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", axis: { title: "" }, scale: { nice: false } },
+      y: {
+        field: "crashes",
+        type: "quantitative",
+        axis: { title: "Crashes in construction zones", format: ",.0f" },
+        scale: { domain: [0, 1300], nice: false },
+      },
+    },
+    annotations: [
+      {
+        type: "text",
+        x: "2019",
+        y: 1176,
+        text: "1,176 crashes",
+        dy: -14,
+        fontSize: 13,
+        fontWeight: 600,
+        fill: "#d47215",
+      },
+    ],
+    chrome: {
+      title: "Construction zone crashes tracked the building boom almost exactly",
+      subtitle: "Crashes in road construction zones, City of Austin, 2014-2023",
+      source: "Source: City of Austin / TxDOT CRIS database",
+    },
+    theme: { colors: ["#d47215"] },
+    labels: { density: "none" },
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+  }} />
+</Figure>
+
+The worst year for construction zone fatalities was actually 2020, when 13 people died despite fewer total crashes. Faster speeds on pandemic-emptied roads near active construction sites may explain the severity spike.
+
+## The boom built a different kind of city
+
+Austin's building boom peaked five years ago. What it produced is a city that looks fundamentally different from the one that existed in 2010: denser, taller, and more expensive. Here's the balance sheet.
+
+The neighborhoods that were demolished to make way for development aren't coming back. The affordable housing units that are expiring their income restrictions each year represent families being pushed further from the city core. And the pedestrian death toll suggests that a city built around construction sites and widening roads made choices about who bears the cost of all that growth.
+
+Austin is still a boomtown in the popular imagination. The data says the boom peaked five years ago, and what's left is the sorting out.
+
+<Figure alt="Bar chart comparing what Austin built versus what it lost during the boom, showing new housing units dwarfing affordable units lost" minHeight={0}>
+  <Chart spec={{
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { metric: "New housing units (peak year, 2022)", value: 91245, zone: "What Austin built" },
+      { metric: "Affordable units expired or expiring", value: 13845, zone: "What Austin lost" },
+      { metric: "Structures demolished (2010-18)", value: 10560, zone: "What Austin lost" },
+    ],
+    encoding: {
+      x: {
+        field: "value",
+        type: "quantitative",
+        axis: { title: "", format: "~s" },
+        scale: { nice: false },
+      },
+      y: { field: "metric", type: "nominal", axis: { title: "" } },
+      color: { field: "zone", type: "nominal" },
+    },
+    chrome: {
+      title: "Austin built 91,000 units in its peak year but lost 24,000 along the way",
+      subtitle: "New housing units in peak year 2022; affordable units expired or expiring (cumulative); structures demolished 2010-2018 (cumulative)",
+      source: "Source: City of Austin, U.S. Census Bureau",
+    },
+    theme: { colors: ["#1b7fa3", "#c44e52"] },
+    labels: { density: "all", format: ",.0f" },
+    legend: { position: "top" },
+    animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+    responsive: true,
+  }} />
+</Figure>
+
+## Data sources & methodology
+
+**Datasets used:**
+- `census/austin-population` (enriched view) -- Austin city population estimates, 2010-2024. Year-over-year growth rates from the growth view.
+- `austin/construction-permits` -- All issued construction permits, 2010-2025. Queried with SQL for annual counts by work class (New, Remodel, Repair, Addition) and housing unit sums.
+- `austin/construction-permits-new` -- Detailed permits since 2016. Used for permit class breakdowns and council district analysis.
+- `austin/demolitions` -- Residential demolition permits, 2010-2018. Grouped by year and demolition category.
+- `austin/affordable-housing` -- City affordable housing inventory (2,412 developments). Queried for status distribution, income tier breakdowns, council district allocation, and affordability expiration timeline.
+- `austin/crash-reports` -- Police crash reports with fatality and injury counts, 2013-2024. Queried for annual trends, pedestrian/cyclist deaths, and construction zone crashes. Note: 2013 and 2024 appear to be partial years based on lower crash counts.
+- `austin/traffic-incidents` -- Real-time traffic incident reports, 2018-2025.
+
+**Calculations & transformations:**
+- Housing units per permit ratio calculated as total housing units from new construction divided by new construction permit count per year.
+- Affordable housing income tier totals aggregated across all completed projects. MFI percentages are based on HUD definitions of area median family income.
+- Construction zone crashes identified via the `road_constr_zone_fl` boolean flag in crash reports.
+- 2013 crash data and 2024 crash data excluded from some charts due to apparent partial-year coverage.
+
+**Limitations:**
+- Demolition data only covers 2010-2018; no recent demolition trends available.
+- Construction permit valuation fields returned null across both permit datasets, preventing dollar-value analysis of the building boom.
+- Housing unit sums in the detailed permits dataset (construction-permits-new) contain outlier records in 2017 and 2024 that inflate totals implausibly. The larger permits dataset (construction-permits) was used instead for cleaner trends.
+- Affordable housing data is a snapshot of current status. Units shown as "expired" may have been renewed or replaced by other programs not captured in this dataset.
+- Crash data reflects reported incidents only; minor crashes may go unreported.
+
+*Data accessed on 2026-03-24 via the [OpenData API](https://tryopendata.ai).*

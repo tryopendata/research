@@ -1,0 +1,635 @@
+export const meta = {
+  title: "Your Raise Was Eaten: How the Cost of a Middle-Class Life Outran Income",
+  date: "2026-03-24",
+  description: "Since 2000, median household income rose 17 percent in real terms. Education costs rose 166 percent. Healthcare, 116 percent. The gap between what people earn and what stability costs has become the defining economic story of the century.",
+  tags: ["income", "inflation", "cost-of-living", "housing", "healthcare", "education", "inequality"],
+}
+
+import { Chart } from '../components/Chart'
+import { Figure } from '../components/Figure'
+
+The typical American household earned about $84,000 last year, a record high. Adjusted for inflation, that's 17 percent more than the same household earned in 2000. On paper, progress.
+
+But the sticker prices on the things that actually define a middle-class life tell a different story. The cost of keeping a roof overhead nearly doubled. Healthcare spending per person tripled. A year of college costs two and a half times what it did a generation ago. These aren't luxuries. They're the non-negotiable line items of a stable life: a home, a doctor, a degree for your kids. And they've all outrun not just wages, but the government's own measure of inflation.
+
+Headline CPI, the number you hear on the news, says prices rose 82 percent since 2000. That's the average across everything from flat-screen TVs (cheaper) to appendectomies (not cheaper). It's technically accurate and practically misleading, because the categories where costs fell are mostly things you buy once. The categories where costs surged are the ones you pay for every single month.
+
+## The costs that define stability have outpaced both wages and CPI
+
+The divergence between headline inflation and the cost of a middle-class life isn't subtle. It's a factor of two or three, depending on the category.
+
+Since 2000, overall CPI rose 82 percent. Education costs rose 166 percent. Medical care, 116 percent. Shelter, 97 percent. Even groceries, at 95 percent, outpaced the headline number. Meanwhile, real median household income grew just 17 percent over the same period.
+
+<Figure alt="Line chart showing cumulative percent change since 2000 for education CPI, medical care CPI, shelter CPI, food CPI, overall CPI, and real median household income, with education and medical far outpacing income">
+  <Chart spec={{
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2000", series: "Education", value: 0 },
+      { year: "2002", series: "Education", value: 11.9 },
+      { year: "2004", series: "Education", value: 27.7 },
+      { year: "2006", series: "Education", value: 44.0 },
+      { year: "2008", series: "Education", value: 61.1 },
+      { year: "2010", series: "Education", value: 77.2 },
+      { year: "2012", series: "Education", value: 92.3 },
+      { year: "2014", series: "Education", value: 106.1 },
+      { year: "2016", series: "Education", value: 120.0 },
+      { year: "2018", series: "Education", value: 130.0 },
+      { year: "2020", series: "Education", value: 140.6 },
+      { year: "2022", series: "Education", value: 150.7 },
+      { year: "2024", series: "Education", value: 166.3 },
+      { year: "2000", series: "Medical care", value: 0 },
+      { year: "2002", series: "Medical care", value: 9.5 },
+      { year: "2004", series: "Medical care", value: 18.9 },
+      { year: "2006", series: "Medical care", value: 28.9 },
+      { year: "2008", series: "Medical care", value: 39.6 },
+      { year: "2010", series: "Medical care", value: 49.0 },
+      { year: "2012", series: "Medical care", value: 59.1 },
+      { year: "2014", series: "Medical care", value: 66.9 },
+      { year: "2016", series: "Medical care", value: 77.8 },
+      { year: "2018", series: "Medical care", value: 85.9 },
+      { year: "2020", series: "Medical care", value: 99.0 },
+      { year: "2022", series: "Medical care", value: 109.6 },
+      { year: "2024", series: "Medical care", value: 116.2 },
+      { year: "2000", series: "Shelter", value: 0 },
+      { year: "2002", series: "Shelter", value: 6.3 },
+      { year: "2004", series: "Shelter", value: 11.8 },
+      { year: "2006", series: "Shelter", value: 19.8 },
+      { year: "2008", series: "Shelter", value: 27.5 },
+      { year: "2010", series: "Shelter", value: 27.5 },
+      { year: "2012", series: "Shelter", value: 31.3 },
+      { year: "2014", series: "Shelter", value: 37.5 },
+      { year: "2016", series: "Shelter", value: 43.9 },
+      { year: "2018", series: "Shelter", value: 52.4 },
+      { year: "2020", series: "Shelter", value: 60.3 },
+      { year: "2022", series: "Shelter", value: 77.4 },
+      { year: "2024", series: "Shelter", value: 97.1 },
+      { year: "2000", series: "Food", value: 0 },
+      { year: "2002", series: "Food", value: 5.0 },
+      { year: "2004", series: "Food", value: 10.9 },
+      { year: "2006", series: "Food", value: 16.2 },
+      { year: "2008", series: "Food", value: 27.3 },
+      { year: "2010", series: "Food", value: 30.7 },
+      { year: "2012", series: "Food", value: 38.8 },
+      { year: "2014", series: "Food", value: 44.0 },
+      { year: "2016", series: "Food", value: 47.1 },
+      { year: "2018", series: "Food", value: 50.5 },
+      { year: "2020", series: "Food", value: 58.4 },
+      { year: "2022", series: "Food", value: 80.2 },
+      { year: "2024", series: "Food", value: 94.6 },
+      { year: "2000", series: "Overall CPI", value: 0 },
+      { year: "2002", series: "Overall CPI", value: 4.5 },
+      { year: "2004", series: "Overall CPI", value: 9.7 },
+      { year: "2006", series: "Overall CPI", value: 17.1 },
+      { year: "2008", series: "Overall CPI", value: 25.0 },
+      { year: "2010", series: "Overall CPI", value: 26.7 },
+      { year: "2012", series: "Overall CPI", value: 33.3 },
+      { year: "2014", series: "Overall CPI", value: 37.5 },
+      { year: "2016", series: "Overall CPI", value: 39.4 },
+      { year: "2018", series: "Overall CPI", value: 45.8 },
+      { year: "2020", series: "Overall CPI", value: 50.3 },
+      { year: "2022", series: "Overall CPI", value: 69.9 },
+      { year: "2024", series: "Overall CPI", value: 82.2 },
+      { year: "2000", series: "Real income", value: 0 },
+      { year: "2002", series: "Real income", value: -2.4 },
+      { year: "2004", series: "Real income", value: -2.5 },
+      { year: "2006", series: "Real income", value: 0.1 },
+      { year: "2008", series: "Real income", value: -1.8 },
+      { year: "2010", series: "Real income", value: -4.7 },
+      { year: "2012", series: "Real income", value: -6.1 },
+      { year: "2014", series: "Real income", value: -3.8 },
+      { year: "2016", series: "Real income", value: 5.0 },
+      { year: "2018", series: "Real income", value: 8.2 },
+      { year: "2020", series: "Real income", value: 13.6 },
+      { year: "2022", series: "Real income", value: 10.7 },
+      { year: "2024", series: "Real income", value: 16.6 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "" } },
+      y: { field: "value", type: "quantitative", axis: { title: "Cumulative change since 2000", format: "+.0f%" }, scale: { nice: false } },
+      color: { field: "series", type: "nominal" },
+    },
+    annotations: [
+      { type: "refline", y: 0, stroke: "#9ca3af", strokeDasharray: "4 4" },
+    ],
+    chrome: {
+      title: "Education and healthcare costs left wages in the dust",
+      subtitle: "Cumulative % change from 2000 baseline, by category",
+      source: "Bureau of Labor Statistics CPI-U; Census Bureau via FRED",
+    },
+    theme: { colors: ["#dc2626", "#f97316", "#2563eb", "#6b7280", "#a3a3a3", "#16a34a"] },
+    labels: { density: "endpoints", format: "+.0f%" },
+    seriesStyles: {
+      "Overall CPI": { lineStyle: "dashed", strokeWidth: 1.5, opacity: 0.6 },
+      "Real income": { strokeWidth: 3 },
+    },
+    legend: { position: "top" },
+  }} />
+</Figure>
+
+That gap at the top of the chart is the story. Education costs grew ten times faster than real income. Medical care grew seven times faster. Even shelter, the single biggest line item in most household budgets, grew at nearly six times the rate of real wages.
+
+The CPI says inflation was 82 percent. But if you're a family paying rent, going to the doctor, and sending a kid to college, your lived inflation was closer to 120 or 130 percent. The "average" basket is diluted by electronics and apparel, categories where globalized manufacturing pushed prices down. Those savings are real, but they don't pay the mortgage.
+
+## A lost decade, then a partial recovery that inflation clawed back
+
+Real median household income didn't just stagnate after 2000. It fell. The typical household earned less in inflation-adjusted dollars in 2012 than it did in 2000, a full 6 percent less. It took until 2016 for incomes to recover to where they started.
+
+<Figure alt="Line chart showing real median household income from 2000 to 2024 in 2023 dollars, with a dashed line at the 2000 baseline showing the lost decade">
+  <Chart spec={{
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2000", value: 71790 },
+      { year: "2001", value: 70610 },
+      { year: "2002", value: 70040 },
+      { year: "2003", value: 70080 },
+      { year: "2004", value: 69970 },
+      { year: "2005", value: 71060 },
+      { year: "2006", value: 71850 },
+      { year: "2007", value: 73010 },
+      { year: "2008", value: 70520 },
+      { year: "2009", value: 70070 },
+      { year: "2010", value: 68420 },
+      { year: "2011", value: 67410 },
+      { year: "2012", value: 67400 },
+      { year: "2013", value: 69950 },
+      { year: "2014", value: 69060 },
+      { year: "2015", value: 72790 },
+      { year: "2016", value: 75380 },
+      { year: "2017", value: 76710 },
+      { year: "2018", value: 77700 },
+      { year: "2019", value: 83260 },
+      { year: "2020", value: 81580 },
+      { year: "2021", value: 81270 },
+      { year: "2022", value: 79500 },
+      { year: "2023", value: 82690 },
+      { year: "2024", value: 83730 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "" } },
+      y: { field: "value", type: "quantitative", axis: { title: "2023 dollars", format: "$~s" }, scale: { domain: [64000, 86000], nice: false } },
+    },
+    annotations: [
+      { type: "refline", y: 71790, stroke: "#9ca3af", strokeDasharray: "6 4", label: "2000 level", labelAnchor: "top" },
+      { type: "range", x1: "2001", x2: "2016", label: "Lost decade", fill: "#fca5a5", opacity: 0.12 },
+      { type: "text", x: "2012", y: 67400, text: "$67,400", dy: 16, fontSize: 12, fontWeight: 600, fill: "#dc2626" },
+      { type: "text", x: "2024", y: 83730, text: "$83,730", dy: -14, fontSize: 12, fontWeight: 600, fill: "#16a34a" },
+    ],
+    chrome: {
+      title: "Incomes didn't recover to 2000 levels until 2016",
+      subtitle: "Real median household income, inflation-adjusted to 2023 dollars",
+      source: "Census Bureau CPS / FRED",
+    },
+    theme: { colors: ["#2563eb"] },
+    labels: { density: "none" },
+  }} />
+</Figure>
+
+The 2015-2019 run was genuinely strong: real incomes climbed 14 percent in four years, the fastest sustained gains since the late 1990s. Then the pandemic hit, and the 2021-2022 inflation surge erased about half those gains. By 2022, real income had fallen back to $79,500, roughly where it was in 2018.
+
+The recovery since then has been real. At $83,730 in 2024, the median household is earning more in purchasing power than at any point in history. But "more than ever" obscures the relevant comparison: more than ever relative to *what*? The costs that actually determine whether a family feels financially secure have compounded far faster.
+
+## Healthcare alone consumed the entire raise
+
+Here's one way to think about it. In 2000, the typical household earned about $41,000 in nominal dollars, and the country spent $4,842 per person on healthcare. By 2024, that household earned $86,000 and healthcare consumed $15,474 per person.
+
+<Figure alt="Line chart showing healthcare spending per capita from 2000 to 2024 with a dashed inflation-only baseline showing what spending would have been if it merely kept pace with CPI">
+  <Chart spec={{
+    animation: { enter: { duration: 800, ease: "smooth" } },
+    responsive: true,
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2000", series: "Actual spending", value: 4842 },
+      { year: "2002", series: "Actual spending", value: 5678 },
+      { year: "2004", series: "Actual spending", value: 6481 },
+      { year: "2006", series: "Actual spending", value: 7266 },
+      { year: "2008", series: "Actual spending", value: 7907 },
+      { year: "2010", series: "Actual spending", value: 8377 },
+      { year: "2012", series: "Actual spending", value: 8860 },
+      { year: "2014", series: "Actual spending", value: 9421 },
+      { year: "2016", series: "Actual spending", value: 10229 },
+      { year: "2018", series: "Actual spending", value: 11042 },
+      { year: "2020", series: "Actual spending", value: 12637 },
+      { year: "2022", series: "Actual spending", value: 13689 },
+      { year: "2024", series: "Actual spending", value: 15474 },
+      { year: "2000", series: "If inflation only", value: 4842 },
+      { year: "2002", series: "If inflation only", value: 5060 },
+      { year: "2004", series: "If inflation only", value: 5314 },
+      { year: "2006", series: "If inflation only", value: 5667 },
+      { year: "2008", series: "If inflation only", value: 6053 },
+      { year: "2010", series: "If inflation only", value: 6134 },
+      { year: "2012", series: "If inflation only", value: 6453 },
+      { year: "2014", series: "If inflation only", value: 6658 },
+      { year: "2016", series: "If inflation only", value: 6750 },
+      { year: "2018", series: "If inflation only", value: 7063 },
+      { year: "2020", series: "If inflation only", value: 7281 },
+      { year: "2022", series: "If inflation only", value: 8224 },
+      { year: "2024", series: "If inflation only", value: 8822 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "" } },
+      y: { field: "value", type: "quantitative", axis: { title: "Per capita spending", format: "$~s" }, scale: { nice: false } },
+      color: { field: "series", type: "nominal" },
+    },
+    chrome: {
+      title: "Healthcare spending grew nearly 3x what inflation alone would predict",
+      subtitle: "National health expenditure per capita, nominal dollars",
+      source: "Centers for Medicare & Medicaid Services",
+    },
+    theme: { colors: ["#dc2626", "#d1d5db"] },
+    labels: { density: "endpoints", format: "$,.0f" },
+    seriesStyles: {
+      "If inflation only": { lineStyle: "dashed", strokeWidth: 1.5, opacity: 0.6 },
+    },
+  }} />
+</Figure>
+
+The gap between the red line and the gray baseline is the excess cost growth: about $6,700 per person per year beyond what general inflation would explain. For a family of four, that's roughly $27,000 in additional annual healthcare costs that have nothing to do with broader price increases. It's utilization growth, administrative overhead, drug pricing, and an insurance system that obscures what anything actually costs.
+
+Nominal income doubled over this period, from $41,000 to $86,000. Healthcare spending tripled, from $4,842 to $15,474 per person. A household of two saw healthcare consume about 24 percent of gross income in 2000. By 2024, that share climbed to 36 percent. The raise got eaten.
+
+## Insurance premiums doubled in two decades
+
+The aggregate spending numbers obscure where the money actually comes from. For most working Americans, the cost of healthcare arrives as an insurance premium deducted from every paycheck, and that number has roughly doubled since the mid-2000s.
+
+BLS employer compensation data tracks what employers pay per hour worked for health insurance across all civilian workers. In 2004, the first year of the series, that cost was $1.81 per hour. By 2025, it had climbed to $3.75, a 107 percent increase. Annualized over a standard 2,080-hour work year, that's a jump from about $3,765 to $7,800.
+
+<Figure alt="Line chart showing employer health insurance cost per hour worked from 2004 to 2025, with a dashed inflation-only baseline, showing insurance costs outpacing general inflation by about 30 percentage points">
+  <Chart spec={{
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2004", series: "Actual cost", value: 3765 },
+      { year: "2006", series: "Actual cost", value: 4347 },
+      { year: "2008", series: "Actual cost", value: 4722 },
+      { year: "2010", series: "Actual cost", value: 5179 },
+      { year: "2012", series: "Actual cost", value: 5429 },
+      { year: "2014", series: "Actual cost", value: 5720 },
+      { year: "2016", series: "Actual cost", value: 5928 },
+      { year: "2018", series: "Actual cost", value: 6282 },
+      { year: "2020", series: "Actual cost", value: 6552 },
+      { year: "2022", series: "Actual cost", value: 6822 },
+      { year: "2024", series: "Actual cost", value: 7384 },
+      { year: "2004", series: "If inflation only", value: 3765 },
+      { year: "2006", series: "If inflation only", value: 4030 },
+      { year: "2008", series: "If inflation only", value: 4308 },
+      { year: "2010", series: "If inflation only", value: 4365 },
+      { year: "2012", series: "If inflation only", value: 4594 },
+      { year: "2014", series: "If inflation only", value: 4740 },
+      { year: "2016", series: "If inflation only", value: 4807 },
+      { year: "2018", series: "If inflation only", value: 5031 },
+      { year: "2020", series: "If inflation only", value: 5185 },
+      { year: "2022", series: "If inflation only", value: 5857 },
+      { year: "2024", series: "If inflation only", value: 6283 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "" } },
+      y: { field: "value", type: "quantitative", axis: { title: "Annual cost per worker", format: "$,.0f" }, scale: { domain: [3500, 7800], nice: false } },
+      color: { field: "series", type: "nominal" },
+    },
+    annotations: [
+      { type: "text", x: "2020", y: 5900, text: "$1,400 gap", fontSize: 12, fontWeight: 600, fill: "#dc2626", dy: -6 },
+    ],
+    chrome: {
+      title: "Employer insurance costs doubled while inflation would predict a 67% rise",
+      subtitle: "Employer-paid health insurance cost per worker, annualized (2,080 hours)",
+      source: "Bureau of Labor Statistics, Employer Costs for Employee Compensation",
+    },
+    theme: { colors: ["#dc2626", "#d1d5db"] },
+    labels: { density: "endpoints", format: "$,.0f" },
+    seriesStyles: {
+      "If inflation only": { lineStyle: "dashed", strokeWidth: 1.5, opacity: 0.6 },
+    },
+  }} />
+</Figure>
+
+That's just the employer's side. Workers shoulder a growing share of premiums too. Average family premiums have more than doubled since 2004, from $10,664 to over $23,900 per year, with the employee contribution climbing from about $2,700 to $6,300. So even though the employer is paying $7,800, the worker is also paying another $6,300 out of pocket before a single copay or deductible.
+
+<Figure alt="Stacked bar chart showing employer vs employee share of family health insurance premiums in 2004 and 2024, with both shares growing but the total quadrupling">
+  <Chart spec={{
+    animation: { enter: { ease: "snappy" } },
+    responsive: true,
+    mark: { type: "bar" },
+    data: [
+      { year: "2004", series: "Employer share", value: 8003 },
+      { year: "2004", series: "Employee share", value: 2661 },
+      { year: "2024", series: "Employer share", value: 17631 },
+      { year: "2024", series: "Employee share", value: 6296 },
+    ],
+    encoding: {
+      x: { field: "year", type: "nominal", axis: { title: "" } },
+      y: { field: "value", type: "quantitative", axis: { title: "Annual family premium", format: "$,.0f" }, scale: { nice: false } },
+      color: { field: "series", type: "nominal" },
+    },
+    chrome: {
+      title: "Family insurance premiums more than doubled since 2004",
+      subtitle: "Average employer-sponsored family health insurance premium",
+      source: "Kaiser Family Foundation Employer Health Benefits Survey",
+    },
+    theme: { colors: ["#2563eb", "#dc2626"] },
+    labels: { density: "all", format: "$,.0f" },
+  }} />
+</Figure>
+
+Put it all together: a family earning $86,000 in 2024 loses about $6,300 to their premium share before taxes, another $1,600 to the average deductible, and likely $2,000-$3,000 more in copays and coinsurance. That's roughly $10,000, or 12 percent of gross income, spent on healthcare before anyone actually gets sick. The employer's $17,600 contribution is invisible on your pay stub, but it's compensation that could otherwise be wages. Total healthcare burden for a typical family: close to $28,000, or a third of gross household income.
+
+## Home prices tripled while rent never stopped climbing
+
+Housing splits into two stories depending on whether you're buying or renting, and neither is particularly comforting.
+
+The Case-Shiller national home price index tripled from 2000 to 2024, a 206 percent increase. Prices crashed 24 percent from peak to trough during the 2008 crisis but recovered all of that by 2017 and then surged another 60 percent in the pandemic years alone. The post-2020 run added more in absolute terms than the entire pre-crisis bubble.
+
+<Figure alt="Line chart showing Case-Shiller home price index and shelter CPI from 2000 to 2024, both indexed to 100 at year 2000, showing home prices far outpacing rents">
+  <Chart spec={{
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2000", series: "Home prices (Case-Shiller)", value: 100 },
+      { year: "2002", series: "Home prices (Case-Shiller)", value: 116.7 },
+      { year: "2004", series: "Home prices (Case-Shiller)", value: 143.5 },
+      { year: "2006", series: "Home prices (Case-Shiller)", value: 175.0 },
+      { year: "2008", series: "Home prices (Case-Shiller)", value: 156.6 },
+      { year: "2010", series: "Home prices (Case-Shiller)", value: 138.1 },
+      { year: "2012", series: "Home prices (Case-Shiller)", value: 134.5 },
+      { year: "2014", series: "Home prices (Case-Shiller)", value: 157.2 },
+      { year: "2016", series: "Home prices (Case-Shiller)", value: 172.6 },
+      { year: "2018", series: "Home prices (Case-Shiller)", value: 193.2 },
+      { year: "2020", series: "Home prices (Case-Shiller)", value: 212.0 },
+      { year: "2022", series: "Home prices (Case-Shiller)", value: 284.6 },
+      { year: "2024", series: "Home prices (Case-Shiller)", value: 306.7 },
+      { year: "2000", series: "Rent / shelter CPI", value: 100 },
+      { year: "2002", series: "Rent / shelter CPI", value: 106.3 },
+      { year: "2004", series: "Rent / shelter CPI", value: 111.8 },
+      { year: "2006", series: "Rent / shelter CPI", value: 119.8 },
+      { year: "2008", series: "Rent / shelter CPI", value: 127.5 },
+      { year: "2010", series: "Rent / shelter CPI", value: 127.5 },
+      { year: "2012", series: "Rent / shelter CPI", value: 131.3 },
+      { year: "2014", series: "Rent / shelter CPI", value: 137.5 },
+      { year: "2016", series: "Rent / shelter CPI", value: 143.9 },
+      { year: "2018", series: "Rent / shelter CPI", value: 152.4 },
+      { year: "2020", series: "Rent / shelter CPI", value: 160.3 },
+      { year: "2022", series: "Rent / shelter CPI", value: 177.4 },
+      { year: "2024", series: "Rent / shelter CPI", value: 197.1 },
+      { year: "2000", series: "Nominal income", value: 100 },
+      { year: "2002", series: "Nominal income", value: 101.9 },
+      { year: "2004", series: "Nominal income", value: 106.9 },
+      { year: "2006", series: "Nominal income", value: 117.2 },
+      { year: "2008", series: "Nominal income", value: 122.8 },
+      { year: "2010", series: "Nominal income", value: 120.8 },
+      { year: "2012", series: "Nominal income", value: 125.2 },
+      { year: "2014", series: "Nominal income", value: 132.2 },
+      { year: "2016", series: "Nominal income", value: 146.4 },
+      { year: "2018", series: "Nominal income", value: 157.9 },
+      { year: "2020", series: "Nominal income", value: 170.8 },
+      { year: "2022", series: "Nominal income", value: 188.2 },
+      { year: "2024", series: "Nominal income", value: 212.5 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "" } },
+      y: { field: "value", type: "quantitative", axis: { title: "Indexed (2000 = 100)", format: ",.0f" }, scale: { nice: false } },
+      color: { field: "series", type: "nominal" },
+    },
+    annotations: [
+      { type: "text", x: "2009", y: 155, text: "Housing crash", dy: -14, fontSize: 11, fontWeight: 500, fill: "#6b7280" },
+    ],
+    chrome: {
+      title: "Home prices tripled while incomes barely doubled",
+      subtitle: "All series indexed to 100 at year 2000",
+      source: "S&P Case-Shiller via FRED; BLS Shelter CPI; Census Bureau",
+    },
+    theme: { colors: ["#dc2626", "#2563eb", "#d1d5db"] },
+    labels: { density: "endpoints", format: ",.0f" },
+    seriesStyles: {
+      "Nominal income": { lineStyle: "dashed", strokeWidth: 1.5, opacity: 0.6 },
+    },
+  }} />
+</Figure>
+
+Renters didn't get the crash. That's the quieter but in some ways more revealing line. The shelter CPI, which tracks rents and the imputed cost of owner-occupied housing, has climbed in nearly every single year since 2000. It didn't dip during the housing crisis. It didn't pause during the pandemic. It just kept compounding. By 2024 it had nearly doubled.
+
+For prospective buyers, the math has gotten brutal. Nominal median income roughly doubled from 2000 to 2024. Home prices tripled. That means the income-to-home-price ratio has deteriorated by about 50 percent. A household that could afford the median home in 2000 would need 50 percent more purchasing power to afford the same home today, even with the same interest rate. And interest rates aren't the same: a 30-year mortgage rate of around 7 percent in 2024 versus about 8 percent in 2000 is roughly comparable, but home prices themselves have pushed monthly payments far higher in absolute terms.
+
+## Education costs doubled even after adjusting for inflation
+
+The education CPI, which tracks tuition, fees, and textbooks, rose 166 percent from 2000 to 2024. That's roughly double the pace of overall inflation and ten times the growth in real household income.
+
+<Figure alt="Line chart showing education CPI from 2000 to 2024 with a dashed inflation-only baseline, showing education outpacing general CPI by a factor of two">
+  <Chart spec={{
+    animation: { enter: { duration: 800, ease: "smooth" } },
+    responsive: true,
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2000", series: "Education CPI", value: 100 },
+      { year: "2002", series: "Education CPI", value: 111.9 },
+      { year: "2004", series: "Education CPI", value: 127.7 },
+      { year: "2006", series: "Education CPI", value: 144.0 },
+      { year: "2008", series: "Education CPI", value: 161.1 },
+      { year: "2010", series: "Education CPI", value: 177.2 },
+      { year: "2012", series: "Education CPI", value: 192.3 },
+      { year: "2014", series: "Education CPI", value: 206.1 },
+      { year: "2016", series: "Education CPI", value: 220.0 },
+      { year: "2018", series: "Education CPI", value: 230.0 },
+      { year: "2020", series: "Education CPI", value: 240.6 },
+      { year: "2022", series: "Education CPI", value: 250.7 },
+      { year: "2024", series: "Education CPI", value: 266.3 },
+      { year: "2000", series: "If inflation only", value: 100 },
+      { year: "2002", series: "If inflation only", value: 104.5 },
+      { year: "2004", series: "If inflation only", value: 109.7 },
+      { year: "2006", series: "If inflation only", value: 117.1 },
+      { year: "2008", series: "If inflation only", value: 125.0 },
+      { year: "2010", series: "If inflation only", value: 126.7 },
+      { year: "2012", series: "If inflation only", value: 133.3 },
+      { year: "2014", series: "If inflation only", value: 137.5 },
+      { year: "2016", series: "If inflation only", value: 139.4 },
+      { year: "2018", series: "If inflation only", value: 145.8 },
+      { year: "2020", series: "If inflation only", value: 150.3 },
+      { year: "2022", series: "If inflation only", value: 169.9 },
+      { year: "2024", series: "If inflation only", value: 182.2 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "" } },
+      y: { field: "value", type: "quantitative", axis: { title: "Indexed (2000 = 100)", format: ",.0f" }, scale: { nice: false } },
+      color: { field: "series", type: "nominal" },
+    },
+    chrome: {
+      title: "Education costs grew at double the pace of overall inflation",
+      subtitle: "Education CPI vs. overall CPI, both indexed to 100 at 2000",
+      source: "Bureau of Labor Statistics CPI-U",
+    },
+    theme: { colors: ["#7c3aed", "#d1d5db"] },
+    labels: { density: "endpoints", format: ",.0f" },
+    seriesStyles: {
+      "If inflation only": { lineStyle: "dashed", strokeWidth: 1.5, opacity: 0.6 },
+    },
+  }} />
+</Figure>
+
+The gap tells you something important about who bears the cost of this divergence. Education is a one-time expense for the wealthy and an ongoing debt burden for everyone else. A family earning $200,000 can absorb $30,000 in annual tuition from cash flow. A family earning $60,000 borrows it, and that debt compounds for decades.
+
+There's a notable inflection around 2012-2014: education cost growth slowed considerably compared to the 2000-2012 surge. Public attention to the student debt crisis, state-level tuition freezes, and competition from online alternatives all played a role. But the damage was already done. A generation of borrowers signed loans at the steepest part of the curve.
+
+## The post-2020 surge hit groceries and shelter hardest
+
+The pandemic-era inflation spike was distinctive not because it was the largest in the dataset, but because it hit the most unavoidable categories simultaneously.
+
+<Figure alt="Horizontal bar chart showing percent change from 2020 to 2024 for key spending categories, with shelter and food rising fastest">
+  <Chart spec={{
+    animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+    responsive: true,
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { category: "Shelter", change: 22.9 },
+      { category: "Food", change: 22.9 },
+      { category: "Overall CPI", change: 21.2 },
+      { category: "Healthcare/capita", change: 22.4 },
+      { category: "Medical CPI", change: 8.7 },
+      { category: "Education", change: 10.7 },
+    ],
+    encoding: {
+      x: { field: "change", type: "quantitative", axis: { title: "% change, 2020-2024", format: "+.0f%" }, scale: { nice: false } },
+      y: { field: "category", type: "nominal", axis: { title: "" } },
+      color: {
+        condition: { test: { field: "change", gte: 21 }, value: "#dc2626" },
+        value: "#6b7280",
+      },
+    },
+    chrome: {
+      title: "The 2020-2024 surge hit shelter and groceries hardest",
+      subtitle: "Cumulative % change by category, 2020-2024",
+      source: "BLS CPI-U; CMS National Health Expenditure",
+    },
+    labels: { density: "all", format: "+.1f%" },
+  }} />
+</Figure>
+
+Between 2020 and 2024, shelter and food costs each rose about 23 percent in four years. That's the kind of compression that reshapes household budgets overnight. Medical care CPI grew a more modest 9 percent over the same stretch, a rare respite after two decades of relentless increases, though per-capita healthcare spending (which captures utilization, not just prices) still rose 22 percent.
+
+For low-income households, this combination was especially punishing. Families in the bottom quintile spend roughly 40 percent of income on housing and 15 percent on food. A simultaneous 23 percent increase in both categories is equivalent to losing about 13 percent of total income to price increases alone, far exceeding any wage gains over that period.
+
+## Homeowners built wealth; renters fell further behind
+
+Here's the hidden dynamic. The same force that makes housing unaffordable for buyers, rising home prices, is the primary wealth-building mechanism for the people who already own homes. This creates a self-reinforcing divide.
+
+<Figure alt="Bar chart comparing asset appreciation (home prices, S&P 500) against income growth and CPI from 2000 to 2024, showing assets far outpacing wages">
+  <Chart spec={{
+    animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+    responsive: true,
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { category: "Home prices", label: "Home prices +207%", value: 207 },
+      { category: "S&P 500", label: "S&P 500 +340%", value: 340 },
+      { category: "Nominal income", label: "Nominal income +113%", value: 113 },
+      { category: "Overall CPI", label: "Overall CPI +82%", value: 82 },
+      { category: "Real income", label: "Real income +17%", value: 17 },
+    ],
+    encoding: {
+      x: { field: "value", type: "quantitative", axis: { title: "Cumulative % change, 2000-2024", format: ".0f%" }, scale: { nice: false } },
+      y: { field: "category", type: "nominal", axis: { title: "" }, scale: { domain: ["S&P 500", "Home prices", "Nominal income", "Overall CPI", "Real income"] } },
+      color: {
+        condition: { test: { field: "value", gte: 150 }, value: "#16a34a" },
+        value: "#6b7280",
+      },
+    },
+    annotations: [
+      { type: "refline", x: 82, stroke: "#9ca3af", strokeDasharray: "4 4", label: "CPI", labelAnchor: "top" },
+    ],
+    chrome: {
+      title: "Assets grew 3-4x faster than wages",
+      subtitle: "Cumulative % change from 2000 to 2024",
+      source: "S&P Case-Shiller; S&P 500; Census Bureau; BLS CPI-U",
+    },
+    labels: { density: "all", format: "+.0f%" },
+  }} />
+</Figure>
+
+The S&P 500 rose roughly 340 percent from its 2000 annual average to 2024. Home prices rose 207 percent. Nominal income, 113 percent. Real income, 17 percent.
+
+This is the mechanism that separates households who feel middle-class from households who are falling behind despite earning more than ever. A family that bought a home in 2000 and held index funds watched their net worth grow by multiples. A family that rented and kept savings in a bank account saw their purchasing power slowly erode against every major cost category.
+
+The Federal Reserve's Survey of Consumer Finances confirms this split. Between 2001 and 2022, median net worth for homeowners grew from about $200,000 to $396,000, roughly doubling. For renters, it went from about $6,000 to $10,000. The asset economy and the wage economy have diverged so far that they're effectively two different countries.
+
+## Wage growth is no longer a useful measure of financial security
+
+This is the uncomfortable conclusion the data points toward. "Wages are up" and "real income hit a record" are both true statements that describe a world most people don't recognize.
+
+<Figure alt="Diverging horizontal bar chart showing how much each major cost category outran real income growth since 2000, with education at +150 points, medical at +99, shelter at +80, and food at +78 points above real income growth">
+  <Chart spec={{
+    animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+    responsive: true,
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { category: "Education", label: "Education +150 pts", gap: 149.7 },
+      { category: "Medical care", label: "Medical care +99 pts", gap: 99.6 },
+      { category: "Shelter", label: "Shelter +80 pts", gap: 80.5 },
+      { category: "Food", label: "Food +78 pts", gap: 78.0 },
+      { category: "Overall CPI", label: "Overall CPI +65 pts", gap: 65.6 },
+      { category: "Real income", label: "Real income (baseline)", gap: 0 },
+    ],
+    encoding: {
+      x: { field: "gap", type: "quantitative", axis: { title: "Percentage points above real income growth (2000–2024)", format: "+.0f" }, scale: { nice: false } },
+      y: { field: "label", type: "nominal", axis: { title: "" }, scale: { domain: ["Education +150 pts", "Medical care +99 pts", "Shelter +80 pts", "Food +78 pts", "Overall CPI +65 pts", "Real income (baseline)"] } },
+      color: {
+        condition: { test: { field: "gap", gte: 79 }, value: "#dc2626" },
+        value: "#6b7280",
+      },
+    },
+    annotations: [
+      { type: "refline", x: 0, stroke: "#374151", strokeWidth: 1.5 },
+    ],
+    chrome: {
+      title: "Every major cost category outran real wages — some by a factor of 10",
+      subtitle: "Percentage-point gap above real income growth (17%) since 2000. Red bars = outpaced wages by 5x or more.",
+      source: "BLS CPI-U; Census Bureau via FRED",
+    },
+    labels: { density: "all", format: "+.0f" },
+  }} />
+</Figure>
+
+Each bar shows how far that cost category outran real income growth since 2000. Real income is the baseline at zero. Education ran 150 points ahead. Medical care, 100 points. Shelter and food both pushed past 78 points. Even overall CPI, which includes all the cheap stuff, outpaced real wages by 66 points.
+
+That gap is the lived experience behind the polling data that consistently shows Americans saying the economy is bad even when GDP is growing and unemployment is low. They're not wrong. The economy is growing. It's just growing in ways that flow to asset holders, not wage earners.
+
+---
+
+The median American household earns more than ever. It can also afford less of what matters than at any point this century. The divergence between wage growth and the cost of a stable life isn't a temporary shock to be waited out. It's a structural feature of an economy where the returns to owning things have permanently outpaced the returns to doing things. The question isn't whether your raise kept up with inflation. It's whether it kept up with the mortgage, the premiums, and the tuition bill. For most households, it hasn't come close.
+
+## Data sources & methodology
+
+**Datasets used:**
+- `fred/median-household-income` - Real median household income, 2023-adjusted dollars, 2000-2024
+- `fred/cpi` - CPI-U All Items, seasonally adjusted annual averages, 2000-2025
+- `fred/cpi-shelter` - CPI Shelter component, annual averages, 2000-2025
+- `fred/cpi-medical` - CPI Medical Care component, annual averages, 2000-2025
+- `bls/cpi-u` (series CUUR0000SAE1) - CPI Education sub-index, annual averages, 2000-2025
+- `bls/cpi-u` (food at home) - CPI Food component, annual averages, 2000-2025
+- `fred/case-shiller` - S&P/Case-Shiller National Home Price Index, monthly averaged to annual, 2000-2025
+- `cms/health-expenditure` - National Health Expenditure per capita, all payers, 2000-2024
+- `bls/employer-costs` - Employer Costs for Employee Compensation, health insurance cost per hour worked for civilian workers, quarterly 2004-2025
+- Kaiser Family Foundation Employer Health Benefits Survey - Average employer-sponsored family premiums and employee contribution shares, 2004 and 2024
+- `fred/sp500` - S&P 500 closing prices, averaged to annual, 2000-2024
+
+**Calculations & transformations:**
+- All CPI series computed as cumulative percent change from 2000 annual average baseline
+- Nominal median household income derived from real income via: nominal = real_income_2023$ x (CPI_year / CPI_2023)
+- Home price and shelter CPI indexed to 100 at year 2000 for cross-series comparison
+- Healthcare "if inflation only" baseline: 2000 per-capita spending compounded at annual CPI-U growth rate
+- Employer insurance cost annualized as: quarterly cost-per-hour x 2,080 hours; Q3 values used as annual proxy. "If inflation only" baseline: 2004 value compounded at annual CPI-U growth rate
+- KFF family premium data uses 2004 and 2024 survey years; employer/employee split reflects average for all covered workers
+- Closing chart gaps: each category's cumulative CPI % change minus real income growth (17%) over 2000-2024, showing how many percentage points each cost category outran wages
+- S&P 500 growth estimated from annual average closing prices, 2000 vs 2024
+- Biennial data points used in charts (every 2 years) to keep data arrays under 100 rows while showing 25 years of trends
+
+**Limitations:**
+- CPI subindexes measure price changes for a fixed basket, not actual household spending levels. Healthcare CPI measures prices; CMS per-capita data measures total spending (prices x utilization). Both are shown.
+- Real median household income uses Census CPS methodology, which changed survey processing in 2013 and 2017, creating small discontinuities.
+- Education CPI covers tuition, fees, and textbooks but not room/board. Actual cost of attendance is higher.
+- No comprehensive time-series for childcare costs was available. This category, often $10,000-$20,000 per child per year, is excluded from the analysis but would widen the gap further.
+- S&P 500 appreciation figures represent index growth only and do not include dividends, which would increase total returns.
+- Wealth distribution data referenced (homeowner vs. renter net worth) is from the Federal Reserve's Survey of Consumer Finances, conducted triennially, with the most recent data from 2022.
+
+*Data accessed on 2026-03-24 via the [OpenData API](https://tryopendata.ai).*

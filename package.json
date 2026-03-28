@@ -9,21 +9,23 @@
   },
   "dependencies": {
     "@mdx-js/react": "^3",
-    "@opendata-ai/openchart-react": "^6",
+    "@opendata-ai/openchart-react": "^6.5.0",
     "react": "^19",
     "react-dom": "^19",
     "react-router-dom": "^7"
   },
   "devDependencies": {
-    "vite": "^6",
-    "@vitejs/plugin-react": "^4",
-    "@tailwindcss/vite": "^4",
+    "@mdx-js/rollup": "^3",
     "@tailwindcss/typography": "^0.5",
-    "tailwindcss": "^4",
-    "typescript": "^5",
+    "@tailwindcss/vite": "^4",
+    "@types/mdx": "^2",
+    "@types/node": "^25.5.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@mdx-js/rollup": "^3",
-    "@types/mdx": "^2"
+    "@vitejs/plugin-react": "^4",
+    "acorn": "^8.16.0",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vite": "^6"
   }
 }

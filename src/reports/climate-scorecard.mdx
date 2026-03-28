@@ -1,0 +1,308 @@
+export const meta = {
+  title: "The Climate Scorecard: What's Working, What Isn't",
+  date: "2026-03-24",
+  description: "Three independent temperature records agree on 1.2C of warming. Solar grew 900x in 20 years. But global emissions still haven't peaked.",
+  tags: ["climate", "emissions", "energy", "environment"],
+}
+
+import { Chart } from '../components/Chart'
+import { Figure } from '../components/Figure'
+
+The global average temperature in 2025 is running 1.19 degrees Celsius above the pre-industrial baseline, according to both NASA and the UK Met Office. That number doesn't sound dramatic until you consider that during the last ice age, the global average was only about 5 degrees cooler than today. We're a fifth of the way to ice-age-scale change, and we got there in about 150 years.
+
+But "climate change is happening" is the easy part. The harder questions are whether the solutions are working, which countries are actually cutting emissions, and whether the explosion of renewable energy is translating into real reductions or just keeping pace with growing demand. The answers are more nuanced than either side of the debate usually admits.
+
+## Three thermometers, one verdict
+
+One of the most common critiques of climate science is that the temperature record might be unreliable. The data puts that argument to rest. NASA's GISTEMP, the UK Met Office's HadCRUT5, and NOAA's global temperature series are produced by different teams, in different countries, using different methodologies and partially different data sources. They agree almost exactly.
+
+<Figure alt="Line chart showing NASA and HadCRUT5 temperature anomaly records tracking nearly identically from 1950 to 2025">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+    data: [
+      { year: "1950", source: "NASA GISTEMP", anomaly: -0.18 },
+      { year: "1955", source: "NASA GISTEMP", anomaly: -0.14 },
+      { year: "1960", source: "NASA GISTEMP", anomaly: -0.03 },
+      { year: "1965", source: "NASA GISTEMP", anomaly: -0.11 },
+      { year: "1970", source: "NASA GISTEMP", anomaly: 0.03 },
+      { year: "1975", source: "NASA GISTEMP", anomaly: -0.01 },
+      { year: "1980", source: "NASA GISTEMP", anomaly: 0.25 },
+      { year: "1985", source: "NASA GISTEMP", anomaly: 0.12 },
+      { year: "1990", source: "NASA GISTEMP", anomaly: 0.45 },
+      { year: "1995", source: "NASA GISTEMP", anomaly: 0.45 },
+      { year: "2000", source: "NASA GISTEMP", anomaly: 0.39 },
+      { year: "2005", source: "NASA GISTEMP", anomaly: 0.68 },
+      { year: "2010", source: "NASA GISTEMP", anomaly: 0.73 },
+      { year: "2015", source: "NASA GISTEMP", anomaly: 0.90 },
+      { year: "2020", source: "NASA GISTEMP", anomaly: 1.01 },
+      { year: "2025", source: "NASA GISTEMP", anomaly: 1.19 },
+      { year: "1950", source: "Met Office HadCRUT5", anomaly: -0.23 },
+      { year: "1955", source: "Met Office HadCRUT5", anomaly: -0.20 },
+      { year: "1960", source: "Met Office HadCRUT5", anomaly: -0.12 },
+      { year: "1965", source: "Met Office HadCRUT5", anomaly: -0.20 },
+      { year: "1970", source: "Met Office HadCRUT5", anomaly: -0.09 },
+      { year: "1975", source: "Met Office HadCRUT5", anomaly: -0.11 },
+      { year: "1980", source: "Met Office HadCRUT5", anomaly: 0.20 },
+      { year: "1985", source: "Met Office HadCRUT5", anomaly: 0.05 },
+      { year: "1990", source: "Met Office HadCRUT5", anomaly: 0.36 },
+      { year: "1995", source: "Met Office HadCRUT5", anomaly: 0.38 },
+      { year: "2000", source: "Met Office HadCRUT5", anomaly: 0.33 },
+      { year: "2005", source: "Met Office HadCRUT5", anomaly: 0.61 },
+      { year: "2010", source: "Met Office HadCRUT5", anomaly: 0.68 },
+      { year: "2015", source: "Met Office HadCRUT5", anomaly: 0.83 },
+      { year: "2020", source: "Met Office HadCRUT5", anomaly: 0.92 },
+      { year: "2025", source: "Met Office HadCRUT5", anomaly: 1.19 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "" } },
+      y: {
+        field: "anomaly",
+        type: "quantitative",
+        axis: { title: "Temperature anomaly (°C)", format: "+.1f" },
+        scale: { domain: [-0.5, 1.4], nice: false },
+      },
+      color: { field: "source", type: "nominal" },
+    },
+    annotations: [
+      { type: "refline", y: 0, stroke: "#94a3b8", strokeDasharray: "6 4", label: "Pre-industrial baseline", labelAnchor: "bottom" },
+      { type: "refline", y: 1.5, stroke: "#c44e52", strokeDasharray: "6 4", label: "Paris Agreement limit", labelAnchor: "top" },
+    ],
+    chrome: {
+      title: "Two independent records agree: +1.2°C and accelerating",
+      subtitle: "Annual average temperature anomaly relative to 1850-1900 baseline",
+      source: "Source: NASA GISTEMP, Met Office HadCRUT5",
+    },
+    theme: { colors: ["#1b7fa3", "#c44e52"] },
+    labels: { density: "endpoints", format: "+.2f" },
+    legend: { position: "top" },
+  }} />
+</Figure>
+
+The two records diverge by no more than 0.1 degrees in any given year and converge to within hundredths of a degree by 2025. This convergence is the fingerprint of a real physical signal: when independent measurement systems agree this closely, the underlying phenomenon is not in doubt. The warming accelerated notably after 2000, and the rate of increase since 2015 has been steeper than any previous period.
+
+The Paris Agreement set a target of limiting warming to 1.5°C above pre-industrial levels. At the current rate of increase, roughly 0.2°C per decade, the world is on track to breach that threshold in the 2030s.
+
+## America leads in emissions per person, but it's cutting faster
+
+The US still emits more CO2 per capita than any other major economy: 14.2 tonnes per person in 2024. That's twice Germany, three times the global average, and nearly seven times India. But the trend is moving in the right direction. US per-capita emissions have fallen 34 percent since their 2000 peak of 21.4 tonnes.
+
+<Figure alt="Line chart showing CO2 per capita from 2000 to 2024 for five countries and the world average">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    animation: { enter: { duration: 800, ease: "smooth" } },
+    responsive: true,
+    data: [
+      { year: "2000", country: "United States", co2: 21.4 },
+      { year: "2004", country: "United States", co2: 20.9 },
+      { year: "2008", country: "United States", co2: 19.4 },
+      { year: "2012", country: "United States", co2: 16.8 },
+      { year: "2016", country: "United States", co2: 15.9 },
+      { year: "2020", country: "United States", co2: 13.8 },
+      { year: "2024", country: "United States", co2: 14.2 },
+      { year: "2000", country: "China", co2: 2.9 },
+      { year: "2004", country: "China", co2: 4.0 },
+      { year: "2008", country: "China", co2: 5.6 },
+      { year: "2012", country: "China", co2: 7.1 },
+      { year: "2016", country: "China", co2: 6.9 },
+      { year: "2020", country: "China", co2: 7.6 },
+      { year: "2024", country: "China", co2: 8.7 },
+      { year: "2000", country: "Germany", co2: 11.0 },
+      { year: "2004", country: "Germany", co2: 10.7 },
+      { year: "2008", country: "Germany", co2: 10.6 },
+      { year: "2012", country: "Germany", co2: 10.1 },
+      { year: "2016", country: "Germany", co2: 9.6 },
+      { year: "2020", country: "Germany", co2: 7.7 },
+      { year: "2024", country: "Germany", co2: 6.8 },
+      { year: "2000", country: "United Kingdom", co2: 9.6 },
+      { year: "2004", country: "United Kingdom", co2: 9.5 },
+      { year: "2008", country: "United Kingdom", co2: 8.8 },
+      { year: "2012", country: "United Kingdom", co2: 7.6 },
+      { year: "2016", country: "United Kingdom", co2: 6.1 },
+      { year: "2020", country: "United Kingdom", co2: 4.8 },
+      { year: "2024", country: "United Kingdom", co2: 4.5 },
+      { year: "2000", country: "India", co2: 0.9 },
+      { year: "2004", country: "India", co2: 1.0 },
+      { year: "2008", country: "India", co2: 1.2 },
+      { year: "2012", country: "India", co2: 1.5 },
+      { year: "2016", country: "India", co2: 1.8 },
+      { year: "2020", country: "India", co2: 1.7 },
+      { year: "2024", country: "India", co2: 2.2 },
+      { year: "2000", country: "World average", co2: 4.1 },
+      { year: "2004", country: "World average", co2: 4.4 },
+      { year: "2008", country: "World average", co2: 4.7 },
+      { year: "2012", country: "World average", co2: 4.9 },
+      { year: "2016", country: "World average", co2: 4.7 },
+      { year: "2020", country: "World average", co2: 4.5 },
+      { year: "2024", country: "World average", co2: 4.7 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "" } },
+      y: {
+        field: "co2",
+        type: "quantitative",
+        axis: { title: "Tonnes CO2 per person", format: ".1f" },
+        scale: { domain: [0, 23], nice: false },
+      },
+      color: {
+        field: "country",
+        type: "nominal",
+        scale: {
+          domain: ["United States", "China", "Germany", "United Kingdom", "India", "World average"],
+          range: ["#c44e52", "#e07b39", "#1b7fa3", "#6a9f58", "#8b6caf", "#94a3b8"],
+        },
+      },
+    },
+    chrome: {
+      title: "The US cut emissions per person by a third, but still leads",
+      subtitle: "CO2 emissions per capita (tonnes), 2000-2024",
+      source: "Source: Global Carbon Project via Our World in Data",
+    },
+    labels: { density: "endpoints", format: ".1f" },
+    legend: { position: "top" },
+  }} />
+</Figure>
+
+The UK has been the most successful decoupler among major economies. Its per-capita emissions dropped 53 percent, from 9.6 to 4.5 tonnes, largely by replacing coal-fired power plants with natural gas and wind. Germany cut 38 percent. The US reduced by 34 percent, driven by the coal-to-gas switch and renewable buildout.
+
+But China's per-capita emissions tripled over the same period, from 2.9 to 8.7 tonnes, and now exceed Germany's. India doubled from a very low base. The global average barely budged: 4.1 tonnes in 2000, 4.7 tonnes in 2024. Rich countries are cutting, but developing countries are industrializing faster than those cuts can offset.
+
+## Solar grew 900x, but it's still not enough
+
+The renewable energy story is genuinely impressive. Global solar generation went from 1.4 terawatt-hours in 2001 to 1,323 TWh in 2022, a 945-fold increase. Wind grew 55-fold. Together they now generate more electricity than nuclear power and are closing in on hydropower.
+
+<Figure alt="Line chart showing solar and wind generation growing exponentially from near zero in 2001 to over 3,400 TWh combined by 2022">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    animation: { enter: { duration: 800, ease: "smooth" } },
+    responsive: true,
+    data: [
+      { year: "2001", source: "Solar", twh: 1 },
+      { year: "2004", source: "Solar", twh: 3 },
+      { year: "2007", source: "Solar", twh: 8 },
+      { year: "2010", source: "Solar", twh: 34 },
+      { year: "2013", source: "Solar", twh: 139 },
+      { year: "2016", source: "Solar", twh: 328 },
+      { year: "2019", source: "Solar", twh: 707 },
+      { year: "2022", source: "Solar", twh: 1323 },
+      { year: "2001", source: "Wind", twh: 38 },
+      { year: "2004", source: "Wind", twh: 86 },
+      { year: "2007", source: "Wind", twh: 172 },
+      { year: "2010", source: "Wind", twh: 346 },
+      { year: "2013", source: "Wind", twh: 636 },
+      { year: "2016", source: "Wind", twh: 963 },
+      { year: "2019", source: "Wind", twh: 1422 },
+      { year: "2022", source: "Wind", twh: 2110 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "" } },
+      y: {
+        field: "twh",
+        type: "quantitative",
+        axis: { title: "Terawatt-hours", format: "~s" },
+        scale: { domain: [0, 3600], nice: false },
+      },
+      color: { field: "source", type: "nominal" },
+    },
+    chrome: {
+      title: "Solar and wind generation surged from 39 TWh to 3,433 TWh in two decades",
+      subtitle: "Global electricity generation from solar and wind, terawatt-hours, 2001-2022",
+      source: "Source: Our World in Data / BP Statistical Review",
+    },
+    theme: { colors: ["#d47215", "#1b7fa3"] },
+    labels: { density: "endpoints", format: ",.0f" },
+  }} />
+</Figure>
+
+China is the engine behind both the renewable boom and the emissions rise. It installed more solar panels in 2022 than the rest of the world combined, generating 427 TWh from solar alone. But it also added coal capacity. China's total energy demand is growing so fast that even massive renewable buildout hasn't been enough to displace fossil fuels. It's added renewables AND added coal. Not renewables instead of coal.
+
+The countries where renewables have actually replaced fossil fuels are mostly European. The UK went from getting nearly zero electricity from wind in 2001 to 80.5 TWh in 2022, while simultaneously shutting coal plants. Its emissions fell by more than half. Germany's Energiewende produced a massive renewables buildout but also a premature nuclear shutdown, so natural gas picked up the slack and the emission reductions were less dramatic than they could have been.
+
+## Global emissions hit a record high despite renewable growth
+
+Is the world getting cleaner? In some places, yes. The UK, the US, and Germany have genuinely decoupled economic growth from emissions. Their GDP grew while their CO2 declined. That's a real achievement that was widely considered impossible 20 years ago.
+
+But globally, emissions haven't peaked. The world emitted more CO2 in 2024 than in any previous year. Renewables are growing exponentially, but from a small base, and energy demand is growing too. For every ton of CO2 saved by a solar panel in Germany, multiple tons are added by new coal plants in Asia.
+
+---
+
+The climate scorecard has entries in both columns. The temperature records are unambiguous and converging: +1.2°C and rising. The renewable energy transition is real and accelerating. Solar costs have fallen 99 percent since the 1970s, and deployment is doubling every few years. But the gap between what renewables are delivering and what's needed to actually reduce global emissions remains enormous. The solutions are working. They're just not working fast enough.
+
+<Figure alt="Dual-axis line chart showing global CO2 emissions rising to a record high in 2024 while renewable share of electricity grows, illustrating the gap between renewable progress and emissions reduction">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+    data: [
+      { year: "2001", series: "Global CO2 emissions (Gt)", value: 25.0 },
+      { year: "2004", series: "Global CO2 emissions (Gt)", value: 27.5 },
+      { year: "2007", series: "Global CO2 emissions (Gt)", value: 30.2 },
+      { year: "2010", series: "Global CO2 emissions (Gt)", value: 32.1 },
+      { year: "2013", series: "Global CO2 emissions (Gt)", value: 34.8 },
+      { year: "2016", series: "Global CO2 emissions (Gt)", value: 34.5 },
+      { year: "2019", series: "Global CO2 emissions (Gt)", value: 36.4 },
+      { year: "2022", series: "Global CO2 emissions (Gt)", value: 36.8 },
+      { year: "2024", series: "Global CO2 emissions (Gt)", value: 37.4 },
+      { year: "2001", series: "Solar + wind share of electricity (%)", value: 0.8 },
+      { year: "2004", series: "Solar + wind share of electricity (%)", value: 1.3 },
+      { year: "2007", series: "Solar + wind share of electricity (%)", value: 1.8 },
+      { year: "2010", series: "Solar + wind share of electricity (%)", value: 3.1 },
+      { year: "2013", series: "Solar + wind share of electricity (%)", value: 5.3 },
+      { year: "2016", series: "Solar + wind share of electricity (%)", value: 8.1 },
+      { year: "2019", series: "Solar + wind share of electricity (%)", value: 11.6 },
+      { year: "2022", series: "Solar + wind share of electricity (%)", value: 14.4 },
+      { year: "2024", series: "Solar + wind share of electricity (%)", value: 16.8 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "" } },
+      y: {
+        field: "value",
+        type: "quantitative",
+        axis: { title: "Gt CO2 / % electricity share", format: ".1f" },
+        scale: { domain: [0, 40], nice: false },
+      },
+      color: {
+        field: "series",
+        type: "nominal",
+        scale: {
+          domain: ["Global CO2 emissions (Gt)", "Solar + wind share of electricity (%)"],
+          range: ["#c44e52", "#1b7fa3"],
+        },
+      },
+    },
+    annotations: [
+      { type: "refpoint", x: "2024", y: 37.4, label: "Record high", labelAnchor: "top" },
+    ],
+    chrome: {
+      title: "Renewables are growing fast — but emissions keep rising",
+      subtitle: "Global CO2 emissions (gigatonnes) vs. solar + wind share of global electricity",
+      source: "Source: Global Carbon Project; Our World in Data / BP Statistical Review",
+    },
+    theme: { colors: ["#c44e52", "#1b7fa3"] },
+    labels: { density: "endpoints", format: ".1f" },
+    legend: { position: "top" },
+  }} />
+</Figure>
+
+## Data sources & methodology
+
+**Datasets used:**
+- `nasa/gistemp` — NASA Goddard Institute for Space Studies global temperature anomaly, monthly, 1880-2025. Baseline: 1951-1980 mean, converted to 1850-1900 pre-industrial reference.
+- `metoffice/hadcrut5` — Met Office Hadley Centre/Climatic Research Unit global temperature anomaly, monthly, 1850-2025. Baseline: 1850-1900 mean.
+- `owid/co2-per-capita` — CO2 emissions per capita (production-based), annual, by country. Source: Global Carbon Project.
+- `owid/renewable-energy` — Electricity generation from renewable sources (solar, wind, hydro, other), annual, terawatt-hours. Source: BP Statistical Review / Energy Institute.
+
+**Calculations & transformations:**
+- Temperature anomalies averaged annually from monthly data (5-year intervals for chart readability).
+- NASA GISTEMP baseline shifted from 1951-1980 mean to approximate 1850-1900 pre-industrial reference (added ~0.08°C offset).
+- CO2 per capita percent change computed from 2000 to 2024 values.
+- Renewable energy growth multiples computed from 2001 to 2022 values.
+
+**Limitations:**
+- Temperature records have different spatial coverage methods (NASA interpolates over the Arctic; HadCRUT5 leaves gaps). Minor discrepancies result.
+- CO2 per capita figures are production-based and don't account for emissions embedded in imports/exports. This makes the UK and US look better (they import carbon-intensive goods) and China look worse (it exports them).
+- Renewable energy data measures electricity generation only, not total energy use (which includes heating, transport, and industry).
+- 2024 CO2 data is preliminary and subject to revision.
+
+*Data accessed on 2026-03-24 via the [OpenData API](https://tryopendata.ai).*

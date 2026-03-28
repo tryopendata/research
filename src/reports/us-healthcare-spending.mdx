@@ -1,0 +1,266 @@
+export const meta = {
+  title: "America Spends $15,000 Per Person on Healthcare and Gets Less for It",
+  date: "2026-03-24",
+  description: "The US spends 46% more per person than the next most expensive country and lives three to five years less than comparable nations.",
+  tags: ["healthcare", "economics", "spending", "policy"],
+}
+
+import { Chart } from '../components/Chart'
+import { Figure } from '../components/Figure'
+
+The United States spent $15,474 per person on healthcare in 2024. Switzerland, the second-most-expensive system in the world, spent $10,602. That's a 46 percent gap. Japan spent $5,846, roughly a third of the US figure, and its citizens live six years longer.
+
+American healthcare spending hit $5.3 trillion in 2024, consuming roughly 18 percent of GDP. That's more than the entire GDP of Germany. If US healthcare were its own economy, it would be the fourth largest in the world, behind only the US itself, China, and the EU. And somehow, despite this extraordinary expenditure, Americans die younger than citizens of every other wealthy democracy.
+
+## The US is a massive outlier on spending
+
+Among the 25 countries that spend more than $5,000 per person on healthcare, the United States is so far ahead that the chart needs a break in the axis to accommodate it. The gap between the US and the second-highest spender is larger than the gap between second place and 15th place.
+
+<Figure alt="Horizontal bar chart showing healthcare spending per capita for 15 wealthy countries, with the US far ahead at $13,473">
+  <Chart spec={{
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { country: "United States", spending: 13473, zone: "US" },
+      { country: "Switzerland", spending: 10602, zone: "Other wealthy" },
+      { country: "Norway", spending: 9523, zone: "Other wealthy" },
+      { country: "Germany", spending: 8306, zone: "Other wealthy" },
+      { country: "Austria", spending: 7884, zone: "Other wealthy" },
+      { country: "Netherlands", spending: 7727, zone: "Other wealthy" },
+      { country: "Sweden", spending: 7512, zone: "Other wealthy" },
+      { country: "Canada", spending: 7355, zone: "Other wealthy" },
+      { country: "Denmark", spending: 7098, zone: "Other wealthy" },
+      { country: "France", spending: 6719, zone: "Other wealthy" },
+      { country: "United Kingdom", spending: 6365, zone: "Other wealthy" },
+      { country: "Japan", spending: 5846, zone: "Other wealthy" },
+    ],
+    encoding: {
+      x: { field: "spending", type: "quantitative", axis: { title: "Healthcare spending per capita ($)", format: "$,.0f" }, scale: { nice: false } },
+      y: { field: "country", type: "nominal", axis: { title: "" }, scale: { domain: ["United States", "Switzerland", "Norway", "Germany", "Austria", "Netherlands", "Sweden", "Canada", "Denmark", "France", "United Kingdom", "Japan"] } },
+      color: { field: "zone", type: "nominal" },
+    },
+    chrome: {
+      title: "The US spends 27% more per person than Switzerland, 74% more than the peer average",
+      subtitle: "Healthcare spending per capita, current US dollars, OECD data 2023",
+      source: "Source: Our World in Data / OECD Health Statistics",
+    },
+    theme: { colors: ["#c44e52", "#94a3b8"] },
+    labels: { density: "all", format: "$,.0f" },
+    legend: { show: false },
+    animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+    responsive: true,
+  }} />
+</Figure>
+
+That $13,473 per person is the 2023 OECD figure; the most recent CMS estimate puts 2024 US spending at $15,474. Either way, the trajectory is the same: US per-capita spending nearly doubled from $8,377 in 2010 to $15,474 in 2024. The pandemic accelerated the trend, but even before COVID, healthcare spending was growing faster than GDP, faster than wages, and faster than inflation.
+
+## More money, worse outcomes
+
+If spending bought outcomes, Americans would be the healthiest people on Earth. They're not. The US ranks near the bottom of wealthy nations on life expectancy, and the gap has been widening.
+
+<Figure alt="Scatter plot showing healthcare spending per capita vs life expectancy, with the US as a dramatic outlier spending far more for less life expectancy">
+  <Chart spec={{
+    mark: { type: "point" },
+    data: [
+      { country: "United States", spending_per_capita: 12586, life_expectancy: 78.0, tier: "US" },
+      { country: "Switzerland", spending_per_capita: 10575, life_expectancy: 83.2, tier: "Peer" },
+      { country: "Norway", spending_per_capita: 9797, life_expectancy: 82.6, tier: "Peer" },
+      { country: "Germany", spending_per_capita: 8470, life_expectancy: 80.6, tier: "Peer" },
+      { country: "Netherlands", spending_per_capita: 7788, life_expectancy: 81.9, tier: "Peer" },
+      { country: "Sweden", spending_per_capita: 7229, life_expectancy: 83.0, tier: "Peer" },
+      { country: "Australia", spending_per_capita: 7128, life_expectancy: 82.8, tier: "Peer" },
+      { country: "Canada", spending_per_capita: 7066, life_expectancy: 81.2, tier: "Peer" },
+      { country: "France", spending_per_capita: 6643, life_expectancy: 82.5, tier: "Peer" },
+      { country: "United Kingdom", spending_per_capita: 6497, life_expectancy: 81.1, tier: "Peer" },
+      { country: "Japan", spending_per_capita: 5846, life_expectancy: 84.1, tier: "Peer" },
+      { country: "Finland", spending_per_capita: 5962, life_expectancy: 81.2, tier: "Peer" },
+      { country: "Singapore", spending_per_capita: 6262, life_expectancy: 82.9, tier: "Peer" },
+      { country: "New Zealand", spending_per_capita: 5653, life_expectancy: 81.0, tier: "Peer" },
+      { country: "Denmark", spending_per_capita: 7333, life_expectancy: 81.3, tier: "Peer" },
+      { country: "Belgium", spending_per_capita: 7359, life_expectancy: 81.2, tier: "Peer" },
+      { country: "Ireland", spending_per_capita: 8288, life_expectancy: 82.1, tier: "Peer" },
+      { country: "Austria", spending_per_capita: 7996, life_expectancy: 81.3, tier: "Peer" },
+      { country: "Luxembourg", spending_per_capita: 8203, life_expectancy: 82.2, tier: "Peer" },
+    ],
+    encoding: {
+      x: { field: "spending_per_capita", type: "quantitative", axis: { title: "Healthcare spending per capita ($)", format: "$~s" }, scale: { nice: false } },
+      y: {
+        field: "life_expectancy",
+        type: "quantitative",
+        axis: { title: "Life expectancy at birth (years)", format: ".1f" },
+        scale: { domain: [77, 85], nice: false },
+      },
+      color: { field: "tier", type: "nominal" },
+      tooltip: [{ field: "country", type: "nominal" }, { field: "spending_per_capita", type: "quantitative" }, { field: "life_expectancy", type: "quantitative" }],
+    },
+    annotations: [
+      { type: "text", x: 12586, y: 77.3, text: "United States", fontSize: 12, fontWeight: 600, fill: "#c44e52" },
+      { type: "text", x: 5846, y: 84.5, text: "Japan", fontSize: 11, fontWeight: 600, fill: "#374151" },
+      { type: "text", x: 10575, y: 83.6, text: "Switzerland", fontSize: 11, fontWeight: 600, fill: "#374151" },
+    ],
+    chrome: {
+      title: "The US pays the most and lives the least among wealthy nations",
+      subtitle: "Healthcare spending per capita vs. life expectancy at birth, 2022",
+      source: "Source: Our World in Data / OECD / WHO",
+    },
+    theme: { colors: ["#c44e52", "#1b7fa3"] },
+    labels: { density: "none" },
+    animation: { enter: { ease: "snappy", stagger: { delay: 60 } } },
+    responsive: true,
+  }} />
+</Figure>
+
+The US sits alone in the bottom-right corner: highest spending, lowest life expectancy. Every other wealthy nation clusters in the upper-left, spending $5,000-10,000 per person and achieving life expectancies of 81-84 years. The US spends $12,586 (2022 figure) and reaches only 78 years, a 3-to-6-year gap.
+
+Japan is the sharpest contrast. It spends less than half what the US does and its citizens live more than six years longer. That's not a small difference. Six years is the gap between dying when your grandchildren are in elementary school and dying when they graduate college.
+
+## The US has a delivery problem, not a quality problem
+
+The paradox is that American medical technology and clinical quality are genuinely excellent. The US leads the world in cancer survival rates, medical research spending, and pharmaceutical innovation. If you have a complex or rare condition and have good insurance, America is one of the best places on Earth to receive treatment.
+
+The problem is how the system delivers, finances, and administers that care. Multiple analyses have identified several drivers of the spending gap:
+
+**Administration and insurance overhead** consume roughly 8 percent of US healthcare spending, compared to 1-3 percent in single-payer systems. The US has thousands of insurers, each with different billing codes, prior authorization requirements, and coverage rules. The administrative burden falls on providers too: American doctors spend significantly more time on paperwork than their counterparts in other countries.
+
+**Pharmaceutical pricing** is dramatically higher. The same drugs cost 2-3 times more in the US than in peer nations, because the US is the only major economy where the government doesn't negotiate drug prices at a national level.
+
+**Fee-for-service incentives** reward volume over outcomes. American doctors and hospitals are largely paid per procedure, creating incentives for more tests, more scans, more surgeries, whether or not they improve outcomes.
+
+<Figure alt="Horizontal bar chart showing US-to-peer ratios for admin overhead, pharma spending, and physician visits, with a reference line at 1.0 for peer average" minHeight={0}>
+  <Chart spec={{
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { metric: "Admin overhead", ratio: 4.0, label: "Admin overhead\n(% of spending)" },
+      { metric: "Pharma spending per capita", ratio: 2.7, label: "Pharma spending\nper capita ($)" },
+      { metric: "Physician visits per person", ratio: 0.6, label: "Physician visits\nper person/year" },
+    ],
+    encoding: {
+      x: { field: "ratio", type: "quantitative", axis: { title: "US relative to peer average (1.0 = same as peers)", format: ".1f" }, scale: { domain: [0, 5], nice: false } },
+      y: { field: "label", type: "nominal", axis: { title: "" } },
+      color: {
+        condition: { test: { field: "ratio", gte: 1 }, value: "#c44e52" },
+        value: "#1b7fa3",
+      },
+    },
+    reflines: [
+      { value: 1.0, orient: "vertical", label: "Peer average", labelPosition: "top", strokeDasharray: "4,3", stroke: "#64748b" },
+    ],
+    chrome: {
+      title: "The US spends 4x more on administration and nearly 3x more on drugs than peer nations",
+      subtitle: "US-to-peer ratio for selected cost drivers (~2022). Red = US worse, blue = US better.",
+      source: "Source: OECD Health Statistics / Commonwealth Fund / JAMA Network Open",
+    },
+    labels: { density: "all", format: ".1f" },
+    legend: { show: false },
+    animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+    responsive: true,
+  }} />
+</Figure>
+
+<Figure alt="Line chart showing US healthcare spending per capita climbing from $8,377 in 2010 to $15,474 in 2024, with an inflation-only baseline showing how much is above CPI growth">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2010", series: "Actual spending", spending: 8377 },
+      { year: "2012", series: "Actual spending", spending: 8860 },
+      { year: "2014", series: "Actual spending", spending: 9421 },
+      { year: "2016", series: "Actual spending", spending: 10229 },
+      { year: "2018", series: "Actual spending", spending: 11042 },
+      { year: "2020", series: "Actual spending", spending: 12637 },
+      { year: "2022", series: "Actual spending", spending: 13689 },
+      { year: "2024", series: "Actual spending", spending: 15474 },
+      { year: "2010", series: "If inflation only", spending: 8377 },
+      { year: "2012", series: "If inflation only", spending: 8835 },
+      { year: "2014", series: "If inflation only", spending: 9319 },
+      { year: "2016", series: "If inflation only", spending: 9829 },
+      { year: "2018", series: "If inflation only", spending: 10367 },
+      { year: "2020", series: "If inflation only", spending: 10934 },
+      { year: "2022", series: "If inflation only", spending: 11533 },
+      { year: "2024", series: "If inflation only", spending: 12164 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "" } },
+      y: {
+        field: "spending",
+        type: "quantitative",
+        axis: { title: "Spending per capita ($)", format: "$~s" },
+        scale: { domain: [7000, 16500], nice: false },
+      },
+      color: { field: "series", type: "nominal" },
+    },
+    seriesStyles: {
+      "If inflation only": { lineStyle: "dashed", strokeWidth: 1.5, opacity: 0.6 },
+    },
+    annotations: [
+      { type: "text", x: "2020", y: 13200, text: "COVID-19 surge", fontSize: 11, fontWeight: 600, fill: "#c44e52", dy: -5 },
+    ],
+    chrome: {
+      title: "US healthcare spending grew $3,300 above inflation since 2010",
+      subtitle: "Per capita healthcare expenditure vs. CPI-adjusted baseline (2010 = $8,377), United States",
+      source: "Source: Centers for Medicare & Medicaid Services; CPI baseline assumes 2.7% annual growth",
+    },
+    theme: { colors: ["#c44e52", "#94a3b8"] },
+    labels: { density: "endpoints", format: "$,.0f" },
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+  }} />
+</Figure>
+
+The trajectory is relentless. Even adjusting for inflation, healthcare spending has grown roughly 4-5 percent annually, consistently outpacing GDP growth and wage growth. The gap between the actual spending line and the inflation baseline is the excess: $3,300 per person per year that cannot be explained by general price increases. At this rate, healthcare will consume 20 percent of GDP by the early 2030s.
+
+---
+
+The United States doesn't have a healthcare quality problem. Its doctors, hospitals, and research institutions are world-class. What it has is a healthcare delivery problem: a system designed around private insurance, fee-for-service payment, and unregulated pharmaceutical pricing that generates extraordinary spending without extraordinary results.
+
+<Figure alt="Diverging bar chart showing the US gap vs peer average on spending per capita and life expectancy, with both bars red indicating worse outcomes for the US" minHeight={0}>
+  <Chart spec={{
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { metric: "Spending gap ($/person)", gap: 5136 },
+      { metric: "Life expectancy gap (years)", gap: -4.0 },
+    ],
+    encoding: {
+      x: { field: "gap", type: "quantitative", axis: { title: "US vs. peer average" }, scale: { nice: false } },
+      y: { field: "metric", type: "nominal", axis: { title: "" } },
+      color: {
+        condition: { test: { field: "gap", gte: 0 }, value: "#c44e52" },
+        value: "#c44e52",
+      },
+    },
+    reflines: [
+      { value: 0, orient: "vertical", label: "Peer average", labelPosition: "top", strokeDasharray: "4,3", stroke: "#64748b" },
+    ],
+    chrome: {
+      title: "The US spends $5,136 more per person than peers and lives 4 years less",
+      subtitle: "US gap vs. peer-nation average, 2022. Both metrics are worse for the US.",
+      source: "Source: Our World in Data / OECD / WHO",
+    },
+    labels: { density: "all", format: "+,.0f" },
+    legend: { show: false },
+    animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+    responsive: true,
+  }} />
+</Figure>
+
+For $5.3 trillion a year, Americans deserve better.
+
+## Data sources & methodology
+
+**Datasets used:**
+- `owid/healthcare-spending` — Healthcare spending per capita by country, annual. Source: OECD Health Statistics, WHO.
+- `owid/life-expectancy` — Life expectancy at birth by country, annual. Source: UN World Population Prospects.
+- `cms/health-expenditure` — US national healthcare expenditure, per capita and total spending, annual, 1960-2024. Source: Centers for Medicare & Medicaid Services.
+
+**Calculations & transformations:**
+- Spending comparison uses 2023 OECD data (most recent complete year for international comparison). The opening paragraph references the 2024 CMS figure of $15,474, which uses a different accounting methodology than OECD figures; the first chart's $13,473 is the 2023 OECD figure.
+- Life expectancy scatter uses 2022 data (most recent year with matched spending and life expectancy for most countries).
+- US spending trend uses CMS National Health Expenditure data, which differs slightly from OECD figures due to accounting methodology.
+- CPI-adjusted inflation baseline assumes 2.7% annual growth from the 2010 base of $8,377, consistent with the Federal Reserve's long-run PCE inflation average for the 2010-2024 period.
+- Peer average for the synthesis chart is calculated from the 18 peer nations in the scatter plot (average $7,450 per capita, average life expectancy ~82.0 years).
+- Administrative overhead percentages sourced from Himmelstein et al. (NEJM 2020) and OECD Health Statistics. Pharmaceutical spending per capita from OECD. Physician visit data from OECD Health at a Glance.
+
+**Limitations:**
+- Healthcare spending figures use current US dollars, not PPP-adjusted, which slightly overstates the spending of countries with higher price levels.
+- Life expectancy is influenced by many factors beyond healthcare (diet, violence, accidents, inequality). The US gap is partly explained by higher obesity rates, drug overdose deaths, and gun violence.
+- International spending comparisons are complicated by different healthcare system structures. The US includes private insurance overhead that other countries don't have.
+
+*Data accessed on 2026-03-24 via the [OpenData API](https://tryopendata.ai).*

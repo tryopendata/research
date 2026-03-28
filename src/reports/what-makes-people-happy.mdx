@@ -1,0 +1,318 @@
+export const meta = {
+  title: "Money Buys Happiness, But Only Up to a Point",
+  date: "2026-03-24",
+  description: "GDP per capita strongly predicts national happiness below $30,000, then the relationship weakens. After that, it's equality, trust, and freedom that matter most.",
+  tags: ["happiness", "economics", "inequality", "wellbeing"],
+}
+
+import { Chart } from '../components/Chart'
+import { Figure } from '../components/Figure'
+
+Finland is the happiest country on Earth for the sixth consecutive year, with a score of 7.8 on the World Happiness Report's 10-point scale. The United States, with nearly double Finland's GDP per capita in purchasing power terms, scores 6.9. That gap of nearly a full point might not sound like much, but it represents the difference between "thriving" and "doing okay" on the wellbeing ladder.
+
+If wealth were all that mattered, the richest countries would top every happiness ranking. They don't. Luxembourg has the highest GDP per capita in Europe at $133,000 and ranks 8th. Costa Rica, at $25,000 per capita, outranks Japan, South Korea, and every country in Southern Europe. Something other than money is doing the heavy lifting.
+
+## The $30,000 threshold
+
+The relationship between money and happiness is real, but it has a shape. Below roughly $30,000 GDP per capita (in purchasing power terms), more money buys significantly more happiness. Moving from $2,000 to $10,000 per capita, roughly the difference between Madagascar and Vietnam, corresponds to a jump of nearly 2 points on the happiness scale. But above $30,000, the curve flattens dramatically. The difference between $50,000 and $130,000 per capita predicts almost no additional happiness at the national level.
+
+<Figure alt="Scatter plot showing happiness score vs GDP per capita, with a clear logarithmic curve that flattens around $30,000">
+  <Chart spec={{
+    mark: "point",
+    data: [
+      { country: "Finland", gdp: 57068, happy: 7.80, tier: "High income" },
+      { country: "Denmark", gdp: 69475, happy: 7.59, tier: "High income" },
+      { country: "Iceland", gdp: 65380, happy: 7.53, tier: "High income" },
+      { country: "Netherlands", gdp: 71324, happy: 7.40, tier: "High income" },
+      { country: "Norway", gdp: 91051, happy: 7.32, tier: "High income" },
+      { country: "Switzerland", gdp: 82777, happy: 7.24, tier: "High income" },
+      { country: "Luxembourg", gdp: 132571, happy: 7.23, tier: "High income" },
+      { country: "New Zealand", gdp: 49964, happy: 7.12, tier: "High income" },
+      { country: "Australia", gdp: 60029, happy: 7.10, tier: "High income" },
+      { country: "United States", gdp: 72679, happy: 6.89, tier: "High income" },
+      { country: "Germany", gdp: 63676, happy: 6.89, tier: "High income" },
+      { country: "United Kingdom", gdp: 53139, happy: 6.80, tier: "High income" },
+      { country: "France", gdp: 53674, happy: 6.66, tier: "High income" },
+      { country: "Singapore", gdp: 133572, happy: 6.59, tier: "High income" },
+      { country: "Costa Rica", gdp: 24832, happy: 6.61, tier: "Upper middle" },
+      { country: "Japan", gdp: 44972, happy: 6.13, tier: "High income" },
+      { country: "South Korea", gdp: 53229, happy: 5.95, tier: "High income" },
+      { country: "Italy", gdp: 52333, happy: 6.41, tier: "High income" },
+      { country: "Mexico", gdp: 21392, happy: 6.33, tier: "Upper middle" },
+      { country: "Brazil", gdp: 18554, happy: 6.13, tier: "Upper middle" },
+      { country: "China", gdp: 21499, happy: 5.82, tier: "Upper middle" },
+      { country: "Thailand", gdp: 20763, happy: 5.84, tier: "Upper middle" },
+      { country: "Russia", gdp: 38214, happy: 5.66, tier: "Upper middle" },
+      { country: "Turkey", gdp: 33521, happy: 4.61, tier: "Upper middle" },
+      { country: "Colombia", gdp: 18459, happy: 5.63, tier: "Upper middle" },
+      { country: "South Africa", gdp: 13767, happy: 5.28, tier: "Lower middle" },
+      { country: "India", gdp: 8594, happy: 4.04, tier: "Lower middle" },
+      { country: "Nigeria", gdp: 7752, happy: 4.98, tier: "Lower middle" },
+      { country: "Kenya", gdp: 5492, happy: 4.49, tier: "Lower middle" },
+      { country: "Bangladesh", gdp: 7888, happy: 4.28, tier: "Lower middle" },
+      { country: "Pakistan", gdp: 5526, happy: 4.56, tier: "Lower middle" },
+      { country: "Ethiopia", gdp: 2656, happy: 4.09, tier: "Low income" },
+      { country: "Afghanistan", gdp: 1982, happy: 1.86, tier: "Low income" },
+      { country: "Lebanon", gdp: 11475, happy: 2.39, tier: "Lower middle" },
+      { country: "Hong Kong", gdp: 64037, happy: 5.31, tier: "High income" },
+      { country: "Botswana", gdp: 18647, happy: 3.44, tier: "Upper middle" },
+    ],
+    encoding: {
+      x: {
+        field: "gdp",
+        type: "quantitative",
+        axis: { title: "GDP per capita (PPP, $)", format: "$~s" },
+        scale: { type: "log", nice: false },
+      },
+      y: {
+        field: "happy",
+        type: "quantitative",
+        axis: { title: "Happiness score (0-10)", format: ".1f" },
+        scale: { domain: [1, 8.5], nice: false },
+      },
+      color: { field: "tier", type: "ordinal" },
+      tooltip: [{ field: "country", type: "nominal" }, { field: "gdp", type: "quantitative" }, { field: "happy", type: "quantitative" }],
+    },
+    annotations: [
+      { type: "text", x: 72679, y: 6.5, text: "United\nStates", fontSize: 11, fontWeight: 600, fill: "#374151", dy: 5 },
+      { type: "text", x: 57068, y: 8.1, text: "Finland", fontSize: 11, fontWeight: 600, fill: "#374151" },
+      { type: "text", x: 24832, y: 6.95, text: "Costa Rica", fontSize: 11, fontWeight: 600, fill: "#6a9f58" },
+      { type: "refline", x: 30000, stroke: "#94a3b8", strokeDasharray: "6 4", label: "$30k threshold", labelAnchor: "top" },
+    ],
+    chrome: {
+      title: "Money predicts happiness, but the curve flattens above $30k",
+      subtitle: "Happiness score vs. GDP per capita (purchasing power parity), 2022",
+      source: "Source: World Happiness Report, Our World in Data",
+    },
+    theme: { colors: ["#1b7fa3", "#6a9f58", "#d47215", "#c44e52"] },
+    labels: { density: "none" },
+    animation: { enter: { ease: "snappy", stagger: { delay: 60 } } },
+    responsive: true,
+  }} />
+</Figure>
+
+Economists call this the Easterlin paradox, named after Richard Easterlin who first documented it in 1974. Within a country, richer people are happier than poorer people. But once a country reaches middle-income status, getting richer doesn't seem to make its citizens much happier. Below the $30,000 line, countries cluster steeply upward. Above it, they scatter flat.
+
+The United States is the most striking underperformer. At $73,000 per capita, it's one of the richest nations on the planet. But its happiness score of 6.89 places it 15th globally, behind Czechia and Lithuania. Americans are roughly as happy as Germans, despite earning 15 percent more per person.
+
+## The overperformers and the underperformers
+
+Some countries punch well above their economic weight in happiness. Others, despite extraordinary wealth, produce surprisingly unhappy populations. The gap between expected and actual happiness reveals what money can't buy.
+
+<Figure alt="Horizontal bar chart showing countries that most over- or under-perform their expected happiness given their GDP">
+  <Chart spec={{
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { country: "Costa Rica", gap: 1.4 },
+      { country: "Finland", gap: 1.0 },
+      { country: "Nicaragua", gap: 0.9 },
+      { country: "Mexico", gap: 0.8 },
+      { country: "Denmark", gap: 0.7 },
+      { country: "Uzbekistan", gap: 0.6 },
+      { country: "South Korea", gap: -0.6 },
+      { country: "Hong Kong", gap: -1.0 },
+      { country: "Turkey", gap: -1.2 },
+      { country: "Botswana", gap: -1.8 },
+      { country: "Singapore", gap: -0.8 },
+      { country: "Lebanon", gap: -2.8 },
+    ],
+    encoding: {
+      x: { field: "gap", type: "quantitative", axis: { title: "Happiness gap (actual minus expected from GDP)", format: "+.1f" }, scale: { nice: false } },
+      y: { field: "country", type: "nominal", axis: { title: "" }, scale: { domain: ["Costa Rica", "Finland", "Nicaragua", "Mexico", "Denmark", "Uzbekistan", "South Korea", "Hong Kong", "Turkey", "Botswana", "Singapore", "Lebanon"] } },
+      color: { condition: { test: { field: "gap", gte: 0 }, value: "#6a9f58" }, value: "#c44e52" },
+    },
+    annotations: [
+      { type: "refline", x: 0, stroke: "#6b7280", strokeDasharray: "4 4" },
+    ],
+    chrome: {
+      title: "Latin American nations punch above their weight in happiness",
+      subtitle: "Difference between actual happiness score and predicted score from GDP alone",
+      source: "Source: World Happiness Report, Our World in Data (2022)",
+    },
+    legend: { show: false },
+    labels: { density: "all", format: "+.1f" },
+    animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+    responsive: true,
+  }} />
+</Figure>
+
+Costa Rica stands out. With a GDP per capita of just $25,000, it scores 6.61 on happiness, higher than Japan ($45,000), South Korea ($53,000), and Hong Kong ($64,000). Costa Rica has no army, universal healthcare, strong social networks, and one of the highest life expectancies in the Americas. The World Happiness Report attributes much of its overperformance to social support, freedom to make life choices, and generosity.
+
+Latin America in general punches above its economic weight. Mexico, Nicaragua, Guatemala, El Salvador, and Brazil all score higher than their GDP would predict. The region has something that wealthier nations seem to lack, perhaps stronger family bonds, more time spent socializing, or a cultural orientation toward present enjoyment rather than future accumulation.
+
+The underperformers tell the opposite story. South Korea is rich ($53,000 per capita) but ranks below Brazil and Thailand in happiness. The country has extreme work hours, intense academic pressure, one of the world's highest suicide rates, and the lowest fertility rate on the planet. Hong Kong and Singapore, two of the wealthiest places on Earth, both underperform significantly.
+
+## What the happiest countries have in common
+
+The top 10 happiest countries share a cluster of traits that go beyond GDP: low corruption, strong social safety nets, high interpersonal trust, and low inequality. Six of the top 10 are Nordic countries.
+
+<Figure alt="Horizontal bar chart showing the top 15 happiest countries and their scores">
+  <Chart spec={{
+    mark: "lollipop",
+    data: [
+      { country: "Finland", score: 7.80, region: "Nordic" },
+      { country: "Denmark", score: 7.59, region: "Nordic" },
+      { country: "Iceland", score: 7.53, region: "Nordic" },
+      { country: "Israel", score: 7.47, region: "Other" },
+      { country: "Netherlands", score: 7.40, region: "W. Europe" },
+      { country: "Sweden", score: 7.40, region: "Nordic" },
+      { country: "Norway", score: 7.32, region: "Nordic" },
+      { country: "Switzerland", score: 7.24, region: "W. Europe" },
+      { country: "Luxembourg", score: 7.23, region: "W. Europe" },
+      { country: "New Zealand", score: 7.12, region: "Other" },
+      { country: "Austria", score: 7.10, region: "W. Europe" },
+      { country: "Australia", score: 7.10, region: "Other" },
+      { country: "Canada", score: 6.96, region: "Other" },
+      { country: "Ireland", score: 6.91, region: "W. Europe" },
+      { country: "United States", score: 6.89, region: "Other" },
+    ],
+    encoding: {
+      x: { field: "score", type: "quantitative", axis: { title: "Happiness score", format: ".1f" }, scale: { domain: [6.5, 8.0], nice: false } },
+      y: { field: "country", type: "nominal", axis: { title: "" }, scale: { domain: ["United States", "Ireland", "Canada", "Australia", "Austria", "New Zealand", "Luxembourg", "Switzerland", "Norway", "Sweden", "Netherlands", "Israel", "Iceland", "Denmark", "Finland"] } },
+      color: { field: "region", type: "nominal" },
+    },
+    chrome: {
+      title: "The Nordics dominate the happiness rankings",
+      subtitle: "Top 15 countries by World Happiness Report score, 2022",
+      source: "Source: World Happiness Report via Our World in Data",
+    },
+    theme: { colors: ["#1b7fa3", "#c44e52", "#6a9f58"] },
+    labels: { density: "all", format: ".1f" },
+    animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+    responsive: true,
+  }} />
+</Figure>
+
+The Nordic pattern is consistent and well-documented. These countries combine high GDP with low inequality (Gini coefficients around 0.27-0.30, compared to 0.40 for the US), high trust in institutions, generous parental leave, free healthcare and education, and strong labor protections. The formula isn't mysterious: money provides the floor, but equality, trust, and social support build the ceiling.
+
+The United States, despite outearning every Nordic country except Norway and Luxembourg, ranks 15th. The US has the highest inequality of any country in the top 20, the weakest social safety net among wealthy democracies, and the highest healthcare costs. It's a country where money can buy a great life, but the median experience is less happy than in countries that distribute their wealth more evenly.
+
+## The inequality drag
+
+Countries with high inequality tend to be less happy than their GDP alone would predict. This holds even among wealthy nations. The mechanism isn't hard to understand: inequality erodes trust, creates social comparison anxiety, and means that national wealth is concentrated in ways that don't benefit the median citizen.
+
+<Figure alt="Scatter plot showing happiness vs Gini coefficient for countries with available data, showing lower happiness with higher inequality">
+  <Chart spec={{
+    mark: "point",
+    data: [
+      { country: "Finland", gini: 30, happy: 7.80, tier: "Low inequality" },
+      { country: "Denmark", gini: 30, happy: 7.59, tier: "Low inequality" },
+      { country: "Norway", gini: 27, happy: 7.32, tier: "Low inequality" },
+      { country: "Sweden", gini: 30, happy: 7.40, tier: "Low inequality" },
+      { country: "Czechia", gini: 25, happy: 6.85, tier: "Low inequality" },
+      { country: "Slovakia", gini: 23, happy: 6.47, tier: "Low inequality" },
+      { country: "Slovenia", gini: 24, happy: 6.65, tier: "Low inequality" },
+      { country: "Netherlands", gini: 29, happy: 7.40, tier: "Low inequality" },
+      { country: "Belgium", gini: 27, happy: 6.86, tier: "Low inequality" },
+      { country: "Luxembourg", gini: 32, happy: 7.23, tier: "Moderate inequality" },
+      { country: "Ireland", gini: 30, happy: 6.91, tier: "Low inequality" },
+      { country: "Italy", gini: 33, happy: 6.41, tier: "Moderate inequality" },
+      { country: "Spain", gini: 33, happy: 6.44, tier: "Moderate inequality" },
+      { country: "United States", gini: 40, happy: 6.89, tier: "High inequality" },
+      { country: "Lithuania", gini: 37, happy: 6.76, tier: "Moderate inequality" },
+      { country: "Turkey", gini: 42, happy: 4.61, tier: "High inequality" },
+      { country: "Brazil", gini: 49, happy: 6.13, tier: "High inequality" },
+      { country: "Colombia", gini: 51, happy: 5.63, tier: "High inequality" },
+      { country: "South Africa", gini: 63, happy: 5.28, tier: "High inequality" },
+      { country: "Chile", gini: 44, happy: 6.33, tier: "High inequality" },
+      { country: "Costa Rica", gini: 49, happy: 6.61, tier: "High inequality" },
+      { country: "India", gini: 33, happy: 4.04, tier: "Moderate inequality" },
+      { country: "China", gini: 38, happy: 5.82, tier: "Moderate inequality" },
+      { country: "Mozambique", gini: 50, happy: 4.95, tier: "High inequality" },
+      { country: "Zambia", gini: 51, happy: 3.98, tier: "High inequality" },
+    ],
+    encoding: {
+      x: {
+        field: "gini",
+        type: "quantitative",
+        axis: { title: "Gini coefficient (higher = more unequal)", format: ".0f" },
+        scale: { nice: false },
+      },
+      y: {
+        field: "happy",
+        type: "quantitative",
+        axis: { title: "Happiness score", format: ".1f" },
+        scale: { domain: [3, 8.5], nice: false },
+      },
+      color: { field: "tier", type: "ordinal" },
+      tooltip: [{ field: "country", type: "nominal" }, { field: "gini", type: "quantitative" }, { field: "happy", type: "quantitative" }],
+    },
+    annotations: [
+      { type: "text", x: 40, y: 7.25, text: "United States", fontSize: 11, fontWeight: 600, fill: "#374151", dx: 5 },
+      { type: "text", x: 30, y: 8.15, text: "Finland", fontSize: 11, fontWeight: 600, fill: "#374151" },
+      { type: "text", x: 49, y: 6.95, text: "Costa Rica", fontSize: 11, fontWeight: 600, fill: "#6a9f58" },
+    ],
+    chrome: {
+      title: "More equal countries tend to be happier",
+      subtitle: "Happiness score vs. Gini coefficient (0 = perfect equality, 100 = perfect inequality), 2022",
+      source: "Source: World Happiness Report, World Bank, Our World in Data",
+    },
+    theme: { colors: ["#1b7fa3", "#d47215", "#c44e52"] },
+    labels: { density: "none" },
+    animation: { enter: { ease: "snappy", stagger: { delay: 60 } } },
+    responsive: true,
+  }} />
+</Figure>
+
+The correlation isn't perfect. Costa Rica and Brazil have high Gini coefficients but above-average happiness, pulled up by their Latin American cultural premium. And the US is wealthier enough to partially compensate for its inequality. But the overall pattern is clear: among countries with similar GDP levels, the more equal ones are almost always happier.
+
+---
+
+The data suggests a recipe for national happiness that is both obvious and politically difficult. First, get rich enough that basic needs are covered, somewhere around $25,000-30,000 per capita. Second, distribute that wealth reasonably evenly. Third, build institutions that people trust. Fourth, invest in healthcare, education, and social support so that bad luck doesn't destroy lives.
+
+No rich country has followed this recipe more faithfully than the Nordics, and no major wealthy nation has diverged from it more than the United States. At $73,000 per capita, the US can afford to be as happy as Finland. It chooses not to be. That's not a data finding. It's a policy choice.
+
+<Figure alt="Dot plot showing the happiness deficit or surplus for selected countries relative to what their GDP would predict, with the US underperforming by 0.8 points" minHeight={0}>
+  <Chart spec={{
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { country: "Costa Rica", gap: 1.4, direction: "Over" },
+      { country: "Finland", gap: 1.0, direction: "Over" },
+      { country: "Mexico", gap: 0.8, direction: "Over" },
+      { country: "Denmark", gap: 0.7, direction: "Over" },
+      { country: "Germany", gap: 0.0, direction: "Even" },
+      { country: "United States", gap: -0.8, direction: "Under" },
+      { country: "South Korea", gap: -0.6, direction: "Under" },
+      { country: "Singapore", gap: -0.8, direction: "Under" },
+      { country: "Hong Kong", gap: -1.0, direction: "Under" },
+      { country: "Turkey", gap: -1.2, direction: "Under" },
+    ],
+    encoding: {
+      x: { field: "gap", type: "quantitative", axis: { title: "Happiness gap vs. GDP prediction (actual minus expected)", format: "+.1f" }, scale: { nice: false } },
+      y: { field: "country", type: "nominal", axis: { title: "" }, scale: { domain: ["Turkey", "Hong Kong", "Singapore", "South Korea", "United States", "Germany", "Denmark", "Mexico", "Finland", "Costa Rica"] } },
+      color: { condition: { test: { field: "gap", gte: 0 }, value: "#6a9f58" }, value: "#c44e52" },
+    },
+    annotations: [
+      { type: "refline", x: 0, stroke: "#6b7280", strokeDasharray: "4 4" },
+    ],
+    chrome: {
+      title: "The US underperforms its wealth by 0.8 happiness points",
+      subtitle: "Difference between actual happiness score and score predicted by GDP per capita alone, 2022",
+      source: "Source: World Happiness Report, Our World in Data",
+    },
+    labels: { density: "all", format: "+.1f" },
+    legend: { show: false },
+    animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+    responsive: true,
+  }} />
+</Figure>
+
+## Data sources & methodology
+
+**Datasets used:**
+- `owid/happiness` — World Happiness Report scores by country, 2022. Based on Gallup World Poll life evaluation (Cantril ladder) data.
+- `owid/gdp` — GDP per capita in purchasing power parity (international $), 2022. Source: World Bank, Maddison Project.
+- `owid/gini` — Gini coefficient of income inequality by country. Source: World Bank.
+
+**Calculations & transformations:**
+- Happiness gap (overperformance/underperformance) estimated by comparing actual happiness score to the value predicted by a log-linear fit of happiness on GDP per capita across all 136 countries with data.
+- Income tiers for scatter plot color derived from World Bank income classifications: High income (above $13,845 GNI), Upper middle ($4,516-$13,845), Lower middle ($1,146-$4,515), Low income (under $1,146).
+- Gini coefficients reported on 0-100 scale (World Bank convention). Some countries had 2022 data; others used nearest available year (2019-2021).
+
+**Limitations:**
+- Happiness scores are based on survey responses (Cantril ladder: "imagine a ladder from 0-10, where do you stand?"). Cultural differences in self-reporting may affect cross-country comparisons.
+- GDP per capita in PPP adjusts for price levels but doesn't capture wealth distribution, informal economy, or unpaid labor.
+- Gini coefficient data is missing for many countries (only 25 of 136 happiness-reporting countries had 2022 Gini data).
+- The overperformer/underperformer analysis is descriptive, not causal. Many confounding factors exist.
+
+*Data accessed on 2026-03-24 via the [OpenData API](https://tryopendata.ai).*

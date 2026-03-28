@@ -1,5 +1,6 @@
-import { type ReactNode, useRef } from "react";
+import type { ReactNode } from "react";
 import { ChartErrorBoundary } from "./ChartErrorBoundary";
+import { useInView } from "../hooks/use-in-view";
 
 interface FigureProps {
   /** Path to image or video (relative to /images/posts/) */
@@ -38,7 +39,7 @@ export function Figure({
   minHeight = 400,
   poster,
 }: FigureProps) {
-  const chartContainerRef = useRef<HTMLDivElement>(null);
+  const { ref: inViewRef, isVisible } = useInView({ rootMargin: "400px", threshold: 0, triggerOnce: true });
   const isVideo = src?.endsWith(".mp4") || src?.endsWith(".webm");
   const hasMedia = !placeholder && (src || children);
 
@@ -47,15 +48,24 @@ export function Figure({
       className={`not-prose my-10 ${breakout ? "figure-breakout" : ""}`}
     >
       {children ? (
-        <div
-          ref={chartContainerRef}
-          className="group relative rounded-lg border border-border overflow-hidden"
-          style={{ minHeight }}
-        >
-          <ChartErrorBoundary>
-            {children}
-          </ChartErrorBoundary>
-        </div>
+        isVisible ? (
+          <div
+            className="group relative rounded-lg border border-border overflow-hidden"
+            style={{ minHeight }}
+          >
+            <ChartErrorBoundary>
+              {children}
+            </ChartErrorBoundary>
+          </div>
+        ) : (
+          <div
+            ref={inViewRef}
+            role="img"
+            aria-label={alt}
+            className="rounded-lg border border-border overflow-hidden bg-muted/20"
+            style={{ minHeight }}
+          />
+        )
       ) : placeholder || !src ? (
         <div
           className="flex aspect-video min-h-[200px] items-center justify-center rounded-lg border-2 border-dashed border-border bg-muted/30"

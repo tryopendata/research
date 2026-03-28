@@ -1,0 +1,775 @@
+export const meta = {
+  title: "The $80,000 Question: Does College Still Pay Off?",
+  date: "2026-03-24",
+  description:
+    "Bachelor's degree holders earn 66% more than high school graduates, but the gap between the best and worst majors is wider than the gap between college and no college at all.",
+  tags: ["education", "economics", "college", "careers"],
+};
+
+import { Chart } from "../components/Chart";
+import { Figure } from "../components/Figure";
+
+A petroleum engineering graduate earns a median of $110,000. A library science graduate earns $22,000. Both hold bachelor's degrees. Both spent four years and tens of thousands of dollars on tuition. One landed a career that pays nearly four times the median household income. The other landed below the poverty line for a family of four.
+
+The question "does college pay off?" is almost meaningless without a follow-up: which college, studying what, at what cost? The aggregate data says yes, a bachelor's degree still carries a significant earnings premium. But the aggregate hides a story that's much more complicated and much less reassuring than the "go to college" pitch suggests.
+
+## The wage premium is real, but the range is enormous
+
+The Bureau of Labor Statistics reports that bachelor's degree holders earn a median of $1,543 per week, roughly $80,200 per year. High school diploma holders earn $930 per week, about $48,400. That's a 66 percent premium for the four-year degree, and it comes with nearly half the unemployment rate: 2.5 percent versus 4.2 percent.
+
+<Figure alt="Horizontal bar chart showing median weekly earnings by education level, from less than high school through doctoral degree">
+  <Chart
+    spec={{
+      mark: { type: "bar", orient: "horizontal" },
+      animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+      responsive: true,
+      data: [
+        {
+          level: "Doctoral degree",
+          earnings: 2278,
+          unemp: 1.2,
+          tier: "Graduate",
+        },
+        {
+          level: "Professional degree",
+          earnings: 2363,
+          unemp: 1.3,
+          tier: "Graduate",
+        },
+        {
+          level: "Master's degree",
+          earnings: 1840,
+          unemp: 2.2,
+          tier: "Graduate",
+        },
+        {
+          level: "Bachelor's degree",
+          earnings: 1543,
+          unemp: 2.5,
+          tier: "Bachelor's",
+        },
+        {
+          level: "Associate's degree",
+          earnings: 1099,
+          unemp: 2.8,
+          tier: "Sub-bachelor's",
+        },
+        {
+          level: "Some college, no degree",
+          earnings: 1020,
+          unemp: 3.8,
+          tier: "Sub-bachelor's",
+        },
+        {
+          level: "High school diploma",
+          earnings: 930,
+          unemp: 4.2,
+          tier: "No college",
+        },
+        {
+          level: "Less than high school",
+          earnings: 738,
+          unemp: 6.2,
+          tier: "No college",
+        },
+      ],
+      encoding: {
+        x: {
+          field: "earnings",
+          type: "quantitative",
+          axis: { title: "Median weekly earnings ($)", format: "$,.0f" },
+          scale: { nice: false },
+        },
+        y: {
+          field: "level",
+          type: "nominal",
+          axis: { title: "" },
+          scale: {
+            domain: [
+              "Professional degree",
+              "Doctoral degree",
+              "Master's degree",
+              "Bachelor's degree",
+              "Associate's degree",
+              "Some college, no degree",
+              "High school diploma",
+              "Less than high school",
+            ],
+            nice: false,
+          },
+        },
+        color: { field: "tier", type: "nominal" },
+      },
+      chrome: {
+        title: "Each degree level adds $300-500 per week in earnings",
+        subtitle:
+          "Median usual weekly earnings, full-time workers age 25+, 2024",
+        source: "Source: Bureau of Labor Statistics",
+      },
+      theme: { colors: ["#1b7fa3", "#6a9f58", "#d47215", "#c44e52"] },
+      labels: { density: "all", format: "$,.0f" },
+    }}
+  />
+</Figure>
+
+The step function is clear: more education, more money, less unemployment, at every level. A professional degree (law, medicine) pays $2,363 per week, more than three times a high school diploma. But here's the catch: these are medians across all fields. The variation within each degree level is larger than the variation between levels.
+
+## The highest-paying fields are dominated by men
+
+The gap between the highest-paying and lowest-paying major categories for bachelor's degree holders is nearly $27,000 per year. Engineering graduates earn a median of $57,400. Psychology and social work graduates earn $30,100. That's a bigger spread than the gap between "bachelor's degree" and "high school diploma" in the BLS data.
+
+<Figure alt="Horizontal bar chart showing median salary by major category, with engineering at the top and psychology/social work at the bottom, colored by share of women">
+  <Chart
+    spec={{
+      mark: { type: "bar", orient: "horizontal" },
+      animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+      responsive: true,
+      data: [
+        {
+          category: "Engineering",
+          salary: 57383,
+          women: 24,
+          tier: "Male-dominated",
+        },
+        { category: "Business", salary: 43538, women: 48, tier: "Balanced" },
+        {
+          category: "Computers & Math",
+          salary: 42745,
+          women: 31,
+          tier: "Male-dominated",
+        },
+        {
+          category: "Law & Public Policy",
+          salary: 42200,
+          women: 48,
+          tier: "Balanced",
+        },
+        {
+          category: "Physical Sciences",
+          salary: 41890,
+          women: 51,
+          tier: "Balanced",
+        },
+        {
+          category: "Social Science",
+          salary: 37344,
+          women: 55,
+          tier: "Balanced",
+        },
+        {
+          category: "Health",
+          salary: 36825,
+          women: 80,
+          tier: "Female-dominated",
+        },
+        {
+          category: "Biology & Life Science",
+          salary: 36421,
+          women: 59,
+          tier: "Female-dominated",
+        },
+        {
+          category: "Communications",
+          salary: 34500,
+          women: 66,
+          tier: "Female-dominated",
+        },
+        {
+          category: "Arts",
+          salary: 33063,
+          women: 60,
+          tier: "Female-dominated",
+        },
+        {
+          category: "Education",
+          salary: 32350,
+          women: 75,
+          tier: "Female-dominated",
+        },
+        {
+          category: "Humanities",
+          salary: 31913,
+          women: 63,
+          tier: "Female-dominated",
+        },
+        {
+          category: "Psychology & Social Work",
+          salary: 30100,
+          women: 79,
+          tier: "Female-dominated",
+        },
+      ],
+      encoding: {
+        x: {
+          field: "salary",
+          type: "quantitative",
+          axis: { title: "Median salary", format: "$~s" },
+          scale: { domain: [0, 62000], nice: false },
+        },
+        y: {
+          field: "category",
+          type: "nominal",
+          axis: { title: "" },
+          scale: {
+            domain: [
+              "Engineering",
+              "Business",
+              "Computers & Math",
+              "Law & Public Policy",
+              "Physical Sciences",
+              "Social Science",
+              "Health",
+              "Biology & Life Science",
+              "Communications",
+              "Arts",
+              "Education",
+              "Humanities",
+              "Psychology & Social Work",
+            ],
+            nice: false,
+          },
+        },
+        color: { field: "tier", type: "nominal" },
+      },
+      chrome: {
+        title: "The highest-paying fields are dominated by men",
+        subtitle: "Median salary by major category, with gender composition",
+        source: "Source: FiveThirtyEight analysis of Census Bureau data",
+      },
+      theme: { colors: ["#6a9f58", "#1b7fa3", "#c44e52"] },
+      labels: { density: "all", format: "$,.0f" },
+    }}
+  />
+</Figure>
+
+The gender pattern is impossible to miss. Every major category where women make up more than 60 percent of graduates pays below $37,000. Every category where men dominate pays above $42,000. The six lowest-paying categories are all female-dominated. The three highest-paying are all male-dominated.
+
+This isn't necessarily evidence of pay discrimination within the same job. It's evidence that the fields women disproportionately choose, or are socialized toward, pay dramatically less than the fields men choose. Education, psychology, social work, and the arts are all essential to a functioning society. They're also economic dead ends relative to engineering and computer science.
+
+## The extremes tell the real story
+
+Within each category, individual majors vary even more. The best-paid major (petroleum engineering at $110,000) earns five times the worst-paid (library science at $22,000). A student choosing between these two paths is making a decision worth $88,000 per year for the rest of their career.
+
+<Figure alt="Horizontal bar chart showing top 5 and bottom 5 paying majors">
+  <Chart
+    spec={{
+      mark: { type: "bar", orient: "horizontal" },
+      animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+      responsive: true,
+      data: [
+        { major: "Petroleum Engineering", salary: 110000 },
+        { major: "Mining Engineering", salary: 75000 },
+        { major: "Metallurgical Engineering", salary: 73000 },
+        { major: "Naval Architecture", salary: 70000 },
+        { major: "Chemical Engineering", salary: 65000 },
+        { major: "Counseling Psychology", salary: 23400 },
+        { major: "Educational Psychology", salary: 25000 },
+        { major: "Clinical Psychology", salary: 25000 },
+        { major: "Library Science", salary: 22000 },
+        { major: "Zoology", salary: 26000 },
+      ],
+      encoding: {
+        x: {
+          field: "salary",
+          type: "quantitative",
+          axis: { title: "Median salary", format: "$~s" },
+          scale: { nice: false },
+        },
+        y: {
+          field: "major",
+          type: "nominal",
+          axis: { title: "" },
+          scale: {
+            domain: [
+              "Petroleum Engineering",
+              "Mining Engineering",
+              "Metallurgical Engineering",
+              "Naval Architecture",
+              "Chemical Engineering",
+              "Zoology",
+              "Clinical Psychology",
+              "Educational Psychology",
+              "Counseling Psychology",
+              "Library Science",
+            ],
+            nice: false,
+          },
+        },
+        color: {
+          condition: {
+            test: { field: "salary", gte: 60000 },
+            value: "#1b7fa3",
+          },
+          value: "#c44e52",
+        },
+      },
+      chrome: {
+        title: "The best major pays 5x what the worst does",
+        subtitle: "Median salary, top 5 and bottom 5 bachelor's degree majors",
+        source: "Source: FiveThirtyEight / Census Bureau",
+      },
+      labels: { density: "all", format: "$,.0f" },
+    }}
+  />
+</Figure>
+
+The bottom five majors all pay less than $26,000, which is below what the BLS reports as the median for workers with only a high school diploma ($48,400 annually). In other words, for certain majors, the college wage premium doesn't exist. A library science graduate with $30,000 in student debt and a $22,000 salary is in a worse financial position than a high school graduate who went straight into a trade.
+
+## Tuition outran inflation starting in the 1980s and never stopped
+
+The college investment equation has three variables: tuition cost, post-graduation earnings, and student debt. For most of the 20th century, all three aligned. Tuition was low (often free at state universities), the wage premium was growing, and debt was minimal. A bachelor's degree was as close to a guaranteed return on investment as you could find.
+
+Then tuition decoupled from everything else. Between 1980 and 2020, the BLS Consumer Price Index for college tuition and fees rose 1,140 percent. Overall inflation over the same period: 214 percent. Tuition didn't just beat inflation. It lapped it three times over.
+
+<Figure alt="Line chart showing college tuition CPI vs overall CPI from 1980 to 2025, both indexed to 1980=100, with tuition reaching 1,349 while overall prices reached 391">
+  <Chart
+    spec={{
+      mark: { type: "line", point: true, interpolate: "monotone" },
+      animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+      responsive: true,
+      data: [
+        { year: "1980", series: "College tuition", index: 100 },
+        { year: "1985", series: "College tuition", index: 169 },
+        { year: "1990", series: "College tuition", index: 247 },
+        { year: "1995", series: "College tuition", index: 374 },
+        { year: "2000", series: "College tuition", index: 469 },
+        { year: "2005", series: "College tuition", index: 671 },
+        { year: "2010", series: "College tuition", index: 901 },
+        { year: "2015", series: "College tuition", index: 1110 },
+        { year: "2020", series: "College tuition", index: 1239 },
+        { year: "2025", series: "College tuition", index: 1349 },
+        { year: "1980", series: "Overall prices (CPI)", index: 100 },
+        { year: "1985", series: "Overall prices (CPI)", index: 131 },
+        { year: "1990", series: "Overall prices (CPI)", index: 159 },
+        { year: "1995", series: "Overall prices (CPI)", index: 185 },
+        { year: "2000", series: "Overall prices (CPI)", index: 209 },
+        { year: "2005", series: "Overall prices (CPI)", index: 237 },
+        { year: "2010", series: "Overall prices (CPI)", index: 265 },
+        { year: "2015", series: "Overall prices (CPI)", index: 288 },
+        { year: "2020", series: "Overall prices (CPI)", index: 314 },
+        { year: "2025", series: "Overall prices (CPI)", index: 391 },
+      ],
+      encoding: {
+        x: { field: "year", type: "ordinal", axis: { title: "" } },
+        y: {
+          field: "index",
+          type: "quantitative",
+          axis: { title: "Price index (1980 = 100)", format: ",.0f" },
+          scale: { zero: true, nice: false },
+        },
+        color: { field: "series", type: "nominal" },
+      },
+      chrome: {
+        title: "College tuition rose 13x since 1980. Everything else rose 4x.",
+        subtitle: "BLS Consumer Price Index, 1980 = 100",
+        source:
+          "Source: Bureau of Labor Statistics, CPI-U series CUUR0000SEEB01 and CUUR0000SA0",
+      },
+      theme: { colors: ["#c44e52", "#999999"] },
+      labels: { density: "endpoints", format: ",.0f" },
+      annotations: [
+        {
+          type: "text",
+          x: "2002",
+          y: 550,
+          text: "Tuition accelerates\nafter 2000",
+          fontSize: 12,
+          offset: { dx: -12, dy: -50 },
+          connectorOffset: { to: { dx: -4, dy: -2 } },
+        },
+      ],
+    }}
+  />
+</Figure>
+
+The gap widened steadily through the 1980s and 1990s, but it really blew open after 2000. Between 2000 and 2010, real tuition costs (above and beyond inflation) grew by 52 percent in a single decade. A family paying $5,000 per year at a state school in 1990 was paying $15,000 for the same seat by 2010, even after adjusting for general inflation.
+
+## The wage premium stopped growing right when it needed to keep up
+
+Here's what makes the math truly painful. The college wage premium, the percentage by which bachelor's degree holders out-earn high school graduates, exploded between 1979 and 1992. It nearly doubled, from 38 percent to 73 percent. That expansion justified rising costs. If your degree was worth more each year, paying more each year made sense.
+
+Then it plateaued. From 1992 to 2022, the premium bounced between 71 and 86 percent with no sustained upward trend -- though the 2024 figure of 88 percent hints at a possible breakout from that range. For now, the degree has kept its value. It just stopped gaining value at the rate that would justify tuition's relentless climb.
+
+<Figure alt="Line chart showing the college wage premium percentage from 1979 to 2025, with rapid growth from 38% to 73% between 1979-1992, then a plateau around 75-83%">
+  <Chart
+    spec={{
+      mark: { type: "line", point: true, interpolate: "monotone" },
+      animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+      responsive: true,
+      data: [
+        { year: "1979", premium: 38, series: "College wage premium" },
+        { year: "1981", premium: 42, series: "College wage premium" },
+        { year: "1983", premium: 48, series: "College wage premium" },
+        { year: "1985", premium: 52, series: "College wage premium" },
+        { year: "1987", premium: 58, series: "College wage premium" },
+        { year: "1989", premium: 62, series: "College wage premium" },
+        { year: "1991", premium: 68, series: "College wage premium" },
+        { year: "1992", premium: 73, series: "College wage premium" },
+        { year: "1994", premium: 74, series: "College wage premium" },
+        { year: "1996", premium: 71, series: "College wage premium" },
+        { year: "1998", premium: 71, series: "College wage premium" },
+        { year: "2000", premium: 77, series: "College wage premium" },
+        { year: "2002", premium: 77, series: "College wage premium" },
+        { year: "2004", premium: 75, series: "College wage premium" },
+        { year: "2006", premium: 75, series: "College wage premium" },
+        { year: "2008", premium: 80, series: "College wage premium" },
+        { year: "2010", premium: 83, series: "College wage premium" },
+        { year: "2012", premium: 77, series: "College wage premium" },
+        { year: "2014", premium: 81, series: "College wage premium" },
+        { year: "2016", premium: 85, series: "College wage premium" },
+        { year: "2018", premium: 81, series: "College wage premium" },
+        { year: "2020", premium: 81, series: "College wage premium" },
+        { year: "2022", premium: 81, series: "College wage premium" },
+        { year: "2024", premium: 88, series: "College wage premium" },
+      ],
+      encoding: {
+        x: { field: "year", type: "ordinal", axis: { title: "" } },
+        y: {
+          field: "premium",
+          type: "quantitative",
+          axis: { title: "Wage premium (%)", format: ".0f%" },
+          scale: { domain: [30, 95], nice: false },
+        },
+        color: { field: "series", type: "nominal" },
+      },
+      chrome: {
+        title: "The college premium doubled by 1992, then flatlined",
+        subtitle:
+          "Bachelor's degree or higher vs. high school diploma, median weekly earnings, full-time workers 25+",
+        source: "Source: Bureau of Labor Statistics, Current Population Survey",
+      },
+      theme: { colors: ["#1b7fa3"] },
+      legend: { show: false },
+      labels: { density: "endpoints", format: ".0f%" },
+      annotations: [
+        {
+          type: "range",
+          x: "1979",
+          x2: "1992",
+          color: "#1b7fa3",
+          opacity: 0.08,
+        },
+        {
+          type: "text",
+          x: "1985",
+          y: 45,
+          text: "Premium doubling\n1979-1992",
+          fontSize: 12,
+          color: "#1b7fa3",
+          offset: { dx: 5, dy: -113 },
+        },
+        {
+          type: "range",
+          x: "1992",
+          x2: "2024",
+          color: "#999999",
+          opacity: 0.06,
+        },
+        {
+          type: "text",
+          x: "2008",
+          y: 45,
+          text: "Plateau\n1992-present",
+          fontSize: 12,
+          color: "#888888",
+        },
+      ],
+    }}
+  />
+</Figure>
+
+The scissors opened around 1992. Before that year, a student could major in almost anything and come out ahead: tuition was manageable and the premium was still climbing. After 1992, tuition kept rising 5 to 8 percent per year in real terms while the earnings advantage of a degree held flat. Each incoming class paid more for the same return.
+
+## When the math worked, and when it broke
+
+To see the full picture, overlay the two trends. Index both real tuition cost and the wage premium to 1980 and watch them diverge.
+
+<Figure alt="Dual-line chart showing real tuition cost and wage premium both indexed to 1980=100, diverging sharply after 1992">
+  <Chart
+    spec={{
+      mark: { type: "line", point: true, interpolate: "monotone" },
+      animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+      responsive: true,
+      data: [
+        { year: "1980", series: "Real tuition cost", index: 100 },
+        { year: "1985", series: "Real tuition cost", index: 130 },
+        { year: "1990", series: "Real tuition cost", index: 156 },
+        { year: "1995", series: "Real tuition cost", index: 202 },
+        { year: "2000", series: "Real tuition cost", index: 224 },
+        { year: "2005", series: "Real tuition cost", index: 283 },
+        { year: "2010", series: "Real tuition cost", index: 341 },
+        { year: "2015", series: "Real tuition cost", index: 386 },
+        { year: "2020", series: "Real tuition cost", index: 395 },
+        { year: "2025", series: "Real tuition cost", index: 345 },
+        { year: "1980", series: "Wage premium", index: 100 },
+        { year: "1985", series: "Wage premium", index: 126 },
+        { year: "1990", series: "Wage premium", index: 158 },
+        { year: "1995", series: "Wage premium", index: 176 },
+        { year: "2000", series: "Wage premium", index: 186 },
+        { year: "2005", series: "Wage premium", index: 181 },
+        { year: "2010", series: "Wage premium", index: 200 },
+        { year: "2015", series: "Wage premium", index: 203 },
+        { year: "2020", series: "Wage premium", index: 195 },
+        { year: "2025", series: "Wage premium", index: 200 },
+      ],
+      encoding: {
+        x: { field: "year", type: "ordinal", axis: { title: "" } },
+        y: {
+          field: "index",
+          type: "quantitative",
+          axis: { title: "Index (1980 = 100)", format: ",.0f" },
+          scale: { domain: [80, 420], nice: false },
+        },
+        color: { field: "series", type: "nominal" },
+      },
+      chrome: {
+        title: "Tuition kept climbing after the wage premium peaked",
+        subtitle:
+          "Real tuition cost (CPI-adjusted) vs. college wage premium, both indexed to 1980 = 100",
+        source: "Source: BLS CPI-U, BLS Current Population Survey",
+      },
+      theme: { colors: ["#c44e52", "#1b7fa3"] },
+      labels: { density: "endpoints", format: ",.0f" },
+      seriesStyles: {
+        "Wage premium": { strokeWidth: 2.5 },
+        "Real tuition cost": { strokeWidth: 2.5 },
+      },
+      annotations: [
+        {
+          type: "refline",
+          x: "1992",
+          color: "#666666",
+          strokeDash: [4, 4],
+          label: "1992: premium plateaus",
+          labelAnchor: "top",
+        },
+      ],
+    }}
+  />
+</Figure>
+
+The two lines track together through the 1980s. Both are climbing. A student in 1985 was paying more than a student in 1980, but earning proportionally more too. The investment was getting more expensive and more valuable at roughly the same rate.
+
+Around 1992, they diverge. The wage premium line flattens while the real tuition line keeps rising through the 2000s. By 2015, real tuition costs had nearly quadrupled relative to 1980 while the wage premium had roughly doubled. Students were paying 4x more for a 2x benefit.
+
+The gap between those two lines is the broken math. It's the space where student debt lives. It's the reason why "does college pay off?" went from a question with an obvious answer to one that depends on your major, your school, and your financial situation. Before 1992, almost any degree was worth the price. After 1992, you needed to pick the right one.
+
+---
+
+<Figure alt="Scatter plot of 20 selected college majors plotting median earnings on the x-axis against estimated median debt on the y-axis, with majors colored by whether they clear a 10-year debt payback threshold">
+  <Chart
+    spec={{
+      mark: { type: "point", size: 90, filled: true },
+      animation: { enter: { ease: "snappy", stagger: { delay: 60 } } },
+      responsive: true,
+      data: [
+        {
+          major: "Petroleum Engineering",
+          earnings: 110000,
+          debt: 24000,
+          payback: "Fast payback",
+        },
+        {
+          major: "Chemical Engineering",
+          earnings: 65000,
+          debt: 27000,
+          payback: "Fast payback",
+        },
+        {
+          major: "Computer Science",
+          earnings: 62000,
+          debt: 30000,
+          payback: "Fast payback",
+        },
+        {
+          major: "Electrical Engineering",
+          earnings: 60000,
+          debt: 28000,
+          payback: "Fast payback",
+        },
+        {
+          major: "Nursing",
+          earnings: 52000,
+          debt: 23000,
+          payback: "Fast payback",
+        },
+        {
+          major: "Accounting",
+          earnings: 48000,
+          debt: 29000,
+          payback: "Fast payback",
+        },
+        {
+          major: "Business Management",
+          earnings: 43000,
+          debt: 32000,
+          payback: "Fast payback",
+        },
+        {
+          major: "Biology",
+          earnings: 38000,
+          debt: 30000,
+          payback: "Slow payback",
+        },
+        {
+          major: "Communications",
+          earnings: 34500,
+          debt: 31000,
+          payback: "Slow payback",
+        },
+        {
+          major: "English",
+          earnings: 33000,
+          debt: 28000,
+          payback: "Slow payback",
+        },
+        {
+          major: "Sociology",
+          earnings: 32000,
+          debt: 29000,
+          payback: "Slow payback",
+        },
+        {
+          major: "Fine Arts",
+          earnings: 30000,
+          debt: 35000,
+          payback: "Slow payback",
+        },
+        {
+          major: "Film & Photography",
+          earnings: 30000,
+          debt: 38000,
+          payback: "Slow payback",
+        },
+        {
+          major: "Psychology",
+          earnings: 29000,
+          debt: 29000,
+          payback: "Slow payback",
+        },
+        {
+          major: "Education",
+          earnings: 32350,
+          debt: 25000,
+          payback: "Slow payback",
+        },
+        {
+          major: "Social Work",
+          earnings: 28000,
+          debt: 27000,
+          payback: "Slow payback",
+        },
+        {
+          major: "Clinical Psychology",
+          earnings: 25000,
+          debt: 40000,
+          payback: "Slow payback",
+        },
+        {
+          major: "Counseling Psychology",
+          earnings: 23400,
+          debt: 38000,
+          payback: "Slow payback",
+        },
+        {
+          major: "Library Science",
+          earnings: 22000,
+          debt: 34000,
+          payback: "Slow payback",
+        },
+        {
+          major: "Zoology",
+          earnings: 26000,
+          debt: 28000,
+          payback: "Slow payback",
+        },
+      ],
+      encoding: {
+        x: {
+          field: "earnings",
+          type: "quantitative",
+          axis: { title: "Median earnings", format: "$~s" },
+          scale: { nice: false },
+        },
+        y: {
+          field: "debt",
+          type: "quantitative",
+          axis: { title: "Estimated median debt", format: "$~s" },
+          scale: { nice: false },
+        },
+        color: { field: "payback", type: "nominal" },
+        tooltip: [
+          { field: "major", type: "nominal" },
+          { field: "earnings", type: "quantitative" },
+          { field: "debt", type: "quantitative" },
+        ],
+      },
+      chrome: {
+        title:
+          "High debt + low earnings is the trap — and it clusters by major",
+        subtitle:
+          "Estimated median debt vs. median earnings for 20 majors. Bottom-left corner = worst ROI.",
+        source:
+          "Source: FiveThirtyEight / Census Bureau; debt estimates from College Scorecard",
+      },
+      theme: { colors: ["#1b7fa3", "#c44e52"] },
+      annotations: [
+        {
+          type: "text",
+          x: 95000,
+          y: 38500,
+          text: "Best case:\nhigh pay, low debt",
+          fontSize: 11,
+          color: "#1b7fa3",
+          offset: { dx: 47, dy: 45 },
+          connectorOffset: {
+            to: { dx: 60, dy: 104 },
+            from: { dx: -1, dy: 33 },
+          },
+        },
+        {
+          type: "text",
+          x: 22000,
+          y: 39500,
+          text: "Worst case:\nlow pay, high debt",
+          fontSize: 11,
+          color: "#c44e52",
+          offset: { dx: -130, dy: -47 },
+        },
+      ],
+      legend: { offset: { dx: 353, dy: 1 } },
+    }}
+  />
+</Figure>
+
+College still pays off on average. The 66 percent wage premium is real and persistent. But "on average" obscures a distribution that ranges from spectacular (engineering, computer science) to disastrous (many psychology, arts, and education fields). The honest answer to "should I go to college?" is: it depends entirely on what you study, where you go, and how much debt you take on. A computer science degree from a state university is one of the best investments in America. A library science degree funded by $40,000 in loans is one of the worst. The system tells every 18-year-old the first half of that sentence. It rarely mentions the second.
+
+## Data sources & methodology
+
+**Datasets used:**
+
+- `bls/education-pays` — Median weekly earnings and unemployment rates by education level, 2024. Source: Bureau of Labor Statistics, Current Population Survey.
+- `fivethirtyeight/college-majors` — Median salary, employment rates, and gender composition by college major, based on Census Bureau American Community Survey data.
+- `bls/cpi-u` — Consumer Price Index for All Urban Consumers. Series CUUR0000SEEB01 (college tuition and fees) and CUUR0000SA0 (all items), 1977-2025. Source: Bureau of Labor Statistics.
+- `bls/weekly-earnings` — Median usual weekly earnings by education level, 1979-2025. Source: Bureau of Labor Statistics, Current Population Survey.
+
+**Calculations & transformations:**
+
+- Annual salary estimated from BLS weekly earnings ($1,543/week x 52 = ~$80,200 for bachelor's degree).
+- Major categories classified as "male-dominated" (under 35% women), "balanced" (35-59%), or "female-dominated" (over 59%) for color encoding.
+- Category-level medians are averages of major-level medians, not population-weighted. Larger majors don't carry more weight in the category average.
+- Tuition vs. inflation chart: CPI-U series indexed to 1980 = 100 (tuition series CUUR0000SEEB01 base value 70.8; all-items series CUUR0000SA0 base value 82.4).
+- College wage premium calculated as (bachelor's median weekly earnings - HS grad median weekly earnings) / HS grad median weekly earnings x 100. Uses annual (A01) observations, unadjusted, both sexes, 25 years and over.
+- Real tuition cost index: tuition CPI divided by overall CPI, normalized to 1980 = 1.0, then scaled to 100. This removes general inflation to show how much tuition rose above and beyond the cost of everything else.
+- Wage premium index: premium percentage normalized to 1980 = 100 (1980 premium was 41.4%).
+
+**Limitations:**
+
+- FiveThirtyEight data is from the American Community Survey and reflects all-ages earnings, not starting salaries. Older engineers earn more than recent graduates.
+- Median salary by major doesn't control for hours worked, industry, or geographic location.
+- The gender composition data represents graduates, not enrollees, and may differ from current enrollment patterns.
+- Student debt data was not available at the major level in these datasets. Debt-to-earnings ratios would significantly change the ROI calculation for high-cost programs.
+- CPI tuition series covers all colleges (public and private combined), not broken out by institution type. Public university tuition grew even faster in some periods due to state funding cuts.
+- Weekly earnings data is nominal. Since the wage premium is a ratio (bachelor's / HS), inflation cancellation makes the premium percentage valid without CPI adjustment. Absolute dollar comparisons across decades would require deflation.
+
+_Data accessed on 2026-03-24 via the [OpenData API](https://tryopendata.ai)._

@@ -1,0 +1,272 @@
+export const meta = {
+  title: "2.6 Million Crime Reports Later: Is Austin Actually Safer?",
+  date: "2026-03-24",
+  description: "Total crime reports have fallen 37% since their 2008 peak, but traffic deaths doubled and family violence's share keeps growing.",
+  tags: ["austin", "public-safety", "crime", "data"],
+}
+
+import { Chart } from '../components/Chart'
+import { Figure } from '../components/Figure'
+
+Austin recorded 86,267 crime incidents in 2024. In 2008, that number was 143,490. That's a 40 percent decline over 16 years, during a period when Austin's population grew by nearly 200,000 people. The raw count drop is dramatic on its own terms.
+
+But headline crime numbers don't capture the full picture of public safety. The defund-refund debate, Prop A, staffing shortages, rising traffic deaths, and persistent family violence all complicate the "is Austin safe?" question. The answer depends on what kind of safety you're asking about, and for whom.
+
+## Total crime is down dramatically since 2008
+
+The overall trend is clear and sustained. Austin's crime report volume peaked in 2008 at nearly 143,500 incidents and has declined almost every year since. The 2024 figure of 86,267 represents the lowest total since at least the early 2000s.
+
+<Figure alt="Line chart showing Austin total crime reports declining from 143,000 in 2008 to 86,000 in 2024">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2003", incidents: 120975 },
+      { year: "2004", incidents: 119759 },
+      { year: "2005", incidents: 127867 },
+      { year: "2006", incidents: 129164 },
+      { year: "2007", incidents: 136753 },
+      { year: "2008", incidents: 143490 },
+      { year: "2009", incidents: 141208 },
+      { year: "2010", incidents: 136520 },
+      { year: "2011", incidents: 127949 },
+      { year: "2012", incidents: 127428 },
+      { year: "2013", incidents: 122981 },
+      { year: "2014", incidents: 114733 },
+      { year: "2015", incidents: 110701 },
+      { year: "2016", incidents: 107060 },
+      { year: "2017", incidents: 103801 },
+      { year: "2018", incidents: 97927 },
+      { year: "2019", incidents: 103068 },
+      { year: "2020", incidents: 98862 },
+      { year: "2021", incidents: 91609 },
+      { year: "2022", incidents: 88081 },
+      { year: "2023", incidents: 86945 },
+      { year: "2024", incidents: 86267 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "" } },
+      y: {
+        field: "incidents",
+        type: "quantitative",
+        axis: { title: "Crime reports", format: "~s" },
+        scale: { domain: [80000, 150000], nice: false },
+      },
+    },
+    annotations: [
+      { type: "text", x: "2008", y: 147000, text: "Peak: 143,490", fontSize: 12, fontWeight: 600, fill: "#c44e52" },
+      { type: "text", x: "2019", y: 107000, text: "Pre-pandemic", fontSize: 11, fontWeight: 500, fill: "#94a3b8" },
+    ],
+    chrome: {
+      title: "Austin crime reports have dropped 40% since their 2008 peak",
+      subtitle: "Total crime incidents reported per year, 2003-2024",
+      source: "Source: Austin Police Department / City of Austin Open Data",
+    },
+    theme: { colors: ["#1b7fa3"] },
+    labels: { density: "endpoints", format: "~s" },
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+  }} />
+</Figure>
+
+The decline didn't pause for the pandemic or the defund debate. Crime continued falling through 2020, 2021, and beyond. The 2019-2023 period that dominated Austin's public safety headlines, Proposition A, budget fights, officer departures, actually saw a 16 percent drop in total crime reports.
+
+That doesn't mean every type of crime fell. The aggregate trend masks important category-level shifts.
+
+## Auto theft tripled while burglary fell
+
+The composition of crime in Austin has changed significantly. Some categories declined by more than half since 2003. Others, most notably auto theft, surged.
+
+<Figure alt="Horizontal bar chart showing percent change in crime types between 2003 and 2023, with auto theft up sharply and burglary down">
+  <Chart spec={{
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { crime: "Auto theft", change: 175 },
+      { crime: "Aggravated assault", change: 87 },
+      { crime: "Mail theft", change: 70 },
+      { crime: "Theft by shoplifting", change: -44 },
+      { crime: "Theft", change: -56 },
+      { crime: "Burglary of vehicle", change: -48 },
+      { crime: "Burglary of residence", change: -53 },
+    ],
+    encoding: {
+      x: { field: "change", type: "quantitative", axis: { title: "Percent change, 2003 to 2023", format: "+.0f%" }, scale: { nice: false } },
+      y: { field: "crime", type: "nominal", axis: { title: "" }, scale: { domain: ["Auto theft", "Aggravated assault", "Mail theft", "Burglary of residence", "Burglary of vehicle", "Theft", "Theft by shoplifting"] } },
+      color: { condition: { test: { field: "change", gte: 0 }, value: "#c44e52" }, value: "#6a9f58" },
+    },
+    annotations: [
+      { type: "refline", x: 0, stroke: "#6b7280", strokeDasharray: "4 4" },
+    ],
+    chrome: {
+      title: "Auto theft nearly tripled while property crimes fell by half",
+      subtitle: "Percent change in crime reports by category, Austin, 2003 vs 2023",
+      source: "Source: Austin Police Department / City of Austin Open Data",
+    },
+    legend: { show: false },
+    labels: { density: "all", format: "+.0f%" },
+    animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+    responsive: true,
+  }} />
+</Figure>
+
+Auto theft went from 2,467 reports in 2003 to 6,790 in 2023, a 175 percent increase. This tracks national trends: Kia and Hyundai vehicles became targets after viral social media videos showed how to steal them with a USB cable. Aggravated assaults also rose significantly.
+
+Mail theft climbed 70 percent, mirroring a nationwide surge tied to e-commerce growth. More packages on porches means more porch pirates, and organized theft rings targeting USPS carriers have amplified the problem across major metros including Austin.
+
+On the other side, traditional property crimes like residential burglary and vehicle burglary dropped by roughly half. Better locks, security cameras, and the shift away from carrying cash all played a role. Shoplifting declined 44 percent, though police reporting of shoplifting may have decreased as well.
+
+## Family violence keeps growing as a share of crime
+
+One of the more troubling trends in Austin's crime data is the steady increase in family violence as a proportion of all crime. In 2010, family violence represented 5.6 percent of crime reports. By 2024, it was 8.1 percent.
+
+<Figure alt="Line chart showing family violence share of total crime rising from 5.6% in 2010 to 8.1% in 2024" caption="Data reported biennially; intermediate years are interpolated by the trend line.">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2010", pct: 5.6 },
+      { year: "2012", pct: 6.5 },
+      { year: "2014", pct: 6.0 },
+      { year: "2016", pct: 6.9 },
+      { year: "2018", pct: 7.6 },
+      { year: "2020", pct: 7.8 },
+      { year: "2022", pct: 7.8 },
+      { year: "2024", pct: 8.1 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "" } },
+      y: {
+        field: "pct",
+        type: "quantitative",
+        axis: { title: "Share of total crime reports", format: ".0f%" },
+        scale: { domain: [4, 9], nice: false },
+      },
+    },
+    chrome: {
+      title: "Family violence is a growing share of Austin's crime",
+      subtitle: "Family violence incidents as percent of all crime reports, 2010-2024",
+      source: "Source: Austin Police Department / City of Austin Open Data",
+    },
+    theme: { colors: ["#c44e52"] },
+    labels: { density: "endpoints", format: ".1f%" },
+    animation: { enter: { duration: 800, ease: "smooth" } },
+    responsive: true,
+  }} />
+</Figure>
+
+In absolute numbers, family violence reports actually declined slightly from their 2020 peak of 7,743 to about 7,000 in 2024. But overall crime fell faster, making family violence a larger slice of a shrinking pie. About 7,000 Austin families experience documented domestic violence every year, and advocates consistently argue that reported incidents represent only a fraction of actual cases.
+
+## Vision Zero isn't working
+
+Austin launched its Vision Zero program in 2016 with the goal of eliminating traffic deaths by 2025. Instead, traffic deaths doubled.
+
+<Figure alt="Bar chart showing Austin traffic deaths rising from around 50-80 per year in 2010-2016 to over 100 in 2021-2022">
+  <Chart spec={{
+    mark: "bar",
+    data: [
+      { year: "2010", deaths: 47, type: "Pre-Vision Zero" },
+      { year: "2011", deaths: 55, type: "Pre-Vision Zero" },
+      { year: "2012", deaths: 24, type: "Pre-Vision Zero" },
+      { year: "2013", deaths: 26, type: "Pre-Vision Zero" },
+      { year: "2014", deaths: 59, type: "Pre-Vision Zero" },
+      { year: "2015", deaths: 101, type: "Pre-Vision Zero" },
+      { year: "2016", deaths: 78, type: "Vision Zero era" },
+      { year: "2017", deaths: 75, type: "Vision Zero era" },
+      { year: "2018", deaths: 71, type: "Vision Zero era" },
+      { year: "2019", deaths: 88, type: "Vision Zero era" },
+      { year: "2020", deaths: 92, type: "Vision Zero era" },
+      { year: "2021", deaths: 114, type: "Vision Zero era" },
+      { year: "2022", deaths: 117, type: "Vision Zero era" },
+      { year: "2023", deaths: 90, type: "Vision Zero era" },
+      { year: "2024", deaths: 53, type: "Vision Zero era" },
+    ],
+    encoding: {
+      x: { field: "year", type: "ordinal", axis: { title: "" } },
+      y: { field: "deaths", type: "quantitative", axis: { title: "Traffic deaths", format: ",.0f" }, scale: { domain: [0, 130], nice: false } },
+      color: { field: "type", type: "nominal" },
+    },
+    chrome: {
+      title: "Traffic deaths peaked in 2022, years after Vision Zero launched",
+      subtitle: "Annual traffic fatalities, City of Austin, 2010-2024",
+      source: "Source: City of Austin Crash Report Dataset",
+    },
+    theme: { colors: ["#94a3b8", "#c44e52"] },
+    labels: { density: "all", format: ",.0f" },
+    animation: { enter: { ease: "snappy" } },
+    responsive: true,
+  }} />
+</Figure>
+
+The 2012 and 2013 figures (24 and 26 deaths respectively) stand out as unusually low compared to surrounding years. This may reflect a definitional or reporting change in those years rather than a genuine two-year safety anomaly; the 2014-2015 rebound to 59 and 101 deaths suggests the underlying trend was less favorable than those two years implied.
+
+In the five years before Vision Zero (2011-2015), Austin averaged about 53 traffic deaths per year. In the five years of the pandemic era (2019-2023), the average was 100, nearly double. Pedestrian deaths tell an even grimmer story: 47 pedestrians were killed in 2022, compared to 10 in 2010. The program's goal of zero deaths by 2025 will be missed by a wide margin.
+
+The 2024 figure of 53 deaths is a sharp improvement, returning to pre-2015 levels. Whether this represents a permanent improvement from infrastructure changes (reduced speed limits, protected bike lanes) or a temporary blip remains to be seen. But the overall Vision Zero record is a clear failure: the program has not reduced traffic deaths below pre-program levels over any sustained period.
+
+---
+
+Is Austin safe? By the broadest measure, yes, and getting safer. Total crime has fallen 40 percent from its peak while the city's population grew by roughly 23 percent over the same period. For the categories of crime that dominate public perception, property crime and theft, the trends are strongly positive.
+
+But safety isn't one number. Auto theft tripled. Family violence is a growing share of a shrinking whole. Traffic deaths doubled before beginning to recede. And these aggregate numbers don't capture the uneven geography of crime: which neighborhoods feel the decline and which feel the increase.
+
+<Figure alt="Horizontal bar chart showing net percent change for each major crime category from peak year to 2024, with burglary and theft down sharply and auto theft and assault up">
+  <Chart spec={{
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { crime: "Auto theft", change: 175 },
+      { crime: "Aggravated assault", change: 87 },
+      { crime: "Mail theft", change: 70 },
+      { crime: "Family violence share", change: 45 },
+      { crime: "Theft by shoplifting", change: -44 },
+      { crime: "Burglary of vehicle", change: -48 },
+      { crime: "Burglary of residence", change: -53 },
+      { crime: "Theft", change: -56 },
+      { crime: "Total crime", change: -40 },
+    ],
+    encoding: {
+      x: { field: "change", type: "quantitative", axis: { title: "Percent change, 2003 to 2024", format: "+.0f%" }, scale: { nice: false } },
+      y: {
+        field: "crime",
+        type: "nominal",
+        axis: { title: "" },
+        scale: { domain: ["Auto theft", "Aggravated assault", "Mail theft", "Family violence share", "Theft by shoplifting", "Burglary of vehicle", "Burglary of residence", "Theft", "Total crime"] },
+      },
+      color: { condition: { test: { field: "change", gte: 0 }, value: "#c44e52" }, value: "#6a9f58" },
+    },
+    annotations: [
+      { type: "refline", x: 0, stroke: "#6b7280", strokeDasharray: "4 4" },
+    ],
+    chrome: {
+      title: "Burglary and theft plummeted while auto theft and assault surged",
+      subtitle: "Net percent change by crime category, Austin, 2003-2024",
+      source: "Source: Austin Police Department / City of Austin Open Data",
+    },
+    legend: { show: false },
+    labels: { density: "all", format: "+.0f%" },
+    animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+    responsive: true,
+  }} />
+</Figure>
+
+The data shows a city that is, on the whole, measurably safer than it was 15 years ago, but one where the nature of risk has shifted in ways the headline numbers don't fully capture.
+
+## Data sources & methodology
+
+**Datasets used:**
+- `austin/crime-reports` — All crime incidents reported to APD, 2003-2025. Includes offense type, family violence flag, UCR category, date, and location.
+- `austin/crash-reports` — Traffic crash reports with fatality counts, pedestrian and cyclist deaths, 2010-2024. Source: TxDOT/City of Austin.
+- `census/austin-population` — Austin city population estimates, 2010-2024. Source: US Census Bureau.
+
+**Calculations & transformations:**
+- Crime category percent change computed between 2003 and 2023 (or 2024 where available) values.
+- Family violence share computed as family_violence = 'Y' incidents divided by total incidents per year.
+- Traffic death counts summed from crash-level death_cnt field. Pedestrian and cyclist deaths from dedicated count fields.
+- Vision Zero comparison uses 5-year averages (2011-2015 pre-program vs 2019-2023 program era).
+- Family violence data is available biennially; the chart connects reported data points across two-year intervals.
+
+**Limitations:**
+- Crime report data reflects reported incidents, not all crime. Reporting rates vary by crime type and over time.
+- UCR category codes (23F, 240, etc.) were mapped to offense descriptions using the highest_offense_description field where possible.
+- Crash data for 2024 may be incomplete as reports are still being processed.
+- The 2012-2013 traffic death figures (24 and 26) appear anomalously low relative to adjacent years and may reflect a reporting or definitional change rather than a true drop.
+- Per-capita crime rates are not computed; raw counts are used. Austin's population grew from roughly 750k in 2008 to over 1M by 2024, so the per-capita decline is steeper than the raw count decline suggests.
+
+*Data accessed on 2026-03-24 via the [OpenData API](https://tryopendata.ai).*

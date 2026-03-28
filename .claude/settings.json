@@ -7,6 +7,6 @@
   },
   "enabledPlugins": {
     "ce@claude-essentials": true,
-    "openchart@openchart": true
+    "openchart@opendata-skills": true
   }
 }

@@ -11,10 +11,13 @@ This repo generates data-driven research reports. You query datasets via the Ope
 Always load these skills at the start of every session:
 
 **Plugins (install via Claude Code):**
+
 - `openchart` - chart/table/graph spec authoring and rendering
 - `opendata-api` - querying the OpenData REST API
+- `visualize-data` - Helper for how to _design_ high quality visualizations with OpenChart
 
 **Local skills (ship with this repo in `.claude/skills/`):**
+
 - `data-journalist` - NYT/WSJ-style data journalism writing craft
 - `data-science` - statistical rigor, experiment design, data quality methodology
 - `playwright-cli` - browser automation for visual QA and screenshots
@@ -62,19 +65,68 @@ curl -s -H "Authorization: Bearer $OPENDATA_API_KEY" \
   "https://api.tryopendata.ai/v1/datasets/{provider}/{dataset}?filter%5Byear%5D%5Bgte%5D=2020&sort=-year&limit=100"
 ```
 
+**Use SQL to explore and refine large or verbose datasets.** Many datasets have millions of rows, opaque column codes, or wide schemas where only a few columns matter. Instead of paginating through REST results, use the SQL endpoint to quickly validate data, check value distributions, and extract exactly what you need:
+
+```bash
+# Check distinct values in a column (what categories exist?)
+curl -X POST "https://api.tryopendata.ai/v1/datasets/bls/cpi-u/query" \
+  -H "Authorization: Bearer $OPENDATA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"sql": "SELECT DISTINCT category, COUNT(*) as n FROM data GROUP BY category ORDER BY n DESC LIMIT 20"}'
+
+# Check date range and coverage
+curl -X POST "https://api.tryopendata.ai/v1/datasets/cdc/leading-causes-of-death/query" \
+  -H "Authorization: Bearer $OPENDATA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"sql": "SELECT MIN(year) as earliest, MAX(year) as latest, COUNT(DISTINCT state) as states, COUNT(DISTINCT cause_name) as causes FROM data"}'
+
+# Sample rows matching a specific condition
+curl -X POST "https://api.tryopendata.ai/v1/datasets/austin/dispatch-incidents/query" \
+  -H "Authorization: Bearer $OPENDATA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"sql": "SELECT * FROM data WHERE mental_health_flag = true LIMIT 5"}'
+```
+
 **Before committing to a dataset**, verify:
 
 - Column descriptions exist and indicate units (especially for price/index data)
 - You understand what the values represent (dollars vs cents vs index points)
 - If columns lack descriptions or use opaque codes (e.g., BLS series IDs), check for views that provide human-readable labels
-- Sample a few rows to confirm the data makes sense before building analysis around it
+- Use SQL to sample rows, check value distributions, and confirm the data makes sense before building analysis around it
 
 ### 4. Process and aggregate data
 
-- Use the API's `aggregate` and `group_by` params to reduce data server-side
-- For complex queries, use `POST .../query` with raw SQL (table is `data`, SELECT only, 10k row max)
+**Choose the right query method:**
+
+| Use case | Method | Why |
+|----------|--------|-----|
+| Simple filters, sorts, single aggregations | REST params (`filter`, `aggregate`, `group_by`) | Fastest, most reliable, good for straightforward queries |
+| Multiple aggregates, CASE/WHEN logic, window functions, CTEs, percent-change calculations | `POST /v1/datasets/{provider}/{dataset}/query` with SQL | One call instead of multiple REST requests. Table is `data`. |
+| Joining data across 2-5 datasets server-side | `POST /v1/query` with cross-dataset SQL | Avoids fetching each dataset separately and merging locally. Use `provider.dataset` or `"provider/dataset"` as table names. |
+
+**SQL endpoint basics:**
+```bash
+# Single dataset: complex aggregation
+curl -X POST "https://api.tryopendata.ai/v1/datasets/fred/cpi/query" \
+  -H "Authorization: Bearer $OPENDATA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"sql": "SELECT EXTRACT(YEAR FROM date) as year, AVG(value) as avg_cpi FROM data GROUP BY year ORDER BY year"}'
+
+# Cross-dataset join: compare two datasets server-side
+curl -X POST "https://api.tryopendata.ai/v1/query" \
+  -H "Authorization: Bearer $OPENDATA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"sql": "SELECT g.country, g.year, g.gdp_per_capita, h.happiness_score FROM owid.gdp g JOIN owid.happiness h ON g.country_code = h.country_code AND g.year = h.year WHERE g.year = 2022"}'
+```
+
+Cross-dataset SQL supports up to 5 datasets per query, 150MB combined parquet size, 10s max timeout, 10k row limit. Use quoted slash notation for dataset names with hyphens: `"fred/unemployment-rate"`. See the `opendata-api` skill's `references/sql-query.md` for full syntax, allowed functions, and error codes.
+
+**Prefer SQL over local merging** when the join is straightforward (shared keys like country_code + year). Use local merging (Pattern 2 below) only when you need to transform data between fetch and join, or when the SQL endpoint fails.
+
+**General rules:**
 - Round numbers for readability (GDP of 28708.161 becomes 28708)
 - Keep inline chart data under 100 rows. Over 500 rows is an anti-pattern that bloats the MDX file
+- If the SQL endpoint returns a 5xx, fall back to REST aggregation params for the same analysis
 
 ### 5. Write the report MDX file
 
@@ -123,9 +175,13 @@ Chart specs follow the `openchart` skill's guidance. Load `color-strategy.md`, `
 
 **Project-specific notes:**
 
+- **Use the local Chart wrapper.** Import `Chart` from `'../components/Chart'`, NOT from `'@opendata-ai/openchart-react'`. The local wrapper (`src/components/Chart.tsx`) adds `onEdit` by default so all charts render in edit mode (draggable annotations, legend, chrome). Edits are logged to the console.
 - **Source citations:** Use `chrome.source` in the Chart spec. Do NOT duplicate in `<Figure caption="">`. OpenChart renders source attribution inside the chart chrome, so a Figure caption repeating the same source is redundant. Only use Figure `caption` for additional context not already in the chart (e.g., methodology notes).
 - **Figure default minHeight is 400px.** Pass `minHeight={0}` for DataTables or short charts: `<Figure alt="..." minHeight={0}>`.
-- **Temporal x-axis padding:** D3's `.nice()` adds empty space on temporal scales. Fix: `scale: { nice: false }` on the x encoding. Apply to ALL temporal charts.
+- **Always set `scale: { nice: false }` on all axes by default.** D3's `.nice()` rounds scale domains outward to "clean" tick values, which creates empty padding (e.g., data ending at $130k gets an axis extending to $1M on log scales, or a temporal axis adding years of dead space). Set `nice: false` on every encoding's scale unless you have a specific reason to want rounded domain boundaries. This applies to temporal, quantitative, and log scales alike.
+- **Use multi-field tooltip arrays on scatter plots.** `tooltip: [{ field: "country", type: "nominal" }, { field: "gdp", type: "quantitative" }]` shows both entity name and values on hover. Always include the identifying field first.
+- **Use `mark: "lollipop"` for narrow-range categorical data.** When values don't include zero (happiness 6.0-7.8, temp anomalies 0.8-1.2), lollipop marks avoid the zero-baseline problem that makes bar differences invisible. Accepts nominal/ordinal on y, quantitative on x.
+- **Lock color-to-series mapping explicitly.** Don't rely on `theme.colors` array ordering (fragile). Use `color: { field: "country", type: "nominal", scale: { domain: [...], range: [...] } }` to guarantee colors survive data reordering.
 
 ## Data Processing
 
@@ -137,7 +193,9 @@ Query the API with filters/aggregation and embed results directly in the chart s
 
 ### Pattern 2: Cross-dataset analysis
 
-Query each dataset separately and merge locally:
+**Preferred: use the cross-dataset SQL endpoint** to join server-side (see step 4 above for syntax). This avoids fetching each dataset separately.
+
+**Fallback: fetch and merge locally** when you need to transform data between fetch and join, or when the SQL endpoint fails:
 
 ```bash
 curl -s -H "Authorization: Bearer $OPENDATA_API_KEY" \
@@ -198,7 +256,7 @@ Import directly in MDX. Dark mode is handled automatically. No per-chart config 
 
 | Component                          | Import                         | Purpose                                   |
 | ---------------------------------- | ------------------------------ | ----------------------------------------- |
-| `<Chart spec={...} />`             | `@opendata-ai/openchart-react` | Any chart type (line, bar, scatter, etc.) |
+| `<Chart spec={...} />`             | `../components/Chart`          | Any chart type (line, bar, scatter, etc.) with edit mode enabled |
 | `<DataTable spec={...} />`         | `@opendata-ai/openchart-react` | Data tables with sort/search/pagination   |
 | `<Graph spec={...} />`             | `@opendata-ai/openchart-react` | Force-directed network graphs             |
 | `<Figure caption="..." alt="...">` | `../components/Figure`         | Wraps charts/images with border + caption |
@@ -207,6 +265,6 @@ Import directly in MDX. Dark mode is handled automatically. No per-chart config 
 **Standard imports for every report:**
 
 ```mdx
-import { Chart } from "@opendata-ai/openchart-react";
+import { Chart } from "../components/Chart";
 import { Figure } from "../components/Figure";
 ```
