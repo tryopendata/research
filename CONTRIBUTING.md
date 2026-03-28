@@ -34,28 +34,7 @@ Open [http://localhost:5173](http://localhost:5173) to see the report index.
 
 ## Claude Code setup
 
-The repo ships with local skills in `.claude/skills/` that load automatically. You also need external plugins from two marketplaces. Add the marketplaces first, then install:
-
-```bash
-# Add the marketplaces
-/plugin marketplace add tryopendata/skills
-/plugin marketplace add https://github.com/rileyhilliard/claude-essentials
-
-# Install plugins
-/plugin install opendata
-/plugin install openchart
-/plugin install ce
-```
-
-| Plugin | What it does |
-|--------|-------------|
-| `opendata` | OpenData REST API querying and dataset discovery |
-| `openchart` | Chart, table, and graph spec authoring (includes `visualize-data` for design guidance) |
-| `ce` | Claude Essentials (writing, architecture, debugging, and other general-purpose skills) |
-
-After installation, verify they appear in `.claude/settings.json` under `enabledPlugins`. See `.claude/CLAUDE.md` for the full list of required skills and references to load.
-
-The local skills (data-journalist, data-science, playwright-cli) ship with the repo and don't need separate installation.
+If you're generating reports with Claude Code, follow the plugin installation steps in the README's ["Install the required plugins"](README.md#1-install-the-required-plugins) section. The repo also ships local skills in `.claude/skills/` (data-journalist, data-science, playwright-cli) that load automatically.
 
 ## Writing a report
 
