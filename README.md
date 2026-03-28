@@ -11,18 +11,18 @@ The real power move: point [Claude Code](https://docs.anthropic.com/en/docs/clau
 ### Prerequisites
 
 - [Bun](https://bun.sh) (runtime and package manager)
-- An [OpenData API key](https://tryopendata.ai) (free)
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) (for AI-generated reports)
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) (only needed for AI-generated reports)
+- An [OpenData API key](https://tryopendata.ai) (free, only needed for generating new reports)
 
 ### Setup
 
 ```bash
-git clone https://github.com/tryopendata/opendata-research.git
-cd opendata-research
+git clone https://github.com/tryopendata/research.git
+cd research
 bun install
 ```
 
-Set your API key in the shell. Claude Code uses this for API calls (it's not loaded by Vite or a `.env` file):
+If you want to generate new reports with Claude Code, set your API key in the shell. This is only needed for querying the OpenData API, not for viewing existing reports:
 
 ```bash
 export OPENDATA_API_KEY=your_key_here
@@ -86,7 +86,7 @@ export const meta = {
   tags: ["economics", "health"],
 }
 
-import { Chart } from '@opendata-ai/openchart-react'
+import { Chart } from '../components/Chart'
 import { Figure } from '../components/Figure'
 
 Your report content goes here. Write in MDX (markdown + JSX).
@@ -112,9 +112,9 @@ See `src/reports/_template.mdx` for a complete template with narrative structure
 
 ### Available components
 
-| Component | Package | Purpose |
-|-----------|---------|---------|
-| `<Chart spec={...} />` | `@opendata-ai/openchart-react` | Line, bar, scatter, area, donut charts |
+| Component | Import from | Purpose |
+|-----------|-------------|---------|
+| `<Chart spec={...} />` | `../components/Chart` | Line, bar, scatter, area, donut charts (local wrapper with edit mode) |
 | `<DataTable spec={...} />` | `@opendata-ai/openchart-react` | Sortable, searchable data tables |
 | `<Graph spec={...} />` | `@opendata-ai/openchart-react` | Force-directed network graphs |
 | `<Figure alt="...">` | `../components/Figure` | Wrapper with border, caption, error boundary |
@@ -186,6 +186,10 @@ bun run dev       # Start dev server at http://localhost:5173
 bun run build     # Production build to dist/
 bun run preview   # Preview production build
 ```
+
+## Contributing
+
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for setup instructions, how to write reports, and the PR process.
 
 ## License
 

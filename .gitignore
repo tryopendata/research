@@ -3,10 +3,12 @@ dist/
 bun.lock
 bun.lockb
 *.png
+*.tsbuildinfo
 .playwright-cli/
 demo/
 .env
 .env.*
-!.env.example
+.vscode/
+.idea/
 .claude/settings.local.json
 **/.DS_Store

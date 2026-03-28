@@ -1,6 +1,25 @@
 {
   "name": "opendata-research",
   "private": true,
+  "description": "Data-driven research report generator. Query datasets via the OpenData API and produce visual reports with charts, tables, and narrative prose.",
+  "author": "OpenData (https://tryopendata.ai)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tryopendata/research.git"
+  },
+  "homepage": "https://github.com/tryopendata/research",
+  "bugs": "https://github.com/tryopendata/research/issues",
+  "keywords": [
+    "data-journalism",
+    "reports",
+    "opendata",
+    "openchart",
+    "mdx",
+    "vite",
+    "react",
+    "data-visualization"
+  ],
   "type": "module",
   "scripts": {
     "dev": "vite",
