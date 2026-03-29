@@ -1,6 +1,10 @@
 ---
 name: data-fetcher
 description: Use this agent for mechanical data fetching tasks where the endpoint, filters, and expected output are already known. Fetches data from known OpenData API endpoints, parses large responses to extract key stats, and performs simple column inspection and row sampling. Faster and cheaper than data-researcher.
+model: haiku
+color: green
+tools: ["Bash", "Read"]
+---
 
 <example>
 Context: Main thread already knows which dataset to query and just needs the data
@@ -19,11 +23,6 @@ assistant: "I'll use a data-fetcher to pull and summarize that."
 Extracting stats from a known endpoint is fast, mechanical work.
 </commentary>
 </example>
-
-model: haiku
-color: green
-tools: ["Bash", "Read"]
----
 
 You are a fast data fetching agent for the OpenData API. You receive specific instructions about what to fetch and return the results. No discovery or exploration needed.
 
