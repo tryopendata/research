@@ -1,0 +1,598 @@
+export const meta = {
+  title: "America Spends $13,500 Per Person on Healthcare and Gets Less for It Than Anyone",
+  date: "2026-03-28",
+  description: "The US spends nearly twice as much per person on healthcare as its peers, yet ranks last among wealthy nations in life expectancy, child mortality, and overall health outcomes. The culprits: administrative bloat, unregulated drug prices, and a system designed around billing rather than care.",
+  tags: ["healthcare", "economics", "policy", "United States"],
+}
+
+import { Chart } from '../components/Chart'
+import { DataTable } from '@opendata-ai/openchart-react'
+import { Figure } from '../components/Figure'
+
+Every year, the United States spends $13,473 per person on healthcare. Switzerland, the next most expensive country, spends $10,602. Japan spends $5,365. The median wealthy nation spends about $7,300. By any measure, America is the most expensive healthcare system on Earth, and the gap is widening.
+
+What does that money buy? Less than you'd think. Among ten comparable democracies, the US ranks dead last in overall healthcare system performance, dead last in health outcomes, and dead last in access to care. Americans live shorter lives, lose more mothers in childbirth, and bury more children than citizens of any peer nation. The problem isn't the quality of American medicine when you can get it. The problem is a system where administrative overhead alone costs more per person than most countries spend on all of healthcare combined.
+
+## America outspends every peer nation, and the gap keeps growing
+
+In 2000, the US spent $4,549 per person on healthcare, roughly $1,200 more than Switzerland. By 2023, that gap had ballooned to $2,871. While every wealthy nation saw healthcare costs rise, the American trajectory pulled away from the pack like a breakaway cyclist who never looked back.
+
+<Figure alt="Line chart showing per-capita healthcare spending from 2000 to 2023 for the US and six peer countries, with the US line rising steeply above the others">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { country: "United States", year: "2000", spending: 4549 },
+      { country: "United States", year: "2003", spending: 5503 },
+      { country: "United States", year: "2006", spending: 6642 },
+      { country: "United States", year: "2009", spending: 7619 },
+      { country: "United States", year: "2012", spending: 8387 },
+      { country: "United States", year: "2015", spending: 9201 },
+      { country: "United States", year: "2018", spending: 10478 },
+      { country: "United States", year: "2020", spending: 11648 },
+      { country: "United States", year: "2023", spending: 13473 },
+      { country: "Switzerland", year: "2000", spending: 3352 },
+      { country: "Switzerland", year: "2003", spending: 4214 },
+      { country: "Switzerland", year: "2006", spending: 4800 },
+      { country: "Switzerland", year: "2009", spending: 5746 },
+      { country: "Switzerland", year: "2012", spending: 6571 },
+      { country: "Switzerland", year: "2015", spending: 7131 },
+      { country: "Switzerland", year: "2018", spending: 7987 },
+      { country: "Switzerland", year: "2020", spending: 8712 },
+      { country: "Switzerland", year: "2023", spending: 10602 },
+      { country: "Germany", year: "2000", spending: 2682 },
+      { country: "Germany", year: "2003", spending: 3195 },
+      { country: "Germany", year: "2006", spending: 3628 },
+      { country: "Germany", year: "2009", spending: 4395 },
+      { country: "Germany", year: "2012", spending: 4924 },
+      { country: "Germany", year: "2015", spending: 5485 },
+      { country: "Germany", year: "2018", spending: 6266 },
+      { country: "Germany", year: "2020", spending: 7007 },
+      { country: "Germany", year: "2023", spending: 8306 },
+      { country: "Canada", year: "2000", spending: 2406 },
+      { country: "Canada", year: "2003", spending: 3014 },
+      { country: "Canada", year: "2006", spending: 3567 },
+      { country: "Canada", year: "2009", spending: 4155 },
+      { country: "Canada", year: "2012", spending: 4616 },
+      { country: "Canada", year: "2015", spending: 4878 },
+      { country: "Canada", year: "2018", spending: 5555 },
+      { country: "Canada", year: "2020", spending: 6131 },
+      { country: "Canada", year: "2023", spending: 7355 },
+      { country: "France", year: "2000", spending: 2516 },
+      { country: "France", year: "2003", spending: 3107 },
+      { country: "France", year: "2006", spending: 3560 },
+      { country: "France", year: "2009", spending: 3942 },
+      { country: "France", year: "2012", spending: 4376 },
+      { country: "France", year: "2015", spending: 4752 },
+      { country: "France", year: "2018", spending: 5279 },
+      { country: "France", year: "2020", spending: 5807 },
+      { country: "France", year: "2023", spending: 6719 },
+      { country: "United Kingdom", year: "2000", spending: 1896 },
+      { country: "United Kingdom", year: "2003", spending: 2427 },
+      { country: "United Kingdom", year: "2006", spending: 2984 },
+      { country: "United Kingdom", year: "2009", spending: 3400 },
+      { country: "United Kingdom", year: "2012", spending: 3468 },
+      { country: "United Kingdom", year: "2015", spending: 4005 },
+      { country: "United Kingdom", year: "2018", spending: 4427 },
+      { country: "United Kingdom", year: "2020", spending: 5256 },
+      { country: "United Kingdom", year: "2023", spending: 6365 },
+      { country: "Japan", year: "2000", spending: 1917 },
+      { country: "Japan", year: "2003", spending: 2244 },
+      { country: "Japan", year: "2006", spending: 2541 },
+      { country: "Japan", year: "2009", spending: 2878 },
+      { country: "Japan", year: "2012", spending: 3378 },
+      { country: "Japan", year: "2015", spending: 3692 },
+      { country: "Japan", year: "2018", spending: 4190 },
+      { country: "Japan", year: "2020", spending: 4725 },
+      { country: "Japan", year: "2023", spending: 5365 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false } },
+      y: {
+        field: "spending",
+        type: "quantitative",
+        axis: { title: "Per-capita spending", format: "$~s", tickCount: 6 },
+        scale: { nice: false },
+      },
+      color: {
+        field: "country",
+        type: "nominal",
+        scale: {
+          domain: ["United States", "Switzerland", "Germany", "Canada", "France", "United Kingdom", "Japan"],
+          range: ["#c44e52", "#94a3b8", "#94a3b8", "#94a3b8", "#94a3b8", "#94a3b8", "#94a3b8"],
+        },
+      },
+    },
+    labels: { density: "endpoints", format: "$~s" },
+    animation: true,
+    chrome: {
+      title: "The US pulled away from every peer nation",
+      subtitle: "Per-capita healthcare spending, inflation-adjusted USD, 2000-2023",
+      source: "Source: World Bank, OECD via Our World in Data",
+    },
+  }} />
+</Figure>
+
+The numbers are staggering in aggregate. At 16.7% of GDP, the US devotes nearly one in every six dollars its economy produces to healthcare. Germany and Switzerland, the next highest spenders, hover around 11.7%. That 5-percentage-point gap, applied to the US's $28 trillion economy, represents roughly $1.4 trillion in "excess" spending per year compared to what the second-most-expensive system would imply.
+
+<Figure alt="Lollipop chart showing healthcare spending as percentage of GDP for 12 countries, with the US far ahead at 16.7%">
+  <Chart spec={{
+    mark: "lollipop",
+    data: [
+      { country: "United States", pct_gdp: 16.7 },
+      { country: "Germany", pct_gdp: 11.7 },
+      { country: "Switzerland", pct_gdp: 11.7 },
+      { country: "France", pct_gdp: 11.5 },
+      { country: "Canada", pct_gdp: 11.2 },
+      { country: "Sweden", pct_gdp: 11.2 },
+      { country: "United Kingdom", pct_gdp: 11.0 },
+      { country: "Japan", pct_gdp: 10.7 },
+      { country: "Australia", pct_gdp: 10.4 },
+      { country: "Netherlands", pct_gdp: 9.8 },
+      { country: "Denmark", pct_gdp: 9.6 },
+      { country: "Norway", pct_gdp: 9.4 },
+    ],
+    encoding: {
+      x: {
+        field: "pct_gdp",
+        type: "quantitative",
+        axis: { title: "Share of GDP", format: ".1f%", tickCount: 5 },
+        scale: { nice: false },
+      },
+      y: { field: "country", type: "nominal" },
+      color: {
+        condition: { test: { field: "country", equal: "United States" }, value: "#c44e52" },
+        value: "#94a3b8",
+      },
+    },
+    labels: { density: "all", format: ".1f%" },
+    animation: true,
+    chrome: {
+      title: "One in six dollars of US GDP goes to healthcare",
+      subtitle: "Health expenditure as share of GDP, 2023",
+      source: "Source: WHO Global Health Expenditure Database",
+    },
+  }} />
+</Figure>
+
+Put differently: if the US spent the same share of GDP on healthcare as Germany, it would free up roughly $1.4 trillion annually. That's more than the entire federal defense budget, or enough to write every American household a check for $10,500.
+
+## More money, worse results
+
+The cruelest part of America's healthcare story isn't the cost. It's what the cost buys. Among wealthy democracies, the US is the outlier that breaks the expected pattern: more spending should mean better outcomes. Instead, the US occupies a lonely quadrant on the chart below, far to the right on spending and well below the trend line on life expectancy.
+
+<Figure alt="Scatter plot of per-capita healthcare spending versus life expectancy for 20 OECD countries, with the US as a clear outlier spending the most but achieving low life expectancy">
+  <Chart spec={{
+    mark: "point",
+    data: [
+      { country: "United States", spending: 12080, life_exp: 76.3 },
+      { country: "Switzerland", spending: 9684, life_exp: 83.8 },
+      { country: "Norway", spending: 8761, life_exp: 83.2 },
+      { country: "Germany", spending: 7960, life_exp: 80.8 },
+      { country: "Austria", spending: 7693, life_exp: 81.2 },
+      { country: "Netherlands", spending: 7661, life_exp: 81.3 },
+      { country: "Denmark", spending: 7429, life_exp: 81.4 },
+      { country: "Sweden", spending: 7070, life_exp: 83.1 },
+      { country: "Canada", spending: 7017, life_exp: 81.5 },
+      { country: "Belgium", spending: 6867, life_exp: 81.8 },
+      { country: "Australia", spending: 6764, life_exp: 83.3 },
+      { country: "France", spending: 6444, life_exp: 82.3 },
+      { country: "United Kingdom", spending: 6136, life_exp: 80.6 },
+      { country: "Finland", spending: 5628, life_exp: 81.9 },
+      { country: "Japan", spending: 5359, life_exp: 84.4 },
+      { country: "Italy", spending: 4617, life_exp: 82.6 },
+      { country: "New Zealand", spending: 4587, life_exp: 82.2 },
+      { country: "Spain", spending: 4582, life_exp: 83.2 },
+      { country: "Portugal", spending: 4324, life_exp: 81.4 },
+      { country: "South Korea", spending: 4309, life_exp: 83.5 },
+    ],
+    encoding: {
+      x: {
+        field: "spending",
+        type: "quantitative",
+        axis: { title: "Per-capita healthcare spending (USD)", format: "$~s", tickCount: 5 },
+        scale: { nice: false },
+      },
+      y: {
+        field: "life_exp",
+        type: "quantitative",
+        axis: { title: "Life expectancy at birth (years)", format: ".1f", tickCount: 5 },
+        scale: { domain: [75, 85], nice: false },
+      },
+      color: {
+        condition: { test: { field: "country", equal: "United States" }, value: "#c44e52" },
+        value: "#1b7fa3",
+      },
+      tooltip: [
+        { field: "country", type: "nominal" },
+        { field: "spending", type: "quantitative" },
+        { field: "life_exp", type: "quantitative" },
+      ],
+    },
+    annotations: [
+      {
+        type: "text",
+        x: 12080,
+        y: 76.3,
+        text: "United States",
+        anchor: "bottom",
+        offset: { dx: -40, dy: 20 },
+        fontSize: 13,
+        fontWeight: 600,
+        fill: "#c44e52",
+        connector: true,
+      },
+      {
+        type: "text",
+        x: 5359,
+        y: 84.4,
+        text: "Japan",
+        anchor: "top",
+        offset: { dx: 20, dy: -15 },
+        fontSize: 12,
+        fontWeight: 600,
+        fill: "#1b7fa3",
+        connector: true,
+      },
+    ],
+    animation: true,
+    chrome: {
+      title: "The US spends the most and lives the shortest",
+      subtitle: "Per-capita health spending vs life expectancy, 20 OECD nations, 2021",
+      source: "Source: World Bank, OECD via Our World in Data",
+    },
+  }} />
+</Figure>
+
+Japan spends $5,359 per person and delivers 84.4 years of life expectancy. The US spends $6,721 more per person and gets 8.1 fewer years. That's not a rounding error. It's a systemic failure.
+
+The gap is getting worse. In 1990, Americans lived about 1.7 years less than the average citizen of a comparable wealthy nation. By 2022, that gap had nearly tripled to 5 years. While peers gained an average of 5.5 years of life expectancy over three decades, Americans gained just 2.2.
+
+The outcomes picture is equally stark at the start and end of life. The US has the highest child mortality rate of any wealthy nation in this comparison, at 0.65 deaths per 1,000 live births. Norway and Finland are nearly three times lower at 0.23. American maternal mortality tells an even more striking story: 21.1 deaths per 100,000 live births, roughly double Canada's rate, five times Germany's, and twelve times Norway's.
+
+<Figure alt="Horizontal bar chart comparing maternal mortality rates across 15 wealthy nations, with the US dramatically higher than all peers">
+  <Chart spec={{
+    mark: "bar",
+    data: [
+      { country: "United States", label: "United States 21.1", mortality: 21.1 },
+      { country: "Canada", label: "Canada 11.0", mortality: 11.0 },
+      { country: "United Kingdom", label: "United Kingdom 9.8", mortality: 9.8 },
+      { country: "Finland", label: "Finland 8.3", mortality: 8.3 },
+      { country: "France", label: "France 7.9", mortality: 7.9 },
+      { country: "Switzerland", label: "Switzerland 7.4", mortality: 7.4 },
+      { country: "New Zealand", label: "New Zealand 7.0", mortality: 7.0 },
+      { country: "Austria", label: "Austria 5.2", mortality: 5.2 },
+      { country: "Denmark", label: "Denmark 4.7", mortality: 4.7 },
+      { country: "Sweden", label: "Sweden 4.5", mortality: 4.5 },
+      { country: "Germany", label: "Germany 4.4", mortality: 4.4 },
+      { country: "Japan", label: "Japan 4.3", mortality: 4.3 },
+      { country: "Netherlands", label: "Netherlands 4.3", mortality: 4.3 },
+      { country: "Australia", label: "Australia 2.9", mortality: 2.9 },
+      { country: "Norway", label: "Norway 1.7", mortality: 1.7 },
+    ],
+    encoding: {
+      x: {
+        field: "mortality",
+        type: "quantitative",
+        axis: { title: "Deaths per 100,000 live births", format: ".1f", tickCount: 5 },
+        scale: { nice: false },
+      },
+      y: { field: "country", type: "nominal" },
+      color: {
+        condition: { test: { field: "country", equal: "United States" }, value: "#c44e52" },
+        value: "#94a3b8",
+      },
+    },
+    labels: { density: "all", format: ".1f" },
+    animation: true,
+    chrome: {
+      title: "US maternal mortality is 12x Norway's rate",
+      subtitle: "Maternal deaths per 100,000 live births, 2020",
+      source: "Source: Our World in Data (modeled estimates)",
+    },
+  }} />
+</Figure>
+
+The Commonwealth Fund's 2024 Mirror Mirror report, which ranks ten wealthy democracies on healthcare performance, placed the US last overall and last in health outcomes. The one bright spot: the US ranks second in care process quality, meaning that when Americans actually receive care, the clinical quality is strong. The problem is access, equity, and the vast administrative machinery that stands between patients and that care.
+
+## The $1,076-per-person paperwork problem
+
+If there's a single number that captures what makes American healthcare uniquely expensive, it might be this: the US spends $1,076 per person per year on healthcare administration and governance. Switzerland, the next highest, spends $409. The UK spends $92. Japan spends $78.
+
+<Figure alt="Bar chart showing administrative spending per capita across 12 countries, with the US dramatically higher than all peers">
+  <Chart spec={{
+    mark: "bar",
+    data: [
+      { country: "United States", label: "United States $1,076", admin: 1076 },
+      { country: "Switzerland", label: "Switzerland $409", admin: 409 },
+      { country: "Germany", label: "Germany $375", admin: 375 },
+      { country: "France", label: "France $339", admin: 339 },
+      { country: "Denmark", label: "Denmark $300", admin: 300 },
+      { country: "Netherlands", label: "Netherlands $256", admin: 256 },
+      { country: "Canada", label: "Canada $231", admin: 231 },
+      { country: "Australia", label: "Australia $206", admin: 206 },
+      { country: "Norway", label: "Norway $151", admin: 151 },
+      { country: "United Kingdom", label: "United Kingdom $92", admin: 92 },
+      { country: "Sweden", label: "Sweden $91", admin: 91 },
+      { country: "Japan", label: "Japan $78", admin: 78 },
+    ],
+    encoding: {
+      x: {
+        field: "admin",
+        type: "quantitative",
+        axis: { title: "Per-capita admin spending (USD PPP)", format: "$,.0f", tickCount: 5 },
+        scale: { nice: false },
+      },
+      y: { field: "country", type: "nominal" },
+      color: {
+        condition: { test: { field: "country", equal: "United States" }, value: "#c44e52" },
+        value: "#94a3b8",
+      },
+    },
+    labels: { density: "all", format: "$,.0f" },
+    animation: true,
+    chrome: {
+      title: "The US spends more on healthcare paperwork than most peers spend on all admin",
+      subtitle: "Governance and health system administration per capita, USD PPP, 2023",
+      source: "Source: OECD Health Expenditure by Function",
+    },
+  }} />
+</Figure>
+
+That $1,076 figure is 4.7 times Japan's and nearly 12 times the UK's. It translates to roughly $280 billion in "excess" administrative spending annually compared to the peer average. To put that in context: $280 billion is enough to fully fund the National Institutes of Health seven times over.
+
+The reason is structural. The US has over 900 private insurers, each with its own formularies, prior authorization rules, billing codes, and claims processes. Hospitals employ armies of coders, billers, and compliance staff to navigate this maze. A 2019 study in the *Annals of Internal Medicine* found that administrative costs accounted for 34% of total US healthcare expenditure. In Canada's single-payer system, that figure was 17%.
+
+In 2024, the "Net Cost of Health Insurance" line in the National Health Expenditure accounts hit $306 billion. This measures insurer overhead, profit, and reserves. Not a single dollar of that represents medical care. It's the toll charged for the privilege of having a middleman between you and your doctor.
+
+## Americans pay more for the same drugs
+
+The US pharmaceutical market operates under a simple principle that sets it apart from every other wealthy nation: drug companies can charge whatever the market will bear. Most peer countries negotiate prices at a national level or set reference prices. The US does not.
+
+<Figure alt="Bar chart showing pharmaceutical spending per capita for 12 countries, with the US highest at $1,931">
+  <Chart spec={{
+    mark: "bar",
+    data: [
+      { country: "United States", label: "United States $1,931", pharma: 1931 },
+      { country: "Germany", label: "Germany $1,535", pharma: 1535 },
+      { country: "Switzerland", label: "Switzerland $1,352", pharma: 1352 },
+      { country: "France", label: "France $1,305", pharma: 1305 },
+      { country: "Canada", label: "Canada $1,241", pharma: 1241 },
+      { country: "Japan", label: "Japan $1,046", pharma: 1046 },
+      { country: "Australia", label: "Australia $770", pharma: 770 },
+      { country: "Sweden", label: "Sweden $903", pharma: 903 },
+      { country: "Netherlands", label: "Netherlands $746", pharma: 746 },
+      { country: "Norway", label: "Norway $732", pharma: 732 },
+      { country: "United Kingdom", label: "United Kingdom $723", pharma: 723 },
+      { country: "Denmark", label: "Denmark $680", pharma: 680 },
+    ],
+    encoding: {
+      x: {
+        field: "pharma",
+        type: "quantitative",
+        axis: { title: "Per-capita pharma spending (USD PPP)", format: "$~s", tickCount: 5 },
+        scale: { nice: false },
+      },
+      y: { field: "country", type: "nominal" },
+      color: {
+        condition: { test: { field: "country", equal: "United States" }, value: "#c44e52" },
+        value: "#94a3b8",
+      },
+    },
+    labels: { density: "all", format: "$,.0f" },
+    animation: true,
+    chrome: {
+      title: "Americans spend 2.7x more on drugs than the British",
+      subtitle: "Pharmaceutical spending per capita, USD PPP, 2023",
+      source: "Source: OECD Pharmaceutical Spending",
+    },
+  }} />
+</Figure>
+
+The US spends $1,931 per person on pharmaceuticals, 26% more than Germany and 167% more than the UK. The scale of individual drugs is eye-watering: in 2023 alone, Medicare Part D spent $18.3 billion on Eliquis (a blood thinner), $9.2 billion on Ozempic, and $8.8 billion on Jardiance. Eliquis alone cost more than the entire national science budget.
+
+The 2022 Inflation Reduction Act gave Medicare the authority to negotiate prices on a small number of drugs for the first time, but it covers only 10 drugs initially and doesn't take full effect until 2026. The vast majority of drug pricing remains unregulated.
+
+## Healthcare costs have outrun everything else for decades
+
+The US healthcare cost problem isn't new. It's been compounding for over four decades. Since 1980, the price of medical care has risen 653%, while general consumer prices rose 281%. Medical inflation hasn't just outpaced the economy. It's lapped it.
+
+<Figure alt="Line chart showing medical care CPI and all-items CPI indexed to 100 in 1980, with medical care rising much faster">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "1980", series: "Medical Care", value: 100 },
+      { year: "1985", series: "Medical Care", value: 152 },
+      { year: "1990", series: "Medical Care", value: 218 },
+      { year: "1995", series: "Medical Care", value: 295 },
+      { year: "2000", series: "Medical Care", value: 348 },
+      { year: "2005", series: "Medical Care", value: 432 },
+      { year: "2010", series: "Medical Care", value: 519 },
+      { year: "2015", series: "Medical Care", value: 597 },
+      { year: "2020", series: "Medical Care", value: 693 },
+      { year: "2024", series: "Medical Care", value: 753 },
+      { year: "1980", series: "All Items (General CPI)", value: 100 },
+      { year: "1985", series: "All Items (General CPI)", value: 131 },
+      { year: "1990", series: "All Items (General CPI)", value: 159 },
+      { year: "1995", series: "All Items (General CPI)", value: 185 },
+      { year: "2000", series: "All Items (General CPI)", value: 209 },
+      { year: "2005", series: "All Items (General CPI)", value: 237 },
+      { year: "2010", series: "All Items (General CPI)", value: 265 },
+      { year: "2015", series: "All Items (General CPI)", value: 288 },
+      { year: "2020", series: "All Items (General CPI)", value: 314 },
+      { year: "2024", series: "All Items (General CPI)", value: 381 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false } },
+      y: {
+        field: "value",
+        type: "quantitative",
+        axis: { title: "Index (1980 = 100)", format: ",.0f", tickCount: 6 },
+        scale: { domain: [0, 800], nice: false },
+      },
+      color: {
+        field: "series",
+        type: "nominal",
+        scale: {
+          domain: ["Medical Care", "All Items (General CPI)"],
+          range: ["#c44e52", "#94a3b8"],
+        },
+      },
+    },
+    annotations: [
+      {
+        type: "text",
+        x: "2024",
+        y: 753,
+        text: "+653%",
+        anchor: "left",
+        offset: { dx: -65, dy: -20 },
+        fontSize: 14,
+        fontWeight: 700,
+        fill: "#c44e52",
+      },
+      {
+        type: "text",
+        x: "2024",
+        y: 381,
+        text: "+281%",
+        anchor: "left",
+        offset: { dx: -60, dy: -20 },
+        fontSize: 14,
+        fontWeight: 700,
+        fill: "#94a3b8",
+      },
+    ],
+    labels: { density: "endpoints", format: ",.0f" },
+    animation: true,
+    chrome: {
+      title: "Medical prices have risen more than twice as fast as everything else",
+      subtitle: "Consumer Price Index, indexed to 100 at 1980",
+      source: "Source: Bureau of Labor Statistics (CPI Medical Care, CPI All Items)",
+    },
+  }} />
+</Figure>
+
+This relentless inflation means healthcare consumes an ever-larger share of household budgets, government spending, and business costs. In 1960, the US spent just $146 per person on healthcare. By 2024, that number hit $15,474, a 106-fold increase in nominal terms. Even adjusted for inflation, real per-capita spending roughly tripled since 1980.
+
+The Affordable Care Act brought 17 million newly insured Americans into the system between 2010 and 2015, dropping the uninsured rate from 15.5% to 9.4%. But expanding coverage into a system with unchecked price growth is like running a bathtub with the drain open. Today, 27.5 million Americans still lack insurance, and those who have it face deductibles, copays, and premiums that strain family budgets.
+
+## Where does $5.3 trillion actually go?
+
+In 2024, the US spent $5.28 trillion on healthcare. That's more than the entire GDP of Japan. Breaking it down reveals a system dominated by two categories: hospital care and physician services, which together account for more than half of all spending.
+
+<Figure alt="Horizontal bar chart showing US healthcare spending by category in 2024, with Hospital Care and Physician Services dominating">
+  <Chart spec={{
+    mark: "bar",
+    data: [
+      { category: "Hospital Care", spending: 1635 },
+      { category: "Physician & Clinical", spending: 1110 },
+      { category: "Prescription Drugs", spending: 467 },
+      { category: "Insurance Admin", spending: 306 },
+      { category: "Nursing & Long-term", spending: 220 },
+      { category: "Dental Services", spending: 189 },
+      { category: "Other Professional", spending: 185 },
+      { category: "Home Health", spending: 169 },
+      { category: "Public Health", spending: 158 },
+      { category: "Govt Administration", spending: 66 },
+    ],
+    encoding: {
+      x: {
+        field: "spending",
+        type: "quantitative",
+        axis: { title: "Spending (billions)", format: "$~s", tickCount: 5 },
+        scale: { nice: false },
+      },
+      y: { field: "category", type: "nominal" },
+      color: {
+        condition: { test: { field: "category", oneOf: ["Insurance Admin", "Govt Administration"] }, value: "#d47215" },
+        value: "#1b7fa3",
+      },
+    },
+    labels: { density: "all", format: "$,.0f" },
+    animation: true,
+    chrome: {
+      title: "$5.3 trillion, and $372 billion never touches a patient",
+      subtitle: "US National Health Expenditure by category, 2024 (billions)",
+      source: "Source: CMS National Health Expenditure Accounts",
+    },
+    legend: { show: false },
+  }} />
+</Figure>
+
+The two orange bars, Insurance Admin ($306B) and Government Administration ($66B), represent $372 billion in combined overhead. That's 7.4% of total healthcare spending that goes to processing claims, managing enrollment, marketing insurance plans, and regulatory compliance rather than treating patients. It's roughly the entire GDP of Hong Kong.
+
+Here's the paradox buried in the funding data: even though the US government covers "only" 54% of healthcare spending (the lowest among peers except Switzerland), its per-capita government healthcare expenditure already exceeds what most countries spend in total. Medicare, Medicaid, the VA, and other programs are so expensive per beneficiary that even the public half of America's system costs more than universal healthcare does in peer nations. The problem isn't that the government doesn't spend enough. It's that the system it's paying into charges too much.
+
+---
+
+The fundamental question isn't whether the US can afford to fix its healthcare system. It's whether it can afford not to. At $5.3 trillion and climbing, American healthcare absorbs resources that could fund infrastructure, education, or simply stay in workers' paychecks. The system produces world-class clinical care for those who can navigate it, but wraps that care in layers of administrative complexity, unregulated pricing, and access barriers that leave Americans sicker and poorer than their peers.
+
+<Figure alt="Bar chart showing the US excess spending premium over peer average, broken down by category: admin, pharma, and other">
+  <Chart spec={{
+    mark: "bar",
+    data: [
+      { category: "Administrative overhead", excess: 845, label: "Administrative overhead $845" },
+      { category: "Pharmaceutical prices", excess: 773, label: "Pharmaceutical prices $773" },
+      { category: "Hospital & clinical prices", excess: 4382, label: "Hospital & clinical prices $4,382" },
+    ],
+    encoding: {
+      x: {
+        field: "excess",
+        type: "quantitative",
+        axis: { title: "Excess per-capita spending vs peer average", format: "$~s", tickCount: 5 },
+        scale: { nice: false },
+      },
+      y: { field: "category", type: "nominal" },
+      color: {
+        field: "category",
+        type: "nominal",
+        scale: {
+          domain: ["Hospital & clinical prices", "Pharmaceutical prices", "Administrative overhead"],
+          range: ["#c44e52", "#d47215", "#1b7fa3"],
+        },
+      },
+    },
+    labels: { density: "all", format: "$,.0f" },
+    legend: { show: false },
+    animation: true,
+    chrome: {
+      title: "Where America's $6,000 per-person premium goes",
+      subtitle: "Estimated excess US per-capita spending vs wealthy-nation average, by category",
+      source: "Source: OECD, CMS, WHO (author calculations)",
+    },
+  }} />
+</Figure>
+
+Every other wealthy nation has found a way to provide universal or near-universal coverage at roughly half the per-capita cost. The US hasn't, and the gap grows wider every year. The $6,000 per-person premium Americans pay over the peer average doesn't buy more doctors, more hospitals, or more medicine. It buys more billing departments, more insurance executives, and more pharmaceutical shareholders. Until that changes, the most expensive healthcare system in the world will keep delivering some of the worst outcomes in the developed world.
+
+## Data sources & methodology
+
+**Datasets used:**
+- `owid/healthcare-spending` — Per-capita health spending (inflation-adjusted USD), 206 countries, 2000-2023
+- `who/health-expenditure-by-source` — Health spending as % of GDP, government/private/OOP shares, 2000-2023
+- `oecd/health-expenditure-by-function` — Spending by function category (curative, admin, pharma), USD PPP, 43 countries, 2023
+- `oecd/pharma-spending` — Pharmaceutical spending per capita (USD PPP), 42 countries, 2023
+- `worldbank/life-expectancy` — Life expectancy at birth, 1960-2022
+- `owid/child-mortality` — Under-5 mortality per 1,000 live births, 2021
+- `owid/maternal-mortality` — Maternal mortality per 100,000 live births, 2020
+- `commonwealth/mirror-mirror` — Healthcare system rankings across 10 wealthy democracies, 2024
+- `cms/health-expenditure` — US National Health Expenditure per capita, 1960-2024
+- `cms/nhe-by-category` — US NHE by service category, 1960-2024
+- `fred/cpi-medical` and `fred/cpi` — Consumer Price Index for medical care and all items, 1947-present
+- `census/health-insurance-coverage` — US uninsured rates by state, 2008-2024
+- `cms/part-d-spending` — Medicare Part D spending by drug, 2023
+
+**Calculations & transformations:**
+- CPI comparison indexed both medical and all-items CPI to 100 at 1980 (January values for each year)
+- "Excess" per-capita spending estimated by comparing US per-capita figures to the unweighted average of Germany, France, UK, Japan, Australia, Canada, and Switzerland across OECD function categories
+- The synthesis chart's "Hospital & clinical prices" excess is a residual: total US excess minus admin excess minus pharma excess
+- GDP share gap ($1.4 trillion) calculated as the difference between US 16.7% and Germany/Switzerland 11.7%, applied to 2023 US GDP (~$28T)
+
+**Limitations:**
+- Cross-country spending comparisons use different adjustment methods (inflation-adjusted USD vs USD PPP) depending on the source. OWID uses inflation-adjusted nominal; OECD function data uses PPP. Both are standard but not directly comparable
+- Maternal mortality uses modeled WHO estimates with uncertainty bands, especially for earlier years
+- NHE category data is in nominal dollars, not inflation-adjusted
+- No clean cross-country physician salary data was available through the API; this known cost driver is addressed qualitatively
+- The 2020-2021 data across all datasets reflects COVID-era distortions (emergency spending, GDP contraction, excess mortality)
+
+*Data accessed on 2026-03-28 via the [OpenData API](https://tryopendata.ai).*

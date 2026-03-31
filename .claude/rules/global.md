@@ -76,3 +76,28 @@ These are patterns that passed code review but broke at render time. Check these
 - **`.0f%` format on pre-computed percentages renders 710% not 7.1%.** D3's `%` format multiplies by 100. If your data is already in percent form (e.g., 7.1 meaning 7.1%), use `".1f"` with "%" in the axis title, not `".0f%"` in the format string.
 - **Data unit consistency across a chart.** If one country's migration data is in millions (1) and others are in thousands (334, 268), the labels will be misleading. Normalize all values to the same unit before embedding in the spec.
 - **Verify the closing synthesis chart is genuinely different from earlier charts.** If it uses the same chart type, same categories, and same encoding as an earlier chart with just fewer rows, it's a duplicate, not a synthesis. A good synthesis uses a different framing: ratio chart instead of absolute, diverging gap instead of side-by-side, indexed comparison instead of raw values.
+
+## Cross-repo openchart development
+
+When making changes to the openchart library at `~/Projects/openchart` for this project:
+
+- **Link ALL four packages:** `core`, `engine`, `vanilla`, `react`. Missing any one (especially vanilla, which does SVG rendering) means changes won't appear in the browser.
+  ```bash
+  cd ~/Projects/openchart/packages/core && bun link
+  cd ~/Projects/openchart/packages/engine && bun link
+  cd ~/Projects/openchart/packages/vanilla && bun link
+  cd ~/Projects/openchart/packages/react && bun link
+  cd ~/Projects/reports && bun link @opendata-ai/openchart-core @opendata-ai/openchart-engine @opendata-ai/openchart-vanilla @opendata-ai/openchart-react
+  ```
+- **Always clear Vite cache after rebuilding linked packages:** `rm -rf node_modules/.vite` then restart the dev server.
+- **Confirm the user's port/URL before debugging visual issues.** Don't assume port 5173.
+- **When a visual change doesn't produce the expected result, inspect the rendered SVG/DOM first.** Don't iterate on input parameters (opacity, colors, theme) without checking the actual output (`fill-opacity`, gradient `stop-color`, element IDs). Silent SVG failures (broken `url()` references, invisible gradients) produce no errors.
+
+## Debugging visual rendering issues
+
+When a chart renders incorrectly (wrong colors, invisible elements, missing gradients):
+
+1. **Inspect the DOM first.** Use Playwright eval or browser DevTools to check actual attribute values (`fill`, `fill-opacity`, `stop-color`).
+2. **Check SVG element IDs for special characters.** Spaces, `$`, `&`, `#` in SVG `url(#id)` references break silently.
+3. **Check dark mode color values.** `adaptTheme()` can make bright colors very dark. Inspect the actual hex values being rendered.
+4. **Don't iterate on input parameters without verifying the output changed.** If adjusting opacity from 0.35 to 0.55 doesn't visibly change anything, the problem isn't opacity.

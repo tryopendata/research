@@ -7,6 +7,7 @@ export const meta = {
 };
 
 import { Chart } from "../components/Chart";
+import { DataTable } from "@opendata-ai/openchart-react";
 import { Figure } from "../components/Figure";
 
 A petroleum engineering graduate earns a median of $110,000. A library science graduate earns $22,000. Both hold bachelor's degrees. Both spent four years and tens of thousands of dollars on tuition. One landed a career that pays nearly four times the median household income. The other landed below the poverty line for a family of four.
@@ -553,6 +554,76 @@ The two lines track together through the 1980s. Both are climbing. A student in 
 Around 1992, they diverge. The wage premium line flattens while the real tuition line keeps rising through the 2000s. By 2015, real tuition costs had nearly quadrupled relative to 1980 while the wage premium had roughly doubled. Students were paying 4x more for a 2x benefit.
 
 The gap between those two lines is the broken math. It's the space where student debt lives. It's the reason why "does college pay off?" went from a question with an obvious answer to one that depends on your major, your school, and your financial situation. Before 1992, almost any degree was worth the price. After 1992, you needed to pick the right one.
+
+## The for-profit trap
+
+It's not just *what* you study. *Where* you study matters just as much. The federal College Scorecard tracks outcomes by institution type, and the differences are stark. Ten years after enrollment, public university graduates earn a median of $45,400 a year and carry $14,600 in debt. Private nonprofit graduates earn $54,200 but paid $46,700 per year for the privilege. And graduates of private for-profits, investor-owned chains like University of Phoenix and DeVry? They earn just $33,300 with $12,200 in debt, barely above what they'd make without a degree.
+
+<Figure alt="Grouped bar chart comparing annual cost, graduation debt, and 10-year median earnings across public, private nonprofit, and private for-profit institutions">
+  <Chart spec={{
+    animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+    responsive: true,
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { metric: "Annual cost", type: "Public", value: 19138 },
+      { metric: "Annual cost", type: "Private nonprofit", value: 46736 },
+      { metric: "Annual cost", type: "Private for-profit", value: 32444 },
+      { metric: "Debt at graduation", type: "Public", value: 14607 },
+      { metric: "Debt at graduation", type: "Private nonprofit", value: 22227 },
+      { metric: "Debt at graduation", type: "Private for-profit", value: 12187 },
+      { metric: "Earnings 10yr after", type: "Public", value: 45408 },
+      { metric: "Earnings 10yr after", type: "Private nonprofit", value: 54216 },
+      { metric: "Earnings 10yr after", type: "Private for-profit", value: 33324 },
+    ],
+    encoding: {
+      x: { field: "value", type: "quantitative", axis: { title: "", format: "$~s" }, scale: { nice: false } },
+      y: { field: "metric", type: "nominal", axis: { title: "" }, scale: { domain: ["Annual cost", "Debt at graduation", "Earnings 10yr after"] } },
+      color: { field: "type", type: "nominal", scale: { domain: ["Public", "Private nonprofit", "Private for-profit"], range: ["#1b7fa3", "#7c3aed", "#c44e52"] } },
+    },
+    chrome: {
+      title: "Public colleges deliver the best return on investment",
+      subtitle: "Annual cost, median debt at graduation, and median earnings 10 years after enrollment",
+      source: "Source: U.S. Department of Education, College Scorecard (2026)",
+    },
+    labels: { density: "all", format: "$~s" },
+    legend: { position: "top" },
+  }} />
+</Figure>
+
+The for-profit sector is the worst bet in higher education, and the data goes well beyond earnings. Only 33 percent of for-profit students complete their program, compared to 57 percent at private nonprofits and 43 percent at public schools. Nearly half of for-profit enrollees, 48 percent, earn less than $28,000 six years after starting, roughly what they'd make without any college at all. And only 42 percent of borrowers are successfully repaying their loans within three years.
+
+<Figure alt="Table comparing for-profit, public, and nonprofit colleges across completion rate, loan repayment, debt-to-earnings ratio, and share earning under $28k" minHeight={0}>
+  <DataTable spec={{
+    type: "table",
+    data: [
+      { type: "For-profit", completion: 0.33, repayment: 0.42, debtEarnings: 0.70, lowEarners: 0.48 },
+      { type: "Public", completion: 0.43, repayment: 0.54, debtEarnings: 0.38, lowEarners: 0.36 },
+      { type: "Nonprofit", completion: 0.57, repayment: 0.59, debtEarnings: 0.50, lowEarners: 0.31 },
+    ],
+    columns: [
+      { key: "type", label: "Type", sortable: false },
+      { key: "completion", label: "Grads", format: ".0%", sortable: false, heatmap: { palette: ["#c44e52", "#fef3c7", "#6a9f58"], domain: [0.30, 0.60] } },
+      { key: "repayment", label: "Repaying", format: ".0%", sortable: false, heatmap: { palette: ["#c44e52", "#fef3c7", "#6a9f58"], domain: [0.35, 0.65] } },
+      { key: "debtEarnings", label: "Debt/earn", format: ".2f", sortable: false, heatmap: { palette: ["#6a9f58", "#fef3c7", "#c44e52"], domain: [0.3, 0.8] } },
+      { key: "lowEarners", label: "< $28k", format: ".0%", sortable: false, heatmap: { palette: ["#6a9f58", "#fef3c7", "#c44e52"], domain: [0.25, 0.55] } },
+    ],
+    chrome: {
+      title: "For-profit colleges trail on every measure",
+      source: "Source: U.S. Department of Education, College Scorecard",
+    },
+    pagination: false,
+    search: false,
+  }} />
+</Figure>
+
+<div style={{fontSize: '0.85rem', opacity: 0.7, lineHeight: 1.8, marginTop: '-0.5rem'}}>
+<strong>Grads</strong> = completion rate<br/>
+<strong>Repaying</strong> = 3yr loan repayment<br/>
+<strong>Debt/earn</strong> = debt-to-earnings ratio<br/>
+<strong>&lt; $28k</strong> = share earning under $28k after 6yr
+</div>
+
+For-profit graduates earn $21,000 less per year than nonprofit graduates ($33,300 vs $54,200) despite lower sticker prices. The debt-to-earnings ratio at for-profits is 0.70, nearly double the 0.38 at public universities. You're getting worse outcomes than public schools deliver at nearly twice the cost.
 
 ---
 

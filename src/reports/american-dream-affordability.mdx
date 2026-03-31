@@ -6,17 +6,18 @@ export const meta = {
 }
 
 import { Chart } from '../components/Chart'
+import { Sankey } from '@opendata-ai/openchart-react'
 import { Figure } from '../components/Figure'
 
-In 1984, the median American household earned about $60,400 a year. A new home cost around $79,600. The ratio was 1.3 to 1. A typical family could buy a typical house for a little more than one year's income before taxes. A year of public university tuition ran about $1,200, which a student could cover with a summer job. Health insurance, if your employer offered it, was a rounding error on your paycheck.
+In 1984, the median American household earned about $22,400 a year. A new home cost around $79,600. The ratio was 3.6 to 1, manageable with a 30-year mortgage and a modest down payment. A year of public university tuition ran about $1,200, which a student could cover with a summer job. Health insurance, if your employer offered it, was a rounding error on your paycheck.
 
-By 2024, median household income had climbed to $83,700, a 39 percent increase over four decades. But the median new home price hit $420,400. College tuition at a public four-year university crossed $11,000. Employer health premiums for a family plan topped $25,000. The income went up by a third. The costs of the three pillars of middle-class life went up by multiples.
+By 2024, median household income had climbed to $83,700, a 273 percent increase over four decades. But the median new home price hit $420,400, up 428 percent. College tuition at a public four-year university crossed $11,000, up over 800 percent. Employer health premiums for a family plan topped $25,000. Income nearly quadrupled. The costs of the three pillars of middle-class life went up by five to twenty-one times.
 
 The promise was simple: work hard, buy a house, send your kids to college, retire comfortably. The data shows exactly when that promise started breaking, and which costs broke it.
 
 ## College tuition left everything else in the dust
 
-Not all prices rise at the same speed. Since 1984, the overall cost of living as measured by the Consumer Price Index has roughly tripled. Food has kept pace with that average. Medical care has outrun it significantly. But college tuition has blown past everything, rising nearly nine times over the same period.
+Not all prices rise at the same speed. Since 1984, the overall cost of living as measured by the Consumer Price Index has risen about 202 percent. Food has kept pace with that average. Medical care has outrun it significantly at 427 percent. But college tuition has blown past everything, up 753 percent over the same period.
 
 <Figure alt="Line chart comparing CPI growth across five categories since 1984, showing college tuition rising far faster than medical care, shelter, food, or the overall average">
   <Chart spec={{
@@ -24,71 +25,76 @@ Not all prices rise at the same speed. Since 1984, the overall cost of living as
     responsive: true,
     mark: { type: "line", point: true, interpolate: "monotone" },
     data: [
-      { year: "1985", category: "College tuition", index: 110 },
-      { year: "1990", category: "College tuition", index: 160 },
-      { year: "1995", category: "College tuition", index: 245 },
-      { year: "2000", category: "College tuition", index: 308 },
-      { year: "2005", category: "College tuition", index: 437 },
-      { year: "2010", category: "College tuition", index: 592 },
-      { year: "2015", category: "College tuition", index: 732 },
-      { year: "2020", category: "College tuition", index: 826 },
-      { year: "2024", category: "College tuition", index: 876 },
-      { year: "1985", category: "Medical care", index: 106 },
-      { year: "1990", category: "Medical care", index: 150 },
-      { year: "1995", category: "Medical care", index: 208 },
-      { year: "2000", category: "Medical care", index: 246 },
-      { year: "2005", category: "Medical care", index: 305 },
-      { year: "2010", category: "Medical care", index: 368 },
-      { year: "2015", category: "Medical care", index: 424 },
-      { year: "2020", category: "Medical care", index: 492 },
-      { year: "2024", category: "Medical care", index: 535 },
-      { year: "1985", category: "Shelter", index: 104 },
-      { year: "1990", category: "Shelter", index: 124 },
-      { year: "1995", category: "Shelter", index: 144 },
-      { year: "2000", category: "Shelter", index: 164 },
-      { year: "2005", category: "Shelter", index: 190 },
-      { year: "2010", category: "Shelter", index: 213 },
-      { year: "2015", category: "Shelter", index: 232 },
-      { year: "2020", category: "Shelter", index: 266 },
-      { year: "2024", category: "Shelter", index: 324 },
-      { year: "1985", category: "Food", index: 103 },
-      { year: "1990", category: "Food", index: 127 },
-      { year: "1995", category: "Food", index: 145 },
-      { year: "2000", category: "Food", index: 163 },
-      { year: "2005", category: "Food", index: 186 },
-      { year: "2010", category: "Food", index: 215 },
-      { year: "2015", category: "Food", index: 241 },
-      { year: "2020", category: "Food", index: 256 },
-      { year: "2024", category: "Food", index: 319 },
-      { year: "1985", category: "Overall CPI", index: 104 },
-      { year: "1990", category: "Overall CPI", index: 125 },
-      { year: "1995", category: "Overall CPI", index: 147 },
-      { year: "2000", category: "Overall CPI", index: 166 },
-      { year: "2005", category: "Overall CPI", index: 188 },
-      { year: "2010", category: "Overall CPI", index: 213 },
-      { year: "2015", category: "Overall CPI", index: 230 },
-      { year: "2020", category: "Overall CPI", index: 254 },
-      { year: "2024", category: "Overall CPI", index: 303 },
+      { year: "1985", category: "College tuition", pct: 9 },
+      { year: "1990", category: "College tuition", pct: 59 },
+      { year: "1995", category: "College tuition", pct: 141 },
+      { year: "2000", category: "College tuition", pct: 202 },
+      { year: "2005", category: "College tuition", pct: 332 },
+      { year: "2010", category: "College tuition", pct: 481 },
+      { year: "2015", category: "College tuition", pct: 615 },
+      { year: "2020", category: "College tuition", pct: 698 },
+      { year: "2024", category: "College tuition", pct: 753 },
+      { year: "1985", category: "Medical care", pct: 6 },
+      { year: "1990", category: "Medical care", pct: 52 },
+      { year: "1995", category: "Medical care", pct: 106 },
+      { year: "2000", category: "Medical care", pct: 144 },
+      { year: "2005", category: "Medical care", pct: 202 },
+      { year: "2010", category: "Medical care", pct: 263 },
+      { year: "2015", category: "Medical care", pct: 318 },
+      { year: "2020", category: "Medical care", pct: 385 },
+      { year: "2024", category: "Medical care", pct: 427 },
+      { year: "1985", category: "Shelter", pct: 4 },
+      { year: "1990", category: "Shelter", pct: 24 },
+      { year: "1995", category: "Shelter", pct: 43 },
+      { year: "2000", category: "Shelter", pct: 64 },
+      { year: "2005", category: "Shelter", pct: 89 },
+      { year: "2010", category: "Shelter", pct: 109 },
+      { year: "2015", category: "Shelter", pct: 130 },
+      { year: "2020", category: "Shelter", pct: 162 },
+      { year: "2024", category: "Shelter", pct: 223 },
+      { year: "1985", category: "Food", pct: 2 },
+      { year: "1990", category: "Food", pct: 28 },
+      { year: "1995", category: "Food", pct: 44 },
+      { year: "2000", category: "Food", pct: 63 },
+      { year: "2005", category: "Food", pct: 85 },
+      { year: "2010", category: "Food", pct: 113 },
+      { year: "2015", category: "Food", pct: 139 },
+      { year: "2020", category: "Food", pct: 158 },
+      { year: "2024", category: "Food", pct: 218 },
+      { year: "1985", category: "Overall CPI", pct: 4 },
+      { year: "1990", category: "Overall CPI", pct: 26 },
+      { year: "1995", category: "Overall CPI", pct: 47 },
+      { year: "2000", category: "Overall CPI", pct: 66 },
+      { year: "2005", category: "Overall CPI", pct: 88 },
+      { year: "2010", category: "Overall CPI", pct: 110 },
+      { year: "2015", category: "Overall CPI", pct: 128 },
+      { year: "2020", category: "Overall CPI", pct: 149 },
+      { year: "2024", category: "Overall CPI", pct: 202 },
     ],
     encoding: {
-      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "" } },
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "", tickCount: 9 } },
       y: {
-        field: "index",
+        field: "pct",
         type: "quantitative",
-        axis: { title: "Index (1984 = 100)", format: ",.0f" },
-        scale: { domain: [80, 920], nice: false },
+        axis: { title: "% increase since 1984", format: ",.0f", tickCount: 5 },
+        scale: { domain: [0, 800], nice: false },
       },
       color: { field: "category", type: "nominal" },
     },
     annotations: [
-      { type: "text", x: "2005", y: 500, text: "Tuition pulls away\nfrom everything else", fontSize: 11, fontWeight: 500, fill: "#7c3aed" },
+      { type: "text", x: "2005", y: 420, text: "Tuition pulls away\nfrom everything else", fontSize: 11, fontWeight: 500, fill: "#7c3aed",
+      offset: { dx: -8, dy: -43 } },
     ],
     chrome: {
-      title: "College tuition has risen 9x since 1984. Overall inflation? 3x.",
-      subtitle: "Consumer Price Index by category, indexed to 100 in 1984",
+      title: "College tuition up 753% since 1984. Overall inflation? 202%.",
+      subtitle: "Cumulative percent increase in Consumer Price Index by category since 1984",
       source: "Source: Bureau of Labor Statistics, CPI-U",
     },
     theme: { colors: ["#7c3aed", "#c44e52", "#e07b39", "#94a3b8", "#94a3b8"] },
+    seriesStyles: {
+      "Overall CPI": { lineStyle: "dashed", strokeWidth: 1.5, opacity: 0.6 },
+      "Food": { lineStyle: "dashed", strokeWidth: 1.5, opacity: 0.6 },
+    },
     labels: { density: "endpoints", format: ",.0f",
     offsets: { "College tuition": { dx: 5, dy: 8 },
     Shelter: { dx: 2, dy: 5 } } },
@@ -96,13 +102,15 @@ Not all prices rise at the same speed. Since 1984, the overall cost of living as
   }} />
 </Figure>
 
-In 1984, a dollar bought a dollar's worth of everything on this chart. By 2024, that same dollar buys about 33 cents of groceries, 31 cents of shelter, 19 cents of medical care, and just 11 cents of college tuition. The categories that define middle-class aspiration, a home, a degree, a doctor's visit, are precisely the ones that have outrun wages the fastest.
+In 1984, a dollar bought a dollar's worth of everything on this chart. By 2024, that same dollar buys about 31 cents of groceries, 31 cents of shelter, 19 cents of medical care, and just 12 cents of college tuition. The categories that define middle-class aspiration, a home, a degree, a doctor's visit, are precisely the ones that have outrun wages the fastest.
 
-The divergence started in the late 1980s and accelerated through the 2000s. College tuition was already expensive by 2000, but between 2000 and 2010 it nearly doubled again, from an index of 308 to 592. That decade alone wiped out whatever cushion families had built.
+The divergence started in the late 1980s and accelerated through the 2000s. College tuition was already up 202 percent by 2000, but between 2000 and 2010 it more than doubled to 481 percent above the 1984 baseline. That decade alone wiped out whatever cushion families had built.
+
+One asterisk: the Shelter line looks like it tracked general inflation at 223 percent. That doesn't match most people's experience, and for good reason. The BLS Shelter index is built from "owners' equivalent rent," a modeled estimate, not actual home prices or mortgage costs. Actual rent paid by tenants in urban areas is up 299 percent since 1984, and home purchase prices relative to income are up 40 percent. The CPI Shelter line is technically correct for what it measures. It just measures something different from what most people mean when they say "housing got expensive."
 
 ## What a day's work used to buy
 
-The raw CPI numbers are abstract. Here's what they mean in terms of labor. In 1984, a worker earning the median hourly wage of about $8.50 could pay for a year of public university tuition with roughly 17 weeks of full-time work. By 2024, at a median hourly wage of about $23, the same degree costs 48 weeks of full-time work. Nearly an entire year's wages before taxes for a single year of school.
+The raw CPI numbers are abstract. Here's what they mean in terms of labor. In 1984, a worker earning the median hourly wage of about $8.50 could cover the total cost of attendance at a public university, tuition, fees, room, and board, with roughly 16 weeks of full-time work. By 2024, at a median hourly wage of about $23, the same year of school costs 31 weeks of full-time work. Tuition alone tripled from 3.5 weeks to 12 weeks of labor, but the full sticker price nearly doubled as a share of your working year.
 
 <Figure alt="Grouped bar chart showing weeks of median wages needed to afford key expenses in 1984 vs 2024">
   <Chart spec={{
@@ -110,18 +118,18 @@ The raw CPI numbers are abstract. Here's what they mean in terms of labor. In 19
     responsive: true,
     mark: { type: "bar", orient: "horizontal" },
     data: [
-      { expense: "Year of public university", weeks: 17, era: "1984" },
-      { expense: "Year of public university", weeks: 48, era: "2024" },
+      { expense: "Year of public college (COA)", weeks: 16, era: "1984" },
+      { expense: "Year of public college (COA)", weeks: 31, era: "2024" },
       { expense: "Monthly rent (median)", weeks: 4.2, era: "1984" },
       { expense: "Monthly rent (median)", weeks: 7.8, era: "2024" },
       { expense: "New car (median)", weeks: 40, era: "1984" },
       { expense: "New car (median)", weeks: 94, era: "2024" },
-      { expense: "Month of family health premium", weeks: 0.8, era: "1984" },
-      { expense: "Month of family health premium", weeks: 4.5, era: "2024" },
+      { expense: "Month of family health premium", weeks: 0.3, era: "1984" },
+      { expense: "Month of family health premium", weeks: 2.3, era: "2024" },
     ],
     encoding: {
       x: { field: "weeks", type: "quantitative", scale: { nice: false }, axis: { title: "Weeks of full-time work at median wage" } },
-      y: { field: "expense", type: "nominal", axis: { title: "" }, scale: { domain: ["Year of public university", "New car (median)", "Monthly rent (median)", "Month of family health premium"] } },
+      y: { field: "expense", type: "nominal", axis: { title: "" }, scale: { domain: ["Year of public college (COA)", "New car (median)", "Monthly rent (median)", "Month of family health premium"] } },
       color: { field: "era", type: "nominal" },
     },
     chrome: {
@@ -134,27 +142,100 @@ The raw CPI numbers are abstract. Here's what they mean in terms of labor. In 19
   }} />
 </Figure>
 
-A year of college went from 17 weeks of work to 48. A new car went from 40 weeks to 94. A month of family health insurance premiums went from less than a week to over four weeks. The only category that stayed roughly proportional was food, which is why the overall CPI can look moderate while the lived experience of middle-class costs feels crushing. The stuff you buy every day got cheaper (TVs, clothes, food relative to wages). The stuff that defines whether you're middle class got dramatically more expensive.
+A year of college went from 16 weeks of work to 31. A new car went from 40 weeks to 94. A month of family health insurance premiums went from a day and a half of work to over two weeks. The only category that stayed roughly proportional was food, which is why the overall CPI can look moderate while the lived experience of middle-class costs feels crushing. The stuff you buy every day got cheaper (TVs, clothes, food relative to wages). The stuff that defines whether you're middle class got dramatically more expensive.
+
+## The college bet doesn't always pay off
+
+The standard defense of rising tuition is that college is an investment. Pay more now, earn more later. The federal College Scorecard data tells a more complicated story. Ten years after enrollment, median earnings vary wildly by institution type. Public university graduates earn $45,400 a year and carry $14,600 in debt. Private nonprofit graduates, think traditional universities like NYU or small liberal arts colleges that reinvest tuition into the school, earn $54,200 but paid $46,700 per year for the privilege. And graduates of private for-profits, investor-owned chains like University of Phoenix and DeVry that operate as businesses? They earn just $33,300 with $12,200 in debt, barely above what they'd make without a degree.
+
+<Figure alt="Grouped bar chart comparing annual cost, graduation debt, and 10-year median earnings across public, private nonprofit, and private for-profit institutions">
+  <Chart spec={{
+    animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+    responsive: true,
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { metric: "Annual cost", type: "Public", value: 19138 },
+      { metric: "Annual cost", type: "Private nonprofit", value: 46736 },
+      { metric: "Annual cost", type: "Private for-profit", value: 32444 },
+      { metric: "Debt at graduation", type: "Public", value: 14607 },
+      { metric: "Debt at graduation", type: "Private nonprofit", value: 22227 },
+      { metric: "Debt at graduation", type: "Private for-profit", value: 12187 },
+      { metric: "Earnings 10yr after", type: "Public", value: 45408 },
+      { metric: "Earnings 10yr after", type: "Private nonprofit", value: 54216 },
+      { metric: "Earnings 10yr after", type: "Private for-profit", value: 33324 },
+    ],
+    encoding: {
+      x: { field: "value", type: "quantitative", axis: { title: "", format: "$~s" }, scale: { nice: false } },
+      y: { field: "metric", type: "nominal", axis: { title: "" }, scale: { domain: ["Annual cost", "Debt at graduation", "Earnings 10yr after"] } },
+      color: { field: "type", type: "nominal", scale: { domain: ["Public", "Private nonprofit", "Private for-profit"], range: ["#1b7fa3", "#7c3aed", "#c44e52"] } },
+    },
+    chrome: {
+      title: "Public colleges deliver the best return on investment",
+      subtitle: "Annual cost, median debt at graduation, and median earnings 10 years after enrollment",
+      source: "Source: U.S. Department of Education, College Scorecard (2026)",
+    },
+    labels: { density: "all", format: "$~s" },
+    legend: { position: "top" },
+  }} />
+</Figure>
+
+Even at public universities, the best-value option, the math has gotten tighter. A student borrowing $14,600 and earning $45,400 a decade later is in a better position than someone with no degree, but not by the margin that a four-year commitment of time and tuition would suggest. The college premium is real, but it's been squeezed from both sides: costs rising faster than the earnings it produces. (For a deeper look at which degrees pay off and which don't, see [The $80,000 Question: Does College Still Pay Off?](/does-college-pay-off).)
 
 ## The mortgage rate trap
 
-Here's where housing affordability really breaks down. It's not just that home prices rose. It's what happened to the cost of borrowing.
+On a $400,000 house, the difference between a 3 percent and 7 percent mortgage rate is $700 a month. Home prices get the headlines, but for most buyers, the interest rate determines whether the monthly payment is manageable or crushing.
 
 <Figure alt="Line chart showing 30-year mortgage rates declining from 13% in 1980 to 3% in 2020, then surging back to 7% by 2023">
   <Chart spec={{
     animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
     responsive: true,
-    mark: { type: "line", point: true, interpolate: "monotone" },
+    mark: { type: "area", interpolate: "monotone" },
     data: [
       { year: "1975", rate: 9.05 },
+      { year: "1976", rate: 8.87 },
+      { year: "1977", rate: 8.85 },
+      { year: "1978", rate: 9.64 },
+      { year: "1979", rate: 11.20 },
       { year: "1980", rate: 13.74 },
+      { year: "1981", rate: 16.64 },
+      { year: "1982", rate: 16.04 },
+      { year: "1983", rate: 13.24 },
+      { year: "1984", rate: 13.88 },
       { year: "1985", rate: 12.43 },
+      { year: "1986", rate: 10.19 },
+      { year: "1987", rate: 10.21 },
+      { year: "1988", rate: 10.34 },
+      { year: "1989", rate: 10.32 },
       { year: "1990", rate: 10.13 },
+      { year: "1991", rate: 9.25 },
+      { year: "1992", rate: 8.39 },
+      { year: "1993", rate: 7.31 },
+      { year: "1994", rate: 8.38 },
       { year: "1995", rate: 7.93 },
+      { year: "1996", rate: 7.81 },
+      { year: "1997", rate: 7.60 },
+      { year: "1998", rate: 6.94 },
+      { year: "1999", rate: 7.44 },
       { year: "2000", rate: 8.05 },
+      { year: "2001", rate: 6.97 },
+      { year: "2002", rate: 6.54 },
+      { year: "2003", rate: 5.83 },
+      { year: "2004", rate: 5.84 },
       { year: "2005", rate: 5.87 },
+      { year: "2006", rate: 6.41 },
+      { year: "2007", rate: 6.34 },
+      { year: "2008", rate: 6.03 },
+      { year: "2009", rate: 5.04 },
       { year: "2010", rate: 4.69 },
+      { year: "2011", rate: 4.45 },
+      { year: "2012", rate: 3.66 },
+      { year: "2013", rate: 3.98 },
+      { year: "2014", rate: 4.17 },
       { year: "2015", rate: 3.85 },
+      { year: "2016", rate: 3.65 },
+      { year: "2017", rate: 3.99 },
+      { year: "2018", rate: 4.54 },
+      { year: "2019", rate: 3.94 },
       { year: "2020", rate: 3.11 },
       { year: "2021", rate: 2.96 },
       { year: "2022", rate: 5.34 },
@@ -163,12 +244,12 @@ Here's where housing affordability really breaks down. It's not just that home p
       { year: "2025", rate: 6.60 },
     ],
     encoding: {
-      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "" } },
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "", tickCount: 11 } },
       y: {
         field: "rate",
         type: "quantitative",
-        axis: { title: "Average rate", format: ".1f%" },
-        scale: { domain: [0, 15], nice: false },
+        axis: { title: "Average rate (%)", format: ".1f", tickCount: 6 },
+        scale: { domain: [0, 18], nice: false },
       },
     },
     annotations: [
@@ -176,7 +257,7 @@ Here's where housing affordability really breaks down. It's not just that home p
       offset: { dx: -70, dy: 9 },
       connectorOffset: { from: { dx: 69, dy: 28 },
       to: { dx: 108, dy: 16 } } },
-      { type: "text", x: "1985", y: 15, text: "Volcker era: 13.7%", fontSize: 12, fontWeight: 600, fill: "#c44e52",
+      { type: "text", x: "1985", y: 17, text: "Volcker era: 16.6%", fontSize: 12, fontWeight: 600, fill: "#c44e52",
       connectorOffset: { from: { dx: 3, dy: 22 },
       to: { dx: 57, dy: 10 } } },
     ],
@@ -186,17 +267,17 @@ Here's where housing affordability really breaks down. It's not just that home p
       source: "Source: Freddie Mac via FRED",
     },
     theme: { colors: ["#1b7fa3"] },
-    labels: { density: "endpoints", format: ".1f%" },
+    labels: { density: "endpoints", format: ".1f" },
   }} />
 </Figure>
 
 Falling mortgage rates from 1980 through 2020 masked much of the home price inflation. When rates dropped from 13 percent to 3 percent, a buyer could afford a much more expensive house for the same monthly payment. That 40-year decline in rates acted as an invisible subsidy, keeping monthly payments manageable even as sticker prices soared.
 
-Then the subsidy vanished. Between 2020 and 2023, rates more than doubled from 2.96 to 6.81 percent. On a $400,000 house with 20 percent down, that rate change adds roughly $700 per month to the mortgage payment, about $8,400 per year. For a household earning $84,000, that's an extra 10 percent of gross income just from the rate change alone.
+Then the subsidy vanished. Between 2020 and 2023, rates more than doubled from 2.96 to 6.81 percent. On a $400,000 house with 20 percent down, that rate change adds roughly $700 per month to the mortgage payment, about $8,400 per year. For a household earning $83,700, that's an extra 10 percent of gross income just from the rate change alone.
 
 ## The golden era, and when each pillar cracked
 
-There was a period, roughly the mid-1950s through the mid-1990s, when the math of middle-class life worked almost automatically. A median earner could buy a median home, send kids to a state university, and absorb healthcare costs without financial catastrophe. Each pillar of affordability cracked at a different time.
+Housing, tuition, and healthcare don't just cost more. They cost more *relative to what people earn*. Each pillar of affordability cracked at a different time, and the chart below shows the divergence.
 
 <Figure alt="Line chart showing home price, tuition, and health premium as costs relative to median household income indexed to 100 in 2000, all three rising sharply after 2000">
   <Chart spec={{
@@ -204,176 +285,189 @@ There was a period, roughly the mid-1950s through the mid-1990s, when the math o
     responsive: true,
     mark: { type: "line", point: true, interpolate: "monotone" },
     data: [
-      { year: "1984", category: "Home price / income", index: 52 },
-      { year: "1990", category: "Home price / income", index: 72 },
-      { year: "1995", category: "Home price / income", index: 84 },
-      { year: "2000", category: "Home price / income", index: 100 },
-      { year: "2005", category: "Home price / income", index: 136 },
-      { year: "2010", category: "Home price / income", index: 132 },
-      { year: "2015", category: "Home price / income", index: 160 },
-      { year: "2020", category: "Home price / income", index: 168 },
-      { year: "2024", category: "Home price / income", index: 200 },
-      { year: "1984", category: "Tuition / income", index: 33 },
-      { year: "1990", category: "Tuition / income", index: 52 },
-      { year: "1995", category: "Tuition / income", index: 85 },
-      { year: "2000", category: "Tuition / income", index: 100 },
-      { year: "2005", category: "Tuition / income", index: 153 },
-      { year: "2010", category: "Tuition / income", index: 197 },
-      { year: "2015", category: "Tuition / income", index: 231 },
-      { year: "2020", category: "Tuition / income", index: 220 },
-      { year: "2024", category: "Tuition / income", index: 215 },
-      { year: "1984", category: "Health premium / income", index: 34 },
-      { year: "1990", category: "Health premium / income", index: 63 },
-      { year: "1995", category: "Health premium / income", index: 89 },
-      { year: "2000", category: "Health premium / income", index: 100 },
-      { year: "2005", category: "Health premium / income", index: 173 },
-      { year: "2010", category: "Health premium / income", index: 220 },
-      { year: "2015", category: "Health premium / income", index: 267 },
-      { year: "2020", category: "Health premium / income", index: 295 },
-      { year: "2024", category: "Health premium / income", index: 339 },
+      { year: "1984", category: "Home price / income", pct: 0 },
+      { year: "1990", category: "Home price / income", pct: 15 },
+      { year: "1995", category: "Home price / income", pct: 10 },
+      { year: "2000", category: "Home price / income", pct: 12 },
+      { year: "2005", category: "Home price / income", pct: 43 },
+      { year: "2010", category: "Home price / income", pct: 27 },
+      { year: "2015", category: "Home price / income", pct: 46 },
+      { year: "2020", category: "Home price / income", pct: 35 },
+      { year: "2024", category: "Home price / income", pct: 40 },
+      { year: "1984", category: "Tuition / income", pct: 0 },
+      { year: "1990", category: "Tuition / income", pct: 33 },
+      { year: "1995", category: "Tuition / income", pct: 71 },
+      { year: "2000", category: "Tuition / income", pct: 63 },
+      { year: "2005", category: "Tuition / income", pct: 131 },
+      { year: "2010", category: "Tuition / income", pct: 201 },
+      { year: "2015", category: "Tuition / income", pct: 216 },
+      { year: "2020", category: "Tuition / income", pct: 178 },
+      { year: "2024", category: "Tuition / income", pct: 171 },
+      { year: "1984", category: "Health premium / income", pct: 0 },
+      { year: "1990", category: "Health premium / income", pct: 100 },
+      { year: "1995", category: "Health premium / income", pct: 163 },
+      { year: "2000", category: "Health premium / income", pct: 187 },
+      { year: "2005", category: "Health premium / income", pct: 339 },
+      { year: "2010", category: "Health premium / income", pct: 422 },
+      { year: "2015", category: "Health premium / income", pct: 480 },
+      { year: "2020", category: "Health premium / income", pct: 486 },
+      { year: "2024", category: "Health premium / income", pct: 471 },
     ],
     encoding: {
-      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "" } },
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "", tickCount: 9 } },
       y: {
-        field: "index",
+        field: "pct",
         type: "quantitative",
-        axis: { title: "Index (2000 = 100)", format: ",.0f" },
-        scale: { domain: [0, 360], nice: false },
+        axis: { title: "% increase since 1984", format: ",.0f", tickCount: 5 },
+        scale: { domain: [0, 550], nice: false },
       },
       color: { field: "category", type: "nominal" },
     },
     annotations: [
-      { type: "refline", y: 100, stroke: "#94a3b8", strokeDasharray: "6 4", label: "2000 baseline", labelAnchor: "top" },
+      { type: "refline", y: 0, stroke: "#94a3b8", strokeDasharray: "6 4", label: "", labelAnchor: "top" },
+      { type: "text", x: "1984", y: 0, text: "1984 baseline", fontSize: 11, fill: "#94a3b8", offset: { dx: 5, dy: -10 } },
     ],
     chrome: {
-      title: "Every pillar of middle-class life got more expensive relative to income",
-      subtitle: "Each cost as a share of median household income, indexed to 100 in 2000",
+      title: "Health premiums grew 471% relative to income. Tuition? 171%.",
+      subtitle: "Each cost as a share of median household income, percent increase since 1984",
       source: "Source: FRED, NCES, KFF, Census Bureau",
     },
     theme: { colors: ["#1b7fa3", "#7c3aed", "#c44e52"] },
-    labels: { density: "endpoints",
+    labels: { density: "endpoints", format: ",.0f",
     offsets: { "Home price / income": { dx: 0, dy: 14 },
     "Health premium / income": { dx: 0, dy: 5 } } },
     legend: { position: "top" },
   }} />
 </Figure>
 
-Housing crossed the traditional 3x affordability threshold around 2004 and never came back. College tuition as a share of household income roughly sextupled, from 2 percent in 1984 to over 13 percent today. Family health insurance premiums went from 3 percent of median income to nearly 30 percent. Each one of these would be a financial shock on its own. Together, they've transformed the household budget from something with comfortable margins into something that requires two incomes, family help, or debt just to hit the baseline.
+The home price-to-income ratio rose 40 percent since 1984, from 3.6 years of income to 5.0. College tuition as a share of household income nearly tripled, from 5 percent of income to 14 percent. But the real standout is health insurance: the total family premium as a share of income is up 471 percent, from 5 percent to 31 percent. An important caveat: the employer pays about 73 percent of that premium, so the household's direct out-of-pocket share is closer to 8 percent of income. But it's all compensation. Every dollar an employer spends on your health plan is a dollar that doesn't show up in your paycheck. Together, these three costs have transformed the household budget from something with comfortable margins into something that requires two incomes, family help, or debt just to hit the baseline.
+
+Sharp-eyed readers will notice that tuition relative to income peaked around 2015 and has actually declined since, even though the CPI chart above shows tuition prices still climbing. Both are true. Tuition sticker prices kept rising, but nominal incomes grew faster in the last decade thanks to a tight labor market and post-pandemic wage growth. State funding for public universities also stabilized after years of cuts. The ratio leveled off not because college got cheaper, but because paychecks finally started catching up. Health premiums, by contrast, kept outrunning wages with no sign of slowing.
+
+The CPI chart earlier shows tuition sticker prices rising 753 percent. This chart shows tuition's *burden* on income rising 171 percent. The difference is income growth: prices can skyrocket, but if income keeps up with part of that increase, the household burden grows more slowly. Health premiums are the one cost where income has barely made a dent.
 
 ## The top took what the middle lost
 
-Between 1980 and 2023, US GDP roughly tripled in real terms. The economy grew enormously. But median household income, adjusted for inflation, rose only 39 percent. Where did the rest of the growth go?
+Between 1980 and 2023, US GDP roughly tripled in real terms. The economy grew enormously. But median household income, adjusted for inflation, rose only about 39 percent over the same period. The economy's pie got three times bigger. The median household's slice grew by a third. Where did the rest go?
 
-<Figure alt="Line chart showing the share of income going to the top 1% rising from 10% in 1980 to 21% in 2023">
+<Figure alt="Line chart showing the top 1% income share rising from 10% to 21% while the middle 40% share falls from 44% to 36% between 1980 and 2023">
   <Chart spec={{
     animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
     responsive: true,
     mark: { type: "line", point: true, interpolate: "monotone" },
     data: [
-      { year: "1980", share: 10.4 },
-      { year: "1985", share: 12.3 },
-      { year: "1990", share: 14.7 },
-      { year: "1995", share: 14.5 },
-      { year: "2000", share: 17.3 },
-      { year: "2005", share: 18.1 },
-      { year: "2010", share: 17.9 },
-      { year: "2015", share: 18.9 },
-      { year: "2020", share: 18.2 },
-      { year: "2021", share: 19.9 },
-      { year: "2022", share: 20.7 },
-      { year: "2023", share: 20.7 },
+      { year: "1980", share: 10.4, group: "Top 1%" },
+      { year: "1985", share: 12.3, group: "Top 1%" },
+      { year: "1990", share: 14.7, group: "Top 1%" },
+      { year: "1995", share: 14.5, group: "Top 1%" },
+      { year: "2000", share: 17.3, group: "Top 1%" },
+      { year: "2005", share: 18.1, group: "Top 1%" },
+      { year: "2010", share: 17.9, group: "Top 1%" },
+      { year: "2015", share: 18.9, group: "Top 1%" },
+      { year: "2020", share: 18.2, group: "Top 1%" },
+      { year: "2023", share: 20.7, group: "Top 1%" },
+      { year: "1980", share: 44.3, group: "Middle 40%" },
+      { year: "1985", share: 42.6, group: "Middle 40%" },
+      { year: "1990", share: 41.2, group: "Middle 40%" },
+      { year: "1995", share: 40.4, group: "Middle 40%" },
+      { year: "2000", share: 39.1, group: "Middle 40%" },
+      { year: "2005", share: 38.4, group: "Middle 40%" },
+      { year: "2010", share: 38.0, group: "Middle 40%" },
+      { year: "2015", share: 37.2, group: "Middle 40%" },
+      { year: "2020", share: 37.0, group: "Middle 40%" },
+      { year: "2023", share: 35.7, group: "Middle 40%" },
     ],
     encoding: {
-      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "" } },
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "", tickCount: 9 } },
       y: {
         field: "share",
         type: "quantitative",
-        axis: { title: "Share of pre-tax income", format: ".0f%" },
-        scale: { domain: [8, 24], nice: false },
+        axis: { title: "Share of pre-tax income (%)", format: ".0f", tickCount: 5 },
+        scale: { domain: [8, 48], nice: false },
       },
+      color: { field: "group", type: "nominal", scale: { domain: ["Top 1%", "Middle 40%"], range: ["#c44e52", "#1b7fa3"] } },
     },
-    annotations: [
-      { type: "refline", y: 10.4, stroke: "#94a3b8", strokeDasharray: "6 4", label: "1980 level", labelAnchor: "bottom" },
-    ],
     chrome: {
-      title: "The top 1% now takes more than 1 in 5 dollars earned",
-      subtitle: "Share of pre-tax national income held by the top 1%, United States",
+      title: "The top 1% gained what the middle class lost",
+      subtitle: "Share of pre-tax national income, United States, 1980-2023",
       source: "Source: World Inequality Database via Our World in Data",
     },
-    theme: { colors: ["#c44e52"] },
-    labels: { density: "endpoints", format: ".1f%" },
+    labels: { density: "endpoints", format: ".1f" },
   }} />
 </Figure>
 
-In 1980, the top 1 percent of earners took home 10.4 percent of pre-tax national income. By 2023, that share had doubled to 20.7 percent. The top 1 percent's income share has grown by 10 percentage points, while the median household's real income grew by barely a third.
+In 1980, the middle 40 percent of earners (the 50th to 90th percentile, roughly households making $40,000 to $150,000 in today's dollars) took home 44 percent of pre-tax national income. The top 1 percent took 10 percent. By 2023, those lines had converged: the middle 40 percent's share fell to 36 percent while the top 1 percent's doubled to 21 percent. The top 1 percent gained almost exactly what the middle class lost, about 10 percentage points transferred over four decades.
 
-This isn't a coincidence. The same forces that drove GDP growth (globalization, technology, financialization, and the shift from labor-intensive to capital-intensive industries) disproportionately benefited asset owners and high earners. The median worker got productivity gains in the form of cheaper consumer goods, but the big structural costs of middle-class life, housing, healthcare, and education, are all services that didn't get cheaper. They got much more expensive.
+This isn't a coincidence. The same forces that drove GDP growth, globalization, technology, financialization, disproportionately benefited asset owners and high earners. If the middle 40 percent had held their 1980 income share, their households would earn roughly 24 percent more today, enough to absorb much of the housing and healthcare inflation documented above. Instead, the median worker got productivity gains in the form of cheaper consumer goods, while the structural costs of middle-class life, housing, healthcare, and education, kept climbing.
 
-## What $84,000 actually buys
+## Where the paycheck goes
 
-A median household today earns $83,700. Here's what that income has to cover, and how the math has changed.
+A median household today earns $83,700. Where does it all go? The BLS Consumer Expenditure Survey tracks the flows. In 2024, the average household took in $104,207 before taxes and spent $78,535. An important caveat: these are *mean* figures, not median. The median household earns $83,700, about 20 percent less. That gap itself is a symptom of inequality: the mean gets pulled up by high earners at the top. What follows paints a tight picture even at the higher average. For a median household, every margin shown here is thinner.
 
-<Figure alt="Stacked bar chart comparing estimated household budget allocation in 1984 vs 2024 as percent of gross income">
-  <Chart spec={{
-    animation: { enter: { ease: "snappy" } },
+<Figure alt="Sankey diagram showing how household income flows through major expense groupings in 2024, with essential costs consuming the vast majority and net savings reduced to a thin trickle" minHeight={0}>
+  <Sankey spec={{
+    type: "sankey",
+    animation: { enter: { duration: 800 } },
     responsive: true,
-    mark: "bar",
     data: [
-      { year: "1984", category: "Housing (mortgage + utilities)", pct: 22 },
-      { year: "1984", category: "Food", pct: 15 },
-      { year: "1984", category: "Healthcare (premiums + OOP)", pct: 5 },
-      { year: "1984", category: "Transportation", pct: 17 },
-      { year: "1984", category: "College savings / tuition", pct: 2 },
-      { year: "1984", category: "Everything else", pct: 39 },
-      { year: "2024", category: "Housing (mortgage + utilities)", pct: 33 },
-      { year: "2024", category: "Food", pct: 13 },
-      { year: "2024", category: "Healthcare (premiums + OOP)", pct: 12 },
-      { year: "2024", category: "Transportation", pct: 16 },
-      { year: "2024", category: "College savings / tuition", pct: 8 },
-      { year: "2024", category: "Everything else", pct: 18 },
+      { source: "Income $104k", target: "Net savings ~$7k", value: 6672 },
+      { source: "Income $104k", target: "Taxes ~$19k", value: 19000 },
+      { source: "Income $104k", target: "Essential costs", value: 49786 },
+      { source: "Income $104k", target: "Security", value: 15994 },
+      { source: "Income $104k", target: "Discretionary", value: 12755 },
+      { source: "Essential costs", target: "Housing $26k", value: 26266 },
+      { source: "Essential costs", target: "Transportation $13k", value: 13318 },
+      { source: "Essential costs", target: "Food $10k", value: 10169 },
+      { source: "Security", target: "SS + pensions $10k", value: 9797 },
+      { source: "Security", target: "Healthcare $6k", value: 6197 },
+      { source: "Discretionary", target: "Entertainment $4k", value: 3609 },
+      { source: "Discretionary", target: "Apparel $2k", value: 2001 },
+      { source: "Discretionary", target: "Education $2k", value: 1569 },
+      { source: "Discretionary", target: "Contributions $2k", value: 2292 },
+      { source: "Discretionary", target: "Other $3k", value: 3284 },
     ],
     encoding: {
-      x: { field: "year", type: "ordinal", axis: { title: "" } },
-      y: { field: "pct", type: "quantitative", axis: { title: "Share of gross income", format: ".0f%" }, scale: { domain: [0, 100], nice: false } },
-      color: { field: "category", type: "nominal" },
+      source: { field: "source", type: "nominal" },
+      target: { field: "target", type: "nominal" },
+      value: { field: "value", type: "quantitative" },
     },
+    linkStyle: "gradient",
+    nodePadding: 10,
+    valueFormat: "$~s",
     chrome: {
-      title: "The margin for error has almost vanished",
-      subtitle: "Estimated household budget as percent of gross income, median household",
-      source: "Source: BLS Consumer Expenditure Survey, author estimates",
+      title: "After taxes and essentials, $550/month is all that's left to save",
+      subtitle: "Average household income ($104,207) and spending flows, 2024",
+      source: "Source: BLS Consumer Expenditure Survey, 2024",
     },
-    theme: { colors: ["#1b7fa3", "#6a9f58", "#c44e52", "#e07b39", "#7c3aed", "#94a3b8"] },
-    labels: { density: "all", format: ".0f%" },
+    theme: { colors: ["#1b7fa3", "#c44e52", "#7c3aed", "#64748b", "#6a9f58", "#4a8c6f", "#d47215", "#5b6abf", "#3a8a8c", "#b08d35", "#9a5080", "#94a3b8", "#7a8a3a", "#c4873a", "#8a6aaf"] },
   }} />
 </Figure>
 
-In 1984, a median household spent about 22 percent of gross income on housing, 5 percent on healthcare, and 2 percent on education. That left 39 percent for everything else: savings, vacations, emergencies, the cushion that makes middle-class life feel stable.
+Essential costs alone, housing, transportation, and food, consume $49,800 a year, nearly half of gross income. Add Social Security deductions, pension contributions, and healthcare premiums, and you've accounted for $66,000 of the $104,000. Federal and state taxes take another $19,000. That leaves roughly $6,700 for the entire year in net savings, about $550 a month. And remember, that's at the *average* income of $104k. A median household earning $83,700 with roughly similar fixed costs has almost nothing left. One unexpected medical bill, one car repair, one semester of a child's tuition, and it's gone.
 
-By 2024, housing takes 33 percent, healthcare takes 12 percent, and education takes 8 percent. The "everything else" category, the financial breathing room, has been cut in half from 39 percent to 18 percent. Food and transportation stayed roughly flat as shares. The entire squeeze came from the three pillars: housing, healthcare, and education. A family spending according to these averages has almost no margin left for savings, emergencies, or the unplanned expenses that used to be absorbable.
+The "Discretionary" stream, $12,755, covers entertainment, clothing, education, charitable giving, and everything else that isn't a structural obligation. That's $1,060 a month for a household of 2.4 people. The thin trickle at the bottom of the diagram labeled "Net savings" is the entire financial buffer between stability and crisis.
 
 ---
 
-The math of middle-class life used to work almost by default. In the 1980s, a median earner could buy a median home for 1.3 years of income, cover tuition with a summer job, and barely notice health insurance on their paycheck. You didn't need to be strategic about it. Get a job, buy a house, raise kids, retire with a pension or some savings.
+For about 40 years, the math of middle-class life ran on autopilot. A median earner could buy a median home for about 3.6 years of income, cover tuition with a summer job, and barely notice health insurance on their paycheck. Get a job, buy a house, raise kids, retire with a pension or some savings. You didn't need a strategy. You just needed a paycheck.
 
-That's no longer true. College tuition has risen nine times faster than general inflation. Housing costs five years of income instead of one. Health premiums consume 30 percent of a median household's earnings, up from 3 percent. And while GDP tripled, the top 1 percent captured the lion's share of that growth while median wages grew by barely a third.
+That's no longer true. College tuition prices have risen nearly four times faster than general inflation. A median home now costs 5 years of income instead of 3.6. Total family health premiums consume 31 percent of a median household's earnings, up from 5 percent. And while GDP tripled, the top 1 percent captured the lion's share of that growth while median wages, adjusted for inflation, grew by barely a third.
 
-The American Dream didn't die. It got priced out of reach.
-
-<Figure alt="Horizontal bar chart showing how much more of your income each pillar of middle-class life consumes in 2024 versus 1984, with health premiums growing nearly 10x, tuition 6.5x, and home prices 3.8x">
+<Figure alt="Horizontal bar chart showing how much more of your income each pillar of middle-class life consumes in 2024 versus 1984, with health premiums growing 5.7x, tuition 2.7x, and home prices 1.4x">
   <Chart spec={{
     animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
     responsive: true,
     mark: { type: "bar", orient: "horizontal" },
     data: [
       { pillar: "Family health premium", era: "1984", multiple: 1.0 },
-      { pillar: "Family health premium", era: "2024", multiple: 9.9 },
+      { pillar: "Family health premium", era: "2024", multiple: 5.7 },
       { pillar: "College tuition", era: "1984", multiple: 1.0 },
-      { pillar: "College tuition", era: "2024", multiple: 6.6 },
+      { pillar: "College tuition", era: "2024", multiple: 2.7 },
       { pillar: "Home price", era: "1984", multiple: 1.0 },
-      { pillar: "Home price", era: "2024", multiple: 3.8 },
+      { pillar: "Home price", era: "2024", multiple: 1.4 },
     ],
     encoding: {
-      x: { field: "multiple", type: "quantitative", scale: { domain: [0, 11], nice: false }, axis: { title: "Cost as a multiple of income (1984 = 1.0x)", format: ".1f" } },
+      x: { field: "multiple", type: "quantitative", scale: { domain: [0, 7], nice: false }, axis: { title: "Cost as a multiple of income (1984 = 1.0x)", format: ".1fx" } },
       y: { field: "pillar", type: "nominal", axis: { title: "" } },
       color: { field: "era", type: "nominal" },
     },
@@ -381,30 +475,34 @@ The American Dream didn't die. It got priced out of reach.
       { type: "refline", x: 1.0, stroke: "#94a3b8", strokeDasharray: "6 4", label: "1984 baseline", labelAnchor: "right" },
     ],
     chrome: {
-      title: "Health premiums now cost 10x more of your income than in 1984",
+      title: "Health premiums now consume nearly 6x more of your income than in 1984",
       subtitle: "Each pillar's cost relative to median household income, expressed as a multiple of the 1984 burden",
       source: "Source: KFF, NCES, Census Bureau, FRED",
     },
     theme: { colors: ["#6a9f58", "#c44e52"] },
-    labels: { density: "all", format: ".1f" },
+    labels: { density: "all", format: ".1fx" },
   }} />
 </Figure>
+
+The American Dream didn't die. It got priced out of reach.
 
 ## Data sources & methodology
 
 **Datasets used:**
-- `bls/cpi-u` (enriched view) — Consumer Price Index for All Urban Consumers, monthly. Categories: All items, College tuition and fees, Medical care, Shelter, Food. Source: Bureau of Labor Statistics.
+- `bls/cpi-u` (enriched view) — Consumer Price Index for All Urban Consumers, monthly. Categories: All items, College tuition and fees (CUSR0000SEEB01), Medical care (CUSR0000SAM), Shelter (CUSR0000SAH), Food (CUSR0000SAF). Source: Bureau of Labor Statistics.
 - `fred/median-home-price` — Median sales price of new houses sold in the US, monthly, 1963-2025. Source: US Census Bureau.
-- `fred/median-household-income` — Real median household income, annual, 1984-2024. Source: Census Bureau/BLS, inflation-adjusted to current dollars.
+- `fred/median-household-income` — Real median household income, annual, 1984-2024. Source: Census Bureau/BLS. The dataset reports inflation-adjusted (constant 2023 dollar) values. Nominal income figures used in the narrative ($22,400 in 1984, $83,700 in 2024) come from `fred/nominal-median-household-income` (FRED series MEHOINUSA646N, Census Bureau CPS ASEC, current dollars) to ensure consistent comparison with nominal cost data.
 - `fred/mortgage-rates` — 30-year fixed-rate mortgage average, weekly, 1971-2026. Source: Freddie Mac.
-- `owid/income-top1` — Share of pre-tax national income held by the top 1%, annual. Source: World Inequality Database.
+- `owid/income-top1` — Share of pre-tax national income held by the top 1%, annual. Middle 40% (P50-P90) income share from the same source. Source: World Inequality Database.
+- `ed/college-scorecard` — Institution-level cost, debt, earnings, completion rates, loan repayment rates, and share earning below $28k by institution control type (public, private nonprofit, private for-profit). Most recent cohort (2026 release). Source: U.S. Department of Education.
+- `bls/consumer-expenditure` — Consumer Expenditure Survey, annual averages for All Consumer Units, 2024. Spending by category, income before taxes. Source: Bureau of Labor Statistics.
 
 **Calculations & transformations:**
-- CPI series indexed to 1984 = 100 using January values for each year. College tuition CPI (BLS series CUUR0000SEEB01) had a 1984 base of 105.9; all values divided by 1.059 to normalize.
-- "Weeks of work" calculations use BLS median hourly wage ($8.49 in 1984, $23.11 in 2024) x 40 hours x N weeks, compared to published costs for each category (NCES tuition, Census median rent, NADA new car prices, KFF employer premium data).
-- Home price-to-income ratio computed as median new home price divided by median household income for the same year.
+- CPI series indexed to 1984 = 100 using annual average values. College tuition CPI (BLS series CUSR0000SEEB01) had a 1984 annual average of ~109.9; all values divided by the 1984 base to normalize.
+- "Weeks of work" calculations use BLS median hourly wage (~$8.50 in 1984, ~$23 in 2024) x 40 hours x N weeks, compared to published costs for each category (NCES total cost of attendance at public 4-year institutions for college, Census median rent, NADA new car prices, KFF employer premium data).
+- Home price-to-income ratio computed as nominal median new home price divided by nominal median household income for the same year (3.6:1 in 1984, 5.0:1 in 2024).
 - Tuition as percent of income uses NCES published average in-state tuition and fees at public 4-year institutions divided by median household income.
-- Health premium as percent of income uses KFF Employer Health Benefits Survey annual family premium divided by median household income.
+- Health premium as percent of income uses KFF Employer Health Benefits Survey annual *total* family premium (employer + employee share combined) divided by median household income. The employer pays roughly 73% of the total premium. This framing captures total compensation consumed by healthcare, not just the employee's direct payroll deduction.
 - Household budget shares estimated from BLS Consumer Expenditure Survey 1984 and 2024, with healthcare expanded to include employer-side premiums for comparability.
 - Mortgage rates averaged annually from weekly data.
 - Income share data used as reported (pre-tax national income share).
@@ -413,9 +511,13 @@ The American Dream didn't die. It got priced out of reach.
 - Median household income series begins in 1984; earlier years not available in this dataset.
 - Median new home price reflects new construction only, not existing home sales.
 - CPI categories use different base periods; all were re-indexed to 1984 for comparability.
-- "Weeks of work" calculations use gross wages, not take-home pay. The actual labor burden is higher after taxes.
+- "Weeks of work" calculations use gross wages, not take-home pay. The actual labor burden is higher after taxes. Health premium weeks use total family premium (employer + employee share) divided by gross weekly earnings; the employee's direct payroll burden is roughly one-quarter of the total shown.
 - Household budget shares are estimates derived from Consumer Expenditure Survey averages and published cost data. Individual households vary widely.
 - Top 1% income share data from World Inequality Database may differ from Census Bureau measures due to methodological differences.
 - College tuition figures are for in-state students at public four-year institutions. Private university costs are significantly higher.
+- College Scorecard earnings data reflects the most recent available cohort (typically 6 and 10 years post-enrollment). Earnings lag current labor market conditions by 2-3 years due to IRS data matching delays.
+- Debt-to-earnings ratios computed as median debt at graduation divided by median earnings 10 years after entry, averaged by institution control type.
+- College Scorecard averages by institution type (public, private nonprofit, for-profit) are unweighted across institutions, not enrollment-weighted. Large state universities and small colleges count equally.
+- Sankey chart uses BLS Consumer Expenditure Survey 2024 annual averages for "All Consumer Units" (n=135.76M). Values represent mean spending, not median. CEX does not report federal/state income taxes separately; the "Taxes + net savings" node is the residual between reported income before taxes ($104,207) and total expenditures ($78,535). Individual household allocations vary widely by income, region, and family size.
 
-*Data accessed on 2026-03-24 via the [OpenData API](https://tryopendata.ai).*
+*Data accessed on 2026-03-31 via the [OpenData API](https://tryopendata.ai).*
