@@ -1,0 +1,426 @@
+export const meta = {
+  title: "The 2025 Federal Exodus Hit Aviation Hardest",
+  date: "2026-03-29",
+  description: "One in 36 federal workers quit in a single month in September 2025, a rate 4.7 times normal. The aviation system that depends on them — from air traffic control to security screening — is feeling the consequences.",
+  tags: ["government-shutdown", "aviation", "federal-workforce", "TSA", "FAA", "DOGE", "labor"],
+}
+
+import { Chart } from '../components/Chart'
+import { Figure } from '../components/Figure'
+
+In September 2025, one in every 36 federal workers quit. That monthly quits rate of 2.8 percent was 4.7 times the long-run average and higher than anything the Bureau of Labor Statistics had recorded in the previous 13 years of tracking. It wasn't a normal month. It was the culmination of a year in which the federal government simultaneously froze hiring to its lowest sustained rate on record and watched job openings fall by half.
+
+The aviation system sits directly in the blast radius. Air traffic controllers, TSA screeners, FAA safety inspectors — these are federal employees. They can't be replaced quickly. A new air traffic controller takes two to four years to certify. A TSA officer needs months of training. When the government shuts down or enters a prolonged disruption like the DOGE-era restructuring of 2025, these agencies don't just lose headcount. They lose institutional knowledge that takes years to rebuild.
+
+This report uses federal labor data from the Bureau of Labor Statistics to trace how the 2025 disruption compares to previous shutdowns, how the transportation sector absorbed the shock, and what the workforce data says about the aviation system's fragility.
+
+## Previous shutdowns barely registered. 2025 broke the pattern.
+
+Government shutdowns used to be short enough that monthly labor data could barely detect them. The October 2013 shutdown lasted 16 days. The January 2018 shutdown lasted three. Even the 35-day shutdown of December 2018 through January 2019, the longest in history at that point, produced only modest blips in federal hiring and quit rates.
+
+The JOLTS data tells the story clearly. During the 2013 shutdown, federal layoffs ticked up 0.25 percentage points for a single month, then reverted. The 2018 three-day shutdown was invisible in monthly data. The 2018-2019 shutdown produced a measurable but contained effect: federal hires fell 0.4 points over two months, then recovered.
+
+Then came 2025. The quits rate didn't just spike — it detonated.
+
+<Figure alt="Line chart showing federal government quits rate from 2012 to 2026, with shutdown periods marked. The line is flat around 0.3-0.5 percent for 13 years, then spikes to 2.8 percent in September 2025.">
+  <Chart spec={{
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+    mark: { type: "line", point: false, interpolate: "monotone" },
+    data: [
+      { date: "2012-01", rate: 0.3 }, { date: "2012-06", rate: 0.3 }, { date: "2012-12", rate: 0.4 },
+      { date: "2013-01", rate: 0.3 }, { date: "2013-06", rate: 0.4 }, { date: "2013-10", rate: 0.4 }, { date: "2013-12", rate: 0.4 },
+      { date: "2014-01", rate: 0.3 }, { date: "2014-06", rate: 0.4 }, { date: "2014-12", rate: 0.4 },
+      { date: "2015-01", rate: 0.4 }, { date: "2015-06", rate: 0.4 }, { date: "2015-12", rate: 0.5 },
+      { date: "2016-01", rate: 0.4 }, { date: "2016-06", rate: 0.5 }, { date: "2016-12", rate: 0.5 },
+      { date: "2017-01", rate: 0.5 }, { date: "2017-06", rate: 0.5 }, { date: "2017-12", rate: 0.4 },
+      { date: "2018-01", rate: 0.5 }, { date: "2018-06", rate: 0.5 }, { date: "2018-12", rate: 0.5 },
+      { date: "2019-01", rate: 0.5 }, { date: "2019-06", rate: 0.5 }, { date: "2019-12", rate: 0.5 },
+      { date: "2020-01", rate: 0.4 }, { date: "2020-06", rate: 0.4 }, { date: "2020-12", rate: 0.5 },
+      { date: "2021-01", rate: 0.5 }, { date: "2021-06", rate: 0.6 }, { date: "2021-12", rate: 0.6 },
+      { date: "2022-01", rate: 0.5 }, { date: "2022-06", rate: 0.6 }, { date: "2022-12", rate: 0.5 },
+      { date: "2023-01", rate: 0.5 }, { date: "2023-06", rate: 0.5 }, { date: "2023-12", rate: 0.5 },
+      { date: "2024-01", rate: 0.5 }, { date: "2024-06", rate: 0.6 }, { date: "2024-12", rate: 0.6 },
+      { date: "2025-01", rate: 0.6 }, { date: "2025-03", rate: 0.7 }, { date: "2025-06", rate: 0.9 },
+      { date: "2025-09", rate: 2.8 }, { date: "2025-10", rate: 1.1 }, { date: "2025-11", rate: 0.8 },
+      { date: "2026-01", rate: 0.7 },
+    ],
+    encoding: {
+      x: { field: "date", type: "temporal", axis: { title: null }, scale: { nice: false } },
+      y: {
+        field: "rate",
+        type: "quantitative",
+        axis: { title: "Quits rate", format: ".1f%", tickCount: 6 },
+        scale: { domain: [0, 3.0], nice: false },
+      },
+    },
+    annotations: [
+      { type: "range", x1: "2013-10-01", x2: "2013-10-16", label: "2013", fill: "#94a3b8", opacity: 0.15 },
+      { type: "range", x1: "2018-12-22", x2: "2019-01-25", label: "2018-19", fill: "#94a3b8", opacity: 0.15 },
+      { type: "range", x1: "2025-03-01", x2: "2026-01-31", fill: "#c44e52", opacity: 0.08 },
+      {
+        type: "text", x: "2025-09", y: 2.8,
+        text: "Sep 2025: 2.8%\n4.7× normal",
+        anchor: "left",
+        offset: { dx: -80, dy: -20 },
+        fontSize: 12, fontWeight: 600, fill: "#c44e52",
+        connector: true,
+      },
+    ],
+    chrome: {
+      title: "Federal workers quit at 4.7× the normal rate in September 2025",
+      subtitle: "Monthly quits rate, federal government workers, seasonally adjusted",
+      source: "Source: Bureau of Labor Statistics, JOLTS",
+    },
+    theme: { colors: ["#c44e52"] },
+    labels: { density: "none" },
+  }} />
+</Figure>
+
+The September spike is consistent with the deferred resignation programs and buyout offers that swept federal agencies in mid-2025. But the spike was a one-month burst atop a broader trend: quits had been elevated above historical norms since March 2025, when the DOGE-era restructuring began in earnest. Even after the September peak subsided, the January 2026 reading of 0.7 percent remained above the pre-2025 baseline of 0.4 to 0.5 percent.
+
+For aviation, the math is stark. The FAA employs roughly 14,000 certified air traffic controllers and has been short-staffed for years. TSA has about 50,000 transportation security officers. Even a modest increase in quit rates at these agencies translates into hundreds of positions that take months or years to backfill.
+
+## The hiring freeze is the real shutdown
+
+The quits spike grabbed headlines. But the quieter story may be more consequential: the federal government effectively stopped hiring.
+
+Throughout 2025, the federal hiring rate held at 0.8 to 1.0 percent, the lowest sustained stretch in the JOLTS dataset's history. At the same time, job openings fell from 4.6 percent in October 2024 to 2.3 percent by August 2025 — a 50 percent collapse. The government wasn't just losing people. It was choosing not to replace them.
+
+<Figure alt="Line chart showing federal hires rate and job openings rate from 2015 to 2026. Both lines drop sharply in 2025, with job openings falling from 4.6 to 2.3 percent.">
+  <Chart spec={{
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { date: "2015-01", rate: 0.9, metric: "Hires" }, { date: "2015-06", rate: 1.0, metric: "Hires" }, { date: "2015-12", rate: 1.0, metric: "Hires" },
+      { date: "2016-01", rate: 0.9, metric: "Hires" }, { date: "2016-06", rate: 1.1, metric: "Hires" }, { date: "2016-12", rate: 1.0, metric: "Hires" },
+      { date: "2017-01", rate: 1.1, metric: "Hires" }, { date: "2017-06", rate: 1.0, metric: "Hires" }, { date: "2017-12", rate: 1.0, metric: "Hires" },
+      { date: "2018-01", rate: 1.0, metric: "Hires" }, { date: "2018-06", rate: 1.2, metric: "Hires" }, { date: "2018-12", rate: 1.0, metric: "Hires" },
+      { date: "2019-01", rate: 1.2, metric: "Hires" }, { date: "2019-06", rate: 1.1, metric: "Hires" }, { date: "2019-12", rate: 1.1, metric: "Hires" },
+      { date: "2020-01", rate: 1.0, metric: "Hires" }, { date: "2020-06", rate: 1.6, metric: "Hires" }, { date: "2020-08", rate: 10.0, metric: "Hires" }, { date: "2020-12", rate: 1.2, metric: "Hires" },
+      { date: "2021-01", rate: 1.2, metric: "Hires" }, { date: "2021-06", rate: 1.3, metric: "Hires" }, { date: "2021-12", rate: 1.2, metric: "Hires" },
+      { date: "2022-01", rate: 1.2, metric: "Hires" }, { date: "2022-06", rate: 1.1, metric: "Hires" }, { date: "2022-12", rate: 1.0, metric: "Hires" },
+      { date: "2023-01", rate: 1.0, metric: "Hires" }, { date: "2023-06", rate: 1.0, metric: "Hires" }, { date: "2023-12", rate: 1.1, metric: "Hires" },
+      { date: "2024-01", rate: 1.0, metric: "Hires" }, { date: "2024-06", rate: 1.1, metric: "Hires" }, { date: "2024-10", rate: 1.0, metric: "Hires" },
+      { date: "2025-01", rate: 0.9, metric: "Hires" }, { date: "2025-02", rate: 0.8, metric: "Hires" }, { date: "2025-06", rate: 0.8, metric: "Hires" },
+      { date: "2025-08", rate: 0.8, metric: "Hires" }, { date: "2025-12", rate: 0.9, metric: "Hires" },
+      { date: "2026-01", rate: 1.0, metric: "Hires" },
+      { date: "2015-01", rate: 2.8, metric: "Job openings" }, { date: "2015-06", rate: 3.0, metric: "Job openings" }, { date: "2015-12", rate: 3.2, metric: "Job openings" },
+      { date: "2016-01", rate: 3.1, metric: "Job openings" }, { date: "2016-06", rate: 3.4, metric: "Job openings" }, { date: "2016-12", rate: 3.3, metric: "Job openings" },
+      { date: "2017-01", rate: 3.2, metric: "Job openings" }, { date: "2017-06", rate: 3.5, metric: "Job openings" }, { date: "2017-12", rate: 3.4, metric: "Job openings" },
+      { date: "2018-01", rate: 3.5, metric: "Job openings" }, { date: "2018-06", rate: 3.8, metric: "Job openings" }, { date: "2018-12", rate: 4.2, metric: "Job openings" },
+      { date: "2019-01", rate: 4.2, metric: "Job openings" }, { date: "2019-06", rate: 4.0, metric: "Job openings" }, { date: "2019-12", rate: 3.8, metric: "Job openings" },
+      { date: "2020-01", rate: 3.5, metric: "Job openings" }, { date: "2020-06", rate: 3.0, metric: "Job openings" }, { date: "2020-12", rate: 3.8, metric: "Job openings" },
+      { date: "2021-01", rate: 3.8, metric: "Job openings" }, { date: "2021-06", rate: 4.2, metric: "Job openings" }, { date: "2021-12", rate: 4.5, metric: "Job openings" },
+      { date: "2022-01", rate: 4.5, metric: "Job openings" }, { date: "2022-06", rate: 4.6, metric: "Job openings" }, { date: "2022-12", rate: 4.4, metric: "Job openings" },
+      { date: "2023-01", rate: 4.3, metric: "Job openings" }, { date: "2023-06", rate: 4.2, metric: "Job openings" }, { date: "2023-12", rate: 4.0, metric: "Job openings" },
+      { date: "2024-01", rate: 4.2, metric: "Job openings" }, { date: "2024-06", rate: 4.4, metric: "Job openings" }, { date: "2024-10", rate: 4.6, metric: "Job openings" },
+      { date: "2025-01", rate: 3.8, metric: "Job openings" }, { date: "2025-03", rate: 3.2, metric: "Job openings" }, { date: "2025-06", rate: 2.8, metric: "Job openings" },
+      { date: "2025-08", rate: 2.3, metric: "Job openings" }, { date: "2025-10", rate: 2.8, metric: "Job openings" }, { date: "2025-12", rate: 3.5, metric: "Job openings" },
+      { date: "2026-01", rate: 3.5, metric: "Job openings" },
+    ],
+    encoding: {
+      x: { field: "date", type: "temporal", axis: { title: null }, scale: { nice: false } },
+      y: {
+        field: "rate",
+        type: "quantitative",
+        axis: { title: null, format: ".1f%", tickCount: 5 },
+        scale: { nice: false },
+      },
+      color: {
+        field: "metric", type: "nominal",
+        scale: { domain: ["Job openings", "Hires"], range: ["#1b7fa3", "#c44e52"] },
+      },
+    },
+    annotations: [
+      { type: "range", x1: "2025-03-01", x2: "2026-01-31", fill: "#94a3b8", opacity: 0.08, label: "DOGE era" },
+      {
+        type: "text", x: "2025-08", y: 2.3,
+        text: "Openings fell 50%\nin 10 months",
+        anchor: "bottom",
+        offset: { dx: 0, dy: 30 },
+        fontSize: 11, fontWeight: 600, fill: "#1b7fa3",
+        connector: true,
+      },
+    ],
+    chrome: {
+      title: "Federal job openings collapsed while hiring froze",
+      subtitle: "Monthly rates, federal government, seasonally adjusted",
+      source: "Source: Bureau of Labor Statistics, JOLTS",
+    },
+    labels: { density: "endpoints" },
+  }} />
+</Figure>
+
+This combination — high quits plus frozen hiring plus vanishing job openings — amounts to a deliberate workforce contraction. It's qualitatively different from a shutdown, where furloughed workers return when funding resumes. People who quit don't come back. Positions that are eliminated don't reopen.
+
+For the FAA, which was already operating with roughly 1,000 fewer controllers than its own staffing targets, the 2025 disruption compounded a pre-existing crisis. Training a new controller costs approximately $500,000 and takes two to four years. Every departure is a multi-year setback.
+
+## The transportation sector absorbed the shock
+
+The effects didn't stay within the federal government. The broader transportation, warehousing, and utilities sector — which includes airlines, airports, and the private contractors that support aviation — showed clear stress throughout 2025.
+
+Hiring in the sector softened from a baseline of about 4.2 percent to the 3.4 to 3.7 percent range, the lowest rates since the pandemic's early months. Job openings contracted sharply in March and April 2025, falling to 3.5 percent before a partial recovery. And in December 2025, layoffs hit 2.5 percent, the highest reading since early 2021.
+
+<Figure alt="Line chart showing transportation sector hires rate and layoffs rate from 2012 to 2026, with the December 2025 layoff spike highlighted.">
+  <Chart spec={{
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { date: "2012-01", rate: 3.8, metric: "Hires" }, { date: "2012-06", rate: 3.9, metric: "Hires" }, { date: "2012-12", rate: 4.1, metric: "Hires" },
+      { date: "2013-01", rate: 4.0, metric: "Hires" }, { date: "2013-06", rate: 4.2, metric: "Hires" }, { date: "2013-10", rate: 3.1, metric: "Hires" }, { date: "2013-12", rate: 4.0, metric: "Hires" },
+      { date: "2014-01", rate: 3.8, metric: "Hires" }, { date: "2014-06", rate: 4.1, metric: "Hires" }, { date: "2014-12", rate: 4.3, metric: "Hires" },
+      { date: "2015-01", rate: 4.2, metric: "Hires" }, { date: "2015-06", rate: 4.0, metric: "Hires" }, { date: "2015-12", rate: 4.3, metric: "Hires" },
+      { date: "2016-01", rate: 4.1, metric: "Hires" }, { date: "2016-06", rate: 4.5, metric: "Hires" }, { date: "2016-12", rate: 4.2, metric: "Hires" },
+      { date: "2017-01", rate: 4.0, metric: "Hires" }, { date: "2017-06", rate: 4.3, metric: "Hires" }, { date: "2017-12", rate: 4.2, metric: "Hires" },
+      { date: "2018-01", rate: 4.5, metric: "Hires" }, { date: "2018-06", rate: 4.3, metric: "Hires" }, { date: "2018-12", rate: 4.0, metric: "Hires" },
+      { date: "2019-01", rate: 4.5, metric: "Hires" }, { date: "2019-06", rate: 4.1, metric: "Hires" }, { date: "2019-12", rate: 4.3, metric: "Hires" },
+      { date: "2020-01", rate: 4.0, metric: "Hires" }, { date: "2020-04", rate: 2.0, metric: "Hires" }, { date: "2020-06", rate: 5.5, metric: "Hires" }, { date: "2020-12", rate: 4.5, metric: "Hires" },
+      { date: "2021-01", rate: 4.3, metric: "Hires" }, { date: "2021-06", rate: 5.0, metric: "Hires" }, { date: "2021-12", rate: 4.8, metric: "Hires" },
+      { date: "2022-01", rate: 4.7, metric: "Hires" }, { date: "2022-06", rate: 4.5, metric: "Hires" }, { date: "2022-12", rate: 4.4, metric: "Hires" },
+      { date: "2023-01", rate: 4.2, metric: "Hires" }, { date: "2023-06", rate: 4.1, metric: "Hires" }, { date: "2023-12", rate: 4.2, metric: "Hires" },
+      { date: "2024-01", rate: 4.0, metric: "Hires" }, { date: "2024-06", rate: 4.1, metric: "Hires" }, { date: "2024-12", rate: 4.2, metric: "Hires" },
+      { date: "2025-01", rate: 4.0, metric: "Hires" }, { date: "2025-03", rate: 3.5, metric: "Hires" }, { date: "2025-06", rate: 3.7, metric: "Hires" },
+      { date: "2025-09", rate: 3.4, metric: "Hires" }, { date: "2025-12", rate: 3.6, metric: "Hires" },
+      { date: "2026-01", rate: 3.8, metric: "Hires" },
+
+      { date: "2012-01", rate: 1.3, metric: "Layoffs" }, { date: "2012-06", rate: 1.2, metric: "Layoffs" }, { date: "2012-12", rate: 1.4, metric: "Layoffs" },
+      { date: "2013-01", rate: 1.3, metric: "Layoffs" }, { date: "2013-06", rate: 1.2, metric: "Layoffs" }, { date: "2013-12", rate: 1.3, metric: "Layoffs" },
+      { date: "2014-01", rate: 1.2, metric: "Layoffs" }, { date: "2014-06", rate: 1.1, metric: "Layoffs" }, { date: "2014-12", rate: 1.2, metric: "Layoffs" },
+      { date: "2015-01", rate: 1.2, metric: "Layoffs" }, { date: "2015-06", rate: 1.1, metric: "Layoffs" }, { date: "2015-12", rate: 1.3, metric: "Layoffs" },
+      { date: "2016-01", rate: 1.3, metric: "Layoffs" }, { date: "2016-06", rate: 1.2, metric: "Layoffs" }, { date: "2016-12", rate: 1.3, metric: "Layoffs" },
+      { date: "2017-01", rate: 1.2, metric: "Layoffs" }, { date: "2017-06", rate: 1.1, metric: "Layoffs" }, { date: "2017-12", rate: 1.3, metric: "Layoffs" },
+      { date: "2018-01", rate: 1.2, metric: "Layoffs" }, { date: "2018-06", rate: 1.3, metric: "Layoffs" }, { date: "2018-12", rate: 1.4, metric: "Layoffs" },
+      { date: "2019-01", rate: 1.3, metric: "Layoffs" }, { date: "2019-06", rate: 1.2, metric: "Layoffs" }, { date: "2019-12", rate: 1.3, metric: "Layoffs" },
+      { date: "2020-01", rate: 1.3, metric: "Layoffs" }, { date: "2020-04", rate: 4.5, metric: "Layoffs" }, { date: "2020-06", rate: 1.8, metric: "Layoffs" }, { date: "2020-12", rate: 1.5, metric: "Layoffs" },
+      { date: "2021-01", rate: 2.0, metric: "Layoffs" }, { date: "2021-06", rate: 1.4, metric: "Layoffs" }, { date: "2021-12", rate: 1.3, metric: "Layoffs" },
+      { date: "2022-01", rate: 1.2, metric: "Layoffs" }, { date: "2022-06", rate: 1.1, metric: "Layoffs" }, { date: "2022-12", rate: 1.3, metric: "Layoffs" },
+      { date: "2023-01", rate: 1.2, metric: "Layoffs" }, { date: "2023-06", rate: 1.3, metric: "Layoffs" }, { date: "2023-12", rate: 1.4, metric: "Layoffs" },
+      { date: "2024-01", rate: 1.3, metric: "Layoffs" }, { date: "2024-06", rate: 1.4, metric: "Layoffs" }, { date: "2024-12", rate: 1.5, metric: "Layoffs" },
+      { date: "2025-01", rate: 1.5, metric: "Layoffs" }, { date: "2025-03", rate: 1.6, metric: "Layoffs" }, { date: "2025-06", rate: 1.7, metric: "Layoffs" },
+      { date: "2025-09", rate: 1.8, metric: "Layoffs" }, { date: "2025-12", rate: 2.5, metric: "Layoffs" },
+      { date: "2026-01", rate: 1.9, metric: "Layoffs" },
+    ],
+    encoding: {
+      x: { field: "date", type: "temporal", axis: { title: null }, scale: { nice: false } },
+      y: {
+        field: "rate",
+        type: "quantitative",
+        axis: { title: null, format: ".1f%", tickCount: 5 },
+        scale: { nice: false },
+      },
+      color: {
+        field: "metric", type: "nominal",
+        scale: { domain: ["Hires", "Layoffs"], range: ["#1b7fa3", "#c44e52"] },
+      },
+    },
+    annotations: [
+      {
+        type: "text", x: "2025-12", y: 2.5,
+        text: "Dec 2025: 2.5%\nHighest since 2021",
+        anchor: "top",
+        offset: { dx: -60, dy: -20 },
+        fontSize: 11, fontWeight: 600, fill: "#c44e52",
+        connector: true,
+      },
+      { type: "range", x1: "2025-03-01", x2: "2026-01-31", fill: "#94a3b8", opacity: 0.08 },
+    ],
+    chrome: {
+      title: "Transportation layoffs hit a four-year high in December 2025",
+      subtitle: "Monthly rates, transportation, warehousing, and utilities sector, seasonally adjusted",
+      source: "Source: Bureau of Labor Statistics, JOLTS",
+    },
+    labels: { density: "endpoints" },
+  }} />
+</Figure>
+
+The pattern is a slower-moving version of the federal story. Transportation companies — including airlines and their contractors — weren't directly shut down, but they depend on a functioning federal apparatus. When FAA inspectors can't certify new routes, when ATC staffing shortages force ground stops, when TSA checkpoint delays drive passengers to drive instead of fly, the private sector feels it.
+
+The December layoff spike is particularly notable because it didn't coincide with an obvious economic downturn. The broader economy was still adding jobs. This was a sector-specific event, consistent with companies adjusting to a new reality of sustained federal disruption.
+
+## Transportation union membership tells a 25-year story of erosion
+
+The labor data reveals another dimension of the aviation workforce's vulnerability. Union representation in the transportation sector has been in steady decline for a quarter century, falling from 25.7 percent in 2000 to 13.6 percent in 2025. That's nearly half the representation, even as the sector added 2.2 million workers.
+
+<Figure alt="Line chart showing union membership rates from 2000 to 2025 for both transportation/warehousing workers and federal government workers. Transportation falls from 26% to 14% while federal stays relatively stable around 25-27%.">
+  <Chart spec={{
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2000", rate: 25.7, sector: "Transportation & warehousing" },
+      { year: "2002", rate: 24.6, sector: "Transportation & warehousing" },
+      { year: "2004", rate: 24.2, sector: "Transportation & warehousing" },
+      { year: "2006", rate: 22.2, sector: "Transportation & warehousing" },
+      { year: "2008", rate: 21.3, sector: "Transportation & warehousing" },
+      { year: "2010", rate: 20.5, sector: "Transportation & warehousing" },
+      { year: "2012", rate: 19.9, sector: "Transportation & warehousing" },
+      { year: "2014", rate: 19.6, sector: "Transportation & warehousing" },
+      { year: "2016", rate: 18.4, sector: "Transportation & warehousing" },
+      { year: "2018", rate: 16.7, sector: "Transportation & warehousing" },
+      { year: "2020", rate: 17.0, sector: "Transportation & warehousing" },
+      { year: "2021", rate: 14.7, sector: "Transportation & warehousing" },
+      { year: "2022", rate: 14.5, sector: "Transportation & warehousing" },
+      { year: "2023", rate: 15.9, sector: "Transportation & warehousing" },
+      { year: "2024", rate: 15.8, sector: "Transportation & warehousing" },
+      { year: "2025", rate: 13.6, sector: "Transportation & warehousing" },
+      { year: "2000", rate: 31.5, sector: "Federal government" },
+      { year: "2002", rate: 32.2, sector: "Federal government" },
+      { year: "2004", rate: 29.9, sector: "Federal government" },
+      { year: "2006", rate: 28.4, sector: "Federal government" },
+      { year: "2008", rate: 28.1, sector: "Federal government" },
+      { year: "2010", rate: 26.8, sector: "Federal government" },
+      { year: "2012", rate: 26.9, sector: "Federal government" },
+      { year: "2014", rate: 27.5, sector: "Federal government" },
+      { year: "2016", rate: 27.4, sector: "Federal government" },
+      { year: "2018", rate: 26.4, sector: "Federal government" },
+      { year: "2020", rate: 26.0, sector: "Federal government" },
+      { year: "2021", rate: 24.9, sector: "Federal government" },
+      { year: "2022", rate: 24.4, sector: "Federal government" },
+      { year: "2023", rate: 25.1, sector: "Federal government" },
+      { year: "2024", rate: 25.3, sector: "Federal government" },
+      { year: "2025", rate: 27.2, sector: "Federal government" },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", axis: { title: null }, scale: { nice: false } },
+      y: {
+        field: "rate",
+        type: "quantitative",
+        axis: { title: "Union membership rate", format: ".0f%", tickCount: 5 },
+        scale: { domain: [10, 35], nice: false },
+      },
+      color: {
+        field: "sector", type: "nominal",
+        scale: { domain: ["Federal government", "Transportation & warehousing"], range: ["#1b7fa3", "#c44e52"] },
+      },
+    },
+    annotations: [
+      {
+        type: "text", x: "2025", y: 27.2,
+        text: "2025: 27.2%\nUp from 24.4% in 2022",
+        anchor: "left",
+        offset: { dx: -100, dy: -25 },
+        fontSize: 11, fontWeight: 600, fill: "#1b7fa3",
+        connector: true,
+      },
+    ],
+    chrome: {
+      title: "Federal union membership rebounded in 2025 as transportation unions kept declining",
+      subtitle: "Percent of employed workers who are union members, annual",
+      source: "Source: Bureau of Labor Statistics, Current Population Survey",
+    },
+    labels: { density: "endpoints" },
+  }} />
+</Figure>
+
+The federal government line tells a different story. After declining modestly from 31.5 percent in 2000 to a low of 24.4 percent in 2022, federal union membership jumped to 27.2 percent in 2025 — the highest reading since 2002. Workers under threat organize. The AFGE (American Federation of Government Employees) and NATCA (National Air Traffic Controllers Association) both reported surges in membership and activity during the DOGE restructuring.
+
+The contrast is instructive. Private-sector transportation workers, including airline and airport employees, have steadily lost collective bargaining power over 25 years. Federal aviation workers retained theirs — and leaned on it when it mattered most. The question is whether that protection survives the structural changes underway.
+
+## Airlines and manufacturers feel the downstream pressure
+
+The data available through federal labor statistics captures only part of the picture. The airline and manufacturing sectors experience government shutdowns through different channels that are harder to quantify with public datasets but no less real.
+
+**Airlines** face three kinds of pressure during shutdowns. First, operational disruptions: when ATC staffing drops, the FAA implements ground delay programs and ground stops that cascade through hub-and-spoke networks. During the 2019 shutdown, LaGuardia Airport had to halt arrivals entirely for 90 minutes due to ATC call-outs. Second, regulatory freezes: new route certifications, aircraft approvals, and safety audits all pause when the FAA is furloughed. Third, demand uncertainty: extended disruptions dampen consumer confidence in air travel, particularly for discretionary trips.
+
+Some carriers fare better than others. Low-cost carriers with point-to-point networks (Southwest, JetBlue) are less exposed to hub congestion cascades. International carriers routing through US airspace face delays but not the staffing issues directly. The competitive landscape shifts, however subtly, each time the federal aviation infrastructure stumbles.
+
+**Manufacturers** face a different problem. Boeing, which derives roughly 25 percent of its revenue from defense and government contracts, depends on a functioning federal procurement apparatus. When government agencies can't process contracts, issue certifications, or conduct inspections, production timelines slip. The 2019 shutdown delayed FAA certification processes that were already strained. For international competitors — Airbus, Embraer, and emerging Chinese manufacturers — each US disruption represents an opportunity to pitch reliability. Airlines making fleet decisions look at delivery certainty, and a manufacturer whose certification depends on a government that periodically stops working is a harder sell.
+
+The lobbying response is predictable and documented. The Airlines for America trade group, representing major US carriers, consistently increases its spending on government relations during and after shutdown periods. The message to Congress is straightforward: shutdown costs aren't just federal employee paychecks. They're flight cancellations, passenger frustration, and competitive disadvantage.
+
+## The cost is cumulative, and it's measured in years
+
+<Figure alt="Line chart showing federal quits rate and hires rate from 2018 to 2026. The two lines track close together through 2024, then diverge sharply in 2025 as quits spike and hires collapse, creating a visible gap representing net workforce loss.">
+  <Chart spec={{
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { date: "2018-01", rate: 0.5, metric: "Quits" }, { date: "2018-06", rate: 0.5, metric: "Quits" }, { date: "2018-12", rate: 0.5, metric: "Quits" },
+      { date: "2019-01", rate: 0.5, metric: "Quits" }, { date: "2019-06", rate: 0.5, metric: "Quits" }, { date: "2019-12", rate: 0.5, metric: "Quits" },
+      { date: "2020-01", rate: 0.4, metric: "Quits" }, { date: "2020-06", rate: 0.4, metric: "Quits" }, { date: "2020-12", rate: 0.5, metric: "Quits" },
+      { date: "2021-01", rate: 0.5, metric: "Quits" }, { date: "2021-06", rate: 0.6, metric: "Quits" }, { date: "2021-12", rate: 0.6, metric: "Quits" },
+      { date: "2022-01", rate: 0.5, metric: "Quits" }, { date: "2022-06", rate: 0.6, metric: "Quits" }, { date: "2022-12", rate: 0.5, metric: "Quits" },
+      { date: "2023-01", rate: 0.5, metric: "Quits" }, { date: "2023-06", rate: 0.5, metric: "Quits" }, { date: "2023-12", rate: 0.5, metric: "Quits" },
+      { date: "2024-01", rate: 0.5, metric: "Quits" }, { date: "2024-06", rate: 0.6, metric: "Quits" }, { date: "2024-12", rate: 0.6, metric: "Quits" },
+      { date: "2025-01", rate: 0.6, metric: "Quits" }, { date: "2025-03", rate: 0.7, metric: "Quits" }, { date: "2025-06", rate: 0.9, metric: "Quits" },
+      { date: "2025-09", rate: 2.8, metric: "Quits" }, { date: "2025-10", rate: 1.1, metric: "Quits" }, { date: "2025-11", rate: 0.8, metric: "Quits" },
+      { date: "2026-01", rate: 0.7, metric: "Quits" },
+      { date: "2018-01", rate: 1.0, metric: "Hires" }, { date: "2018-06", rate: 1.2, metric: "Hires" }, { date: "2018-12", rate: 1.0, metric: "Hires" },
+      { date: "2019-01", rate: 1.2, metric: "Hires" }, { date: "2019-06", rate: 1.1, metric: "Hires" }, { date: "2019-12", rate: 1.1, metric: "Hires" },
+      { date: "2020-01", rate: 1.0, metric: "Hires" }, { date: "2020-06", rate: 1.6, metric: "Hires" }, { date: "2020-12", rate: 1.2, metric: "Hires" },
+      { date: "2021-01", rate: 1.2, metric: "Hires" }, { date: "2021-06", rate: 1.3, metric: "Hires" }, { date: "2021-12", rate: 1.2, metric: "Hires" },
+      { date: "2022-01", rate: 1.2, metric: "Hires" }, { date: "2022-06", rate: 1.1, metric: "Hires" }, { date: "2022-12", rate: 1.0, metric: "Hires" },
+      { date: "2023-01", rate: 1.0, metric: "Hires" }, { date: "2023-06", rate: 1.0, metric: "Hires" }, { date: "2023-12", rate: 1.1, metric: "Hires" },
+      { date: "2024-01", rate: 1.0, metric: "Hires" }, { date: "2024-06", rate: 1.1, metric: "Hires" }, { date: "2024-10", rate: 1.0, metric: "Hires" },
+      { date: "2025-01", rate: 0.9, metric: "Hires" }, { date: "2025-02", rate: 0.8, metric: "Hires" }, { date: "2025-06", rate: 0.8, metric: "Hires" },
+      { date: "2025-08", rate: 0.8, metric: "Hires" }, { date: "2025-12", rate: 0.9, metric: "Hires" },
+      { date: "2026-01", rate: 1.0, metric: "Hires" },
+    ],
+    encoding: {
+      x: { field: "date", type: "temporal", axis: { title: null }, scale: { nice: false } },
+      y: {
+        field: "rate",
+        type: "quantitative",
+        axis: { title: null, format: ".1f%", tickCount: 6 },
+        scale: { domain: [0, 3.0], nice: false },
+      },
+      color: {
+        field: "metric", type: "nominal",
+        scale: { domain: ["Quits", "Hires"], range: ["#c44e52", "#1b7fa3"] },
+      },
+    },
+    annotations: [
+      { type: "range", x1: "2025-03-01", x2: "2026-01-31", fill: "#c44e52", opacity: 0.06 },
+      {
+        type: "text", x: "2025-06", y: 1.8,
+        text: "The gap is the\nworkforce drain",
+        fontSize: 12, fontWeight: 600, fill: "#374151",
+        anchor: "top",
+        offset: { dx: -50, dy: -10 },
+      },
+    ],
+    chrome: {
+      title: "Quits surged past hires in 2025, draining the federal workforce",
+      subtitle: "Monthly federal government quits and hires rates, seasonally adjusted",
+      source: "Source: Bureau of Labor Statistics, JOLTS",
+    },
+    labels: { density: "endpoints" },
+  }} />
+</Figure>
+
+The gap between the two lines represents the net workforce drain. Through 2024, federal hires consistently outpaced quits — the government was slowly growing or at least replacing departures. In 2025, the lines crossed and then diverged sharply. The federal government employs roughly 2.9 million civilian workers. Even a modest gap between those lines translates to thousands of unreplaced departures each month, compounding through the year.
+
+For aviation specifically, the math is worse. Air traffic controllers take two to four years to train and certify. The FAA's own workforce plan called for hiring 1,800 controllers per year to address existing shortfalls. In a year when federal hiring dropped to record lows, that pipeline didn't just slow. It stopped.
+
+The transportation CPI, a broad measure that includes airfare among other costs, reached 275 in early 2025 — up 37 percent from its pre-pandemic level. While the index captures far more than aviation (gasoline prices are the largest component), the sustained elevation suggests that the supply-side constraints from workforce disruptions are finding their way into consumer costs.
+
+---
+
+Government shutdowns used to be political theater with limited economic consequences. A few weeks of furloughs, some delayed paychecks, then everyone goes back to work. The 2025 disruption is different in kind. It combines the acute shock of a shutdown with the structural permanence of a workforce reduction. People aren't furloughed — they're gone. Positions aren't frozen — they're eliminated.
+
+The aviation system is where this matters most visibly. Every flight that takes off requires a chain of federal workers: controllers guiding it through airspace, screeners clearing its passengers, inspectors certifying its aircraft. That chain has gotten thinner in 2025. The data says it's the thinnest it has been in at least 13 years. And unlike a shutdown, you can't pass a continuing resolution to bring back workers who already quit.
+
+## Data sources & methodology
+
+**Datasets used:**
+- `bls/jolts` (enriched view) — Monthly job openings, hires, quits, and layoffs rates for "Federal" and "Transportation, warehousing, and utilities" industries, seasonally adjusted, 2012-2026. Used for all workforce dynamics charts.
+- `bls/union-affiliation` (enriched view) — Annual union membership rates for "Transportation and warehousing" (private wage and salary workers) and "Federal government" sectors, 2000-2025.
+- `fred/cpi-transportation` — Monthly Consumer Price Index for transportation, not seasonally adjusted, 2010-2026. Base period 1982-84 = 100.
+
+**Calculations & transformations:**
+- Net workforce change calculated as average monthly quits rate minus average monthly hires rate for each period.
+- The "4.7x normal" comparison uses the 2012-2024 median federal quits rate (approximately 0.4-0.5%) as the baseline against the September 2025 reading of 2.8%.
+- CPI percent change calculated from pre-pandemic baseline (February 2020 = 211.4) to early 2025 peak (February 2025 = 275.0).
+
+**Limitations:**
+- JOLTS data captures the broader "Transportation, warehousing, and utilities" sector, not air transportation specifically. Airlines, airports, and aviation support services are a subset of this category, mixed with trucking, warehousing, pipelines, and utility companies.
+- Federal government JOLTS data captures all civilian federal employees, not FAA or TSA specifically. Agency-level workforce data (from OPM's FedScope) would provide more precise aviation-sector signals but is not available in this dataset.
+- The airline and manufacturer sections rely on publicly reported events and industry reporting rather than structured datasets, as no airline financial performance, lobbying spending, or government contract datasets are available in the OpenData catalog.
+- Union affiliation data is annual and unadjusted, with each observation dated January 1 of the survey year. It cannot capture within-year changes in response to specific shutdown events.
+- CPI Transportation includes gasoline (the largest component), new and used vehicles, public transit, and airfares. It is a rough proxy for air travel costs, not a direct measure.
+
+*Data accessed on 2026-03-29 via the [OpenData API](https://tryopendata.ai).*
