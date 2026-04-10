@@ -1,0 +1,743 @@
+export const meta = {
+  title: "One in Ten: Waukegan's Literacy Crisis Two Decades in the Making",
+  date: "2026-04-01",
+  description: "Only 10.6 percent of Waukegan high schoolers meet the state ELA proficiency benchmark, the result of a demographic transformation and systemic gaps that span nearly three decades.",
+  tags: ["education", "literacy", "illinois", "waukegan", "equity"],
+}
+
+import { Chart } from '../components/Chart'
+import { Figure } from '../components/Figure'
+
+In 2024, just 10.6 percent of juniors at Waukegan CUSD 60 met the state benchmark for English Language Arts proficiency on the SAT. Statewide, the number was 31.1 percent. In neighboring Stevenson High School District, it was 71.8 percent. All three sit in Lake County, Illinois, separated by less than 20 miles of suburban road.
+
+That gap is not an accident of a single bad year. It's the accumulated result of a district that has been demographically remade over nearly three decades while the systems around it haven't kept pace. Since 1997, Waukegan's student body has shifted from roughly half Hispanic to more than 80 percent. Its English Learner population has more than doubled in just seven years. And its SAT reading scores have been falling every year since the state started tracking them.
+
+This report traces how Waukegan got here by following three threads: a statewide decline in reading that forms the backdrop, a local demographic transformation that reshaped the district's needs, and the widening performance gap that has placed Waukegan among the lowest-performing districts in the state.
+
+## Illinois fourth-graders read no better today than they did in 2003
+
+Before looking at Waukegan, it's worth understanding the state-level picture. Illinois participates in the National Assessment of Educational Progress, the only nationally standardized test administered across all 50 states. The NAEP reading assessment, given every two years to a sample of fourth and eighth graders, serves as a kind of background pulse check on whether kids are learning to read.
+
+The pulse has been weakening for a decade.
+
+<Figure alt="Line chart showing Illinois and national NAEP grade 4 reading scores from 2003 to 2024, both declining since 2015 and converging at 214 by 2024">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2003", series: "Illinois", score: 216.3 },
+      { year: "2005", series: "Illinois", score: 216.5 },
+      { year: "2007", series: "Illinois", score: 219.4 },
+      { year: "2009", series: "Illinois", score: 219.2 },
+      { year: "2011", series: "Illinois", score: 219.4 },
+      { year: "2013", series: "Illinois", score: 218.5 },
+      { year: "2015", series: "Illinois", score: 222.0 },
+      { year: "2017", series: "Illinois", score: 220.4 },
+      { year: "2019", series: "Illinois", score: 218.2 },
+      { year: "2022", series: "Illinois", score: 217.8 },
+      { year: "2024", series: "Illinois", score: 214.2 },
+      { year: "2003", series: "National average", score: 216.5 },
+      { year: "2005", series: "National average", score: 217.3 },
+      { year: "2007", series: "National average", score: 219.7 },
+      { year: "2009", series: "National average", score: 219.6 },
+      { year: "2011", series: "National average", score: 220.0 },
+      { year: "2013", series: "National average", score: 220.7 },
+      { year: "2015", series: "National average", score: 221.4 },
+      { year: "2017", series: "National average", score: 220.8 },
+      { year: "2019", series: "National average", score: 219.4 },
+      { year: "2022", series: "National average", score: 216.1 },
+      { year: "2024", series: "National average", score: 214.3 },
+    ],
+    encoding: {
+      x: { field: "year", type: "ordinal", axis: { title: "" } },
+      y: {
+        field: "score",
+        type: "quantitative",
+        axis: { title: "NAEP score", format: ".0f", tickCount: 5 },
+        scale: { domain: [212, 224], nice: false },
+      },
+      color: {
+        field: "series",
+        type: "nominal",
+        scale: {
+          domain: ["Illinois", "National average"],
+          range: ["#2563eb", "#94a3b8"],
+        },
+      },
+    },
+    annotations: [
+      {
+        type: "text",
+        x: "2015",
+        y: 222.0,
+        text: "2015 peak: 222",
+        dy: -16,
+        fontSize: 12,
+        fontWeight: 600,
+        fill: "#2563eb",
+        offset: { dx: -40, dy: -31 },
+      },
+      {
+        type: "text",
+        x: "2024",
+        y: 214.2,
+        text: "214.2",
+        dx: -30,
+        dy: -14,
+        fontSize: 12,
+        fontWeight: 600,
+        fill: "#2563eb",
+      },
+      {
+        type: "range",
+        x1: "2019",
+        x2: "2022",
+        label: "COVID",
+        fill: "#94a3b8",
+        opacity: 0.1,
+      },
+    ],
+    chrome: {
+      title: "Illinois 4th-grade reading scores have fallen below their 2003 level",
+      subtitle: "NAEP reading assessment, grade 4, scale 0-500",
+      source: "Source: National Center for Education Statistics, NAEP",
+    },
+    labels: { density: "endpoints", format: ".1f" },
+  }} />
+</Figure>
+
+Illinois fourth graders scored 214.2 on the NAEP reading assessment in 2024. That's lower than their score in 2003, when the state first broke 216. The brief upswing to 222 in 2015 has completely reversed. A similar but less severe pattern holds for eighth graders, where Illinois still outperforms the national average by about 5 points but has shed ground since 2017.
+
+This is the statewide backdrop. Whatever is happening in Waukegan is happening on top of a reading crisis that's affecting the whole state. But in Waukegan, the statewide trend collides with a much more specific set of local conditions.
+
+## Waukegan's student body has been completely remade since 1997
+
+The most striking feature of Waukegan CUSD 60 over the past three decades isn't a test score. It's the speed and scale of the demographic change in its schools.
+
+<Figure alt="Line chart showing Waukegan's Hispanic, Black, and White student percentages from 1997 to 2025, with Hispanic rising from 48% to 82% and White falling from 20% to 3%">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "1997", group: "Hispanic", pct: 48.3 },
+      { year: "2000", group: "Hispanic", pct: 54.7 },
+      { year: "2003", group: "Hispanic", pct: 63.4 },
+      { year: "2006", group: "Hispanic", pct: 68.1 },
+      { year: "2009", group: "Hispanic", pct: 71.1 },
+      { year: "2012", group: "Hispanic", pct: 76.4 },
+      { year: "2015", group: "Hispanic", pct: 78.4 },
+      { year: "2018", group: "Hispanic", pct: 77.4 },
+      { year: "2021", group: "Hispanic", pct: 79.6 },
+      { year: "2025", group: "Hispanic", pct: 81.6 },
+      { year: "1997", group: "Black", pct: 29.0 },
+      { year: "2000", group: "Black", pct: 27.6 },
+      { year: "2003", group: "Black", pct: 23.2 },
+      { year: "2006", group: "Black", pct: 20.2 },
+      { year: "2009", group: "Black", pct: 17.7 },
+      { year: "2012", group: "Black", pct: 15.3 },
+      { year: "2015", group: "Black", pct: 14.2 },
+      { year: "2018", group: "Black", pct: 14.6 },
+      { year: "2021", group: "Black", pct: 13.0 },
+      { year: "2025", group: "Black", pct: 11.1 },
+      { year: "1997", group: "White", pct: 19.7 },
+      { year: "2000", group: "White", pct: 15.2 },
+      { year: "2003", group: "White", pct: 10.8 },
+      { year: "2006", group: "White", pct: 8.2 },
+      { year: "2009", group: "White", pct: 6.2 },
+      { year: "2012", group: "White", pct: 4.4 },
+      { year: "2015", group: "White", pct: 3.6 },
+      { year: "2018", group: "White", pct: 3.9 },
+      { year: "2021", group: "White", pct: 3.2 },
+      { year: "2025", group: "White", pct: 2.7 },
+    ],
+    encoding: {
+      x: { field: "year", type: "ordinal", axis: { title: "" } },
+      y: {
+        field: "pct",
+        type: "quantitative",
+        axis: { title: "Share of students", format: ".0f", tickCount: 5 },
+        scale: { domain: [0, 90], nice: false },
+      },
+      color: {
+        field: "group",
+        type: "nominal",
+        scale: {
+          domain: ["Hispanic", "Black", "White"],
+          range: ["#e65100", "#5c6bc0", "#94a3b8"],
+        },
+      },
+    },
+    annotations: [
+      {
+        type: "text",
+        x: "2003",
+        y: 63.4,
+        text: "Hispanic share\ncrossed 50% by 1998",
+        dx: -10,
+        dy: -24,
+        fontSize: 11,
+        fill: "#e65100",
+        connector: true,
+        offset: { dx: -10, dy: -76 },
+      },
+    ],
+    chrome: {
+      title: "Waukegan went from half Hispanic to more than 80 percent in under 30 years",
+      subtitle: "Average share of enrolled students across district schools, percent",
+      source: "Source: Illinois State Board of Education, Report Card data",
+    },
+    labels: { density: "endpoints", format: ".0f" },
+  }} />
+</Figure>
+
+In 1997, Waukegan's schools were roughly 48 percent Hispanic, 29 percent Black, and 20 percent white. By 2025, Hispanic enrollment had climbed to 82 percent, white enrollment had dropped to under 3 percent, and Black enrollment was cut in half to 11 percent. The district didn't diversify; it underwent a near-complete ethnic replacement driven by immigration and white flight to surrounding suburbs like Lake Zurich, Libertyville, and Grayslake.
+
+The most consequential dimension of this shift isn't race. It's language.
+
+## More than half of Waukegan's students are now English Learners
+
+The share of Waukegan students classified as English Learners has surged from about a quarter in the late 1990s to 56 percent in 2025. That's more than three times the statewide rate of 17.5 percent, and the acceleration since 2018 has been especially steep.
+
+<Figure alt="Line chart showing Waukegan's English Learner percentage rising from 24% in 1997 to 56% in 2025, with a sharp acceleration after 2018">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "1997", series: "Waukegan CUSD 60", pct: 24.3 },
+      { year: "1999", series: "Waukegan CUSD 60", pct: 22.4 },
+      { year: "2001", series: "Waukegan CUSD 60", pct: 24.4 },
+      { year: "2003", series: "Waukegan CUSD 60", pct: 26.1 },
+      { year: "2005", series: "Waukegan CUSD 60", pct: 25.4 },
+      { year: "2007", series: "Waukegan CUSD 60", pct: 33.2 },
+      { year: "2009", series: "Waukegan CUSD 60", pct: 37.0 },
+      { year: "2011", series: "Waukegan CUSD 60", pct: 35.7 },
+      { year: "2013", series: "Waukegan CUSD 60", pct: 37.2 },
+      { year: "2015", series: "Waukegan CUSD 60", pct: 38.7 },
+      { year: "2017", series: "Waukegan CUSD 60", pct: 39.0 },
+      { year: "2019", series: "Waukegan CUSD 60", pct: 35.3 },
+      { year: "2021", series: "Waukegan CUSD 60", pct: 39.8 },
+      { year: "2023", series: "Waukegan CUSD 60", pct: 48.1 },
+      { year: "2025", series: "Waukegan CUSD 60", pct: 55.9 },
+      { year: "1997", series: "Illinois statewide", pct: 4.3 },
+      { year: "1999", series: "Illinois statewide", pct: 4.6 },
+      { year: "2001", series: "Illinois statewide", pct: 4.6 },
+      { year: "2003", series: "Illinois statewide", pct: 4.6 },
+      { year: "2005", series: "Illinois statewide", pct: 5.3 },
+      { year: "2007", series: "Illinois statewide", pct: 6.0 },
+      { year: "2009", series: "Illinois statewide", pct: 6.8 },
+      { year: "2011", series: "Illinois statewide", pct: 7.7 },
+      { year: "2013", series: "Illinois statewide", pct: 8.2 },
+      { year: "2015", series: "Illinois statewide", pct: 9.0 },
+      { year: "2017", series: "Illinois statewide", pct: 9.6 },
+      { year: "2019", series: "Illinois statewide", pct: 12.1 },
+      { year: "2021", series: "Illinois statewide", pct: 12.9 },
+      { year: "2023", series: "Illinois statewide", pct: 14.6 },
+      { year: "2025", series: "Illinois statewide", pct: 17.5 },
+    ],
+    encoding: {
+      x: { field: "year", type: "ordinal", axis: { title: "" } },
+      y: {
+        field: "pct",
+        type: "quantitative",
+        axis: { title: "English Learner share", format: ".0f", tickCount: 6 },
+        scale: { domain: [0, 60], nice: false },
+      },
+      color: {
+        field: "series",
+        type: "nominal",
+        scale: {
+          domain: ["Waukegan CUSD 60", "Illinois statewide"],
+          range: ["#d32f2f", "#94a3b8"],
+        },
+      },
+    },
+    annotations: [
+      {
+        type: "text",
+        x: "2019",
+        y: 35.3,
+        text: "Post-2019\nacceleration",
+        dx: 30,
+        dy: 12,
+        fontSize: 11,
+        fill: "#d32f2f",
+        connector: true,
+      },
+    ],
+    chrome: {
+      title: "Waukegan's EL population more than doubled since 2018, now 3x the state rate",
+      subtitle: "Percent of students classified as English Learners",
+      source: "Source: ISBE Report Card data",
+    },
+    labels: { density: "endpoints", format: ".0f" },
+  }} />
+</Figure>
+
+A 56 percent EL share doesn't just mean "more students need ESL classes." It means the majority of students in Waukegan are simultaneously learning English and learning to read in English. Those are different pedagogical challenges, but in an underfunded district they often collide in the same classroom. A student who arrives in third grade from Guatemala with strong Spanish literacy needs a very different instructional approach than a student born in Waukegan who has heard English at home but never had a parent read to them. Both end up classified as EL.
+
+This surge happened while the district was also losing students. Enrollment has dropped 17 percent since 2018, from 16,275 to 13,551. The students who leave tend to be higher-performing families with resources to move. The students who arrive tend to need more support.
+
+## SAT reading scores have fallen every year since tracking began
+
+With this context, the test results stop being surprising and start being predictable. The Illinois SAT, administered to all 11th graders since 2019, provides the most direct measure of how Waukegan's high schoolers are performing in reading.
+
+<Figure alt="Line chart showing Waukegan SAT reading average declining from 430 in 2019 to 406 in 2024, with the Illinois state average declining from 498 to 482 over the same period">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2019", series: "Waukegan CUSD 60", score: 430.2 },
+      { year: "2021", series: "Waukegan CUSD 60", score: 425.8 },
+      { year: "2022", series: "Waukegan CUSD 60", score: 418.6 },
+      { year: "2023", series: "Waukegan CUSD 60", score: 417.0 },
+      { year: "2024", series: "Waukegan CUSD 60", score: 406.4 },
+      { year: "2019", series: "Illinois statewide", score: 497.5 },
+      { year: "2021", series: "Illinois statewide", score: 496.3 },
+      { year: "2022", series: "Illinois statewide", score: 486.4 },
+      { year: "2023", series: "Illinois statewide", score: 487.5 },
+      { year: "2024", series: "Illinois statewide", score: 482.1 },
+    ],
+    encoding: {
+      x: { field: "year", type: "ordinal", axis: { title: "" } },
+      y: {
+        field: "score",
+        type: "quantitative",
+        axis: { title: "SAT reading average", format: ".0f", tickCount: 5 },
+        scale: { domain: [390, 510], nice: false },
+      },
+      color: {
+        field: "series",
+        type: "nominal",
+        scale: {
+          domain: ["Waukegan CUSD 60", "Illinois statewide"],
+          range: ["#d32f2f", "#94a3b8"],
+        },
+      },
+    },
+    annotations: [
+      {
+        type: "text",
+        x: "2019",
+        y: 450,
+        text: "67-point gap",
+        fontSize: 12,
+        fill: "#666",
+      },
+      {
+        type: "text",
+        x: "2024",
+        y: 444,
+        text: "76-point gap",
+        fontSize: 12,
+        fontWeight: 700,
+        fill: "#d32f2f",
+        offset: { dx: -63, dy: 4 },
+      },
+    ],
+    chrome: {
+      title: "The gap between Waukegan and the state widened from 67 to 76 points in five years",
+      subtitle: "Average SAT reading score (200-800 scale), no 2020 testing due to COVID",
+      source: "Source: ISBE SAT Scores data",
+    },
+    labels: { density: "endpoints", format: ".0f" },
+  }} />
+</Figure>
+
+Waukegan's average SAT reading score has fallen every measured year, from 430 in 2019 to 406 in 2024, a 24-point drop. The state average also fell, from 498 to 482, but only 15 points. The gap widened from 67 points to 76. That's not convergence. That's divergence.
+
+The 2024 proficiency data makes it even starker. Only 10.6 percent of Waukegan juniors met the ELA proficiency benchmark, compared to 31.1 percent statewide. For low-income students in Waukegan, the rate was 9.5 percent. Roughly 9 in 10 Waukegan juniors cannot read at the level the state considers proficient for their grade.
+
+## Nearly two-thirds of Waukegan students score at the lowest reading level
+
+The four-tier SAT scoring distribution reveals the depth of the problem. Level 1 represents the lowest performance tier, and Level 4 the highest.
+
+<Figure alt="Horizontal bar chart showing Waukegan has 61% at Level 1 and only 2.1% at Level 4, compared to statewide 34% at Level 1 and 10.9% at Level 4">
+  <Chart spec={{
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { group: "Waukegan", level: "Level 1 (lowest)", pct: 61.0 },
+      { group: "Waukegan", level: "Level 2", pct: 28.4 },
+      { group: "Waukegan", level: "Level 3", pct: 8.5 },
+      { group: "Waukegan", level: "Level 4 (highest)", pct: 2.1 },
+      { group: "Statewide", level: "Level 1 (lowest)", pct: 34.3 },
+      { group: "Statewide", level: "Level 2", pct: 34.6 },
+      { group: "Statewide", level: "Level 3", pct: 20.2 },
+      { group: "Statewide", level: "Level 4 (highest)", pct: 10.9 },
+    ],
+    encoding: {
+      x: {
+        field: "pct",
+        type: "quantitative",
+        axis: { title: "Percent of students", format: ".0f", tickCount: 5 },
+        scale: { domain: [0, 100], nice: false },
+      },
+      y: { field: "level", type: "ordinal" },
+      color: {
+        field: "group",
+        type: "nominal",
+        scale: {
+          domain: ["Waukegan", "Statewide"],
+          range: ["#d32f2f", "#94a3b8"],
+        },
+      },
+    },
+    chrome: {
+      title: "61 percent of Waukegan students score at the lowest SAT reading level",
+      subtitle: "SAT reading score distribution by performance tier, 2024",
+      source: "Source: ISBE SAT Scores data",
+    },
+    labels: { density: "all", format: ".1f" },
+    legend: { position: "top" },
+  }} />
+</Figure>
+
+In Waukegan, 61 percent of tested students fell into Level 1. Another 28 percent landed in Level 2. Together, nearly 9 in 10 students are below proficiency. At the top end, just 2.1 percent reached Level 4, compared to 10.9 percent statewide. That's a 5-to-1 ratio at the top of the distribution.
+
+The district isn't just producing fewer proficient readers. It's producing almost none. The problem isn't at the margins of a bell curve; it's structural, affecting the vast majority of students who sit for the test.
+
+## Within Lake County, Waukegan sits near the bottom of a steep cliff
+
+Lake County is one of the wealthiest counties in Illinois, but its school districts span an enormous range. The SAT reading gap between the top and bottom of the county is nearly 200 points, a chasm that mirrors the county's economic geography.
+
+<Figure alt="Lollipop chart ranking Lake County districts by SAT reading score, from Stevenson at 597 to North Chicago at 400, with Waukegan at 406">
+  <Chart spec={{
+    mark: "lollipop",
+    data: [
+      { district: "Stevenson HSD 125", score: 597.4, highlight: "Peer" },
+      { district: "Lake Forest CHSD 115", score: 586.6, highlight: "Peer" },
+      { district: "Lake Zurich CUSD 95", score: 558.4, highlight: "Peer" },
+      { district: "Grayslake CHSD 127", score: 516.6, highlight: "Peer" },
+      { district: "Mundelein HSD 120", score: 501.7, highlight: "Peer" },
+      { district: "Zion-Benton HSD 126", score: 432.8, highlight: "Peer" },
+      { district: "Round Lake CUSD 116", score: 432.2, highlight: "Peer" },
+      { district: "Waukegan CUSD 60", score: 406.4, highlight: "Waukegan" },
+      { district: "North Chicago SD 187", score: 399.5, highlight: "Peer" },
+    ],
+    encoding: {
+      x: {
+        field: "score",
+        type: "quantitative",
+        axis: { title: "SAT reading average, 2024", format: ".0f", tickCount: 5 },
+        scale: { domain: [380, 610], nice: false },
+      },
+      y: { field: "district", type: "nominal" },
+      color: {
+        field: "highlight",
+        type: "nominal",
+        scale: {
+          domain: ["Waukegan", "Peer"],
+          range: ["#d32f2f", "#94a3b8"],
+        },
+      },
+    },
+    annotations: [
+      {
+        type: "text",
+        x: 406.4,
+        y: "Waukegan CUSD 60",
+        text: "406",
+        dx: 30,
+        dy: 0,
+        fontSize: 13,
+        fontWeight: 700,
+        fill: "#d32f2f",
+      },
+      {
+        type: "text",
+        x: 597.4,
+        y: "Stevenson HSD 125",
+        text: "597",
+        dx: 16,
+        dy: 0,
+        fontSize: 12,
+        fill: "#666",
+      },
+    ],
+    chrome: {
+      title: "191 points separate Waukegan from the top of Lake County",
+      subtitle: "Average SAT reading score by district, 2024",
+      source: "Source: ISBE SAT Scores data",
+    },
+    legend: { show: false },
+  }} />
+</Figure>
+
+Stevenson High School District, with just 7.5 percent low-income students and 9.9 percent English Learners, averages 597. Waukegan, with 69 percent low-income and 52 percent EL, averages 406. The two closest demographic peers are Round Lake (80 percent Hispanic, 86 percent low-income) at 432 and North Chicago (91 percent low-income) at 400. Even among peers, Waukegan underperforms Round Lake by 26 points.
+
+The gradient isn't subtle. It maps almost perfectly to poverty and English Learner concentration. The districts at the bottom of this chart serve the students with the most need and receive the least capacity to meet it.
+
+## COVID broke what was already fragile
+
+The pandemic hit Waukegan harder than most districts and the recovery has been slower. Chronic absenteeism, the share of students missing 10 percent or more of school days, tells the story.
+
+<Figure alt="Line chart showing Waukegan chronic absenteeism spiking from 25% pre-pandemic to 49% in 2021, recovering to 35% by 2025, while the state went from 17% to 25%">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2018", series: "Waukegan CUSD 60", pct: 25.2 },
+      { year: "2019", series: "Waukegan CUSD 60", pct: 32.7 },
+      { year: "2021", series: "Waukegan CUSD 60", pct: 48.8 },
+      { year: "2022", series: "Waukegan CUSD 60", pct: 43.5 },
+      { year: "2023", series: "Waukegan CUSD 60", pct: 42.6 },
+      { year: "2024", series: "Waukegan CUSD 60", pct: 38.7 },
+      { year: "2025", series: "Waukegan CUSD 60", pct: 34.8 },
+      { year: "2018", series: "Illinois statewide", pct: 16.8 },
+      { year: "2019", series: "Illinois statewide", pct: 17.5 },
+      { year: "2021", series: "Illinois statewide", pct: 21.1 },
+      { year: "2022", series: "Illinois statewide", pct: 29.8 },
+      { year: "2023", series: "Illinois statewide", pct: 28.3 },
+      { year: "2024", series: "Illinois statewide", pct: 26.3 },
+      { year: "2025", series: "Illinois statewide", pct: 25.4 },
+    ],
+    encoding: {
+      x: { field: "year", type: "ordinal", axis: { title: "" } },
+      y: {
+        field: "pct",
+        type: "quantitative",
+        axis: { title: "Chronic absenteeism rate", format: ".0f", tickCount: 5 },
+        scale: { domain: [10, 55], nice: false },
+      },
+      color: {
+        field: "series",
+        type: "nominal",
+        scale: {
+          domain: ["Waukegan CUSD 60", "Illinois statewide"],
+          range: ["#d32f2f", "#94a3b8"],
+        },
+      },
+    },
+    annotations: [
+      {
+        type: "text",
+        x: "2021",
+        y: 48.8,
+        text: "Nearly 1 in 2\nstudents chronically absent",
+        dy: -20,
+        dx: 10,
+        fontSize: 11,
+        fill: "#d32f2f",
+        connector: true,
+        offset: { dx: 19, dy: -28 },
+      },
+    ],
+    chrome: {
+      title: "Waukegan's absenteeism peaked at 49% in 2021 and still hasn't recovered to pre-pandemic levels",
+      subtitle: "Percent of students absent 10% or more of enrolled school days\n2020 excluded (remote attendance counted differently)",
+      source: "Source: ISBE Report Card data",
+    },
+    labels: { density: "endpoints", format: ".0f" },
+  }} />
+</Figure>
+
+In 2021, nearly half of Waukegan's students were chronically absent. By 2025, the rate had improved to 35 percent but was still 10 points above the pre-pandemic baseline and 10 points above the state average. Students can't learn to read if they're not in school. And in a district where most students are already behind grade level, every missed day widens the gap.
+
+The pandemic didn't create Waukegan's literacy problem. But it accelerated it. The 2019-to-2024 decline in SAT reading scores, from 430 to 406, maps almost exactly onto the period of peak absenteeism and disrupted instruction.
+
+---
+
+There's no single villain in this story. Illinois as a whole has been losing ground on reading for a decade. Waukegan's demographic transformation means the district serves a fundamentally different student body than it did 30 years ago, one with vastly greater language and literacy needs. The chronic absenteeism crisis stacked another layer of damage on top.
+
+What the data makes clear is that 10.6 percent ELA proficiency is not a Waukegan problem that Waukegan can solve alone. It's the predictable outcome of a district absorbing enormous demographic change, a pandemic-era attendance collapse, and a statewide reading decline all at once, with the same resources and structures that served a very different community in the 1990s. In a county where the richest district's reading scores are 191 points above the poorest, the question isn't whether Waukegan is failing its students. It's whether the state is failing Waukegan.
+
+<Figure alt="Lollipop chart comparing ELA proficiency rates: Stevenson 71.8%, Lake Forest 68.3%, statewide 31.1%, low-income statewide 15.2%, Waukegan 10.6%, Waukegan low-income 9.5%">
+  <Chart spec={{
+    mark: "lollipop",
+    data: [
+      { group: "Stevenson HSD 125", pct: 71.8, highlight: "Context" },
+      { group: "Lake Forest CHSD 115", pct: 68.3, highlight: "Context" },
+      { group: "Libertyville CHSD 128", pct: 62.4, highlight: "Context" },
+      { group: "Illinois statewide", pct: 31.1, highlight: "Context" },
+      { group: "IL low-income students", pct: 15.2, highlight: "Context" },
+      { group: "Waukegan CUSD 60", pct: 10.6, highlight: "Waukegan" },
+      { group: "Waukegan low-income", pct: 9.5, highlight: "Waukegan" },
+    ],
+    encoding: {
+      x: {
+        field: "pct",
+        type: "quantitative",
+        axis: { title: "ELA proficiency rate, 2024", format: ".0f", tickCount: 5 },
+        scale: { domain: [0, 80], nice: false },
+      },
+      y: { field: "group", type: "nominal" },
+      color: {
+        field: "highlight",
+        type: "nominal",
+        scale: {
+          domain: ["Waukegan", "Context"],
+          range: ["#d32f2f", "#94a3b8"],
+        },
+      },
+    },
+    annotations: [
+      {
+        type: "text",
+        x: 10.6,
+        y: "Waukegan CUSD 60",
+        text: "10.6%",
+        dx: 28,
+        fontSize: 13,
+        fontWeight: 700,
+        fill: "#d32f2f",
+      },
+      {
+        type: "text",
+        x: 71.8,
+        y: "Stevenson HSD 125",
+        text: "71.8%",
+        dx: 20,
+        fontSize: 12,
+        fill: "#666",
+      },
+      {
+        type: "text",
+        x: 68.3,
+        y: "Lake Forest CHSD 115",
+        text: "68.3%",
+        dx: 20,
+        fontSize: 12,
+        fill: "#666",
+      },
+    ],
+    chrome: {
+      title: "Waukegan's ELA proficiency is one-third the state average, one-seventh of its wealthiest neighbor",
+      subtitle: "Percent of 11th graders meeting SAT ELA proficiency benchmark, 2024",
+      source: "Source: ISBE SAT Scores data",
+    },
+    legend: { show: false },
+  }} />
+</Figure>
+
+Another way to see the same reality: in Waukegan, nearly 9 in 10 students who sit for the SAT reading section score below proficiency. At Stevenson, 7 in 10 score above it.
+
+<Figure alt="Horizontal bar chart showing percent proficient for four Lake County districts, with Waukegan's bar barely visible at 10.6% while Stevenson reaches 71.8%">
+  <Chart spec={{
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { district: "Stevenson", proficient: 71.8, grade: "A" },
+      { district: "Lake Forest", proficient: 68.3, grade: "A" },
+      { district: "Libertyville", proficient: 62.4, grade: "B" },
+      { district: "IL statewide", proficient: 31.1, grade: "C" },
+      { district: "Waukegan", proficient: 10.6, grade: "F" },
+    ],
+    encoding: {
+      x: {
+        field: "proficient",
+        type: "quantitative",
+        axis: { title: "Percent proficient", format: ".0f", tickCount: 5 },
+        scale: { domain: [0, 80], nice: false },
+      },
+      y: {
+        field: "district",
+        type: "nominal",
+        scale: { domain: ["Stevenson", "Lake Forest", "Libertyville", "IL statewide", "Waukegan"] },
+      },
+      color: {
+        field: "grade",
+        type: "ordinal",
+        scale: {
+          domain: ["F", "C", "B", "A"],
+          range: ["#d32f2f", "#f9a825", "#7cb342", "#2e7d32"],
+        },
+      },
+    },
+    annotations: [
+      {
+        type: "text",
+        x: 10.6,
+        y: "Waukegan",
+        text: "10.6%",
+        dx: 24,
+        fontSize: 13,
+        fontWeight: 700,
+        fill: "#d32f2f",
+      },
+      {
+        type: "text",
+        x: 71.8,
+        y: "Stevenson",
+        text: "71.8%",
+        dx: 20,
+        fontSize: 12,
+        fill: "#2e7d32",
+      },
+    ],
+    chrome: {
+      title: "9 in 10 Waukegan juniors are not proficient readers",
+      subtitle: "Percent of 11th graders meeting SAT ELA benchmark, 2024\nCompared to Lake County neighbors and statewide average",
+      source: "Source: ISBE SAT Scores data",
+    },
+    labels: { density: "all", format: ".1f" },
+    legend: { show: false },
+  }} />
+</Figure>
+
+The score distribution tells an even sharper story. Waukegan's students are overwhelmingly concentrated at Level 1, the lowest performance tier. At Stevenson, the distribution is inverted: the largest group is Level 4.
+
+<Figure alt="Stacked bar chart showing SAT reading level distribution across four districts, with Waukegan dominated by Level 1 and Stevenson dominated by Level 4">
+  <Chart spec={{
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { district: "Waukegan", level: "Level 1", pct: 61.0 },
+      { district: "Waukegan", level: "Level 2", pct: 28.4 },
+      { district: "Waukegan", level: "Level 3", pct: 8.5 },
+      { district: "Waukegan", level: "Level 4", pct: 2.1 },
+      { district: "Libertyville", level: "Level 1", pct: 11.0 },
+      { district: "Libertyville", level: "Level 2", pct: 26.7 },
+      { district: "Libertyville", level: "Level 3", pct: 34.0 },
+      { district: "Libertyville", level: "Level 4", pct: 28.4 },
+      { district: "Lake Forest", level: "Level 1", pct: 5.7 },
+      { district: "Lake Forest", level: "Level 2", pct: 26.0 },
+      { district: "Lake Forest", level: "Level 3", pct: 32.6 },
+      { district: "Lake Forest", level: "Level 4", pct: 35.6 },
+      { district: "Stevenson", level: "Level 1", pct: 6.7 },
+      { district: "Stevenson", level: "Level 2", pct: 21.5 },
+      { district: "Stevenson", level: "Level 3", pct: 30.7 },
+      { district: "Stevenson", level: "Level 4", pct: 41.1 },
+    ],
+    encoding: {
+      x: {
+        field: "pct",
+        type: "quantitative",
+        axis: { title: "Percent of students", format: ".0f", tickCount: 5 },
+        scale: { domain: [0, 100], nice: false },
+      },
+      y: {
+        field: "district",
+        type: "nominal",
+        scale: { domain: ["Waukegan", "Libertyville", "Lake Forest", "Stevenson"] },
+      },
+      color: {
+        field: "level",
+        type: "ordinal",
+        scale: {
+          domain: ["Level 1", "Level 2", "Level 3", "Level 4"],
+          range: ["#d32f2f", "#ff8a65", "#90caf9", "#2563eb"],
+        },
+      },
+    },
+    chrome: {
+      title: "Waukegan's score distribution is the mirror image of its wealthy neighbors",
+      subtitle: "SAT reading performance tier distribution, 2024\nLevel 1 = lowest, Level 4 = college-ready",
+      source: "Source: ISBE SAT Scores data",
+    },
+    labels: { density: "none" },
+    legend: { position: "top" },
+  }} />
+</Figure>
+
+At Waukegan, 61 percent of students land in Level 1 and just 2 percent reach Level 4. At Stevenson, those numbers are essentially reversed: 41 percent at Level 4 and only 7 percent at Level 1. The entire distribution is shifted leftward. It's not that Waukegan has a longer tail of struggling readers alongside a normal middle. The middle barely exists.
+
+## Data sources & methodology
+
+**Datasets used:**
+- `nces/naep` — State-level NAEP reading scores for Illinois and national public school averages, grades 4 and 8, 2003-2024
+- `isbe/report-card` — School and district-level enrollment demographics, attendance rates, chronic absenteeism, and summative designations for Waukegan CUSD 60, 1997-2025. Pre-2018 data is school-level only; district aggregates computed as unweighted averages across schools
+- `isbe/sat-scores` — District-level SAT reading scores, ELA proficiency rates, and score distributions for Waukegan CUSD 60, Lake County peers, and Illinois statewide, 2019-2024
+
+**Calculations & transformations:**
+Pre-2018 Waukegan demographics were computed as unweighted averages across all schools in the district for each year, since district-level rollup rows only exist from 2018 onward. This may slightly over- or under-represent smaller schools. SAT reading gap calculations are simple differences between Waukegan and statewide averages. No inflation adjustments or statistical modeling were applied.
+
+**Limitations:**
+- No ISAT (1999-2014) or PARCC/IAR (2015-present) data is available in the API, so grades 3-8 reading proficiency at the district level cannot be trended. The SAT data covers only high school juniors.
+- ELA proficiency rates (`sat_ela_proficiency_rate_total`) are only populated for 2024; prior years have null values, limiting proficiency trend analysis to a single year.
+- 2020 is missing from both the SAT and chronic absenteeism data due to COVID testing cancellations and changes in how remote attendance was counted.
+- Chronic absenteeism in 2020 (16.4 percent for Waukegan) is artificially low because remote "attendance" was counted differently and is excluded from trend analysis.
+- Pre-2018 demographic percentages are school-level averages, not enrollment-weighted, which may not perfectly match the true district-wide composition.
+
+*Data accessed on 2026-04-01 via the [OpenData API](https://tryopendata.ai).*

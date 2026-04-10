@@ -76,14 +76,15 @@ Not all prices rise at the same speed. Since 1984, the overall cost of living as
       y: {
         field: "pct",
         type: "quantitative",
-        axis: { title: "% increase since 1984", format: ",.0f", tickCount: 5 },
+        axis: { title: "% increase since 1984", format: ",.0f%", tickCount: 5 },
         scale: { domain: [0, 800], nice: false },
       },
       color: { field: "category", type: "nominal" },
     },
     annotations: [
       { type: "text", x: "2005", y: 420, text: "Tuition pulls away\nfrom everything else", fontSize: 11, fontWeight: 500, fill: "#7c3aed",
-      offset: { dx: -8, dy: -43 } },
+      offset: { dx: -8, dy: -43 },
+      connectorOffset: { to: { dx: 0, dy: 13 } } },
     ],
     chrome: {
       title: "College tuition up 753% since 1984. Overall inflation? 202%.",
@@ -95,7 +96,7 @@ Not all prices rise at the same speed. Since 1984, the overall cost of living as
       "Overall CPI": { lineStyle: "dashed", strokeWidth: 1.5, opacity: 0.6 },
       "Food": { lineStyle: "dashed", strokeWidth: 1.5, opacity: 0.6 },
     },
-    labels: { density: "endpoints", format: ",.0f",
+    labels: { density: "endpoints", format: ",.0f%",
     offsets: { "College tuition": { dx: 5, dy: 8 },
     Shelter: { dx: 2, dy: 5 } } },
     legend: { position: "top" },
@@ -248,7 +249,7 @@ On a $400,000 house, the difference between a 3 percent and 7 percent mortgage r
       y: {
         field: "rate",
         type: "quantitative",
-        axis: { title: "Average rate (%)", format: ".1f", tickCount: 6 },
+        axis: { title: "Average rate", format: ".1f%", tickCount: 6 },
         scale: { domain: [0, 18], nice: false },
       },
     },
@@ -267,7 +268,7 @@ On a $400,000 house, the difference between a 3 percent and 7 percent mortgage r
       source: "Source: Freddie Mac via FRED",
     },
     theme: { colors: ["#1b7fa3"] },
-    labels: { density: "endpoints", format: ".1f" },
+    labels: { density: "endpoints", format: ".1f%" },
   }} />
 </Figure>
 
@@ -318,14 +319,14 @@ Housing, tuition, and healthcare don't just cost more. They cost more *relative 
       y: {
         field: "pct",
         type: "quantitative",
-        axis: { title: "% increase since 1984", format: ",.0f", tickCount: 5 },
+        axis: { title: "% increase since 1984", format: ",.0f%", tickCount: 5 },
         scale: { domain: [0, 550], nice: false },
       },
       color: { field: "category", type: "nominal" },
     },
     annotations: [
-      { type: "refline", y: 0, stroke: "#94a3b8", strokeDasharray: "6 4", label: "", labelAnchor: "top" },
-      { type: "text", x: "1984", y: 0, text: "1984 baseline", fontSize: 11, fill: "#94a3b8", offset: { dx: 5, dy: -10 } },
+      { type: "refline", y: 0, stroke: "#94a3b8", strokeDasharray: "6 4", label: "1984 baseline", labelAnchor: "left",
+      labelOffset: { dx: 379, dy: 19 } },
     ],
     chrome: {
       title: "Health premiums grew 471% relative to income. Tuition? 171%.",
@@ -333,7 +334,7 @@ Housing, tuition, and healthcare don't just cost more. They cost more *relative 
       source: "Source: FRED, NCES, KFF, Census Bureau",
     },
     theme: { colors: ["#1b7fa3", "#7c3aed", "#c44e52"] },
-    labels: { density: "endpoints", format: ",.0f",
+    labels: { density: "endpoints", format: ",.0f%",
     offsets: { "Home price / income": { dx: 0, dy: 14 },
     "Health premium / income": { dx: 0, dy: 5 } } },
     legend: { position: "top" },
@@ -382,7 +383,7 @@ Between 1980 and 2023, US GDP roughly tripled in real terms. The economy grew en
       y: {
         field: "share",
         type: "quantitative",
-        axis: { title: "Share of pre-tax income (%)", format: ".0f", tickCount: 5 },
+        axis: { title: "Share of pre-tax income", format: ".0f%", tickCount: 5 },
         scale: { domain: [8, 48], nice: false },
       },
       color: { field: "group", type: "nominal", scale: { domain: ["Top 1%", "Middle 40%"], range: ["#c44e52", "#1b7fa3"] } },
@@ -392,7 +393,7 @@ Between 1980 and 2023, US GDP roughly tripled in real terms. The economy grew en
       subtitle: "Share of pre-tax national income, United States, 1980-2023",
       source: "Source: World Inequality Database via Our World in Data",
     },
-    labels: { density: "endpoints", format: ".1f" },
+    labels: { density: "endpoints", format: ".1f%" },
   }} />
 </Figure>
 
@@ -439,7 +440,7 @@ A median household today earns $83,700. Where does it all go? The BLS Consumer E
       subtitle: "Average household income ($104,207) and spending flows, 2024",
       source: "Source: BLS Consumer Expenditure Survey, 2024",
     },
-    theme: { colors: ["#1b7fa3", "#c44e52", "#7c3aed", "#64748b", "#6a9f58", "#4a8c6f", "#d47215", "#5b6abf", "#3a8a8c", "#b08d35", "#9a5080", "#94a3b8", "#7a8a3a", "#c4873a", "#8a6aaf"] },
+    theme: { colors: ["#1b7fa3", "#6a9f58", "#c44e52", "#c44e52", "#c44e52", "#c44e52", "#d47215", "#5b6abf", "#3a8a8c", "#b08d35", "#9a5080", "#7c3aed", "#94a3b8", "#c4873a", "#8a6aaf", "#1b7fa3"] },
   }} />
 </Figure>
 
@@ -472,7 +473,8 @@ That's no longer true. College tuition prices have risen nearly four times faste
       color: { field: "era", type: "nominal" },
     },
     annotations: [
-      { type: "refline", x: 1.0, stroke: "#94a3b8", strokeDasharray: "6 4", label: "1984 baseline", labelAnchor: "right" },
+      { type: "refline", x: 1.0, stroke: "#94a3b8", strokeDasharray: "6 4", label: "1984 baseline", labelAnchor: "right",
+      labelOffset: { dx: -1, dy: -6 } },
     ],
     chrome: {
       title: "Health premiums now consume nearly 6x more of your income than in 1984",

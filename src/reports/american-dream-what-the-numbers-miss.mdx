@@ -1,0 +1,399 @@
+export const meta = {
+  title: "What Household Income Hides About the American Worker",
+  date: "2026-04-01",
+  description: "Median household income looks okay until you realize it takes two earners to hit the number, individual wages barely kept pace with inflation for decades, and the unemployment rate counts a one-hour gig as a job.",
+  tags: ["economics", "wages", "inequality", "labor", "methodology"],
+}
+
+import { Chart } from '../components/Chart'
+import { Figure } from '../components/Figure'
+
+A Reddit commenter recently pushed back on our [American Dream affordability report](/american-dream-affordability) with a sharp critique: the whole analysis uses household income, which flatters the picture. Real median *personal* income is a paltry ~$45,000. The unemployment rate counts anyone who worked a single hour last week as "employed." And a $200,000 earner who gets laid off and takes a $35,000 job at McDonald's isn't counted as underemployed anywhere in the official statistics.
+
+These aren't fringe complaints. They point at real blind spots in how we measure economic health. So we went back to the data to see how much the picture changes when you look through the individual worker's lens instead of the household's.
+
+The short answer: the commenter is largely right, and in some cases understates the problem.
+
+## The $40,000 gap nobody talks about
+
+The original report used median household income: $83,700 in 2024. But "household" is doing a lot of work in that number. The median individual worker, employed full-time, earned $1,159 per week in 2024. That's $60,268 annualized. And that's for full-time wage earners only. Include part-time workers, and the Census Bureau's broader real median personal income sits closer to $45,000, right where the Reddit commenter pegged it.
+
+The gap between what a household earns and what an individual earns has widened over four decades, because a growing share of households need two paychecks to reach the median.
+
+<Figure alt="Line chart comparing nominal median household income versus nominal median individual earnings (full-time) from 1984 to 2024, showing the gap widening over time">
+  <Chart spec={{
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "1984", income: 22420, type: "Household income" },
+      { year: "1987", income: 26060, type: "Household income" },
+      { year: "1990", income: 29940, type: "Household income" },
+      { year: "1993", income: 31240, type: "Household income" },
+      { year: "1996", income: 35490, type: "Household income" },
+      { year: "1999", income: 40700, type: "Household income" },
+      { year: "2002", income: 42410, type: "Household income" },
+      { year: "2005", income: 46330, type: "Household income" },
+      { year: "2008", income: 50300, type: "Household income" },
+      { year: "2011", income: 50050, type: "Household income" },
+      { year: "2014", income: 53660, type: "Household income" },
+      { year: "2017", income: 61140, type: "Household income" },
+      { year: "2020", income: 68010, type: "Household income" },
+      { year: "2023", income: 80610, type: "Household income" },
+      { year: "2024", income: 83730, type: "Household income" },
+      { year: "1984", income: 16848, type: "Individual earnings (FT)" },
+      { year: "1987", income: 19448, type: "Individual earnings (FT)" },
+      { year: "1990", income: 21424, type: "Individual earnings (FT)" },
+      { year: "1993", income: 23868, type: "Individual earnings (FT)" },
+      { year: "1996", income: 25480, type: "Individual earnings (FT)" },
+      { year: "1999", income: 28548, type: "Individual earnings (FT)" },
+      { year: "2002", income: 31616, type: "Individual earnings (FT)" },
+      { year: "2005", income: 33852, type: "Individual earnings (FT)" },
+      { year: "2008", income: 37544, type: "Individual earnings (FT)" },
+      { year: "2011", income: 39312, type: "Individual earnings (FT)" },
+      { year: "2014", income: 41132, type: "Individual earnings (FT)" },
+      { year: "2017", income: 44720, type: "Individual earnings (FT)" },
+      { year: "2020", income: 51168, type: "Individual earnings (FT)" },
+      { year: "2023", income: 58084, type: "Individual earnings (FT)" },
+      { year: "2024", income: 60268, type: "Individual earnings (FT)" },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "", tickCount: 9 } },
+      y: {
+        field: "income",
+        type: "quantitative",
+        axis: { title: "Annual income (nominal)", format: "$~s" },
+        scale: { domain: [0, 90000], nice: false },
+      },
+      color: { field: "type", type: "nominal", scale: { domain: ["Household income", "Individual earnings (FT)"], range: ["#1b7fa3", "#c44e52"] } },
+    },
+    annotations: [
+      { type: "text", x: "2016", y: 70000, text: "Gap: $23,500\nin 2024", fontSize: 11, fontWeight: 500, fill: "#64748b",
+      offset: { dx: -10, dy: -44 } },
+    ],
+    chrome: {
+      title: "Household income is $23k higher than what an individual actually earns",
+      subtitle: "Median household income vs. median weekly earnings for full-time workers (annualized), nominal dollars",
+      source: "Source: FRED (MEHOINUSA646N), BLS Current Population Survey (LEU0252881500)",
+    },
+    labels: { density: "endpoints", format: "$~s" },
+  }} />
+</Figure>
+
+In 1984, the gap between household income and full-time individual earnings was about $5,600. By 2024, it had ballooned to $23,500. That's not because individual wages surged less (though they did). It's because household income increasingly reflects two earners, not one. By 2024, roughly 70% of married-couple families had both spouses employed, up from about 66% in 2009 (the earliest year with this BLS breakdown). Before that, Census data shows about 51% of married-couple families had both spouses in the labor force in 1980. The "median household" of 1984 and the "median household" of 2024 aren't the same economic unit. One is increasingly a two-income household doing the job that one income used to do.
+
+## Forty years of running in place
+
+The nominal weekly earnings chart looks like steady progress: $324 per week in 1984, $1,159 in 2024. But adjust for inflation and the story changes completely.
+
+<Figure alt="Line chart showing real median weekly earnings in 1982-84 dollars from 1981 to 2025, nearly flat for decades with a recent uptick">
+  <Chart spec={{
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "1981", earnings: 312 },
+      { year: "1983", earnings: 314 },
+      { year: "1985", earnings: 320 },
+      { year: "1987", earnings: 329 },
+      { year: "1989", earnings: 322 },
+      { year: "1991", earnings: 313 },
+      { year: "1993", earnings: 317 },
+      { year: "1995", earnings: 314 },
+      { year: "1997", earnings: 314 },
+      { year: "1999", earnings: 329 },
+      { year: "2001", earnings: 336 },
+      { year: "2003", earnings: 337 },
+      { year: "2005", earnings: 333 },
+      { year: "2007", earnings: 335 },
+      { year: "2009", earnings: 345 },
+      { year: "2011", earnings: 336 },
+      { year: "2013", earnings: 333 },
+      { year: "2015", earnings: 341 },
+      { year: "2017", earnings: 351 },
+      { year: "2019", earnings: 359 },
+      { year: "2021", earnings: 368 },
+      { year: "2023", earnings: 367 },
+      { year: "2025", earnings: 374 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "", tickCount: 10 } },
+      y: {
+        field: "earnings",
+        type: "quantitative",
+        axis: { title: "Real weekly earnings (1982-84 $)", format: "$,.0f", tickCount: 5 },
+        scale: { domain: [300, 385], nice: false },
+      },
+    },
+    annotations: [
+      { type: "refline", y: 314, stroke: "#94a3b8", strokeDasharray: "6 4", label: "1984 level: $314", labelAnchor: "bottom" },
+      { type: "text", x: "2003", y: 360, text: "22 years of zero\nreal wage growth", fontSize: 11, fontWeight: 500, fill: "#c44e52" },
+    ],
+    chrome: {
+      title: "Individual real wages didn't surpass their 1987 peak until 2018",
+      subtitle: "Median usual weekly earnings, full-time workers, constant 1982-84 dollars",
+      source: "Source: BLS Current Population Survey (LEU0252881600)",
+    },
+    theme: { colors: ["#c44e52"] },
+    labels: { density: "endpoints", format: "$,.0f" },
+  }} />
+</Figure>
+
+In 1982-84 constant dollars, the median full-time worker earned $314 per week in 1984. By 2004, twenty years later, they earned $338. That's a 7.6% real raise spread across two decades. The individual worker didn't meaningfully beat their late-1980s earnings until around 2018. The last few years have been genuinely better, with real median earnings hitting $374 in 2025, but that still works out to only 19% real growth over 40 years, or about 0.4% per year.
+
+Meanwhile, the Economic Policy Institute estimates that labor productivity rose 62% from 1979 to 2022, using the same price deflator for both output and wages. Where did the other 45 percentage points go?
+
+## Where did productivity growth go?
+
+The Reddit commenter mentioned "labor's share of capital" declining. The numbers back this up, but measuring the gap is trickier than it looks.
+
+Real median individual wages rose about 19% from 1984 to 2025, as the chart above shows. Over a similar period (1979-2022), nonfarm business labor productivity rose 62% according to the Economic Policy Institute's analysis using a consistent price deflator. So each worker produces considerably more value, but takes home only a fraction of that increase. Where's the rest?
+
+<Figure alt="Horizontal bar chart comparing cumulative growth in productivity vs real wages vs total compensation from 1987 to 2024">
+  <Chart spec={{
+    animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+    responsive: true,
+    mark: "lollipop",
+    data: [
+      { metric: "Productivity (output/hr)", growth: 62 },
+      { metric: "Total compensation/hr", growth: 40 },
+      { metric: "Real median wages", growth: 17 },
+    ],
+    encoding: {
+      x: { field: "growth", type: "quantitative", axis: { title: "Cumulative real growth, 1979-2022 (%)", format: ",.0f%" }, scale: { domain: [0, 70], nice: false } },
+      y: { field: "metric", type: "nominal", axis: { title: "" }, scale: { domain: ["Productivity (output/hr)", "Total compensation/hr", "Real median wages"] } },
+      color: { condition: { test: { field: "growth", lte: 25 }, value: "#c44e52" }, value: "#1b7fa3" },
+    },
+    chrome: {
+      title: "Productivity rose 62%. Wages rose 17%.",
+      subtitle: "Cumulative real growth, 1979-2022. Wages deflated by CPI-U-RS, output by IPD.",
+      source: "Source: EPI analysis of BLS data (Bivens & Mishel, 2023)",
+    },
+    labels: { density: "all", format: ",.0f%" },
+  }} />
+</Figure>
+
+Three things ate the gap between productivity and wages:
+
+1. **Benefits ate the paycheck.** Total compensation per hour (wages + benefits) grew about 40% in real terms, more than double the 17% in wages alone. The difference is almost entirely health insurance. As we documented in the original report, total family health premiums rose 471% relative to income. Employers are spending far more on each worker, but the money goes to insurers, not to paychecks.
+
+2. **Profits and executive pay took a bigger slice.** Labor's share of private nonfarm business value-added fell from 67.8% in 1987 to 58.3% in 2024, a shift of nearly 10 percentage points, with almost all the decline coming after 2000. On a $21 trillion private sector, that's roughly $2 trillion annually that shifted from labor to capital.
+
+3. **Measurement matters a lot.** The exact size of the productivity-pay gap depends heavily on which price deflator you use. The EPI, using a consistent deflator for both, finds productivity rose ~62% while median hourly wages rose ~17% between 1979-2022. The BLS's own multifactor productivity series uses different deflators for output and compensation, which muddies comparison. The takeaway is directionally robust regardless of methodology: workers got a minority share of the productivity gains they generated.
+
+## The unemployment rate counts a one-hour gig as a job
+
+The Reddit commenter's critique of unemployment measurement is technically correct. The BLS counts anyone who worked at least one hour for pay during the reference survey week as "employed." In an economy where you can drive for Uber for an hour, that's a low bar.
+
+The U-3 rate (the headline number) was 4.0% in 2024. But the BLS publishes a broader measure, U-6, that adds discouraged workers, marginally attached workers, and people working part-time who want full-time work. Historically, U-6 runs about 1.7 to 2 times higher than U-3.
+
+<Figure alt="Line chart showing U-3 unemployment rate from 1980 to 2025, with annotations marking key recession peaks and recent lows">
+  <Chart spec={{
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "1980", rate: 7.2 },
+      { year: "1982", rate: 9.7 },
+      { year: "1984", rate: 7.5 },
+      { year: "1986", rate: 7.0 },
+      { year: "1988", rate: 5.5 },
+      { year: "1990", rate: 5.6 },
+      { year: "1992", rate: 7.5 },
+      { year: "1994", rate: 6.1 },
+      { year: "1996", rate: 5.4 },
+      { year: "1998", rate: 4.5 },
+      { year: "2000", rate: 4.0 },
+      { year: "2002", rate: 5.8 },
+      { year: "2004", rate: 5.5 },
+      { year: "2006", rate: 4.6 },
+      { year: "2008", rate: 5.8 },
+      { year: "2009", rate: 9.3 },
+      { year: "2010", rate: 9.6 },
+      { year: "2012", rate: 8.1 },
+      { year: "2014", rate: 6.2 },
+      { year: "2016", rate: 4.9 },
+      { year: "2018", rate: 3.9 },
+      { year: "2019", rate: 3.7 },
+      { year: "2020", rate: 8.1 },
+      { year: "2022", rate: 3.7 },
+      { year: "2024", rate: 4.0 },
+      { year: "2025", rate: 4.3 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "", tickCount: 10 } },
+      y: {
+        field: "rate",
+        type: "quantitative",
+        axis: { title: "Unemployment rate", format: ".0f%", tickCount: 5 },
+        scale: { domain: [0, 11], nice: false },
+      },
+    },
+    annotations: [
+      { type: "text", x: "2010", y: 10.8, text: "Great Recession peak", fontSize: 10, fontWeight: 500, fill: "#c44e52",
+        offset: { dx: 0, dy: -5 } },
+      { type: "text", x: "2019", y: 2, text: "U-6 was 6.9%\nwhen U-3 hit 3.7%", fontSize: 10, fontWeight: 500, fill: "#64748b",
+        offset: { dx: -60, dy: 5 } },
+    ],
+    chrome: {
+      title: "The headline unemployment rate doesn't capture job quality",
+      subtitle: "U-3 unemployment rate, annual average, 1980-2025",
+      source: "Source: FRED (UNRATE), Bureau of Labor Statistics",
+    },
+    theme: { colors: ["#1b7fa3"] },
+    labels: { density: "endpoints", format: ".1f%" },
+  }} />
+</Figure>
+
+But even U-6 misses the commenter's deeper point. Neither U-3 nor U-6 has a *wage quality* component. If a software engineer earning $200,000 gets laid off and takes a full-time job at McDonald's for $35,000, the BLS counts that person as fully employed. They don't show up in U-6 at all, because they're working full-time. The loss of $165,000 in annual earnings is invisible in every official unemployment metric.
+
+There's no standard federal statistic that measures this kind of downward mobility. The BLS tracks "involuntary part-time" workers (people who want full-time but can only find part-time), but there is no "involuntary pay cut" measure. The closest proxy is real wage data, which is exactly what the flat line in the earlier chart captures in aggregate.
+
+## The vanishing worker
+
+There's another number that the unemployment rate completely ignores: people who stopped looking for work entirely. The labor force participation rate peaked at 67.3% in 2000 and has been declining since.
+
+<Figure alt="Line chart showing labor force participation rate from 1980 to 2025, peaking around 67% in 2000 and declining to 62.5% by 2024">
+  <Chart spec={{
+    animation: { enter: { duration: 800, ease: "smooth" }, annotationDelay: 300 },
+    responsive: true,
+    mark: { type: "area", interpolate: "monotone" },
+    data: [
+      { year: "1980", lfpr: 64.0 },
+      { year: "1982", lfpr: 63.7 },
+      { year: "1984", lfpr: 63.9 },
+      { year: "1986", lfpr: 64.9 },
+      { year: "1988", lfpr: 65.8 },
+      { year: "1990", lfpr: 66.8 },
+      { year: "1992", lfpr: 66.3 },
+      { year: "1994", lfpr: 66.6 },
+      { year: "1996", lfpr: 66.4 },
+      { year: "1998", lfpr: 67.1 },
+      { year: "2000", lfpr: 67.3 },
+      { year: "2002", lfpr: 66.5 },
+      { year: "2004", lfpr: 66.1 },
+      { year: "2006", lfpr: 66.0 },
+      { year: "2008", lfpr: 66.2 },
+      { year: "2010", lfpr: 64.8 },
+      { year: "2012", lfpr: 63.7 },
+      { year: "2014", lfpr: 62.9 },
+      { year: "2016", lfpr: 62.7 },
+      { year: "2018", lfpr: 62.7 },
+      { year: "2020", lfpr: 63.3 },
+      { year: "2022", lfpr: 62.2 },
+      { year: "2024", lfpr: 62.5 },
+      { year: "2025", lfpr: 62.6 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: "", tickCount: 10 } },
+      y: {
+        field: "lfpr",
+        type: "quantitative",
+        axis: { title: "Participation rate", format: ".0f%", tickCount: 5 },
+        scale: { domain: [60, 69], nice: false },
+      },
+    },
+    annotations: [
+      { type: "text", x: "2000", y: 68.5, text: "Peak: 67.3%", fontSize: 11, fontWeight: 600, fill: "#1b7fa3",
+        offset: { dx: 0, dy: -5 } },
+      { type: "text", x: "2014", y: 61, text: "4.8 percentage points\n= ~13 million people", fontSize: 10, fontWeight: 500, fill: "#64748b",
+        offset: { dx: 0, dy: 5 } },
+    ],
+    chrome: {
+      title: "Nearly 5 percentage points of working-age Americans left the labor force since 2000",
+      subtitle: "Civilian labor force participation rate, January reading each year, 1980-2025",
+      source: "Source: BLS Current Population Survey (LNS11300000)",
+    },
+    theme: { colors: ["#1b7fa3"] },
+    labels: { density: "endpoints", format: ".1f%" },
+  }} />
+</Figure>
+
+A 4.8 percentage point drop in participation, from 67.3% to 62.5%, represents roughly 13 million working-age Americans who are neither employed nor looking for work. Some of this is demographics: baby boomers retiring, more young people in school. But the decline started well before the bulk of boomer retirements. Economists at the Federal Reserve have estimated that population aging accounts for about half of the post-2000 decline. The other half includes discouraged workers, people on disability, and the opioid crisis pulling prime-age men out of the workforce.
+
+These people don't appear in any unemployment rate. When someone stops looking, the unemployment rate actually goes *down*, because the denominator (labor force) shrinks. A country where everyone gave up looking for work would have a 0% unemployment rate.
+
+## Putting it all together: the individual worker's scorecard
+
+Here's what the economy looks like from the perspective of a single median earner, not a household.
+
+<Figure alt="Horizontal bar chart comparing individual worker metrics in 1984 vs 2024: real weekly pay, weeks to afford rent, share of income to health costs, and labor force participation">
+  <Chart spec={{
+    animation: { enter: { ease: "snappy", stagger: { delay: 50, order: "value" } } },
+    responsive: true,
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { metric: "Real weekly pay (1982-84 $)", value: 314, era: "1984" },
+      { metric: "Real weekly pay (1982-84 $)", value: 369, era: "2024" },
+      { metric: "Weeks of pay for college (COA)", value: 9, era: "1984" },
+      { metric: "Weeks of pay for college (COA)", value: 20, era: "2024" },
+      { metric: "Weeks of pay for annual rent", value: 13, era: "1984" },
+      { metric: "Weeks of pay for annual rent", value: 14, era: "2024" },
+    ],
+    encoding: {
+      x: { field: "value", type: "quantitative", scale: { nice: false }, axis: { title: "" } },
+      y: { field: "metric", type: "nominal", axis: { title: "" }, scale: { domain: ["Real weekly pay (1982-84 $)", "Weeks of pay for college (COA)", "Weeks of pay for annual rent"] } },
+      color: { field: "era", type: "nominal", scale: { domain: ["1984", "2024"], range: ["#6a9f58", "#c44e52"] } },
+    },
+    chrome: {
+      title: "Real wages rose ~19% but college costs more than doubled in weeks of pay",
+      subtitle: "Median full-time worker metrics, 1984 vs. 2024",
+      source: "Source: BLS, NCES, Census Bureau",
+    },
+    theme: { colors: ["#6a9f58", "#c44e52"] },
+    labels: { density: "all", format: ",.0f" },
+  }} />
+</Figure>
+
+A single earner's real weekly pay rose about 19% over 40 years (18% through 2024, with recent gains lifting it further). Over that same period, the weeks of individual earnings needed for a year of public college (total cost of attendance: tuition, fees, room, and board) more than doubled from 9 to 20. Rent, interestingly, barely budged as a share of individual pay: about 13 weeks in 1984 vs 14 in 2024, because median gross rents rose roughly in line with nominal wages. The college cost explosion is where individual workers really feel the squeeze. These are the numbers the original report's household lens softens, because a two-earner household can split the tuition bill. But roughly 28% of households are single-person, and for them, these are the actual costs measured against their actual paycheck.
+
+---
+
+## Where the commenter is right, where they overstate, and what's complicated
+
+**Largely right:**
+- Household income overstates individual economic wellbeing. The gap between household and individual earnings has widened because more households require two earners.
+- Real individual wages were essentially flat from the mid-1980s through about 2015. The last decade has been genuinely better, but it's a short track record against a long drought.
+- The unemployment rate's one-hour threshold is a low bar, and gig platforms have made it easier to technically qualify as "employed."
+- There is no official measure for downward job mobility (high-earner taking a low-wage job).
+
+**Overstated or missing nuance:**
+- The ~$45k figure for "real median personal income" includes part-time workers. Full-time median individual earnings are about $60k. Both numbers are correct; they measure different things.
+- U-6 does exist as a broader measure and runs roughly 7-8% when U-3 is 4%. It's not hidden; the BLS publishes it monthly. But the commenter is right that even U-6 has no wage-quality component.
+- The post-2019 wage picture is genuinely different from the prior three decades. Low-wage workers in particular saw the fastest real wage growth in decades during 2021-2023. The long stagnation narrative, while true historically, doesn't fully describe where things stand today.
+
+**Complicated:**
+- Labor force participation decline is partly demographics (aging), partly discouragement, partly structural. Attributing it all to declining job quality overstates the case.
+- "Labor's share" calculations depend heavily on how you define compensation (with or without benefits) and which deflator you use. The gap between productivity and worker pay is real but its magnitude is debated.
+- Household vs. individual income isn't just an analytical choice. Housing, the biggest cost, is genuinely a household-level expense. A couple splitting $2,000 rent on $84k combined income has a different problem than a single person paying $1,400 rent on $45k.
+
+## Data sources & methodology
+
+**Datasets used:**
+- `bls/weekly-earnings` (LEU0252881500) — Median usual weekly earnings, full-time wage and salary workers, quarterly, seasonally adjusted. Annual averages (Q05 period). Used for nominal individual earnings. Source: BLS Current Population Survey.
+- `bls/weekly-earnings` (LEU0252881600) — Same metric in constant 1982-84 dollars. Source: BLS CPS.
+- `fred/nominal-median-household-income` — FRED series MEHOINUSA646N. Annual nominal median household income, 1984-2024. Source: Census Bureau CPS ASEC.
+- `fred/unemployment-rate` — FRED series UNRATE. Monthly civilian unemployment rate (U-3), seasonally adjusted. Annual averages computed from monthly data. Source: BLS.
+- `bls/labor-force` (LNS11300000) — Civilian labor force participation rate, seasonally adjusted, monthly. January readings used for annual values. Source: BLS CPS.
+- `bls/multifactor-productivity` (MPU9900062, MPU9900082, MPU4910141) — Nonfarm business sector output per hour (labor productivity), compensation per hour indexes, and labor share of value-added. Annual. Base year 2017 = 100 for indexes. Source: BLS. Labor share series shows decline from 67.8% (1987) to 58.3% (2024).
+- `bls/family-labor-force` (FMUF0269, FMUF0270, FMUF0272) — Married-couple family employment composition: husband only, wife only, and neither spouse employed (percent). Both-employed derived as 100 minus those three. Source: BLS CPS. Available 2009-2024.
+
+**Calculations & transformations:**
+- Individual earnings annualized from weekly: nominal weekly x 52. This assumes full-year employment, which overstates actual annual income for workers with employment gaps.
+- Real median weekly earnings can appear to rise during recessions (e.g., the 2009 uptick to $345) because lower-wage workers are disproportionately laid off, compositionally shifting the median upward. This is a known artifact in BLS CPS data, not a genuine wage increase.
+- Productivity-pay gap figures (productivity +62%, total compensation +40%, median wages +17%) are from EPI's "The Productivity-Pay Gap" (Bivens & Mishel, updated 2023), covering 1979-2022. EPI uses the CPI-U-RS deflator for wages and the IPD (Implicit Price Deflator) for net productivity output. Using different deflators is a deliberate EPI choice: the IPD captures what firms actually produce, CPI-U-RS captures what workers can actually buy. Critics (e.g., Feldstein, Mankiw) argue that using a single deflator for both would narrow the gap. The BLS MFP series (MPU9900062, MPU9900082) was consulted but not used for charting because its nominal compensation index requires additional deflation steps.
+- "Weeks of pay for college" uses NCES average tuition and fees at public 4-year institutions divided by BLS nominal median weekly earnings.
+- "Weeks of pay for rent" uses Census median gross rent (including utilities) annualized, divided by BLS nominal median weekly earnings. 1984: ~$340/mo gross rent, $324/wk earnings = 12.6 weeks. 2024: ~$1,400/mo gross rent, $1,159/wk earnings = 14.5 weeks.
+- U-6 figures cited in text from BLS Table A-15, not directly queried. Historical U-6 data begins in 1994.
+- Labor force participation decline of 4.8 pp represents approximately 13 million people based on 2024 civilian noninstitutional population of ~267 million (0.048 x 267M = 12.8M).
+- LFPR chart uses January readings. The 2020 value (63.3%) reflects pre-COVID January 2020, not the annual average of ~61.7% which includes the April 2020 crash to ~60.0%.
+- Deflator choice is the single largest methodological factor in productivity-pay gap estimates. Using a consistent CPI deflator for both output and wages narrows the gap but still shows a meaningful divergence. The direction of the finding is robust across methodologies; only the magnitude is debated.
+
+**Limitations:**
+- BLS median weekly earnings covers wage and salary workers only, excluding self-employed. This understates the "gig economy" dimension of the critique.
+- The household-to-individual earnings gap chart compares median household income (all households including retirees and single-person) with median full-time weekly earnings (workers only). These aren't perfectly comparable populations.
+- LFPR decline attribution (demographics vs. discouragement vs. structural) is a rough split citing Federal Reserve research. Precise decomposition varies by study.
+- U-6 data not directly charted due to data access limitations; BLS series begins 1994 and values cited are from published BLS tables.
+- "Weeks of pay" for 1984 uses estimated median weekly earnings and historical cost data, which may not perfectly align in timing.
+
+*Data accessed on 2026-04-01 via the [OpenData API](https://tryopendata.ai).*

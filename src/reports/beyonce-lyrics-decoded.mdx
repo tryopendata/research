@@ -1,0 +1,447 @@
+export const meta = {
+  title: "22,616 Lines of Beyonce: What Her Lyrics Reveal When You Count Every Word",
+  date: "2026-04-04",
+  description: "A computational dissection of Beyonce's entire lyric catalog reveals a songwriter who lives in the present tense, builds songs from just two pronouns, and uses repetition as precision engineering.",
+  tags: ["music", "lyrics", "beyonce", "text-analysis", "pop-culture"],
+}
+
+import { Chart } from '../components/Chart'
+import { DataTable } from '@opendata-ai/openchart-react'
+import { Figure } from '../components/Figure'
+
+Nearly half of every line Beyonce has ever recorded contains the word "I," "me," or "my." Another third contains "you" or "your." Together, those two pronouns account for almost 80 percent of the perspective in her catalog. "We" appears in just 4 percent of lines. "They" in 2.5 percent.
+
+Across 391 songs and 22,616 lines of lyrics, a computational analysis of the TidyTuesday Beyonce lyrics dataset reveals something critics have felt but never quite quantified: Beyonce's music constructs a two-person universe. It's always "I" and "you," locked in a room together, right now, tonight. The rest of the world barely exists.
+
+That intimacy isn't an accident. It's an architectural choice that shows up in her word frequencies, her emotional patterns, her use of tense, and even in the way her songs arc from vulnerability to strength within their own runtime. Here's what the data looks like when you count every word.
+
+## Her lyrics are a private conversation between exactly two people
+
+The pronoun distribution across 22,616 lines is lopsided in a way that tells you everything about how Beyonce writes. First person dominates: 10,134 lines contain "I," "me," or "my." Second person follows: 7,821 lines address "you" or "your." After that, there's a cliff. "We" shows up in 941 lines. "He/him" in 677. "They/them" in 565. "She/her" in just 474.
+
+<Figure alt="Horizontal bar chart showing pronoun frequency across Beyonce's lyrics, with I/me/my and you/your dwarfing all other pronouns">
+  <Chart spec={{
+    responsive: true,
+    mark: "lollipop",
+    data: [
+      { pronoun: "I / me / my", lines: 10134, pct: 44.8 },
+      { pronoun: "you / your", lines: 7821, pct: 34.6 },
+      { pronoun: "we / us / our", lines: 941, pct: 4.2 },
+      { pronoun: "he / him / his", lines: 677, pct: 3.0 },
+      { pronoun: "they / them", lines: 565, pct: 2.5 },
+      { pronoun: "she / her", lines: 474, pct: 2.1 },
+    ],
+    encoding: {
+      x: { field: "lines", type: "quantitative", axis: { title: "Lines containing pronoun", format: "~s" }, scale: { nice: false } },
+      y: { field: "pronoun", type: "nominal" },
+      color: {
+        field: "pronoun", type: "nominal",
+        scale: {
+          domain: ["I / me / my", "you / your", "we / us / our", "he / him / his", "they / them", "she / her"],
+          range: ["#c44e52", "#1b7fa3", "#94a3b8", "#94a3b8", "#94a3b8", "#94a3b8"]
+        }
+      }
+    },
+    chrome: {
+      title: "Beyonce's music is a conversation between two people",
+      subtitle: "Lines containing each pronoun group, across 391 songs (22,616 lines total)",
+      source: "Source: TidyTuesday Beyonce Lyrics dataset"
+    },
+    labels: { density: "all", format: ",.0f" },
+    legend: { show: false },
+  }} />
+</Figure>
+
+This isn't how most pop music works. Empowerment anthems tend to use "we" -- think Queen's "We Will Rock You" or "We Are the Champions." Political songs lean on "they" and "them." But Beyonce, even when she's making a statement about all women ("Run the World"), frames it as "I" telling "you." She doesn't speak for the collective. She speaks to the individual, one listener at a time, and lets the collective feeling emerge from 80 million people each feeling personally addressed.
+
+The ratio holds even in her most political work. "Formation" and "Freedom" still center on first person declarations -- "I slay," "I'ma keep running" -- delivered to "you." The genius is that "you" is flexible enough to be a lover, an enemy, or every woman in the audience, depending on the song. The intimacy is the delivery mechanism for the message.
+
+## She lives in the eternal present tense
+
+Beyonce's music doesn't reminisce, and it doesn't plan ahead. It happens *right now*. Lines containing "now," "tonight," or "right now" appear 1,955 times across the catalog. Lines referencing the future or eternity -- "forever," "always," "tomorrow," "someday" -- appear just 218 times. The past tense -- "yesterday," "remember," "used to," "once" -- shows up in 236 lines.
+
+That's a ratio of nearly 9 to 1, present over future. 8 to 1, present over past.
+
+<Figure alt="Horizontal bar chart showing temporal orientation of Beyonce's lyrics, with present-tense words vastly outnumbering future and past references">
+  <Chart spec={{
+    responsive: true,
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { tense: "Present (now, tonight)", lines: 1955, color: "present" },
+      { tense: "Past (yesterday, remember)", lines: 236, color: "past" },
+      { tense: "Future (forever, always)", lines: 218, color: "future" },
+    ],
+    encoding: {
+      x: { field: "lines", type: "quantitative", axis: { title: "Lines containing temporal words", format: ",.0f" }, scale: { nice: false } },
+      y: { field: "tense", type: "nominal", axis: { title: "" } },
+      color: {
+        field: "color", type: "nominal",
+        scale: {
+          domain: ["present", "past", "future"],
+          range: ["#c44e52", "#94a3b8", "#94a3b8"]
+        }
+      }
+    },
+    chrome: {
+      title: "Beyonce's lyrics live in the present tense, 9:1",
+      subtitle: "Lines containing temporal reference words across 391 songs",
+      source: "Source: TidyTuesday Beyonce Lyrics dataset"
+    },
+    labels: { density: "all", format: ",.0f" },
+    legend: { show: false },
+    annotations: [
+      { type: "text", x: 1955, y: "Present (now, tonight)", text: "9x more than\nfuture or past", dx: 10, dy: -20, fontSize: 12, fontWeight: 600, fill: "#94a3b8",
+      offset: { dx: -15, dy: -18 } }
+    ]
+  }} />
+</Figure>
+
+This maps directly to what psychologists call the "earworm effect." Research published in the APA's *Psychology of Aesthetics, Creativity, and the Arts* found that present-tense urgency is one of the traits that makes songs stick in your head. A 2024 study in *Scientific Reports* analyzing 353,320 songs confirmed that pop lyrics have become more repetitive and present-focused over the last five decades, and that this shift correlates with commercial success.
+
+Beyonce's most present-tense word -- "tonight" at 328 appearances -- is also one of her most structural. It sets the scene for nearly every sensual or celebratory song in her catalog. "Tonight" collapses time down to a single moment, which makes the emotion feel immediate rather than reflective. "Never" (416 appearances) is technically future-oriented but functions as a present-tense vow -- "I will never leave" is about commitment *now*, not about what happens in 2035.
+
+## One in three lines is a repeat, and that's the point
+
+The average Beyonce song repeats 31.8 percent of its lines. That means roughly one in three lines you hear in any given track is something you've already heard in that same song. But the range is enormous: from 0 percent repetition (pieces like "Yours and Mine" and "Trust In Me" are 100 percent unique lines) to 75 percent ("Hey Goldmember" repeats 39 of its 52 lines).
+
+<Figure alt="Scatter plot showing total lines vs unique lines for each Beyonce song, with a diagonal reference line marking 100% uniqueness">
+  <Chart spec={{
+    responsive: true,
+    mark: "point",
+    data: [
+      { song: "Hey Goldmember", total: 52, unique: 13, rep: 75.0, tier: "High (50%+)" },
+      { song: "Black Culture", total: 48, unique: 16, rep: 66.7, tier: "High (50%+)" },
+      { song: "Creole", total: 76, unique: 26, rep: 65.8, tier: "High (50%+)" },
+      { song: "Naughty Girl", total: 61, unique: 23, rep: 62.3, tier: "High (50%+)" },
+      { song: "Ring the Alarm", total: 109, unique: 46, rep: 57.8, tier: "High (50%+)" },
+      { song: "Blue", total: 51, unique: 21, rep: 58.8, tier: "High (50%+)" },
+      { song: "Scared of Lonely", total: 48, unique: 20, rep: 58.3, tier: "High (50%+)" },
+      { song: "Run the World (Girls)", total: 90, unique: 49, rep: 45.6, tier: "Medium (30-50%)" },
+      { song: "Halo", total: 74, unique: 32, rep: 56.8, tier: "High (50%+)" },
+      { song: "Single Ladies", total: 56, unique: 34, rep: 39.3, tier: "Medium (30-50%)" },
+      { song: "Crazy in Love", total: 75, unique: 42, rep: 44.0, tier: "Medium (30-50%)" },
+      { song: "Drunk in Love", total: 73, unique: 49, rep: 32.9, tier: "Medium (30-50%)" },
+      { song: "Formation", total: 50, unique: 36, rep: 28.0, tier: "Low (<30%)" },
+      { song: "Freedom", total: 72, unique: 47, rep: 34.7, tier: "Medium (30-50%)" },
+      { song: "Love Drought", total: 38, unique: 29, rep: 23.7, tier: "Low (<30%)" },
+      { song: "Irreplaceable", total: 64, unique: 37, rep: 42.2, tier: "Medium (30-50%)" },
+      { song: "Flaws and All", total: 37, unique: 26, rep: 29.7, tier: "Low (<30%)" },
+      { song: "If I Were a Boy", total: 63, unique: 35, rep: 44.4, tier: "Medium (30-50%)" },
+      { song: "Pretty Hurts", total: 55, unique: 37, rep: 32.7, tier: "Medium (30-50%)" },
+      { song: "Yours And Mine", total: 56, unique: 56, rep: 0.0, tier: "Low (<30%)" },
+      { song: "Countdown", total: 71, unique: 51, rep: 28.2, tier: "Low (<30%)" },
+      { song: "Diva", total: 49, unique: 30, rep: 38.8, tier: "Medium (30-50%)" },
+      { song: "Sweet Dreams", total: 62, unique: 28, rep: 54.8, tier: "High (50%+)" },
+      { song: "Green Light", total: 70, unique: 31, rep: 55.7, tier: "High (50%+)" },
+      { song: "Check On It", total: 82, unique: 36, rep: 56.1, tier: "High (50%+)" },
+      { song: "Get Me Bodied", total: 88, unique: 44, rep: 50.0, tier: "High (50%+)" },
+      { song: "Baby Boy", total: 86, unique: 47, rep: 45.3, tier: "Medium (30-50%)" },
+      { song: "Ego", total: 67, unique: 31, rep: 53.7, tier: "High (50%+)" },
+      { song: "Why Don't You Love Me", total: 51, unique: 32, rep: 37.3, tier: "Medium (30-50%)" },
+      { song: "Me, Myself and I", total: 64, unique: 41, rep: 35.9, tier: "Medium (30-50%)" },
+      { song: "Dance For You", total: 65, unique: 42, rep: 35.4, tier: "Medium (30-50%)" },
+      { song: "I Was Here", total: 49, unique: 33, rep: 32.7, tier: "Medium (30-50%)" },
+      { song: "Trust In Me", total: 22, unique: 22, rep: 0.0, tier: "Low (<30%)" },
+      { song: "Gift from Virgo", total: 31, unique: 30, rep: 3.2, tier: "Low (<30%)" },
+      { song: "MOOD 4 EVA", total: 112, unique: 81, rep: 27.7, tier: "Low (<30%)" },
+      { song: "MY POWER", total: 55, unique: 37, rep: 32.7, tier: "Medium (30-50%)" },
+      { song: "Ice Cream Truck", total: 108, unique: 64, rep: 40.7, tier: "Medium (30-50%)" },
+      { song: "Naughty Girl (Remix)", total: 77, unique: 36, rep: 53.2, tier: "High (50%+)" },
+    ],
+    encoding: {
+      x: { field: "total", type: "quantitative", axis: { title: "Total lines in song", format: ",.0f" }, scale: { nice: false, domain: [15, 120] } },
+      y: { field: "unique", type: "quantitative", axis: { title: "Unique lines", format: ",.0f" }, scale: { nice: false, domain: [8, 88] } },
+      color: {
+        field: "tier", type: "ordinal",
+        scale: {
+          domain: ["Low (<30%)", "Medium (30-50%)", "High (50%+)"],
+          range: ["#1b7fa3", "#d47215", "#c44e52"]
+        }
+      },
+      tooltip: [
+        { field: "song", type: "nominal" },
+        { field: "total", type: "quantitative" },
+        { field: "unique", type: "quantitative" },
+        { field: "rep", type: "quantitative" }
+      ]
+    },
+    annotations: [
+      { type: "text", x: 74, y: 32, text: "Halo", dx: 10, dy: -8, fontSize: 11, fontWeight: 600, fill: "#c44e52",
+      offset: { dx: 11, dy: -45 },
+      connectorOffset: { to: { dx: 3, dy: -5 } } },
+      { type: "text", x: 56, y: 56, text: "Yours And Mine\n(100% unique)", dx: 10, dy: -5, fontSize: 11, fontWeight: 600, fill: "#1b7fa3",
+      offset: { dx: 12, dy: -58 },
+      connectorOffset: { to: { dx: 3, dy: -6 } } },
+      { type: "text", x: 90, y: 49, text: "Run the World", dx: 10, dy: -5, fontSize: 11, fontWeight: 600, fill: "#d47215",
+      offset: { dx: -21, dy: 29 },
+      connectorOffset: { to: { dx: 4, dy: 4 } } },
+      { type: "text", x: 52, y: 13, text: "Hey Goldmember\n(75% repeated)", dx: 10, dy: 0, fontSize: 11, fontWeight: 600, fill: "#c44e52",
+      offset: { dx: -61, dy: -72 },
+      connectorOffset: { to: { dx: -5, dy: -5 } } },
+    ],
+    chrome: {
+      title: "The repetition spectrum: from spoken word to mantra",
+      subtitle: "38 notable songs. Closer to the diagonal = more unique lyrics.",
+      source: "Source: TidyTuesday Beyonce Lyrics dataset"
+    },
+    legend: { position: "top" },
+  }} />
+</Figure>
+
+The Pudding's landmark 2017 analysis of lyric repetition found that the average pop song in 2014 was 22 percent more compressible than the average song from 1960, with repetition increasing nearly every year. Beyonce's 31.8 percent average puts her above that benchmark, but the spread across her catalog tells a more nuanced story. Her most repetitive songs are dance tracks and club remixes where the hook *is* the product. Her least repetitive work -- "Yours and Mine," "Gift from Virgo," her spoken pieces -- reads more like poetry or personal essay.
+
+The word "halo" alone makes up 14.7 percent of all words in "Halo." The phrase "Who run the world? Girls!" accounts for 25.8 percent of its song. This isn't lazy writing. It's precision engineering. Research from the *Journal of Consumer Psychology* found that repetitive lyrics increase "processing fluency" -- the ease with which your brain handles information -- and that higher fluency directly predicts commercial success. Beyonce repeats exactly as much as the song needs, no more.
+
+## The hooks that won't let go
+
+Some lines transcend their songs. They get repeated across multiple tracks, remixes, and live performances until they become part of Beyonce's permanent vocabulary.
+
+<Figure alt="Horizontal bar chart showing the most repeated single lines across Beyonce's entire catalog" minHeight={500}>
+  <Chart spec={{
+    responsive: true,
+    mark: { type: "bar", orient: "horizontal", color: "#1b7fa3" },
+    data: [
+      { lyric: "If I let you go", reps: 144, songs: 7 },
+      { lyric: "Who run the world? Girls!", reps: 86, songs: 3 },
+      { lyric: "Dip it, pop it, twerk it...", reps: 62, songs: 9 },
+      { lyric: "(Turn the lights on)", reps: 62, songs: 7 },
+      { lyric: "Ooh, boy, you looking like...", reps: 61, songs: 9 },
+      { lyric: "Won't you come over...", reps: 60, songs: 9 },
+      { lyric: "I can't let you go", reps: 56, songs: 7 },
+      { lyric: "I can feel your halo...", reps: 48, songs: 5 },
+      { lyric: "That's how you like it, huh", reps: 48, songs: 1 },
+      { lyric: "Put a ring on it", reps: 40, songs: 4 },
+    ],
+    encoding: {
+      x: { field: "reps", type: "quantitative", axis: { title: "Total repetitions across catalog", format: ",.0f" }, scale: { nice: false } },
+      y: { field: "lyric", type: "nominal", axis: { title: "" } },
+    },
+    chrome: {
+      title: "\"If I let you go\" appears 144 times across 7 songs",
+      subtitle: "Most repeated single lines in Beyonce's catalog",
+      source: "Source: TidyTuesday Beyonce Lyrics dataset"
+    },
+    labels: { density: "all", format: ",.0f" },
+    legend: { show: false },
+  }} />
+</Figure>
+
+The most repeated line in her entire catalog isn't a power anthem or a dance hook. It's "If I let you go" -- a quiet statement of conditional devotion that appears 144 times across 7 different songs. That's 60 percent more than "Who run the world? Girls!" and nearly four times more than "If you like it, then you shoulda put a ring on it." The line that defines Beyonce's lyrical universe isn't about empowerment or independence. It's about the tension between holding on and letting go.
+
+Notice the pattern in the top hooks: half of the top ten are about longing or not being able to leave. "If I let you go." "I can't let you go." "Won't you come over." "I can feel your halo." "Ooh, boy, you looking like..." The public Beyonce is the one who runs the world. The lyrical Beyonce is the one who can't let go.
+
+## Love dominates everything, 26 to 1 over hate
+
+The word "love" appears in 1,214 lines. "Hate" appears in 47. That's a ratio of roughly 26 to 1. But the emotional picture gets more interesting when you look at what Beyonce *does* with love. She doesn't just sing about it as a concept -- she deploys it in specific grammatical constructions that reveal different relationships to the feeling.
+
+<Figure alt="Horizontal bar chart showing how Beyonce uses the word love in different grammatical constructions">
+  <Chart spec={{
+    responsive: true,
+    mark: "lollipop",
+    data: [
+      { usage: "\"I love\" [someone]", count: 269, type: "active" },
+      { usage: "\"love you\" [declaration]", count: 240, type: "active" },
+      { usage: "\"your love\" [possession]", count: 160, type: "passive" },
+      { usage: "\"in love\" [state of being]", count: 125, type: "state" },
+      { usage: "\"my love\" [address/possession]", count: 75, type: "active" },
+      { usage: "\"don't love\" [negation]", count: 60, type: "absence" },
+      { usage: "\"love me\" [be loved]", count: 57, type: "passive" },
+    ],
+    encoding: {
+      x: { field: "count", type: "quantitative", axis: { title: "Lines containing pattern", format: ",.0f" }, scale: { nice: false } },
+      y: { field: "usage", type: "nominal", axis: { title: "" } },
+      color: {
+        field: "type", type: "nominal",
+        scale: {
+          domain: ["active", "passive", "state", "absence"],
+          range: ["#c44e52", "#1b7fa3", "#6a9f58", "#94a3b8"]
+        }
+      }
+    },
+    chrome: {
+      title: "Beyonce gives love more than she asks for it",
+      subtitle: "Grammatical construction of \"love\" across 391 songs",
+      source: "Source: TidyTuesday Beyonce Lyrics dataset"
+    },
+    labels: { density: "all", format: ",.0f" },
+    legend: { position: "top" },
+  }} />
+</Figure>
+
+The active constructions -- "I love," "love you," "my love" -- outnumber the passive ones ("your love," "love me") by 584 to 217. She's the one doing the loving nearly three times more often than she's asking to be loved. Even her relationship to love is assertive. She doesn't wait for it; she declares it.
+
+And when love goes wrong, she doesn't dissolve. She draws lines. Her most common negation patterns reveal a songwriter who refuses more than she grieves: "I don't wanna" (105 times), "I won't let you go" (95 times), "I ain't sorry" (45 times). "I don't care" shows up 40 times. The refusals outnumber the laments by a wide margin.
+
+## Her songs start vulnerable and end empowered
+
+Across 342 songs with at least 20 lines, a consistent emotional arc emerges when you compare the first quarter of each song to the last quarter. Vulnerability language -- "cry," "broken," "hurt," "alone," "lost" -- drops 34 percent from opening to closing. Empowerment language -- "run," "power," "strong," "rise," "free" -- rises 17 percent. Romance language rises 28 percent.
+
+<Figure alt="Diverging bar chart showing how emotional content shifts from first to last quarter of Beyonce songs">
+  <Chart spec={{
+    responsive: true,
+    mark: "bar",
+    data: [
+      { emotion: "Romantic", change: 28, label: "Romantic +28%" },
+      { emotion: "Empowered", change: 17, label: "Empowered +17%" },
+      { emotion: "Defiant", change: -5, label: "Defiant -5%" },
+      { emotion: "Vulnerable", change: -34, label: "Vulnerable -34%" },
+    ],
+    encoding: {
+      x: { field: "change", type: "quantitative", axis: { title: "Change from first to last quarter of song", format: "+.0f%" }, scale: { nice: false } },
+      y: { field: "emotion", type: "nominal", axis: { title: "" } },
+      color: {
+        condition: { test: { field: "change", gte: 0 }, value: "#1b7fa3" },
+        value: "#c44e52"
+      }
+    },
+    chrome: {
+      title: "Songs start with pain and end with love and power",
+      subtitle: "Change in emotional keyword density, first quarter vs. last quarter of 342 songs",
+      source: "Source: TidyTuesday Beyonce Lyrics dataset"
+    },
+    labels: { density: "none" },
+    legend: { show: false },
+    annotations: [
+      { type: "refline", x: 0, strokeDash: [4, 2], stroke: "#666" },
+      { type: "text", x: 28, y: "Romantic", text: "+28%", dx: -40, fontSize: 13, fontWeight: 600, fill: "#fff",
+      offset: { dx: -34, dy: -12 },
+      connectorOffset: { to: { dx: -5, dy: -12 } } },
+      { type: "text", x: 17, y: "Empowered", text: "+17%", dx: -40, fontSize: 13, fontWeight: 600, fill: "#fff",
+      offset: { dx: -100, dy: -10 },
+      connectorOffset: { to: { dx: -58, dy: -21 } } },
+      { type: "text", x: -5, y: "Defiant", text: "-5%", dx: 30, fontSize: 13, fontWeight: 600, fill: "#fff",
+      offset: { dx: -40, dy: -3 } },
+      { type: "text", x: -34, y: "Vulnerable", text: "-34%", dx: 40, fontSize: 13, fontWeight: 600, fill: "#fff",
+      offset: { dx: 107, dy: -31 },
+      connectorOffset: { to: { dx: 115, dy: -29 } } },
+    ]
+  }} />
+</Figure>
+
+This isn't random. It's a structural pattern baked into her songwriting. The Beyonce song formula, as revealed by the data, moves through a sequence: acknowledge the pain, process the feeling, arrive at strength or love or both. The Lemonade visual album -- with its chapter titles "Intuition," "Denial," "Anger," "Apathy," "Emptiness," "Accountability," "Reformation," "Forgiveness," "Resurrection," "Hope," "Redemption" -- is the macro version of what her individual songs do on the micro level.
+
+Warsan Shire, the Somali-British poet who wrote the spoken-word interludes for Lemonade, provided the literary scaffolding for this arc. But the data shows Beyonce was already doing it structurally before Lemonade. It's embedded in the songwriting, not just the concept album.
+
+## Desire and sensuality are the emotional bedrock, not empowerment
+
+When people think of Beyonce, they think "empowerment." But the data tells a different story about what her catalog is actually *about*. Desire and longing -- "want," "need," "miss," "waiting" -- appear in 67 percent of her songs. Sensuality and body -- "touch," "kiss," "feel," "body" -- appear in 65 percent. Heartbreak appears in 50 percent. Joy and celebration in 35 percent. Confidence and power, the thing she's most famous for? Just 20 percent.
+
+<Figure alt="Horizontal bar chart showing the percentage of Beyonce's songs containing each emotional theme">
+  <Chart spec={{
+    responsive: true,
+    mark: "lollipop",
+    data: [
+      { emotion: "Desire / longing", pct: 67.0, songs: 262 },
+      { emotion: "Sensuality / body", pct: 65.0, songs: 254 },
+      { emotion: "Beauty / appearance", pct: 60.1, songs: 235 },
+      { emotion: "Heartbreak / loss", pct: 50.1, songs: 196 },
+      { emotion: "Night / atmosphere", pct: 37.6, songs: 147 },
+      { emotion: "Devotion / commitment", pct: 36.3, songs: 142 },
+      { emotion: "Joy / celebration", pct: 35.5, songs: 139 },
+      { emotion: "Freedom / independence", pct: 32.2, songs: 126 },
+      { emotion: "Anger / defiance", pct: 30.4, songs: 119 },
+      { emotion: "Confidence / power", pct: 19.9, songs: 78 },
+    ],
+    encoding: {
+      x: { field: "pct", type: "quantitative", axis: { title: "% of songs containing theme", format: ".0f%" }, scale: { domain: [15, 75], nice: false } },
+      y: { field: "emotion", type: "nominal", axis: { title: "" } },
+      color: {
+        field: "emotion", type: "nominal",
+        scale: {
+          domain: ["Desire / longing", "Sensuality / body", "Beauty / appearance", "Heartbreak / loss", "Night / atmosphere", "Devotion / commitment", "Joy / celebration", "Freedom / independence", "Anger / defiance", "Confidence / power"],
+          range: ["#c44e52", "#c44e52", "#c44e52", "#94a3b8", "#94a3b8", "#94a3b8", "#94a3b8", "#94a3b8", "#94a3b8", "#1b7fa3"]
+        }
+      }
+    },
+    chrome: {
+      title: "Her catalog runs on desire, not empowerment",
+      subtitle: "Percentage of 391 songs containing each emotional keyword cluster",
+      source: "Source: TidyTuesday Beyonce Lyrics dataset"
+    },
+    labels: { density: "all", format: ".0f", prefix: "", suffix: "%" },
+    legend: { show: false },
+  }} />
+</Figure>
+
+Beauty and appearance, at 60 percent, rank just behind sensuality. She sings about how things look and feel almost as often as she sings about wanting them. This gap between perception and reality is one of the most interesting findings in the dataset. The empowerment brand is built on a relatively small number of high-impact songs -- "Run the World (Girls)," "***Flawless," "Formation," "Freedom" -- that punch far above their numerical weight in the catalog. The vast majority of her output is intimate, sensual, and emotionally complex.
+
+The Chimamanda Ngozi Adichie sample on "***Flawless" ("We teach girls to shrink themselves...") became a defining feminist statement, but it appears in exactly one song. "Formation" became a Black Lives Matter anthem that, as Time magazine reported, "had the greatest influence of all songs" on the 2016 presidential election -- but it's one track in a catalog of 391. The political Beyonce is a real and important part of her identity, but the lyrical Beyonce is, by the numbers, a writer of love songs and body songs who occasionally turns that voice toward politics with devastating effect precisely because it's unexpected.
+
+## The emotional math: what she amplifies and what she refuses
+
+The ratios between emotional poles reveal a songwriter who is strategically, almost architecturally, positive -- but honest about darkness.
+
+<Figure alt="Paired horizontal bars showing the ratio between positive and negative emotional words in Beyonce's lyrics" minHeight={500}>
+  <Chart spec={{
+    responsive: true,
+    mark: "bar",
+    data: [
+      { pair: "love / hate", word: "love", count: 1214, side: "positive" },
+      { pair: "love / hate", word: "hate", count: 47, side: "negative" },
+      { pair: "beautiful / ugly", word: "beautiful", count: 115, side: "positive" },
+      { pair: "beautiful / ugly", word: "ugly", count: 1, side: "negative" },
+      { pair: "strong / weak", word: "strong", count: 37, side: "positive" },
+      { pair: "strong / weak", word: "weak", count: 2, side: "negative" },
+      { pair: "dream / nightmare", word: "dream", count: 140, side: "positive" },
+      { pair: "dream / nightmare", word: "nightmare", count: 52, side: "negative" },
+      { pair: "stay / leave", word: "stay", count: 107, side: "positive" },
+      { pair: "stay / leave", word: "leave", count: 75, side: "negative" },
+      { pair: "heaven / hell", word: "heaven", count: 33, side: "positive" },
+      { pair: "heaven / hell", word: "hell", count: 28, side: "negative" },
+      { pair: "trust / doubt", word: "trust", count: 34, side: "positive" },
+      { pair: "trust / doubt", word: "doubt", count: 19, side: "negative" },
+    ],
+    encoding: {
+      x: { field: "count", type: "quantitative", axis: { title: "Lines containing word", format: ",.0f" }, scale: { nice: false } },
+      y: { field: "pair", type: "nominal", axis: { title: "" } },
+      color: {
+        field: "side", type: "nominal",
+        scale: {
+          domain: ["positive", "negative"],
+          range: ["#1b7fa3", "#c44e52"]
+        }
+      }
+    },
+    chrome: {
+      title: "Love outweighs hate 26:1, but she doesn't ignore the dark",
+      subtitle: "Paired word frequency across 391 songs. Grouped bars compare emotional poles.",
+      source: "Source: TidyTuesday Beyonce Lyrics dataset"
+    },
+    labels: { density: "all", format: ",.0f" },
+    legend: { position: "top" },
+  }} />
+</Figure>
+
+"Beautiful" vs "ugly" is the most extreme ratio at 115 to 1. But "stay" vs "leave" is just 1.4 to 1, and "heaven" vs "hell" is 1.2 to 1. The closer you get to real relational tension, the more balanced the scales become. She's not naively positive. She's selectively amplifying. The words she inflates -- love, beauty, strength -- are aspirational. The words she keeps roughly even -- stay/leave, heaven/hell, trust/doubt -- are the ones that live in the messy middle of real relationships.
+
+The exception that proves the rule: "never" appears 416 times, dwarfing "forever" at 55. She makes more vows about what she *won't* do than what she *will*. This is a songwriter who defines commitment not through promises of eternity, but through promises of refusal. I won't leave. I won't stop. I won't let them take this from me.
+
+---
+
+There are 153,891 words in Beyonce's recorded catalog. Roughly the length of two novels. And within that corpus, 6,273 unique words. By the Pudding.cool methodology -- which standardizes to the first 35,000 words for cross-artist comparison -- Beyonce clocks in at 2,165 unique words. That's below Eminem's 4,494 and well below Aesop Rock's 7,392.
+
+But vocabulary size is the wrong metric for what Beyonce does. She doesn't need 8,000 words because she's not trying to dazzle with lexical range. She's using 6,000 words the way an architect uses steel: structurally, precisely, with repetition not as weakness but as load-bearing design. "Love" carries the emotional weight. "I" and "you" build the intimacy. "Now" and "tonight" compress time into urgency. And the hooks -- those 10 or 15 lines that get repeated 30, 40, 140 times -- are the rivets holding the whole structure together.
+
+Twenty-two thousand lines. Two pronouns. One eternal present tense. That's the blueprint.
+
+## Data sources & methodology
+
+**Dataset used:**
+- `tidytuesday/beyonce-lyrics` -- 22,616 lyric lines across 391 songs, including song name, line text, and line number within each song. The dataset includes album tracks, remixes, live versions, spoken-word pieces, and award speeches.
+
+**Calculations & transformations:**
+- **Pronoun analysis:** Each line was checked for membership in pronoun groups (I/me/my/mine/myself, you/your/yours/yourself, etc.) using exact word matching with word boundary detection. Lines containing multiple pronoun groups are counted in each group.
+- **Temporal orientation:** Lines were classified as present-oriented (containing "now," "tonight," "right now"), future/eternal ("forever," "always," "tomorrow," "someday"), or past ("yesterday," "remember," "used to," "once") based on keyword presence.
+- **Repetition metrics:** For each song, repetition percentage was calculated as `1 - (unique lines / total lines)`, where lines were lowercased and trimmed before comparison.
+- **Emotional landscape:** Songs were flagged for emotional themes using keyword clusters (e.g., desire/longing: "want," "need," "crave," "miss," "waiting"; confidence/power: "boss," "queen," "slay," "flawless," "power"). Each theme used 7-13 keywords. A song is counted once per theme regardless of how many matching lines it contains.
+- **Emotional arc:** For songs with 20+ lines, the first 25% and last 25% of lines were separately classified using four keyword clusters (vulnerable, empowered, romantic, defiant). Totals were summed across all qualifying songs.
+- **Love construction analysis:** Regex patterns matched specific grammatical constructions ("I love," "love me," "your love," "in love," "don't love," etc.) within each line.
+- **Vocabulary size:** All words were extracted using `[a-z']+` regex, lowercased, with tokens under 2 characters excluded. The 6,273 unique word count covers the full 153,891-word corpus. The 2,165 figure at 35,000 words matches the Pudding.cool methodology for cross-artist comparison.
+
+**Limitations:**
+- The dataset includes remixes, live versions, and alternate cuts of the same song, which inflates repetition of lines across the catalog (the same lyric in "Ring the Alarm" and "Ring the Alarm (Freemasons Mix)" is counted as appearing in two songs). This inflates cross-song repetition metrics but does not affect within-song metrics.
+- Keyword-based emotional classification is a blunt instrument. "Run" in "Run the World" carries different emotional weight than "run" in "run away." Context-free word matching will misclassify some lines.
+- The dataset has no album or release date metadata, so temporal analysis of how Beyonce's writing has evolved over her career is not possible from this source alone.
+- Songwriter credits and album timeline context referenced in the narrative come from Wikipedia, Billboard, The Wrap, and Pudding.cool, not from the TidyTuesday dataset.
+
+*Data accessed on 2026-04-04 via the [OpenData API](https://tryopendata.ai).*

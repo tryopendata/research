@@ -28,8 +28,10 @@
   },
   "dependencies": {
     "@mdx-js/react": "^3",
-    "@opendata-ai/openchart-core": "^6.7.1",
-    "@opendata-ai/openchart-react": "^6.7.1",
+    "@opendata-ai/openchart-core": "^6.15.1",
+    "@opendata-ai/openchart-engine": "^6.15.1",
+    "@opendata-ai/openchart-react": "^6.15.1",
+    "@opendata-ai/openchart-vanilla": "^6.15.1",
     "react": "^19",
     "react-dom": "^19",
     "react-router-dom": "^7"
