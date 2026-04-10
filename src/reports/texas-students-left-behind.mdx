@@ -1,0 +1,612 @@
+export const meta = {
+  title: "The Students Left Behind: Charter Growth and the Hollowing Out of Texas Public Schools",
+  date: "2026-04-09",
+  description: "Texas charter enrollment has grown 40-fold since 1998. Traditional districts are losing students by the tens of thousands. The students who remain are poorer, more likely to drop out, and scoring worse on national tests. And we can only measure half the exodus.",
+  tags: ["education", "texas", "charter-schools", "enrollment", "test-scores", "demographics"],
+}
+
+import { Chart } from '../components/Chart'
+import { DataTable } from '@opendata-ai/openchart-react'
+import { Figure } from '../components/Figure'
+
+In Texas cities, roughly 1 in 6 public school students now attends a charter school. Statewide, nearly half a million students have moved into charters over the past 25 years, a 40-fold increase from the 12,000 who enrolled in the first charter campuses in 1998.
+
+Those are the students we can count. Texas does not require private schools to report enrollment to the state. The NCES conducts a voluntary survey every two years, but response rates are spotty and small religious schools often don't participate. The legislature has pushed Education Savings Account bills in recent sessions that would route public dollars to private institutions with no reporting obligations at all. The charter numbers in this report capture the measurable half of the school-choice picture. The unmeasurable half may be just as large.
+
+What's clear from the data we do have: traditional public school districts in Texas's biggest cities are shrinking, the students who remain are increasingly low-income, and the state's test scores have fallen from among the best in the nation to below average. These trends have multiple causes, and no single policy explains all of them. But they're all moving in the same direction.
+
+For the funding mechanics behind these enrollment shifts — how the state's recapture system redirects billions from property-wealthy districts, how the basic per-student allotment has barely moved since 2019, and how charter schools receive state formula funding without paying into the recapture system — see [Where Did the Money Go?](/texas-schools-crisis), the companion piece to this report.
+
+## Charter enrollment has grown 40-fold in 25 years
+
+When Texas authorized charter schools in 1995, the idea was modest: small, innovative alternatives that would push traditional schools to improve. The first charters opened in 1998 with about 12,000 students statewide. By 2023, that number was nearly 484,000, across more than a thousand campuses.
+
+{/* API: POST /v1/datasets/nces/ccd/query
+     SQL: SELECT year, SUM(CASE WHEN charter=1 THEN enrollment ELSE 0 END) as charter_enrollment, SUM(enrollment) as total, ROUND(100.0*SUM(CASE WHEN charter=1 THEN enrollment ELSE 0 END)/SUM(enrollment),1) as pct FROM data WHERE fips='48' GROUP BY year ORDER BY year
+     Verified: 2026-04-09 */}
+<Figure alt="Line chart showing Texas charter school enrollment growing from 12,226 in 1998 to 483,959 in 2023, while charter's share of total enrollment rose from 0.3% to 8.7%">
+  <Chart spec={{
+    mark: { type: "area", point: true, interpolate: "monotone", fill: { gradient: "linear", stops: [{ offset: 0, color: "#2563eb", opacity: 0.85 }, { offset: 1, color: "#2563eb", opacity: 0.1 }] } },
+    data: [
+      { year: "1998", enrollment: 12226, pct: 0.3 },
+      { year: "2000", enrollment: 37978, pct: 0.9 },
+      { year: "2002", enrollment: 53988, pct: 1.3 },
+      { year: "2004", enrollment: 66152, pct: 1.5 },
+      { year: "2006", enrollment: 102585, pct: 2.2 },
+      { year: "2008", enrollment: 127637, pct: 2.7 },
+      { year: "2010", enrollment: 164940, pct: 3.3 },
+      { year: "2012", enrollment: 215082, pct: 4.2 },
+      { year: "2014", enrollment: 262103, pct: 5.0 },
+      { year: "2016", enrollment: 310846, pct: 5.8 },
+      { year: "2018", enrollment: 346186, pct: 6.4 },
+      { year: "2019", enrollment: 391656, pct: 7.1 },
+      { year: "2020", enrollment: 428259, pct: 8.0 },
+      { year: "2022", enrollment: 468935, pct: 8.5 },
+      { year: "2023", enrollment: 483959, pct: 8.7 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: null } },
+      y: { field: "enrollment", type: "quantitative", axis: { title: "Charter enrollment", format: "~s", grid: true, tickCount: 6 }, scale: { nice: false, domain: [0, 530000] } },
+    },
+    annotations: [
+      { type: "text", x: "2020", y: 428259, text: "COVID accelerates\ncharter growth", dx: -80, dy: -20, fontSize: 12, fill: "#6b7280",
+      offset: { dx: -28, dy: -53 },
+      connectorOffset: { to: { dx: -21, dy: 6 } } },
+      { type: "text", x: "2023", y: 483959, text: "484k", dx: 8, dy: -12, fontSize: 13, fontWeight: 600, fill: "#2563eb",
+      offset: { dx: -25, dy: 12 } },
+      { type: "text", x: "1998", y: 12226, text: "12k", dx: 8, dy: -12, fontSize: 13, fontWeight: 600, fill: "#2563eb",
+      offset: { dx: -19, dy: -12 } },
+    ],
+    chrome: {
+      title: "Texas charter enrollment grew 40-fold in 25 years",
+      subtitle: "Total students enrolled in charter schools, 1998-2023",
+      source: "Source: NCES Common Core of Data",
+    },
+    theme: { colors: ["#2563eb"] },
+    labels: { density: "none" },
+    animation: true,
+  }} />
+</Figure>
+
+That 8.7 percent statewide figure understates the reality in cities. In Texas's large urban centers, charter schools now enroll roughly 1 in 6 students. In Travis County, home to Austin, the charter share hit 16.8 percent in 2023, up from 2.6 percent in 2005. Rural charter penetration remains below 4 percent. Charter schools are overwhelmingly an urban phenomenon, and the cities where they're growing fastest are the same ones losing the most traditional enrollment.
+
+{/* API: POST /v1/datasets/nces/ccd/query
+     SQL: SELECT year, CASE WHEN urban_centric_locale BETWEEN 11 AND 13 THEN 'City' WHEN urban_centric_locale BETWEEN 21 AND 23 THEN 'Suburb' WHEN urban_centric_locale BETWEEN 31 AND 33 THEN 'Town' WHEN urban_centric_locale BETWEEN 41 AND 43 THEN 'Rural' END as locale, ROUND(100.0*SUM(CASE WHEN charter=1 THEN enrollment ELSE 0 END)/SUM(enrollment),1) as pct FROM data WHERE fips='48' AND urban_centric_locale BETWEEN 11 AND 43 GROUP BY year, locale ORDER BY year, locale
+     Verified: 2026-04-09 */}
+<Figure alt="Line chart comparing charter school share of enrollment across city, suburb, town, and rural areas in Texas from 2006 to 2023">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2006", locale: "City", pct: 4.3 },
+      { year: "2008", locale: "City", pct: 5.2 },
+      { year: "2010", locale: "City", pct: 6.2 },
+      { year: "2012", locale: "City", pct: 7.2 },
+      { year: "2014", locale: "City", pct: 8.6 },
+      { year: "2016", locale: "City", pct: 10.1 },
+      { year: "2018", locale: "City", pct: 11.1 },
+      { year: "2020", locale: "City", pct: 13.9 },
+      { year: "2022", locale: "City", pct: 15.0 },
+      { year: "2023", locale: "City", pct: 14.9 },
+      { year: "2006", locale: "Suburb", pct: 0.8 },
+      { year: "2008", locale: "Suburb", pct: 1.1 },
+      { year: "2010", locale: "Suburb", pct: 1.8 },
+      { year: "2012", locale: "Suburb", pct: 2.6 },
+      { year: "2014", locale: "Suburb", pct: 3.1 },
+      { year: "2016", locale: "Suburb", pct: 3.8 },
+      { year: "2018", locale: "Suburb", pct: 4.4 },
+      { year: "2020", locale: "Suburb", pct: 5.4 },
+      { year: "2022", locale: "Suburb", pct: 5.9 },
+      { year: "2023", locale: "Suburb", pct: 5.8 },
+      { year: "2006", locale: "Town", pct: 0.5 },
+      { year: "2008", locale: "Town", pct: 0.6 },
+      { year: "2010", locale: "Town", pct: 0.9 },
+      { year: "2012", locale: "Town", pct: 1.3 },
+      { year: "2014", locale: "Town", pct: 1.4 },
+      { year: "2016", locale: "Town", pct: 1.3 },
+      { year: "2018", locale: "Town", pct: 1.1 },
+      { year: "2020", locale: "Town", pct: 1.4 },
+      { year: "2022", locale: "Town", pct: 1.4 },
+      { year: "2023", locale: "Town", pct: 1.2 },
+      { year: "2006", locale: "Rural", pct: 0.6 },
+      { year: "2008", locale: "Rural", pct: 0.9 },
+      { year: "2010", locale: "Rural", pct: 1.1 },
+      { year: "2012", locale: "Rural", pct: 1.3 },
+      { year: "2014", locale: "Rural", pct: 1.7 },
+      { year: "2016", locale: "Rural", pct: 1.7 },
+      { year: "2018", locale: "Rural", pct: 2.1 },
+      { year: "2020", locale: "Rural", pct: 3.1 },
+      { year: "2022", locale: "Rural", pct: 3.5 },
+      { year: "2023", locale: "Rural", pct: 3.6 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: null } },
+      y: { field: "pct", type: "quantitative", axis: { title: "Charter share of enrollment", format: ".0f%", tickCount: 6, grid: true }, scale: { domain: [0, 16], nice: false } },
+      color: {
+        field: "locale", type: "nominal",
+        scale: {
+          domain: ["City", "Suburb", "Rural", "Town"],
+          range: ["#dc2626", "#f59e0b", "#22d3ee", "#a78bfa"],
+        },
+      },
+    },
+    chrome: {
+      title: "Charter growth is overwhelmingly an urban phenomenon",
+      subtitle: "Charter schools as percent of total enrollment by locale type, Texas",
+      source: "Source: NCES Common Core of Data",
+    },
+    labels: { density: "none" },
+    legend: { show: false },
+    annotations: [
+      { type: "text", x: "2023", y: 14.9, text: "City", dx: -24, dy: 17, fontSize: 12, fontWeight: 600, fill: "#dc2626", connector: false,
+      offset: { dx: -31, dy: 10 } },
+      { type: "text", x: "2023", y: 5.8, text: "Suburb", dx: -30, dy: -7, fontSize: 12, fontWeight: 600, fill: "#f59e0b", connector: false,
+      offset: { dx: -45, dy: -4 } },
+      { type: "text", x: "2023", y: 3.6, text: "Rural", dx: -24, dy: -2, fontSize: 12, fontWeight: 600, fill: "#22d3ee", connector: false,
+      offset: { dx: -38, dy: -1 } },
+      { type: "text", x: "2023", y: 1.2, text: "Town", dx: -27, dy: -5, fontSize: 12, fontWeight: 600, fill: "#a78bfa", connector: false,
+      offset: { dx: -40, dy: -3 } },
+    ],
+    animation: true,
+  }} />
+</Figure>
+
+While charters grow, the traditional districts they draw from are shrinking.
+
+## The big city districts are losing students
+
+San Antonio ISD has lost 27 percent of its students since its 1988 peak. Fort Worth ISD, 19 percent since 2016. Austin ISD, 16 percent since its 2012 peak. Houston, down 15 percent since 2016. Dallas, down 15 percent since 2001. These aren't small fluctuations. For a district the size of Houston ISD, that's 32,000 fewer students, enough to fill 40 schools.
+
+{/* API: POST /v1/datasets/nces/ccd/query
+     SQL: SELECT year, lea_name, SUM(enrollment) as total FROM data WHERE fips='48' AND lea_name IN ('HOUSTON ISD','DALLAS ISD','AUSTIN ISD','FORT WORTH ISD','SAN ANTONIO ISD') AND enrollment > 0 GROUP BY year, lea_name ORDER BY lea_name, year
+     Derived: percent change from 2005 baseline per district = (enrollment - baseline) / baseline * 100
+     Verified: 2026-04-09 */}
+<Figure alt="Line chart showing enrollment percent change at Austin, Houston, Dallas, San Antonio, and Fort Worth ISDs from 2005 to 2023, all declining sharply after 2016">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2005", district: "Houston ISD", pct: 0 },
+      { year: "2008", district: "Houston ISD", pct: -4.8 },
+      { year: "2011", district: "Houston ISD", pct: -3.5 },
+      { year: "2014", district: "Houston ISD", pct: 2.3 },
+      { year: "2016", district: "Houston ISD", pct: 2.8 },
+      { year: "2018", district: "Houston ISD", pct: -0.2 },
+      { year: "2020", district: "Houston ISD", pct: -6.3 },
+      { year: "2022", district: "Houston ISD", pct: -9.7 },
+      { year: "2023", district: "Houston ISD", pct: -12.5 },
+      { year: "2005", district: "Dallas ISD", pct: 0 },
+      { year: "2008", district: "Dallas ISD", pct: -2.2 },
+      { year: "2011", district: "Dallas ISD", pct: -2.2 },
+      { year: "2014", district: "Dallas ISD", pct: -0.4 },
+      { year: "2016", district: "Dallas ISD", pct: -1.9 },
+      { year: "2018", district: "Dallas ISD", pct: -3.6 },
+      { year: "2020", district: "Dallas ISD", pct: -9.8 },
+      { year: "2022", district: "Dallas ISD", pct: -12.3 },
+      { year: "2023", district: "Dallas ISD", pct: -13.5 },
+      { year: "2005", district: "Austin ISD", pct: 0 },
+      { year: "2008", district: "Austin ISD", pct: 2.8 },
+      { year: "2011", district: "Austin ISD", pct: 6.7 },
+      { year: "2014", district: "Austin ISD", pct: 4.3 },
+      { year: "2016", district: "Austin ISD", pct: 2.5 },
+      { year: "2018", district: "Austin ISD", pct: -1.3 },
+      { year: "2020", district: "Austin ISD", pct: -7.6 },
+      { year: "2022", district: "Austin ISD", pct: -9.5 },
+      { year: "2023", district: "Austin ISD", pct: -10.1 },
+      { year: "2005", district: "Fort Worth ISD", pct: 0 },
+      { year: "2008", district: "Fort Worth ISD", pct: -1.3 },
+      { year: "2011", district: "Fort Worth ISD", pct: 3.5 },
+      { year: "2014", district: "Fort Worth ISD", pct: 7.0 },
+      { year: "2016", district: "Fort Worth ISD", pct: 8.8 },
+      { year: "2018", district: "Fort Worth ISD", pct: 5.2 },
+      { year: "2020", district: "Fort Worth ISD", pct: -4.3 },
+      { year: "2022", district: "Fort Worth ISD", pct: -9.4 },
+      { year: "2023", district: "Fort Worth ISD", pct: -11.5 },
+      { year: "2005", district: "San Antonio ISD", pct: 0 },
+      { year: "2008", district: "San Antonio ISD", pct: -3.1 },
+      { year: "2011", district: "San Antonio ISD", pct: -3.6 },
+      { year: "2014", district: "San Antonio ISD", pct: -4.7 },
+      { year: "2016", district: "San Antonio ISD", pct: -6.9 },
+      { year: "2018", district: "San Antonio ISD", pct: -13.6 },
+      { year: "2020", district: "San Antonio ISD", pct: -18.8 },
+      { year: "2022", district: "San Antonio ISD", pct: -19.8 },
+      { year: "2023", district: "San Antonio ISD", pct: -20.8 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: null } },
+      y: { field: "pct", type: "quantitative", axis: { title: "Change from 2005", format: ".0f%", grid: true, tickCount: 7 }, scale: { domain: [-24, 12], nice: false } },
+      color: {
+        field: "district", type: "nominal",
+        scale: {
+          domain: ["Houston ISD", "Dallas ISD", "Austin ISD", "Fort Worth ISD", "San Antonio ISD"],
+          range: ["#2563eb", "#a78bfa", "#dc2626", "#f59e0b", "#22d3ee"],
+        },
+      },
+    },
+    chrome: {
+      title: "Every major Texas city district is losing students",
+      subtitle: "Enrollment change from 2005 baseline, five largest urban ISDs",
+      source: "Source: NCES Common Core of Data",
+    },
+    labels: { density: "none" },
+    legend: { show: false },
+    annotations: [
+      { type: "refline", y: 0, stroke: "#6b7280", style: "solid", strokeWidth: 1.5, opacity: 0.6 },
+      { type: "refline", x: "2020", stroke: "#6b7280", strokeDash: [3, 3], strokeWidth: 1, label: "COVID", labelAnchor: "top", labelOffset: { dx: -18, dy: 2 } },
+      { type: "text", x: "2023", y: -12.5, text: "Houston", fontSize: 11, fontWeight: 600, fill: "#2563eb", connector: false, offset: { dx: 6, dy: 4 } },
+      { type: "text", x: "2023", y: -13.5, text: "Dallas", fontSize: 11, fontWeight: 600, fill: "#a78bfa", connector: false, offset: { dx: 6, dy: 14 } },
+      { type: "text", x: "2023", y: -10.1, text: "Austin", fontSize: 11, fontWeight: 600, fill: "#dc2626", connector: false, offset: { dx: 6, dy: -6 } },
+      { type: "text", x: "2023", y: -11.5, text: "Fort Worth", fontSize: 11, fontWeight: 600, fill: "#f59e0b", connector: false, offset: { dx: 6, dy: 4 } },
+      { type: "text", x: "2023", y: -20.8, text: "San Antonio", fontSize: 11, fontWeight: 600, fill: "#22d3ee", connector: false, offset: { dx: 6, dy: 4 } },
+    ],
+    animation: true,
+  }} />
+</Figure>
+
+Texas's total K-12 enrollment has actually grown over this period, from 4.3 million to 5.5 million. The state's population is booming. So urban enrollment losses don't mean fewer students in Texas. They mean students are going somewhere else: suburbs, charters, private schools, neighboring districts. Not all of it is charter competition. Rising housing costs push families out of city centers. Demographic patterns shift. But for the urban ISDs, the cause matters less than the effect. Fewer students means less state funding. Fixed costs for buildings, buses, and administration don't shrink proportionally.
+
+{/* API: POST /v1/datasets/nces/ccd/query
+     Peak: SQL: SELECT lea_name, year, SUM(enrollment) as total FROM data WHERE fips='48' AND lea_name IN ('HOUSTON ISD','DALLAS ISD','AUSTIN ISD','FORT WORTH ISD','SAN ANTONIO ISD') AND enrollment > 0 GROUP BY lea_name, year ORDER BY lea_name, total DESC
+     2023: SQL: SELECT lea_name, SUM(enrollment) as total FROM data WHERE fips='48' AND lea_name IN ('HOUSTON ISD','DALLAS ISD','AUSTIN ISD','FORT WORTH ISD','SAN ANTONIO ISD') AND year=2023 AND enrollment > 0 GROUP BY lea_name
+     Change = (2023 - peak) / peak * 100. Verified: 2026-04-09 */}
+<Figure alt="Table showing key metrics across the five largest Texas urban ISDs" minHeight={0}>
+  <DataTable spec={{
+    type: "table",
+    columns: [
+      { key: "district", header: "District", width: "160px" },
+      { key: "peak_enrollment", header: "Peak Enrollment", format: ",.0f" },
+      { key: "enrollment_2023", header: "2023 Enrollment", format: ",.0f" },
+      { key: "change_pct", header: "Change", format: "+.1f", heatmap: { min: -30, max: 0, colors: ["#dc2626", "#fef2f2"] } },
+      { key: "peak_year", header: "Peak Year" },
+    ],
+    data: [
+      { district: "Houston ISD", peak_enrollment: 216106, enrollment_2023: 184109, change_pct: -14.8, peak_year: "2016" },
+      { district: "Dallas ISD", peak_enrollment: 163562, enrollment_2023: 139246, change_pct: -14.9, peak_year: "2001" },
+      { district: "Fort Worth ISD", peak_enrollment: 87428, enrollment_2023: 71060, change_pct: -18.7, peak_year: "2016" },
+      { district: "Austin ISD", peak_enrollment: 86516, enrollment_2023: 72830, change_pct: -15.8, peak_year: "2012" },
+      { district: "San Antonio ISD", peak_enrollment: 61507, enrollment_2023: 44670, change_pct: -27.4, peak_year: "1988" },
+    ],
+    chrome: {
+      title: "Major Texas city districts have lost 15-27% of their students from peak",
+      source: "Source: NCES Common Core of Data",
+    },
+    animation: true,
+  }} />
+</Figure>
+
+## Who's choosing charters, and who's staying behind
+
+Here's where the data complicates the easy narrative. If charters were siphoning off affluent families, you'd expect their student bodies to be wealthier than traditional schools. The opposite is true. In 2023, 70 percent of Texas charter students qualified for free or reduced-price lunch, compared to 61 percent in traditional schools.
+
+{/* API: POST /v1/datasets/nces/ccd/query
+     SQL: SELECT year, charter, ROUND(100.0*SUM(free_lunch+reduced_price_lunch)/NULLIF(SUM(enrollment),0),1) as pct FROM data WHERE fips='48' AND year IN (2005,2007,2009,2011,2013,2015,2017,2019,2021,2023) GROUP BY year, charter ORDER BY year, charter
+     charter=0 is Traditional, charter=1 is Charter. Raw sum method (includes schools with sentinel values in denominator).
+     Verified: 2026-04-09 */}
+<Figure alt="Line chart comparing free/reduced-price lunch rates at charter vs traditional schools in Texas from 2005 to 2023">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2005", type: "Charter", pct: 68.2 },
+      { year: "2007", type: "Charter", pct: 66.2 },
+      { year: "2009", type: "Charter", pct: 65.2 },
+      { year: "2011", type: "Charter", pct: 63.9 },
+      { year: "2013", type: "Charter", pct: 71.0 },
+      { year: "2015", type: "Charter", pct: 69.6 },
+      { year: "2017", type: "Charter", pct: 67.7 },
+      { year: "2019", type: "Charter", pct: 71.8 },
+      { year: "2021", type: "Charter", pct: 71.8 },
+      { year: "2023", type: "Charter", pct: 70.4 },
+      { year: "2005", type: "Traditional", pct: 47.8 },
+      { year: "2007", type: "Traditional", pct: 47.2 },
+      { year: "2009", type: "Traditional", pct: 50.0 },
+      { year: "2011", type: "Traditional", pct: 50.5 },
+      { year: "2013", type: "Traditional", pct: 59.5 },
+      { year: "2015", type: "Traditional", pct: 58.3 },
+      { year: "2017", type: "Traditional", pct: 58.1 },
+      { year: "2019", type: "Traditional", pct: 59.3 },
+      { year: "2021", type: "Traditional", pct: 59.6 },
+      { year: "2023", type: "Traditional", pct: 60.5 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: null } },
+      y: { field: "pct", type: "quantitative", axis: { title: "FRPL-eligible share", format: ".0f%", tickCount: 6, grid: true }, scale: { domain: [44, 74], nice: false } },
+      color: {
+        field: "type", type: "nominal",
+        scale: {
+          domain: ["Charter", "Traditional"],
+          range: ["#2563eb", "#94a3b8"],
+        },
+      },
+    },
+    annotations: [
+      { type: "refline", x: "2012", stroke: "#6b7280", strokeDash: [3, 3], strokeWidth: 1, label: "Federal eligibility\nexpansion", labelAnchor: "top", labelOffset: { dx: -9, dy: -18 } },
+    ],
+    chrome: {
+      title: "Texas charters actually serve a higher share of low-income students",
+      subtitle: "Percent of students eligible for free/reduced-price lunch, charter vs. traditional",
+      source: "Source: NCES Common Core of Data",
+    },
+    labels: { density: "none" },
+    animation: true,
+  }} />
+</Figure>
+
+Networks like KIPP, IDEA, Harmony, and YES Prep deliberately locate in low-income neighborhoods. The charter sector isn't pulling wealthy students out of public schools. It's offering low-income families an alternative, and those families are choosing it in growing numbers.
+
+That doesn't erase the financial pressure on traditional districts. A student who leaves takes per-pupil funding regardless of income. But the demographic picture is more nuanced than "rich families flee, poor families stay." Both systems are increasingly serving the same population. The question is which one is resourced to do it well.
+
+Charter quality is strikingly bimodal. Of 178 charter operators rated by TEA in 2023-24, 17.4 percent earned an A, compared to 9.5 percent of 1,020 traditional ISDs. But 16.3 percent of charters earned an F, compared to just 1.2 percent of ISDs. The best charter networks consistently outperform surrounding districts. The long tail of underperforming charters serves some of the most vulnerable students in the state. For families, choosing a charter is less a safe bet than a roll of the dice with unusually high stakes.
+
+## The students who remain are increasingly low-income
+
+Three in five Texas public school students now qualify as economically disadvantaged. That's 3.4 million children.
+
+Some of this reflects demography. Texas's population growth has been concentrated in lower-income communities, and a 2010 federal eligibility expansion inflated the numbers (which is why both Texas and national rates jump around 2012). But the gap between Texas and the national average has widened from 5.4 points in 2006 to 13.6 points in 2023.
+
+{/* API: POST /v1/datasets/nces/ccd/query
+     Texas: SQL: SELECT year, ROUND(100.0*SUM(free_lunch+reduced_price_lunch)/NULLIF(SUM(enrollment),0),1) as pct FROM data WHERE fips='48' AND year IN (1998,2000,2002,2004,2006,2008,2010,2012,2014,2016,2018,2020,2022,2023) GROUP BY year ORDER BY year
+     National: SQL: SELECT year, ROUND(100.0*SUM(free_lunch+reduced_price_lunch)/NULLIF(SUM(enrollment),0),1) as pct FROM data WHERE year IN (1998,2000,2002,2004,2006,2008,2010,2012,2014,2016,2018,2020,2022,2023) GROUP BY year ORDER BY year
+     Note: National pre-2002 data has incomplete FRPL reporting (many states didn't report, depressing the 1998 figure). National post-2014 dips reflect CEP adoption where schools stop reporting individual FRPL counts.
+     Verified: 2026-04-09 */}
+<Figure alt="Line chart comparing Texas and national free/reduced-price lunch eligibility rates from 1998 to 2023">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "1998", entity: "Texas", pct: 45.0 },
+      { year: "2000", entity: "Texas", pct: 44.9 },
+      { year: "2002", entity: "Texas", pct: 46.2 },
+      { year: "2004", entity: "Texas", pct: 47.6 },
+      { year: "2006", entity: "Texas", pct: 47.2 },
+      { year: "2008", entity: "Texas", pct: 48.7 },
+      { year: "2010", entity: "Texas", pct: 50.1 },
+      { year: "2012", entity: "Texas", pct: 60.2 },
+      { year: "2014", entity: "Texas", pct: 58.7 },
+      { year: "2016", entity: "Texas", pct: 58.9 },
+      { year: "2018", entity: "Texas", pct: 60.5 },
+      { year: "2020", entity: "Texas", pct: 60.2 },
+      { year: "2022", entity: "Texas", pct: 61.3 },
+      { year: "2023", entity: "Texas", pct: 61.4 },
+      { year: "1998", entity: "National", pct: 31.5 },
+      { year: "2000", entity: "National", pct: 34.2 },
+      { year: "2002", entity: "National", pct: 35.6 },
+      { year: "2004", entity: "National", pct: 36.7 },
+      { year: "2006", entity: "National", pct: 41.8 },
+      { year: "2008", entity: "National", pct: 44.3 },
+      { year: "2010", entity: "National", pct: 48.3 },
+      { year: "2012", entity: "National", pct: 51.6 },
+      { year: "2014", entity: "National", pct: 50.8 },
+      { year: "2016", entity: "National", pct: 47.3 },
+      { year: "2018", entity: "National", pct: 47.2 },
+      { year: "2020", entity: "National", pct: 42.5 },
+      { year: "2022", entity: "National", pct: 47.6 },
+      { year: "2023", entity: "National", pct: 47.8 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: null } },
+      y: { field: "pct", type: "quantitative", axis: { title: "FRPL-eligible share", format: ".0f%", tickCount: 6, grid: true }, scale: { domain: [28, 64], nice: false } },
+      color: {
+        field: "entity", type: "nominal",
+        scale: {
+          domain: ["Texas", "National"],
+          range: ["#dc2626", "#94a3b8"],
+        },
+      },
+    },
+    annotations: [
+      { type: "text", x: "2012", y: 55, text: "Both jump after\n2010 eligibility\nexpansion", dx: 50, dy: 0, fontSize: 11, fill: "#6b7280",
+      offset: { dx: 31, dy: -81 } },
+    ],
+    chrome: {
+      title: "Texas's low-income student share outpaces the nation by a widening margin",
+      subtitle: "Percent of K-12 students eligible for free or reduced-price lunch",
+      source: "Source: NCES Common Core of Data",
+    },
+    labels: { density: "none" },
+    animation: true,
+  }} />
+</Figure>
+
+The stakes are highest for the students who stay. In 2023-24, Hispanic students made up 53 percent of Texas's high school enrollment but accounted for 65 percent of all dropouts. Black students were 13 percent of enrollment and 20 percent of dropouts. White and Asian students dropped out at less than half their proportional rate. The students who face the greatest risk of leaving school without a diploma are the same students the traditional system is supposed to help most.
+
+## The scores followed the money down
+
+In 2011, Texas 8th graders scored 290 on the NAEP math exam. That was 7.6 points above the national average, 10th in the country.
+
+By 2024, they scored 269. That's 2.8 points below the national average. A 21-point drop, roughly two grade levels of learning lost.
+
+{/* API: POST /v1/datasets/nces/naep/query
+     SQL: SELECT year, jurisdiction, average_scale_score FROM data WHERE subject='mathematics' AND grade=8 AND jurisdiction IN ('Texas','National public') ORDER BY jurisdiction, year
+     All values verified exact match. Verified: 2026-04-09 */}
+<Figure alt="Line chart showing Texas vs national NAEP 8th grade math scores, with Texas falling from above to below the national average">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2003", jurisdiction: "Texas", score: 277.1 },
+      { year: "2005", jurisdiction: "Texas", score: 281.1 },
+      { year: "2007", jurisdiction: "Texas", score: 285.9 },
+      { year: "2009", jurisdiction: "Texas", score: 286.7 },
+      { year: "2011", jurisdiction: "Texas", score: 290.3 },
+      { year: "2013", jurisdiction: "Texas", score: 288.2 },
+      { year: "2015", jurisdiction: "Texas", score: 283.8 },
+      { year: "2017", jurisdiction: "Texas", score: 282.3 },
+      { year: "2019", jurisdiction: "Texas", score: 279.7 },
+      { year: "2022", jurisdiction: "Texas", score: 272.7 },
+      { year: "2024", jurisdiction: "Texas", score: 269.4 },
+      { year: "2003", jurisdiction: "National", score: 276.1 },
+      { year: "2005", jurisdiction: "National", score: 277.5 },
+      { year: "2007", jurisdiction: "National", score: 280.2 },
+      { year: "2009", jurisdiction: "National", score: 281.7 },
+      { year: "2011", jurisdiction: "National", score: 282.7 },
+      { year: "2013", jurisdiction: "National", score: 283.6 },
+      { year: "2015", jurisdiction: "National", score: 281.3 },
+      { year: "2017", jurisdiction: "National", score: 282.0 },
+      { year: "2019", jurisdiction: "National", score: 281.0 },
+      { year: "2022", jurisdiction: "National", score: 273.1 },
+      { year: "2024", jurisdiction: "National", score: 272.2 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: null } },
+      y: { field: "score", type: "quantitative", axis: { title: "NAEP score", format: ".0f", tickCount: 7, grid: true }, scale: { domain: [265, 295], nice: false } },
+      color: {
+        field: "jurisdiction", type: "nominal",
+        scale: {
+          domain: ["Texas", "National"],
+          range: ["#dc2626", "#94a3b8"],
+        },
+      },
+    },
+    annotations: [
+      { type: "text", x: "2011", y: 290.3, text: "#10 nationally\n+7.6 above avg", dy: -18, dx: -10, fontSize: 11, fontWeight: 600, fill: "#dc2626",
+      offset: { dx: 30, dy: -44 } },
+      { type: "text", x: "2024", y: 269.4, text: "#35 nationally\n-2.8 below avg", dy: 20, dx: -60, fontSize: 11, fontWeight: 600, fill: "#dc2626",
+      offset: { dx: -50, dy: -56 } },
+      { type: "refline", x: "2011", stroke: "#6b7280", strokeDash: [3, 3], strokeWidth: 1, label: "Great Recession\n$5.4B cut", labelAnchor: "bottom", labelOffset: { dx: 0, dy: -40 } },
+      { type: "refline", x: "2020", stroke: "#6b7280", strokeDash: [3, 3], strokeWidth: 1, label: "COVID", labelAnchor: "bottom", labelOffset: { dx: -18, dy: -2 } },
+    ],
+    chrome: {
+      title: "Texas 8th grade math scores fell from top 10 to below average",
+      subtitle: "NAEP Grade 8 Mathematics, Texas vs. national public school average",
+      source: "Source: NCES National Assessment of Educational Progress",
+    },
+    labels: { density: "none" },
+    animation: true,
+  }} />
+</Figure>
+
+The decline isn't limited to math. Texas 4th graders in reading scored 218.7 in 2005, nearly matching the national average. By 2024, they'd fallen to 211.9, 2.4 points below the national figure and the lowest Texas reading score on record. In 2024, Texas ranked 35th out of 51 jurisdictions in 8th grade math, behind states like Missouri, Kentucky, and Hawaii.
+
+To see how unusual this decline is, compare Texas to peer states with similar size and demographics. In 2011, Texas led every major state by a wide margin. California, Florida, and New York all scored below the national average. By 2024, Texas had converged with the pack, falling 21 points while California gained 1 point and New York dropped only 10.
+
+{/* API: POST /v1/datasets/nces/naep/query
+     SQL: SELECT year, jurisdiction, average_scale_score FROM data WHERE subject='mathematics' AND grade=8 AND jurisdiction IN ('Texas','California','Florida','New York','National public') ORDER BY jurisdiction, year
+     Peer chart uses rounded scores. All values verified within rounding. Verified: 2026-04-09 */}
+<Figure alt="Line chart comparing NAEP Grade 8 math scores for Texas, California, Florida, New York, and the national average from 2003 to 2024">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2003", state: "Texas", score: 277 },
+      { year: "2005", state: "Texas", score: 281 },
+      { year: "2007", state: "Texas", score: 286 },
+      { year: "2009", state: "Texas", score: 287 },
+      { year: "2011", state: "Texas", score: 290 },
+      { year: "2013", state: "Texas", score: 288 },
+      { year: "2015", state: "Texas", score: 284 },
+      { year: "2017", state: "Texas", score: 282 },
+      { year: "2019", state: "Texas", score: 280 },
+      { year: "2022", state: "Texas", score: 273 },
+      { year: "2024", state: "Texas", score: 269 },
+      { year: "2003", state: "California", score: 267 },
+      { year: "2005", state: "California", score: 269 },
+      { year: "2007", state: "California", score: 270 },
+      { year: "2009", state: "California", score: 270 },
+      { year: "2011", state: "California", score: 273 },
+      { year: "2013", state: "California", score: 276 },
+      { year: "2015", state: "California", score: 275 },
+      { year: "2017", state: "California", score: 277 },
+      { year: "2019", state: "California", score: 276 },
+      { year: "2022", state: "California", score: 270 },
+      { year: "2024", state: "California", score: 269 },
+      { year: "2003", state: "Florida", score: 271 },
+      { year: "2005", state: "Florida", score: 274 },
+      { year: "2007", state: "Florida", score: 277 },
+      { year: "2009", state: "Florida", score: 279 },
+      { year: "2011", state: "Florida", score: 278 },
+      { year: "2013", state: "Florida", score: 281 },
+      { year: "2015", state: "Florida", score: 275 },
+      { year: "2017", state: "Florida", score: 279 },
+      { year: "2019", state: "Florida", score: 279 },
+      { year: "2022", state: "Florida", score: 271 },
+      { year: "2024", state: "Florida", score: 267 },
+      { year: "2003", state: "New York", score: 280 },
+      { year: "2005", state: "New York", score: 280 },
+      { year: "2007", state: "New York", score: 280 },
+      { year: "2009", state: "New York", score: 283 },
+      { year: "2011", state: "New York", score: 280 },
+      { year: "2013", state: "New York", score: 282 },
+      { year: "2015", state: "New York", score: 280 },
+      { year: "2017", state: "New York", score: 282 },
+      { year: "2019", state: "New York", score: 280 },
+      { year: "2022", state: "New York", score: 274 },
+      { year: "2024", state: "New York", score: 271 },
+      { year: "2003", state: "National", score: 276 },
+      { year: "2005", state: "National", score: 278 },
+      { year: "2007", state: "National", score: 280 },
+      { year: "2009", state: "National", score: 282 },
+      { year: "2011", state: "National", score: 283 },
+      { year: "2013", state: "National", score: 284 },
+      { year: "2015", state: "National", score: 281 },
+      { year: "2017", state: "National", score: 282 },
+      { year: "2019", state: "National", score: 281 },
+      { year: "2022", state: "National", score: 273 },
+      { year: "2024", state: "National", score: 272 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", scale: { nice: false }, axis: { title: null } },
+      y: { field: "score", type: "quantitative", axis: { title: "NAEP score", format: ".0f", tickCount: 7, grid: true }, scale: { domain: [262, 294], nice: false } },
+      color: {
+        field: "state", type: "nominal",
+        scale: {
+          domain: ["Texas", "National", "New York", "Florida", "California"],
+          range: ["#dc2626", "#cbd5e1", "#60a5fa", "#f59e0b", "#a78bfa"],
+        },
+      },
+    },
+    seriesStyles: {
+      "Texas": { strokeWidth: 2.5 },
+      "National": { lineStyle: "dashed", strokeWidth: 2 },
+      "New York": { strokeWidth: 1.5 },
+      "Florida": { strokeWidth: 1.5 },
+      "California": { strokeWidth: 1.5 },
+    },
+    annotations: [
+      { type: "refline", x: "2011", stroke: "#6b7280", strokeDash: [3, 3], strokeWidth: 1, label: "Great Recession\n$5.4B cut", labelAnchor: "bottom", labelOffset: { dx: 3, dy: -169 } },
+      { type: "refline", x: "2020", stroke: "#6b7280", strokeDash: [3, 3], strokeWidth: 1, label: "COVID", labelAnchor: "top", labelOffset: { dx: -18, dy: 2 } },
+    ],
+    chrome: {
+      title: "Texas dropped 21 points, the steepest decline among large states",
+      subtitle: "NAEP Grade 8 Math, Texas vs. peer states and national average",
+      source: "Source: NCES National Assessment of Educational Progress",
+    },
+    labels: { density: "none" },
+    animation: true,
+  }} />
+</Figure>
+
+The national trend is also downward, especially after COVID. But Texas has fallen faster than any comparable state. There's no single answer. COVID learning loss hit Texas hard, and the state's inconsistent approach to remote instruction didn't help. A growing English Language Learner population changes the composition of test-takers. A well-documented teacher shortage, exacerbated post-pandemic, means more classrooms with underqualified instructors.
+
+All of those are real factors. But they don't fully explain why Texas went from outperforming the national average by 7.6 points to underperforming it by 2.8, a swing of over 10 points relative to the rest of the country. Florida, which has a similar demographic profile and also embraced school choice, shows an even steeper post-2019 decline. Something structural is happening in large states that aggressively expanded choice without proportionally increasing funding.
+
+---
+
+These trends are all happening at once: rising charter enrollment, shrinking urban districts, an increasingly low-income student body, declining test scores. The data shows correlation, not causation. COVID, teacher shortages, demographic change, and curriculum shifts all contributed independently of school-choice dynamics.
+
+But the structural tension is real. Each student who leaves a traditional district takes per-pupil funding while the district's fixed costs remain. The students who stay in traditional public schools are disproportionately low-income, disproportionately Black and Hispanic, and disproportionately in need of the services that budget cuts erode first: counselors, special education aides, librarians, after-school programs.
+
+The policy question isn't whether charters work for the students who attend them. KIPP Houston and IDEA in the Rio Grande Valley have shown they can. The question is whether the system as a whole is designed to serve the 91 percent of Texas students who remain in traditional schools, or whether those students are absorbing the cost of a transition that nobody planned for.
+
+The data can't prove that school choice caused the decline. But it can show that all the pressures point in the same direction, and that the students with the fewest options are absorbing the most cost.
+
+## Data sources & methodology
+
+**Datasets used:**
+- `nces/ccd` (Common Core of Data) -- School-level enrollment, charter status, free/reduced-price lunch eligibility, urban locale codes, and district identifiers for all Texas K-12 schools. Years covered: 1986-2023. Texas identified by FIPS code 48. Charter status determined by the `charter` field (1 = charter, 0 = traditional).
+- `nces/naep` -- National Assessment of Educational Progress scores for grades 4 and 8 in math and reading. Texas vs. national public school averages, 2003-2024.
+- `nces/district-enrollment` -- Public school enrollment by grade, race/ethnicity, and sex for 2024-25. Used for district-level demographic snapshots and dropout disparity denominators.
+- `nces/district-dropout` -- Dropout counts by district, race/ethnicity, sex, and grade for 2023-24. Used for racial disparity analysis in Texas high schools.
+- `tea/accountability-ratings` -- TEA accountability ratings (A-F) for all Texas school districts and campuses, 2023-24. Charter quality statistics referenced in prose (chart in companion article).
+
+**Private school data gap:**
+Texas private schools have no enrollment reporting obligation to TEA. The NCES Private School Universe Survey (PSS) is voluntary and biennial, with uneven participation from smaller and religious schools. Estimated Texas private school enrollment from PSS extrapolation is roughly 300,000-400,000 students, but this figure carries significant uncertainty. The charter enrollment figures in this report capture the publicly-trackable portion of school choice; private school exits from traditional districts are not included.
+
+**Calculations & transformations:**
+- Charter enrollment share calculated as charter enrollment / total enrollment per year per locale category
+- Urban locale codes grouped: 11-13 = City, 21-23 = Suburb, 31-33 = Town, 41-43 = Rural (NCES Urban-Centric Locale Classification)
+- Free/reduced-price lunch percentages use the raw-sum method: `SUM(free_lunch + reduced_price_lunch) / SUM(enrollment)`. Schools with suppressed/missing FRPL data (sentinel values -1, -2) contribute to the enrollment denominator but not the numerator, which slightly depresses percentages. This is the more conservative approach. The alternative (excluding non-reporting schools entirely) yields higher rates. National figures are especially sensitive to this choice because FRPL reporting completeness varies across states and years. Post-2014, the Community Eligibility Provision (CEP) further complicates national figures because CEP schools stop reporting individual FRPL counts. The jump around 2012 reflects expanded CEP enrollment under the Healthy, Hunger-Free Kids Act
+- District-level enrollment includes all schools within the LEA boundary, including district-operated charters but not independent charter operators in the same geography
+- Dropout racial disparity: dropout counts from `nces/district-dropout` (2023-24, grades 9-12, Texas, Category Set A by race/ethnicity). Enrollment denominator from `nces/district-enrollment` (2024-25, grades 9-12, Male + Female). These are different school years, so the disparity ratios are approximate. NCES suppresses small cell sizes for privacy.
+
+**Limitations:**
+- STAAR test score data (Texas's state assessment) is not available in the NCES datasets and could not be broken down by charter vs. traditional school type. NAEP provides state-level comparisons but not within-state district-type breakdowns.
+- CCD enrollment data counts students at a point in time (fall snapshot) and may not capture mid-year transfers. The 2020 enrollment dip reflects pandemic disruptions, not necessarily permanent departures.
+- National FRPL data is sensitive to reporting methodology. Pre-2002, many states didn't report FRPL to CCD, depressing the 1998 national figure (31.5%). Post-2014, CEP adoption means some high-poverty schools stop reporting individual FRPL counts, which depresses the national rate relative to reality. Texas FRPL reporting is more complete and consistent over time.
+- Charter accountability ratings reflect TEA's 2023-24 assessment cycle. The bimodal distribution (more A's and more F's) is computed from 178 charter operators and 1,020 traditional ISDs. The "economically disadvantaged" average is unweighted across districts.
+
+*NCES and TEA data accessed on 2026-04-09 via the [OpenData API](https://tryopendata.ai). Each chart includes an MDX comment with the exact API query used to produce its data. For the funding analysis behind these enrollment and outcomes trends, see [Where Did the Money Go?](/texas-schools-crisis).*
