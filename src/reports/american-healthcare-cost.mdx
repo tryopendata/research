@@ -189,6 +189,19 @@ Verified: 2026-04-14 */}
           },
         },
       },
+      seriesStyles: {
+        Germany: { opacity: 0.45, strokeWidth: 1.2 },
+        Switzerland: { opacity: 0.45, strokeWidth: 1.2 },
+        Netherlands: { opacity: 0.45, strokeWidth: 1.2 },
+        Sweden: { opacity: 0.45, strokeWidth: 1.2 },
+        Canada: { opacity: 0.45, strokeWidth: 1.2 },
+        Australia: { opacity: 0.45, strokeWidth: 1.2 },
+        France: { opacity: 0.45, strokeWidth: 1.2 },
+        "United Kingdom": { opacity: 0.45, strokeWidth: 1.2 },
+        "United States": { strokeWidth: 2.6 },
+        Japan: { strokeWidth: 2.2 },
+      },
+      labels: { density: "none" },
       annotations: [
         {
           type: "text",
@@ -232,24 +245,32 @@ In 2022, the US spent $12,586 per person on healthcare. Japan spent $5,846. Even
 If the extra spending bought better health, it would be a defensible tradeoff. It doesn't. The excess goes somewhere else.
 
 {/* API: POST /v1/query (cross-dataset)
-SQL: SELECT h.country, ROUND(h.spending_per_capita) as spending_per_capita, ROUND(l.life_expectancy, 1) as life_expectancy FROM "owid/healthcare-spending" h JOIN "owid/life-expectancy" l ON h.country = l.country AND h.year = l.year WHERE h.year = 2022 AND h.country IN ('United States','Germany','France','United Kingdom','Canada','Australia','Japan','Netherlands','Sweden','Switzerland') ORDER BY h.spending_per_capita DESC
-Verified: 2026-04-14 */}
+SQL: SELECT h.country, ROUND(h.spending_per_capita) as spending, ROUND(l.life_expectancy, 1) as life_expectancy FROM "owid/healthcare-spending" h JOIN "owid/life-expectancy" l ON h.country = l.country AND h.year = l.year WHERE h.year = 2022 AND h.country IN ('United States','Germany','France','United Kingdom','Canada','Australia','Japan','Netherlands','Sweden','Switzerland','Norway','Denmark','Belgium','Austria','Ireland','Finland','South Korea') ORDER BY h.spending DESC
+Expanded country list to 17 wealthy OECD nations (pop > 1M) to tighten the peer cluster and amplify the US outlier.
+Verified: 2026-04-19 */}
 
-<Figure alt="Scatter plot comparing healthcare spending per capita (x-axis) to life expectancy (y-axis) for 10 wealthy countries in 2022. The United States is an extreme outlier: highest spending ($12,586) but lowest life expectancy (78.0 years).">
+<Figure alt="Scatter plot comparing healthcare spending per capita (x-axis) to life expectancy (y-axis) for 17 wealthy OECD countries in 2022. The United States is an extreme outlier: highest spending ($12,586) but lowest life expectancy (78.0 years).">
   <Chart
     spec={{
-      mark: { type: "point" },
+      mark: { type: "point", size: 140 },
       data: [
         { country: "United States", spending: 12586, life_expectancy: 78.0 },
         { country: "Switzerland", spending: 10575, life_expectancy: 83.2 },
+        { country: "Norway", spending: 9797, life_expectancy: 82.6 },
         { country: "Germany", spending: 8470, life_expectancy: 80.6 },
+        { country: "Ireland", spending: 8288, life_expectancy: 82.1 },
+        { country: "Austria", spending: 7996, life_expectancy: 81.3 },
         { country: "Netherlands", spending: 7788, life_expectancy: 81.9 },
+        { country: "Belgium", spending: 7359, life_expectancy: 81.2 },
+        { country: "Denmark", spending: 7333, life_expectancy: 81.3 },
         { country: "Sweden", spending: 7229, life_expectancy: 83.0 },
         { country: "Australia", spending: 7128, life_expectancy: 82.8 },
         { country: "Canada", spending: 7066, life_expectancy: 81.2 },
         { country: "France", spending: 6643, life_expectancy: 82.5 },
         { country: "United Kingdom", spending: 6497, life_expectancy: 81.1 },
+        { country: "Finland", spending: 5962, life_expectancy: 81.2 },
         { country: "Japan", spending: 5846, life_expectancy: 84.1 },
+        { country: "South Korea", spending: 4869, life_expectancy: 82.7 },
       ],
       encoding: {
         x: {
@@ -258,9 +279,9 @@ Verified: 2026-04-14 */}
           axis: {
             title: "Healthcare spending per capita (USD, PPP)",
             format: "$,.0f",
-            tickCount: 5,
+            tickCount: 6,
           },
-          scale: { nice: false },
+          scale: { domain: [4000, 13500], nice: false },
         },
         y: {
           field: "life_expectancy",
@@ -280,17 +301,31 @@ Verified: 2026-04-14 */}
               "United States",
               "Japan",
               "Switzerland",
+              "Norway",
               "Germany",
+              "Ireland",
+              "Austria",
               "Netherlands",
+              "Belgium",
+              "Denmark",
               "Sweden",
               "Australia",
               "Canada",
               "France",
               "United Kingdom",
+              "Finland",
+              "South Korea",
             ],
             range: [
               "#c44e52",
               "#4a7ab5",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
               "#94a3b8",
               "#94a3b8",
               "#94a3b8",
@@ -347,7 +382,7 @@ Verified: 2026-04-14 */}
       chrome: {
         title: "The US spends the most and lives the shortest",
         subtitle:
-          "Healthcare spending vs. life expectancy, 10 wealthy nations, 2022",
+          "Healthcare spending vs. life expectancy, 17 wealthy OECD nations, 2022",
         source: "Our World in Data / OECD Health Statistics",
       },
     }}
