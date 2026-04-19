@@ -1,11 +1,11 @@
 {/*
-  PALETTE:
-  - US / danger / list price:  #c44e52  (red)
-  - Peer group / context:      #94a3b8  (steel gray)
-  - Actual cost / positive:    #4a7ab5  (blue)
-  - Secondary emphasis:        #e09c41  (amber)
-  - Solution / negotiated:     #6a9f58  (green)
-  - Japan accent:              #4a7ab5  (blue)
+PALETTE:
+- US / danger / list price:  #c44e52  (red)
+- Peer group / context:      #94a3b8  (steel gray)
+- Actual cost / positive:    #4a7ab5  (blue)
+- Secondary emphasis:        #e09c41  (amber)
+- Solution / negotiated:     #6a9f58  (green)
+- Japan accent:              #4a7ab5  (blue)
 */}
 
 export const meta = {
@@ -39,7 +39,7 @@ Verified: 2026-04-14 */}
 <Figure alt="Line chart showing healthcare spending per capita from 2000 to 2022 for 10 wealthy countries. The United States line (red) is dramatically above all others, reaching $12,586 by 2022 while peer countries cluster between $5,000 and $10,000.">
   <Chart
     spec={{
-      mark: { type: "line", point: false, interpolate: "monotone" },
+      mark: { type: "line", point: true, interpolate: "monotone" },
       data: [
         { country: "United States", year: 2000, spending: 4549 },
         { country: "United States", year: 2001, spending: 4902 },
@@ -150,14 +150,31 @@ Verified: 2026-04-14 */}
         x: {
           field: "year",
           type: "temporal",
-          axis: { title: null, tickCount: 6 },
+          axis: {
+            title: null,
+            format: "%Y",
+            values: [
+              "2000-06-01",
+              "2004-06-01",
+              "2008-06-01",
+              "2012-06-01",
+              "2016-06-01",
+              "2020-06-01",
+              "2022-06-01",
+            ],
+          },
           scale: { nice: false },
         },
         y: {
           field: "spending",
           type: "quantitative",
-          axis: { title: "Per capita (USD, PPP)", format: "$~s", tickCount: 5 },
-          scale: { nice: false },
+          axis: {
+            title: "Per capita (USD, PPP)",
+            format: "$~s",
+            grid: true,
+            values: [1000, 3000, 5000, 7000, 9000, 11000, 13000],
+          },
+          scale: { nice: false, domain: [1000, 13000] },
         },
         color: {
           field: "country",
@@ -191,16 +208,20 @@ Verified: 2026-04-14 */}
         },
       },
       seriesStyles: {
-        Germany: { opacity: 0.45, strokeWidth: 1.2 },
-        Switzerland: { opacity: 0.45, strokeWidth: 1.2 },
-        Netherlands: { opacity: 0.45, strokeWidth: 1.2 },
-        Sweden: { opacity: 0.45, strokeWidth: 1.2 },
-        Canada: { opacity: 0.45, strokeWidth: 1.2 },
-        Australia: { opacity: 0.45, strokeWidth: 1.2 },
-        France: { opacity: 0.45, strokeWidth: 1.2 },
-        "United Kingdom": { opacity: 0.45, strokeWidth: 1.2 },
-        "United States": { strokeWidth: 2.6 },
-        Japan: { strokeWidth: 2.2 },
+        Germany: { opacity: 0.45, strokeWidth: 1.2, showPoints: false },
+        Switzerland: { opacity: 0.45, strokeWidth: 1.2, showPoints: false },
+        Netherlands: { opacity: 0.45, strokeWidth: 1.2, showPoints: false },
+        Sweden: { opacity: 0.45, strokeWidth: 1.2, showPoints: false },
+        Canada: { opacity: 0.45, strokeWidth: 1.2, showPoints: false },
+        Australia: { opacity: 0.45, strokeWidth: 1.2, showPoints: false },
+        France: { opacity: 0.45, strokeWidth: 1.2, showPoints: false },
+        "United Kingdom": {
+          opacity: 0.45,
+          strokeWidth: 1.2,
+          showPoints: false,
+        },
+        "United States": { strokeWidth: 2.6, showPoints: true },
+        Japan: { strokeWidth: 2.2, showPoints: true },
       },
       labels: { density: "none" },
       annotations: [
@@ -901,43 +922,46 @@ Source: AHA analysis of Strata Decision Technology benchmark data, 2025.
 Verified: 2026-04-19 */}
 
 <Figure alt="Horizontal bar chart showing negative operating margins for six hospital service lines. Behavioral health loses 25.5%, burns and wounds lose 19.1%, infectious disease loses 12.9%, trauma loses 8.4%, obstetrics loses 8.1%, and neurosciences loses 7.2%.">
-  <Chart spec={{
-    mark: { type: "bar", orient: "horizontal" },
-    data: [
-      { service: "Neurosciences", margin: -7.2 },
-      { service: "Obstetrics", margin: -8.1 },
-      { service: "Trauma", margin: -8.4 },
-      { service: "Infectious disease", margin: -12.9 },
-      { service: "Burns & wounds", margin: -19.1 },
-      { service: "Behavioral health", margin: -25.5 },
-    ],
-    encoding: {
-      x: {
-        field: "margin",
-        type: "quantitative",
-        axis: { title: "Operating margin", format: ".0f%", tickCount: 6 },
-        scale: { domain: [-30, 0], nice: false },
+  <Chart
+    spec={{
+      mark: { type: "bar", orient: "horizontal" },
+      data: [
+        { service: "Neurosciences", margin: -7.2 },
+        { service: "Obstetrics", margin: -8.1 },
+        { service: "Trauma", margin: -8.4 },
+        { service: "Infectious disease", margin: -12.9 },
+        { service: "Burns & wounds", margin: -19.1 },
+        { service: "Behavioral health", margin: -25.5 },
+      ],
+      encoding: {
+        x: {
+          field: "margin",
+          type: "quantitative",
+          axis: { title: "Operating margin", format: ".0f%", tickCount: 6 },
+          scale: { domain: [-30, 0], nice: false },
+        },
+        y: {
+          field: "service",
+          type: "nominal",
+          axis: { title: null },
+          sort: null,
+        },
+        color: {
+          condition: { test: { field: "margin", lt: -15 }, value: "#c44e52" },
+          value: "#e09c41",
+        },
       },
-      y: {
-        field: "service",
-        type: "nominal",
-        axis: { title: null },
-        sort: null,
+      labels: { density: "all", format: ".1f%" },
+      legend: { show: false },
+      animation: true,
+      chrome: {
+        title: "More than half of hospital services lose money",
+        subtitle: "All-payer operating margins by service line, 2025",
+        source:
+          "aha/service-line-margins via OpenData API — Strata Decision Technology benchmark data, 2025",
       },
-      color: {
-        condition: { test: { field: "margin", lt: -15 }, value: "#c44e52" },
-        value: "#e09c41",
-      },
-    },
-    labels: { density: "all", format: ".1f%" },
-    legend: { show: false },
-    animation: true,
-    chrome: {
-      title: "More than half of hospital services lose money",
-      subtitle: "All-payer operating margins by service line, 2025",
-      source: "aha/service-line-margins via OpenData API — Strata Decision Technology benchmark data, 2025",
-    },
-  }} />
+    }}
+  />
 </Figure>
 
 Behavioral health reimburses at 74.5 cents on the dollar. Burns and wound care, infectious disease, trauma, obstetrics: all negative margin. These aren't optional services. They're the ones communities depend on in emergencies. Hospitals cross-subsidize them from the few service lines that do generate positive margins, but that cross-subsidy comes from commercially insured patients, who are largely covered by self-insured employers.
