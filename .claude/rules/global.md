@@ -80,6 +80,16 @@ These are patterns that passed code review but broke at render time. Check these
 - **Data unit consistency across a chart.** If one country's migration data is in millions (1) and others are in thousands (334, 268), the labels will be misleading. Normalize all values to the same unit before embedding in the spec.
 - **Verify the closing synthesis chart is genuinely different from earlier charts.** If it uses the same chart type, same categories, and same encoding as an earlier chart with just fewer rows, it's a duplicate, not a synthesis. A good synthesis uses a different framing: ratio chart instead of absolute, diverging gap instead of side-by-side, indexed comparison instead of raw values.
 
+## MDX syntax safety (do not introduce parse errors)
+
+These are JS/MDX syntax failures that have crashed the dev server during chart edits. Prevent them BEFORE saving:
+
+- **Annotation objects only accept documented fields.** The openchart `TextAnnotation` schema has `type`, `x`, `y`, `text`, `dx`, `dy`, `fontSize`, `fontWeight`, `fill`, `textAnchor`. There is NO `offset` field. Do not nest `offset: { dx, dy }` inside an annotation — use top-level `dx`/`dy` instead.
+- **Every property in an object literal needs a trailing comma before the next key.** When editing annotation objects, verify the last line before a new key ends in `,`. Missing commas are the #1 source of MDX build failures on this project. Example of the bug: `fill: "#c44e52"\n  offset: { dx: -70 }` — the missing comma after `"#c44e52"` is a JS syntax error.
+- **Write MDX comments as a single line when possible.** Use `{/* API: POST /v1/... — Verified: YYYY-MM-DD */}` on one line. For multi-line comments, keep the body as plain prose with no Markdown-style bullet lists (`- item`), leading dashes, or asterisks. Prettier can (and does) re-escape `*` inside comment bodies that look like Markdown, turning `{/* ... */}` into `{/_ ... _/}` across the whole file and breaking every comment.
+- **After any edit to annotations or comments, reload the page in playwright-cli and screenshot before declaring done.** A silent parse error shows as a Vite error overlay covering the chart; only a visual check catches it. Do not rely on "the file saved" as evidence the edit is correct.
+- **If Prettier has mangled comment markers to `{/_ ... _/}`, restore with:** `perl -i -pe 's/\{\/_/\{\/*/g; s/_\/\}/*\/\}/g' src/reports/<file>.mdx`. Then restructure the comment body (remove bullets/asterisks) so Prettier leaves it alone on the next save.
+
 ## Cross-repo openchart development
 
 When making changes to the openchart library at `~/Projects/openchart` for this project:
