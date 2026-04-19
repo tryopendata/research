@@ -18,8 +18,9 @@ export const meta = {
 };
 
 import { Chart } from "../components/Chart";
-import { DataTable, Graph } from "@opendata-ai/openchart-react";
+import { DataTable } from "@opendata-ai/openchart-react";
 import { Figure } from "../components/Figure";
+import { PBMConglomeratesDiagram } from "../components/PBMConglomeratesDiagram";
 
 Imatinib mesylate is a generic drug that treats chronic myelogenous leukemia. Pharmacies can acquire a 30-day supply for about $96. Mark Cuban's Cost Plus Drugs sells it for $47: manufacturer cost plus a flat 15% markup, a pharmacist fee, and shipping. Through a traditional pharmacy channel, the listed retail price for that same 30-day supply can exceed $10,000.
 
@@ -579,55 +580,8 @@ $7.3B figure: FTC analysis of 51 specialty generic drugs, 882 NDCs, 2017-2022.
 42% CAGR: 2017-2021 compound annual growth rate of PBM-affiliated pharmacy dispensing revenue in excess of NADAC.
 Not reproducible from API. */}
 
-<Figure alt="Network diagram showing the three vertically integrated PBM conglomerates. Each parent company owns an insurer, a PBM, and pharmacy chains, controlling the drug supply from coverage decisions through fulfillment.">
-  <Graph
-    spec={{
-      type: "graph",
-      nodes: [
-        { id: "UnitedHealth Group", group: "parent", size: 28 },
-        { id: "UnitedHealthcare", group: "insurer", size: 18 },
-        { id: "OptumRx", group: "pbm", size: 20 },
-        { id: "Optum Pharmacy", group: "pharmacy", size: 16 },
-        { id: "CVS Health", group: "parent", size: 28 },
-        { id: "Aetna", group: "insurer", size: 18 },
-        { id: "CVS Caremark", group: "pbm", size: 20 },
-        { id: "CVS Pharmacy", group: "pharmacy", size: 16 },
-        { id: "Cigna / Evernorth", group: "parent", size: 28 },
-        { id: "Cigna Healthcare", group: "insurer", size: 18 },
-        { id: "Express Scripts", group: "pbm", size: 20 },
-        { id: "Accredo", group: "pharmacy", size: 16 },
-      ],
-      edges: [
-        { source: "UnitedHealth Group", target: "UnitedHealthcare" },
-        { source: "UnitedHealth Group", target: "OptumRx" },
-        { source: "UnitedHealth Group", target: "Optum Pharmacy" },
-        { source: "CVS Health", target: "Aetna" },
-        { source: "CVS Health", target: "CVS Caremark" },
-        { source: "CVS Health", target: "CVS Pharmacy" },
-        { source: "Cigna / Evernorth", target: "Cigna Healthcare" },
-        { source: "Cigna / Evernorth", target: "Express Scripts" },
-        { source: "Cigna / Evernorth", target: "Accredo" },
-      ],
-      encoding: {
-        nodeColor: {
-          field: "group",
-          type: "nominal",
-          scale: {
-            domain: ["parent", "insurer", "pbm", "pharmacy"],
-            range: ["#c44e52", "#e09c41", "#4a7ab5", "#6a9f58"],
-          },
-        },
-      },
-      legend: { position: "bottom" },
-      chrome: {
-        title: "Three conglomerates own the insurer, PBM, and pharmacy",
-        subtitle:
-          "The Big 3 PBMs control ~80% of US prescription claims, covering 270 million people",
-        source:
-          "FTC Second Interim Staff Report on PBMs (January 2025), Drug Channels (March 2025)",
-      },
-    }}
-  />
+<Figure alt="Diagram showing three parallel vertical integrations. Each column is a parent company (UnitedHealth Group, CVS Health, Cigna/Evernorth) with the insurer it owns, the PBM it owns, and the pharmacy it owns stacked beneath it. All three columns share the same structure, making the pattern of ownership obvious.">
+  <PBMConglomeratesDiagram />
 </Figure>
 
 Each parent company owns the insurer that decides coverage, the PBM that negotiates the price, and the pharmacy that fills the prescription. Together, these three conglomerates process about 80% of all prescription claims in the US, covering roughly 270 million people. When the same company controls all three steps, it has every reason to keep prices high across the chain rather than fight to lower them for patients.
