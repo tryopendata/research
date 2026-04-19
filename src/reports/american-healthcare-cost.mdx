@@ -1,0 +1,1253 @@
+{/*
+  PALETTE:
+  - US / danger / list price:  #c44e52  (red)
+  - Peer group / context:      #94a3b8  (steel gray)
+  - Actual cost / positive:    #4a7ab5  (blue)
+  - Secondary emphasis:        #e09c41  (amber)
+  - Solution / negotiated:     #6a9f58  (green)
+  - Japan accent:              #4a7ab5  (blue)
+*/}
+
+export const meta = {
+  title:
+    "The $47 Drug That Costs $10,000: How Middlemen Inflate American Healthcare",
+  date: "2026-04-19",
+  description:
+    "The same generic leukemia pill costs $47 at Cost Plus Drugs and over $10,000 through traditional channels. The difference isn't chemistry. It's a supply chain designed to extract value at every step.",
+  tags: ["healthcare", "drug-pricing", "PBM", "policy", "Medicare"],
+};
+
+import { Chart } from "../components/Chart";
+import { DataTable, Graph } from "@opendata-ai/openchart-react";
+import { Figure } from "../components/Figure";
+
+Imatinib mesylate is a generic drug that treats chronic myelogenous leukemia. Pharmacies can acquire a 30-day supply for about $96. Mark Cuban's Cost Plus Drugs sells it for $47: manufacturer cost plus a flat 15% markup, a pharmacist fee, and shipping. Through a traditional pharmacy channel, the listed retail price for that same 30-day supply can exceed $10,000.
+
+Same molecule, same manufacturer, same FDA approval. The difference isn't chemistry. It's the supply chain between the factory and the patient, where a series of middlemen (pharmacy benefit managers, insurers, specialty pharmacies, all often owned by the same parent company) each add cost while making it harder to see what anything actually costs.
+
+This isn't an isolated anecdote. It's the structure of American healthcare spending. The US pays more than any wealthy nation for worse outcomes, and a growing share of that excess flows not to doctors, hospitals, or drug manufacturers, but to the administrative machinery that sits between them.
+
+## US healthcare costs have broken away from peer countries
+
+Every wealthy country has seen healthcare costs rise. But in the US, those costs didn't just rise. They accelerated away from the rest, and the gap keeps widening.
+
+{/* API: POST /v1/datasets/owid/healthcare-spending/query
+SQL: SELECT country, year, ROUND(spending_per_capita) as spending_per_capita FROM data WHERE country IN ('United States','Germany','France','United Kingdom','Canada','Australia','Japan','Netherlands','Sweden','Switzerland') AND year >= 2000 AND year <= 2022 ORDER BY country, year
+Verified: 2026-04-14 */}
+
+<Figure alt="Line chart showing healthcare spending per capita from 2000 to 2022 for 10 wealthy countries. The United States line (red) is dramatically above all others, reaching $12,586 by 2022 while peer countries cluster between $5,000 and $10,000.">
+  <Chart
+    spec={{
+      mark: { type: "line", point: false, interpolate: "monotone" },
+      data: [
+        { country: "United States", year: 2000, spending: 4549 },
+        { country: "United States", year: 2001, spending: 4902 },
+        { country: "United States", year: 2002, spending: 5328 },
+        { country: "United States", year: 2003, spending: 5732 },
+        { country: "United States", year: 2004, spending: 6072 },
+        { country: "United States", year: 2005, spending: 6429 },
+        { country: "United States", year: 2006, spending: 6802 },
+        { country: "United States", year: 2007, spending: 7154 },
+        { country: "United States", year: 2008, spending: 7365 },
+        { country: "United States", year: 2009, spending: 7615 },
+        { country: "United States", year: 2010, spending: 7836 },
+        { country: "United States", year: 2011, spending: 8016 },
+        { country: "United States", year: 2012, spending: 8262 },
+        { country: "United States", year: 2013, spending: 8412 },
+        { country: "United States", year: 2014, spending: 8796 },
+        { country: "United States", year: 2015, spending: 9201 },
+        { country: "United States", year: 2016, spending: 9536 },
+        { country: "United States", year: 2017, spending: 9823 },
+        { country: "United States", year: 2018, spending: 10180 },
+        { country: "United States", year: 2019, spending: 10550 },
+        { country: "United States", year: 2020, spending: 11648 },
+        { country: "United States", year: 2021, spending: 12080 },
+        { country: "United States", year: 2022, spending: 12586 },
+        { country: "Germany", year: 2000, spending: 2682 },
+        { country: "Germany", year: 2003, spending: 3098 },
+        { country: "Germany", year: 2006, spending: 3459 },
+        { country: "Germany", year: 2009, spending: 4115 },
+        { country: "Germany", year: 2012, spending: 4691 },
+        { country: "Germany", year: 2015, spending: 5336 },
+        { country: "Germany", year: 2018, spending: 6302 },
+        { country: "Germany", year: 2021, spending: 7960 },
+        { country: "Germany", year: 2022, spending: 8470 },
+        { country: "Switzerland", year: 2000, spending: 3352 },
+        { country: "Switzerland", year: 2003, spending: 3930 },
+        { country: "Switzerland", year: 2006, spending: 4437 },
+        { country: "Switzerland", year: 2009, spending: 5376 },
+        { country: "Switzerland", year: 2012, spending: 6142 },
+        { country: "Switzerland", year: 2015, spending: 7167 },
+        { country: "Switzerland", year: 2018, spending: 7915 },
+        { country: "Switzerland", year: 2021, spending: 9684 },
+        { country: "Switzerland", year: 2022, spending: 10575 },
+        { country: "France", year: 2000, spending: 2516 },
+        { country: "France", year: 2003, spending: 2858 },
+        { country: "France", year: 2006, spending: 3393 },
+        { country: "France", year: 2009, spending: 3936 },
+        { country: "France", year: 2012, spending: 4296 },
+        { country: "France", year: 2015, spending: 4712 },
+        { country: "France", year: 2018, spending: 5255 },
+        { country: "France", year: 2021, spending: 6444 },
+        { country: "France", year: 2022, spending: 6643 },
+        { country: "Netherlands", year: 2000, spending: 2466 },
+        { country: "Netherlands", year: 2003, spending: 3099 },
+        { country: "Netherlands", year: 2006, spending: 3727 },
+        { country: "Netherlands", year: 2009, spending: 4464 },
+        { country: "Netherlands", year: 2012, spending: 4989 },
+        { country: "Netherlands", year: 2015, spending: 5205 },
+        { country: "Netherlands", year: 2018, spending: 5811 },
+        { country: "Netherlands", year: 2021, spending: 7661 },
+        { country: "Netherlands", year: 2022, spending: 7788 },
+        { country: "Sweden", year: 2000, spending: 2173 },
+        { country: "Sweden", year: 2003, spending: 2649 },
+        { country: "Sweden", year: 2006, spending: 3041 },
+        { country: "Sweden", year: 2009, spending: 3533 },
+        { country: "Sweden", year: 2012, spending: 4917 },
+        { country: "Sweden", year: 2015, spending: 5361 },
+        { country: "Sweden", year: 2018, spending: 5924 },
+        { country: "Sweden", year: 2021, spending: 7070 },
+        { country: "Sweden", year: 2022, spending: 7229 },
+        { country: "Canada", year: 2000, spending: 2406 },
+        { country: "Canada", year: 2003, spending: 2897 },
+        { country: "Canada", year: 2006, spending: 3537 },
+        { country: "Canada", year: 2009, spending: 4136 },
+        { country: "Canada", year: 2012, spending: 4431 },
+        { country: "Canada", year: 2015, spending: 4774 },
+        { country: "Canada", year: 2018, spending: 5427 },
+        { country: "Canada", year: 2021, spending: 7017 },
+        { country: "Canada", year: 2022, spending: 7066 },
+        { country: "Australia", year: 2000, spending: 2138 },
+        { country: "Australia", year: 2003, spending: 2540 },
+        { country: "Australia", year: 2006, spending: 3006 },
+        { country: "Australia", year: 2009, spending: 3546 },
+        { country: "Australia", year: 2012, spending: 3787 },
+        { country: "Australia", year: 2015, spending: 4761 },
+        { country: "Australia", year: 2018, spending: 5319 },
+        { country: "Australia", year: 2021, spending: 6764 },
+        { country: "Australia", year: 2022, spending: 7128 },
+        { country: "United Kingdom", year: 2000, spending: 1896 },
+        { country: "United Kingdom", year: 2003, spending: 2442 },
+        { country: "United Kingdom", year: 2006, spending: 2967 },
+        { country: "United Kingdom", year: 2009, spending: 3447 },
+        { country: "United Kingdom", year: 2012, spending: 3793 },
+        { country: "United Kingdom", year: 2015, spending: 4226 },
+        { country: "United Kingdom", year: 2018, spending: 4614 },
+        { country: "United Kingdom", year: 2021, spending: 6136 },
+        { country: "United Kingdom", year: 2022, spending: 6497 },
+        { country: "Japan", year: 2000, spending: 1917 },
+        { country: "Japan", year: 2003, spending: 2201 },
+        { country: "Japan", year: 2006, spending: 2583 },
+        { country: "Japan", year: 2009, spending: 3002 },
+        { country: "Japan", year: 2012, spending: 4004 },
+        { country: "Japan", year: 2015, spending: 4393 },
+        { country: "Japan", year: 2018, spending: 4522 },
+        { country: "Japan", year: 2021, spending: 5359 },
+        { country: "Japan", year: 2022, spending: 5846 },
+      ],
+      encoding: {
+        x: {
+          field: "year",
+          type: "temporal",
+          axis: { title: null, tickCount: 6 },
+          scale: { nice: false },
+        },
+        y: {
+          field: "spending",
+          type: "quantitative",
+          axis: { title: "Per capita (USD, PPP)", format: "$~s", tickCount: 5 },
+          scale: { nice: false },
+        },
+        color: {
+          field: "country",
+          type: "nominal",
+          scale: {
+            domain: [
+              "United States",
+              "Germany",
+              "Switzerland",
+              "Netherlands",
+              "Sweden",
+              "Canada",
+              "Australia",
+              "France",
+              "United Kingdom",
+              "Japan",
+            ],
+            range: [
+              "#c44e52",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#4a7ab5",
+            ],
+          },
+        },
+      },
+      annotations: [
+        {
+          type: "text",
+          x: "2022-01-01",
+          y: 12586,
+          text: "United States $12,586",
+          dx: -130,
+          dy: -14,
+          fontSize: 12,
+          fontWeight: 700,
+          fill: "#c44e52",
+        },
+        {
+          type: "text",
+          x: "2022-01-01",
+          y: 5846,
+          text: "Japan $5,846",
+          dx: -110,
+          dy: 14,
+          fontSize: 12,
+          fontWeight: 600,
+          fill: "#4a7ab5",
+        },
+      ],
+      legend: { show: false },
+      animation: true,
+      chrome: {
+        title: "US healthcare costs have broken away from peer countries",
+        subtitle:
+          "Per-capita health spending, 10 high-income countries, 2000–2022 (USD, purchasing power parity)",
+        source: "Our World in Data / OECD Health Statistics",
+      },
+    }}
+  />
+</Figure>
+
+In 2022, the US spent $12,586 per person on healthcare. Japan spent $5,846. Even Switzerland, the second-most-expensive system, spent $2,000 less per person.
+
+## Despite record spending, Americans live shorter lives than people in every peer country
+
+If the extra spending bought better health, it would be a defensible tradeoff. It doesn't. The excess goes somewhere else.
+
+{/* API: POST /v1/query (cross-dataset)
+SQL: SELECT h.country, ROUND(h.spending_per_capita) as spending_per_capita, ROUND(l.life_expectancy, 1) as life_expectancy FROM "owid/healthcare-spending" h JOIN "owid/life-expectancy" l ON h.country = l.country AND h.year = l.year WHERE h.year = 2022 AND h.country IN ('United States','Germany','France','United Kingdom','Canada','Australia','Japan','Netherlands','Sweden','Switzerland') ORDER BY h.spending_per_capita DESC
+Verified: 2026-04-14 */}
+
+<Figure alt="Scatter plot comparing healthcare spending per capita (x-axis) to life expectancy (y-axis) for 10 wealthy countries in 2022. The United States is an extreme outlier: highest spending ($12,586) but lowest life expectancy (78.0 years).">
+  <Chart
+    spec={{
+      mark: { type: "point" },
+      data: [
+        { country: "United States", spending: 12586, life_expectancy: 78.0 },
+        { country: "Switzerland", spending: 10575, life_expectancy: 83.2 },
+        { country: "Germany", spending: 8470, life_expectancy: 80.6 },
+        { country: "Netherlands", spending: 7788, life_expectancy: 81.9 },
+        { country: "Sweden", spending: 7229, life_expectancy: 83.0 },
+        { country: "Australia", spending: 7128, life_expectancy: 82.8 },
+        { country: "Canada", spending: 7066, life_expectancy: 81.2 },
+        { country: "France", spending: 6643, life_expectancy: 82.5 },
+        { country: "United Kingdom", spending: 6497, life_expectancy: 81.1 },
+        { country: "Japan", spending: 5846, life_expectancy: 84.1 },
+      ],
+      encoding: {
+        x: {
+          field: "spending",
+          type: "quantitative",
+          axis: {
+            title: "Healthcare spending per capita (USD, PPP)",
+            format: "$,.0f",
+            tickCount: 5,
+          },
+          scale: { nice: false },
+        },
+        y: {
+          field: "life_expectancy",
+          type: "quantitative",
+          axis: {
+            title: "Life expectancy at birth (years)",
+            format: ".1f",
+            tickCount: 5,
+          },
+          scale: { domain: [77, 85], nice: false },
+        },
+        color: {
+          field: "country",
+          type: "nominal",
+          scale: {
+            domain: [
+              "United States",
+              "Japan",
+              "Switzerland",
+              "Germany",
+              "Netherlands",
+              "Sweden",
+              "Australia",
+              "Canada",
+              "France",
+              "United Kingdom",
+            ],
+            range: [
+              "#c44e52",
+              "#4a7ab5",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+            ],
+          },
+        },
+        tooltip: [
+          { field: "country", type: "nominal", title: "Country" },
+          {
+            field: "spending",
+            type: "quantitative",
+            title: "Spending/capita",
+            format: "$,.0f",
+          },
+          {
+            field: "life_expectancy",
+            type: "quantitative",
+            title: "Life expectancy",
+            format: ".1f",
+          },
+        ],
+      },
+      annotations: [
+        {
+          type: "text",
+          x: 12586,
+          y: 78.0,
+          text: "United States",
+          dx: -100,
+          dy: 18,
+          fontSize: 12,
+          fontWeight: 700,
+          fill: "#c44e52",
+        },
+        {
+          type: "text",
+          x: 5846,
+          y: 84.1,
+          text: "Japan",
+          dx: 10,
+          dy: -12,
+          fontSize: 12,
+          fontWeight: 600,
+          fill: "#4a7ab5",
+        },
+      ],
+      legend: { show: false },
+      animation: true,
+      chrome: {
+        title: "The US spends the most and lives the shortest",
+        subtitle:
+          "Healthcare spending vs. life expectancy, 10 wealthy nations, 2022",
+        source: "Our World in Data / OECD Health Statistics",
+      },
+    }}
+  />
+</Figure>
+
+American life expectancy was 78.0 years in 2022, while Japan reached 84.1, Switzerland 83.2, and Sweden 83.0. Japan's gap is the starkest: $6,740 less per person per year, and 6.1 more years of life. The Commonwealth Fund's Mirror Mirror report has ranked the US last among wealthy nations for health system performance three times running. The one category where the US scores near the top is clinical care process, the quality of treatment once a patient actually gets into the system. The problem is everything that happens before and after: the paperwork, the pricing, the billing, the layers of companies between the patient and the doctor.
+
+## Americans pay 50-250% more for the same drugs
+
+So where does the extra money go? The most direct answer starts with pharmaceuticals.
+
+{/* API: POST /v1/datasets/oecd/pharma-spending/query
+SQL: SELECT country_name, year, ROUND(spending_per_capita) as spending_per_capita FROM data WHERE function_name = 'Pharmaceuticals and other medical non-durable goods' AND year = 2023 AND country_name IN ('United States','Germany','Switzerland','Canada','Japan','France','Netherlands','Sweden') ORDER BY spending_per_capita DESC
+Netherlands corrected from $713 to $485 on 2026-04-19 (previous value was Sweden's figure).
+Verified: 2026-04-19 */}
+
+<Figure alt="Horizontal lollipop chart showing per-capita pharmaceutical spending in 2023 for 8 OECD countries. The United States ($1,713) is far ahead of all others.">
+  <Chart
+    spec={{
+      mark: "lollipop",
+      data: [
+        { country: "Netherlands", pharma: 485 },
+        { country: "Sweden", pharma: 713 },
+        { country: "France", pharma: 881 },
+        { country: "Japan", pharma: 991 },
+        { country: "Canada", pharma: 1052 },
+        { country: "Switzerland", pharma: 1128 },
+        { country: "Germany", pharma: 1168 },
+        { country: "United States", pharma: 1713 },
+      ],
+      encoding: {
+        x: {
+          field: "pharma",
+          type: "quantitative",
+          axis: {
+            title: "Per capita (USD, PPP)",
+            format: "$,.0f",
+            tickCount: 5,
+          },
+          scale: { domain: [400, 1800], nice: false },
+        },
+        y: {
+          field: "country",
+          type: "nominal",
+          sort: null,
+          axis: { title: null },
+        },
+        color: {
+          field: "country",
+          type: "nominal",
+          scale: {
+            domain: [
+              "United States",
+              "Germany",
+              "Switzerland",
+              "Canada",
+              "Japan",
+              "France",
+              "Sweden",
+              "Netherlands",
+            ],
+            range: [
+              "#c44e52",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+            ],
+          },
+        },
+      },
+      legend: { show: false },
+      animation: true,
+      chrome: {
+        title: "Americans pay 50-250% more for the same drugs",
+        subtitle:
+          "Per-capita pharmaceutical spending, 2023 (USD, purchasing power parity)",
+        source: "OECD Health Statistics",
+      },
+    }}
+  />
+</Figure>
+
+Americans spent $1,713 per person on pharmaceuticals in 2023, 47% more than Germany ($1,168), 63% more than Canada ($1,052), and 2.4 times what Sweden paid ($713). The Netherlands spent even less at $485 per person. These countries aren't buying inferior drugs. They're buying many of the same branded medications at prices their governments negotiated down.
+
+Most peer nations use centralized authorities to negotiate drug prices, and they can credibly threaten to exclude a drug from coverage if the price isn't acceptable. The US has historically lacked that leverage. Medicare was legally prohibited from negotiating drug prices until the Inflation Reduction Act of 2022.
+
+But negotiation is only part of the story. The deeper question is what happens between the factory and the patient, and why the same generic drug can cost 100 times more depending on which channel it flows through.
+
+## The drug pricing supply chain: where a $96 drug becomes $10,000
+
+A generic drug has a real cost to acquire: the National Average Drug Acquisition Cost (NADAC), calculated by the Centers for Medicare & Medicaid Services (CMS) from actual pharmacy invoices. That's what pharmacies really pay to stock a drug. Then there's what patients actually pay. The gap between those two numbers is where the story lives.
+
+{/* Source: cms/nadac — NADAC per-unit costs converted to 30-day supply using standard dosing regimens.
+Cost Plus Drugs prices: costplusdrugs.com (web-sourced, 403 on direct fetch — prices from PMC NIH article PMID:36777318 and news reports).
+Part D avg_spending_per_claim: cms/part-d-spending (manufacturer="Overall").
+Imatinib: NADAC $3.211/EA × 30 tabs = $96.33. Cost Plus: $47/month (Lancet Regional Health Americas, 2023). Part D: not in Part D top drugs (generic, low total spend).
+Celecoxib: NADAC $0.084/EA × 30 caps = $2.53. Cost Plus: $7.50/90 caps = $2.50/30 caps.
+Fingolimod: NADAC $4.785/EA × 30 caps = $143.56. Cost Plus: ~$195/30 caps.
+Abiraterone: NADAC $0.832/EA × 120 tabs (4/day × 30 days) = $99.88. Cost Plus: ~$120/month (estimated from web reports).
+Enbrel: NADAC $2,083.35/mL × 4 mL = $8,333. Part D avg/claim: $7,804 (Sureclick).
+Stelara: Part D avg/claim: $25,522. NADAC: $29,795/mL per dose.
+Verified: 2026-04-19 */}
+
+<Figure
+  alt="Dot plot comparing drug acquisition cost, Cost Plus price, and traditional retail price for 4 generic drugs on a log scale. The gap between acquisition cost and retail price spans 2-3 orders of magnitude."
+  minHeight={0}
+>
+  <DataTable
+    spec={{
+      type: "table",
+      columns: [
+        { key: "drug", label: "Drug", width: "160px" },
+        {
+          key: "nadac",
+          label: "Acquisition (NADAC)",
+          format: "$,.0f",
+          align: "right",
+        },
+        {
+          key: "costplus",
+          label: "Cost Plus",
+          format: "$,.0f",
+          align: "right",
+          heatmap: { palette: "green" },
+        },
+        {
+          key: "retail",
+          label: "Retail price",
+          format: "$,.0f",
+          align: "right",
+          heatmap: { palette: ["#fef2f2", "#c44e52"] },
+        },
+        { key: "markup", label: "Retail vs. NADAC", align: "right" },
+      ],
+      data: [
+        {
+          drug: "Fingolimod (MS)",
+          nadac: 144,
+          costplus: 195,
+          retail: 13067,
+          markup: "91x",
+        },
+        {
+          drug: "Imatinib (leukemia)",
+          nadac: 96,
+          costplus: 47,
+          retail: 10000,
+          markup: "104x",
+        },
+        {
+          drug: "Abiraterone (cancer)",
+          nadac: 100,
+          costplus: 120,
+          retail: 9978,
+          markup: "100x",
+        },
+        {
+          drug: "Celecoxib (arthritis)",
+          nadac: 3,
+          costplus: 3,
+          retail: 232,
+          markup: "77x",
+        },
+      ],
+      chrome: {
+        title: "The same generic drugs cost 80-100x more at retail",
+        subtitle:
+          "30-day supply costs by channel. Acquisition cost is what pharmacies actually pay for the drug.",
+        source:
+          "CMS NADAC (March 2026), Cost Plus Drugs, GoodRx/SingleCare retail pricing",
+      },
+    }}
+  />
+</Figure>
+
+The pharmacy acquires imatinib for $96. Cost Plus sells it for $47. A patient walking into a traditional pharmacy without insurance can face a listed retail price over $10,000 for the same generic pill. Most insured patients pay less through copays, but the gap between acquisition cost and list price remains enormous. The branded version, Gleevec, was priced above $120,000 per year by the time its patent expired.
+
+The pattern repeats across every drug in the table. How does a $96 drug become $10,000? Through a chain of intermediaries, each adding cost while obscuring the actual price.
+
+## Three companies control 80% of your prescriptions
+
+The most powerful intermediaries in the drug pricing chain are pharmacy benefit managers (PBMs). They sit between insurers, pharmacies, and drug manufacturers, theoretically negotiating lower prices on behalf of employers and health plans. In practice, the three largest have become vertically integrated conglomerates that profit from the complexity they were supposed to reduce.
+
+{/* Source: FTC Second Interim Staff Report on PBMs, January 2025.
+URL: https://www.ftc.gov/reports/specialty-generic-drugs-growing-profit-center-vertically-integrated-pharmacy-benefit-managers
+PBM market share: Drug Channels, March 2025 / FTC report.
+Vertical integration structure: FTC report + company filings.
+$7.3B figure: FTC analysis of 51 specialty generic drugs, 882 NDCs, 2017-2022.
+42% CAGR: 2017-2021 compound annual growth rate of PBM-affiliated pharmacy dispensing revenue in excess of NADAC.
+Not reproducible from API. */}
+
+<Figure alt="Network diagram showing the three vertically integrated PBM conglomerates. Each parent company owns an insurer, a PBM, and pharmacy chains, controlling the drug supply from coverage decisions through fulfillment.">
+  <Graph
+    spec={{
+      type: "graph",
+      nodes: [
+        { id: "UnitedHealth Group", group: "parent", size: 28 },
+        { id: "UnitedHealthcare", group: "insurer", size: 18 },
+        { id: "OptumRx", group: "pbm", size: 20 },
+        { id: "Optum Pharmacy", group: "pharmacy", size: 16 },
+        { id: "CVS Health", group: "parent", size: 28 },
+        { id: "Aetna", group: "insurer", size: 18 },
+        { id: "CVS Caremark", group: "pbm", size: 20 },
+        { id: "CVS Pharmacy", group: "pharmacy", size: 16 },
+        { id: "Cigna / Evernorth", group: "parent", size: 28 },
+        { id: "Cigna Healthcare", group: "insurer", size: 18 },
+        { id: "Express Scripts", group: "pbm", size: 20 },
+        { id: "Accredo", group: "pharmacy", size: 16 },
+      ],
+      edges: [
+        { source: "UnitedHealth Group", target: "UnitedHealthcare" },
+        { source: "UnitedHealth Group", target: "OptumRx" },
+        { source: "UnitedHealth Group", target: "Optum Pharmacy" },
+        { source: "CVS Health", target: "Aetna" },
+        { source: "CVS Health", target: "CVS Caremark" },
+        { source: "CVS Health", target: "CVS Pharmacy" },
+        { source: "Cigna / Evernorth", target: "Cigna Healthcare" },
+        { source: "Cigna / Evernorth", target: "Express Scripts" },
+        { source: "Cigna / Evernorth", target: "Accredo" },
+      ],
+      encoding: {
+        nodeColor: {
+          field: "group",
+          type: "nominal",
+          scale: {
+            domain: ["parent", "insurer", "pbm", "pharmacy"],
+            range: ["#c44e52", "#e09c41", "#4a7ab5", "#6a9f58"],
+          },
+        },
+      },
+      legend: { position: "bottom" },
+      chrome: {
+        title: "Three conglomerates own the insurer, PBM, and pharmacy",
+        subtitle:
+          "The Big 3 PBMs control ~80% of US prescription claims, covering 270 million people",
+        source:
+          "FTC Second Interim Staff Report on PBMs (January 2025), Drug Channels (March 2025)",
+      },
+    }}
+  />
+</Figure>
+
+Each parent company owns the insurer that decides coverage, the PBM that negotiates the price, and the pharmacy that fills the prescription. Together, these three conglomerates process about 80% of all prescription claims in the US, covering roughly 270 million people. When the same company controls all three steps, it has every reason to keep prices high across the chain rather than fight to lower them for patients.
+
+The FTC's 2025 report on PBMs examined 51 specialty generic drugs and found that the Big 3's affiliated pharmacies generated more than $7.3 billion in revenue from dispensing these drugs above their acquisition costs between 2017 and 2022. The markup rate grew at a 42% compound annual growth rate from 2017 to 2021. These aren't obscure drugs. They include generic versions of Gleevec (imatinib's brand name), drugs for MS, transplant rejection, and kidney disease.
+
+PBM advocates argue that rebate negotiations create pricing pressure that lowers net costs for plan sponsors. There's some truth to this. But when the FTC examined the full picture, PBM-affiliated pharmacy markups on specialty generics far exceeded any rebate savings flowing to patients. The "savings" often circulate within the same corporate parent, not back to the people paying copays.
+
+## When the government negotiates, prices drop 38-79%
+
+The Inflation Reduction Act of 2022 gave Medicare the authority to negotiate drug prices for the first time. The first 10 drugs were announced in 2024, with negotiated prices taking effect in January 2026.
+
+{/* Source: cms/ira-drug-prices — Maximum Fair Prices (MFP) per 30-day equivalent supply.
+List prices (WAC): Medicare Rights Center citing CMS announcement (October 2025).
+URL: https://medicareadvocacy.org/medicare-announces-results-of-first-round-of-historic-drug-price-negotiations-effective-2026/
+Verified: 2026-04-19 */}
+
+<Figure alt="Dumbbell chart showing the list price versus the negotiated Medicare price for the first 10 IRA drugs. Discounts range from 38% (Imbruvica) to 79% (Januvia). The largest absolute price drops are for specialty drugs like Stelara and Imbruvica.">
+  <Chart
+    spec={{
+      layer: [
+        {
+          mark: { type: "rule" },
+          data: [
+            {
+              drug: "Januvia",
+              list: 527,
+              negotiated: 113,
+              discount: "79% off",
+            },
+            {
+              drug: "NovoLog / Fiasp",
+              list: 495,
+              negotiated: 119,
+              discount: "76% off",
+            },
+            {
+              drug: "Farxiga",
+              list: 556,
+              negotiated: 178,
+              discount: "68% off",
+            },
+            {
+              drug: "Enbrel",
+              list: 7106,
+              negotiated: 2355,
+              discount: "67% off",
+            },
+            {
+              drug: "Stelara",
+              list: 13836,
+              negotiated: 4695,
+              discount: "66% off",
+            },
+            {
+              drug: "Jardiance",
+              list: 573,
+              negotiated: 197,
+              discount: "66% off",
+            },
+            {
+              drug: "Xarelto",
+              list: 517,
+              negotiated: 197,
+              discount: "62% off",
+            },
+            {
+              drug: "Eliquis",
+              list: 521,
+              negotiated: 231,
+              discount: "56% off",
+            },
+            {
+              drug: "Entresto",
+              list: 628,
+              negotiated: 295,
+              discount: "53% off",
+            },
+            {
+              drug: "Imbruvica",
+              list: 14934,
+              negotiated: 9319,
+              discount: "38% off",
+            },
+          ],
+          encoding: {
+            y: {
+              field: "drug",
+              type: "nominal",
+              axis: { title: null },
+              sort: [
+                "Januvia",
+                "NovoLog / Fiasp",
+                "Farxiga",
+                "Enbrel",
+                "Stelara",
+                "Jardiance",
+                "Xarelto",
+                "Eliquis",
+                "Entresto",
+                "Imbruvica",
+              ],
+            },
+            x: {
+              field: "negotiated",
+              type: "quantitative",
+              scale: { type: "log", domain: [80, 20000], nice: false },
+            },
+            x2: { field: "list" },
+          },
+        },
+        {
+          mark: { type: "point" },
+          data: [
+            { drug: "Januvia", cost: 527, type: "List price (WAC)" },
+            { drug: "NovoLog / Fiasp", cost: 495, type: "List price (WAC)" },
+            { drug: "Farxiga", cost: 556, type: "List price (WAC)" },
+            { drug: "Enbrel", cost: 7106, type: "List price (WAC)" },
+            { drug: "Stelara", cost: 13836, type: "List price (WAC)" },
+            { drug: "Jardiance", cost: 573, type: "List price (WAC)" },
+            { drug: "Xarelto", cost: 517, type: "List price (WAC)" },
+            { drug: "Eliquis", cost: 521, type: "List price (WAC)" },
+            { drug: "Entresto", cost: 628, type: "List price (WAC)" },
+            { drug: "Imbruvica", cost: 14934, type: "List price (WAC)" },
+            { drug: "Januvia", cost: 113, type: "Negotiated price (MFP)" },
+            {
+              drug: "NovoLog / Fiasp",
+              cost: 119,
+              type: "Negotiated price (MFP)",
+            },
+            { drug: "Farxiga", cost: 178, type: "Negotiated price (MFP)" },
+            { drug: "Enbrel", cost: 2355, type: "Negotiated price (MFP)" },
+            { drug: "Stelara", cost: 4695, type: "Negotiated price (MFP)" },
+            { drug: "Jardiance", cost: 197, type: "Negotiated price (MFP)" },
+            { drug: "Xarelto", cost: 197, type: "Negotiated price (MFP)" },
+            { drug: "Eliquis", cost: 231, type: "Negotiated price (MFP)" },
+            { drug: "Entresto", cost: 295, type: "Negotiated price (MFP)" },
+            { drug: "Imbruvica", cost: 9319, type: "Negotiated price (MFP)" },
+          ],
+          encoding: {
+            y: {
+              field: "drug",
+              type: "nominal",
+              sort: [
+                "Januvia",
+                "NovoLog / Fiasp",
+                "Farxiga",
+                "Enbrel",
+                "Stelara",
+                "Jardiance",
+                "Xarelto",
+                "Eliquis",
+                "Entresto",
+                "Imbruvica",
+              ],
+            },
+            x: {
+              field: "cost",
+              type: "quantitative",
+              axis: {
+                title: "30-day supply cost",
+                format: "$~s",
+                tickCount: 5,
+              },
+              scale: { type: "log", domain: [80, 20000], nice: false },
+            },
+            color: {
+              field: "type",
+              type: "nominal",
+              scale: {
+                domain: ["List price (WAC)", "Negotiated price (MFP)"],
+                range: ["#c44e52", "#6a9f58"],
+              },
+            },
+          },
+        },
+      ],
+      legend: { position: "top" },
+      animation: true,
+      chrome: {
+        title:
+          "Medicare negotiation cut drug prices 38-79% on the first 10 drugs",
+        subtitle:
+          "Wholesale Acquisition Cost (list price) vs. Maximum Fair Price (negotiated), per 30-day supply, effective 2026",
+        source:
+          "CMS Medicare Drug Price Negotiation Program, Medicare Rights Center",
+      },
+    }}
+  />
+</Figure>
+
+Januvia, a diabetes drug taken by 843,000 Medicare beneficiaries, dropped 79%, from $527 to $113 per month. NovoLog insulin fell 76%, from $495 to $119. Enbrel, a biologic for rheumatoid arthritis, dropped 67%, from $7,106 to $2,355.
+
+These 10 drugs accounted for $56.2 billion in Medicare Part D spending in 2023. CMS projects the negotiated prices will save Medicare $6 billion and beneficiaries $1.5 billion in out-of-pocket costs in 2026 alone. The program is expanding: 15 more drugs for 2027, another 15 for 2028, and 20 per year after that.
+
+One round of negotiation on just 10 drugs saves $6 billion. Medicare covers thousands of drugs. And these discounts of 38-79% are not manufacturers taking a loss. They're manufacturers accepting prices closer to what every other developed country already pays.
+
+## The US spends $306 billion per year just to administer health insurance
+
+The drug pricing chain is one piece of a larger pattern. The US doesn't just overpay for drugs and treatments. It overpays to manage the system itself.
+
+{/* API: POST /v1/datasets/oecd/health-expenditure-by-function/query
+SQL: SELECT country_name, ROUND(spending_per_capita) as spending_per_capita FROM data WHERE function_name = 'Governance and health system and financing administration' AND country_name IN ('United States','Germany','France','United Kingdom','Canada','Australia','Japan','Netherlands','Sweden','Switzerland') AND year = 2022 ORDER BY spending_per_capita DESC
+Verified: 2026-04-14 */}
+
+<Figure alt="Horizontal bar chart showing per-capita healthcare administration spending in 2022 for 10 countries. The United States bar ($1,010) is more than twice as long as any other country.">
+  <Chart
+    spec={{
+      mark: { type: "bar", orient: "horizontal" },
+      data: [
+        { country: "Sweden", admin_spending: 92 },
+        { country: "United Kingdom", admin_spending: 107 },
+        { country: "Japan", admin_spending: 111 },
+        { country: "Australia", admin_spending: 206 },
+        { country: "Canada", admin_spending: 217 },
+        { country: "Netherlands", admin_spending: 236 },
+        { country: "France", admin_spending: 335 },
+        { country: "Germany", admin_spending: 370 },
+        { country: "Switzerland", admin_spending: 373 },
+        { country: "United States", admin_spending: 1010 },
+      ],
+      encoding: {
+        x: {
+          field: "admin_spending",
+          type: "quantitative",
+          axis: {
+            title: "Per capita (USD, PPP)",
+            format: "$,.0f",
+            tickCount: 5,
+          },
+          scale: { nice: false },
+        },
+        y: {
+          field: "country",
+          type: "nominal",
+          sort: null,
+          axis: { title: null },
+        },
+        color: {
+          field: "country",
+          type: "nominal",
+          scale: {
+            domain: [
+              "United States",
+              "Switzerland",
+              "Germany",
+              "France",
+              "Netherlands",
+              "Canada",
+              "Australia",
+              "Japan",
+              "United Kingdom",
+              "Sweden",
+            ],
+            range: [
+              "#c44e52",
+              "#e09c41",
+              "#e09c41",
+              "#e09c41",
+              "#a3b56a",
+              "#a3b56a",
+              "#a3b56a",
+              "#6a9f58",
+              "#6a9f58",
+              "#6a9f58",
+            ],
+          },
+        },
+      },
+      labels: { density: "all", format: "$,.0f" },
+      legend: { show: false },
+      animation: true,
+      chrome: {
+        title: "US spends $1,010 per person just on administration",
+        subtitle:
+          "Per-capita healthcare administration & financing overhead, 2022 (USD, PPP)",
+        source: "OECD Health Statistics",
+      },
+    }}
+  />
+</Figure>
+
+The US spent $1,010 per person in 2022 on healthcare administration, more than double any peer country. Sweden spent $92, Japan $111, the UK $107. Even Germany, which has a complex multi-insurer system, spent only $370.
+
+In absolute terms, the "Net Cost of Health Insurance" in the National Health Expenditure accounts reached $306 billion in 2024, the difference between what insurers collect in premiums and what they pay out in claims. That's more than the country spent on dental care ($189 billion) or home health ($169 billion). This is the cost of operating a system where a single hospital might negotiate with dozens of insurers, each with its own billing codes, approval requirements, and payment rates.
+
+## Hospitals spent $43 billion in 2025 just getting paid
+
+What happens between the insurer charging an employer's health plan and the hospital actually receiving payment? According to the AHA's 2026 Costs of Caring report: a lot of expensive friction. In 2025, hospitals spent $43 billion collecting payments that insurers owed for care already delivered, including $18 billion on claims denial appeals alone. The average hospital employs 64 dedicated billing and administrative staff, roughly 6.5% of its workforce, whose job is navigating the payment system rather than caring for patients.
+
+{/* $43B payment collection / $1,677B total hospital expenses ($1,009B workforce + $297B supply + $126B drugs + $245B other) = 2.6% of expenses */}
+
+Payment collection costs alone consumed about 2.6% of total hospital expenses in 2025. Factor in denial appeals ($18 billion), cybersecurity ($30 billion), and the broader administrative infrastructure, and hospitals are spending well over 8% of their budgets navigating the payment system rather than delivering care.
+
+{/* API: GET /v1/datasets/aha/costs-of-caring?view=admin-burden
+Key metrics: payment_collection_cost_billions=43, denial_appeal_cost_billions=18,
+cybersecurity_spending_billions=30, all_provider_admin_transaction_cost_billions=83 (CAQH, 2023).
+Also: ma_initial_denial_rate_pct=17, ma_denial_overturn_rate_pct=57, ma_revenue_reduction_from_denials_pct=7.
+Medicare: medicare_reimbursement_rate=0.83, medicare_underpayment_billions=100.
+Source documents: AHA Costs of Caring 2026, CAQH 2024 Index Report.
+Verified: 2026-04-19 */}
+
+<Figure alt="Horizontal bar chart showing annual costs hospitals incur to navigate the payment system. Total payment collection costs are $43 billion, with claims denial appeals at $18 billion. An industry-wide CAQH figure shows $83 billion across all providers.">
+  <Chart
+    spec={{
+      mark: { type: "bar", orient: "horizontal" },
+      data: [
+        {
+          category: "Hospital denial appeals",
+          cost: 18,
+          color_group: "hospital",
+        },
+        {
+          category: "Hospital cybersecurity",
+          cost: 30,
+          color_group: "hospital",
+        },
+        {
+          category: "Hospital payment collection",
+          cost: 43,
+          color_group: "hospital",
+        },
+        {
+          category: "All-provider admin transactions (CAQH)",
+          cost: 83,
+          color_group: "industry",
+        },
+      ],
+      encoding: {
+        x: {
+          field: "cost",
+          type: "quantitative",
+          axis: {
+            title: "Annual cost (billions)",
+            format: "$,.0fB",
+            tickCount: 5,
+          },
+          scale: { nice: false },
+        },
+        y: {
+          field: "category",
+          type: "nominal",
+          sort: null,
+          axis: { title: null },
+        },
+        color: {
+          field: "color_group",
+          type: "nominal",
+          scale: {
+            domain: ["industry", "hospital"],
+            range: ["#94a3b8", "#c44e52"],
+          },
+        },
+      },
+      labels: { density: "all", format: "$,.0fB" },
+      legend: { show: false },
+      animation: true,
+      chrome: {
+        title:
+          "Hospitals spend $43 billion a year just collecting what insurers owe",
+        subtitle: "Annual administrative and payment friction costs, 2025",
+        source:
+          "aha/costs-of-caring via OpenData API — AHA Costs of Caring 2026, CAQH 2024 Index Report",
+      },
+    }}
+  />
+</Figure>
+
+CAQH puts total administrative transaction costs across the industry at $83 billion a year, and providers shoulder 97% of them. The denial numbers tell the story. A Health Affairs analysis cited in the AHA report found that Medicare Advantage plans denied 17% of initial claims submissions, and 57% of those denials were ultimately overturned. That means insurers are routinely denying claims they will eventually pay, forcing hospitals to staff appeals teams, compile documentation, and wait months for reimbursement. The net effect: a 7% reduction in provider MA revenue from denials that stick, plus billions in friction costs from the ones that don't.
+
+The gap between what insurers charge employers and what hospitals actually receive is widened by structural forces. Medicare reimburses hospitals at 83 cents on the dollar, creating over $100 billion in underpayments in 2024 alone. That shortfall gets cost-shifted to commercially insured patients.
+
+Most of those patients are covered through their employers. According to KFF's 2024 survey, 67% of covered workers are in "self-funded" plans, meaning their employer pays claims directly rather than buying a traditional insurance policy. The insurer just administers the paperwork. At large firms, that figure is 80%.
+
+More than half of all hospital service lines operate at a loss. Together, these money-losing lines account for 56% of hospital costs.
+
+{/* API: GET /v1/datasets/aha/service-line-margins?view=money-losers
+Returns 6 service lines with negative all_payer_margin_pct, sorted ascending:
+Behavioral health=-25.5, Burns & wounds=-19.1, Infectious disease=-12.9,
+Trauma=-8.4, Obstetrics=-8.1, Neurosciences=-7.2.
+Source: AHA analysis of Strata Decision Technology benchmark data, 2025.
+Verified: 2026-04-19 */}
+
+<Figure alt="Horizontal bar chart showing negative operating margins for six hospital service lines. Behavioral health loses 25.5%, burns and wounds lose 19.1%, infectious disease loses 12.9%, trauma loses 8.4%, obstetrics loses 8.1%, and neurosciences loses 7.2%.">
+  <Chart spec={{
+    mark: { type: "bar", orient: "horizontal" },
+    data: [
+      { service: "Neurosciences", margin: -7.2 },
+      { service: "Obstetrics", margin: -8.1 },
+      { service: "Trauma", margin: -8.4 },
+      { service: "Infectious disease", margin: -12.9 },
+      { service: "Burns & wounds", margin: -19.1 },
+      { service: "Behavioral health", margin: -25.5 },
+    ],
+    encoding: {
+      x: {
+        field: "margin",
+        type: "quantitative",
+        axis: { title: "Operating margin", format: ".0f%", tickCount: 6 },
+        scale: { domain: [-30, 0], nice: false },
+      },
+      y: {
+        field: "service",
+        type: "nominal",
+        axis: { title: null },
+        sort: null,
+      },
+      color: {
+        condition: { test: { field: "margin", lt: -15 }, value: "#c44e52" },
+        value: "#e09c41",
+      },
+    },
+    labels: { density: "all", format: ".1f%" },
+    legend: { show: false },
+    animation: true,
+    chrome: {
+      title: "More than half of hospital services lose money",
+      subtitle: "All-payer operating margins by service line, 2025",
+      source: "aha/service-line-margins via OpenData API — Strata Decision Technology benchmark data, 2025",
+    },
+  }} />
+</Figure>
+
+Behavioral health reimburses at 74.5 cents on the dollar. Burns and wound care, infectious disease, trauma, obstetrics: all negative margin. These aren't optional services. They're the ones communities depend on in emergencies. Hospitals cross-subsidize them from the few service lines that do generate positive margins, but that cross-subsidy comes from commercially insured patients, who are largely covered by self-insured employers.
+
+The picture is clear: hospitals are spending $43 billion a year navigating a payment system that denies 17% of claims, reimburses Medicare patients at 83 cents on the dollar, and forces cost-shifting to employer plans. Hospital expenses grew 7.5% in 2025 while hospital prices grew only 3.3%. The gap between what hospitals charge and what they spend is narrowing, not widening. The intermediary layer is what keeps expanding.
+
+## Where America's $5 trillion in healthcare spending actually goes
+
+In 2024, the United States spent $5.04 trillion on healthcare, more than the entire GDP of Japan.
+
+{/* API: GET /v1/datasets/cms/nhe-by-category?filter[year]=2024&fields=category,spending_millions&sort=-spending_millions
+Verified: 2026-04-19
+Categories grouped for readability:
+Hospital Care: $1,635B (32.4%), Physician/Clinical: $1,110B (22.0%), Rx Drugs: $467B (9.3%),
+Other Health/Residential: $320B (6.4%), Insurance Overhead: $306B (6.1%),
+Nursing/CCRC: $220B (4.4%), Dental: $189B (3.8%), Other Professional: $185B (3.7%),
+Home Health: $169B (3.4%), Public Health: $158B (3.1%), Other Products: $129B (2.6%),
+DME: $86B (1.7%), Gov Admin: $66B (1.3%) */}
+
+<Figure
+  alt="Horizontal bar chart showing the breakdown of US national health expenditures in 2024. Hospital care ($1.6 trillion) and physician services ($1.1 trillion) dominate, but insurance overhead ($306 billion) exceeds many clinical categories."
+  caption="Insurance overhead ('Net Cost of Health Insurance') represents the gap between premiums collected and claims paid. It does not include the administrative burden imposed on providers, which is embedded in hospital and physician costs."
+>
+  <Chart
+    spec={{
+      mark: { type: "bar", orient: "horizontal" },
+      data: [
+        { category: "Government public health", spending: 158, label: "$158B" },
+        { category: "Home health care", spending: 169, label: "$169B" },
+        {
+          category: "Other professional services",
+          spending: 185,
+          label: "$185B",
+        },
+        { category: "Dental services", spending: 189, label: "$189B" },
+        {
+          category: "Nursing & retirement facilities",
+          spending: 220,
+          label: "$220B",
+        },
+        { category: "Insurance overhead", spending: 306, label: "$306B" },
+        {
+          category: "Other health & residential care",
+          spending: 320,
+          label: "$320B",
+        },
+        { category: "Prescription drugs", spending: 467, label: "$467B" },
+        {
+          category: "Physician & clinical services",
+          spending: 1110,
+          label: "$1.11T",
+        },
+        { category: "Hospital care", spending: 1635, label: "$1.64T" },
+      ],
+      encoding: {
+        x: {
+          field: "spending",
+          type: "quantitative",
+          axis: {
+            title: "2024 spending",
+            format: "$,.0fB",
+            tickCount: 5,
+          },
+          scale: { nice: false },
+        },
+        y: {
+          field: "category",
+          type: "nominal",
+          sort: null,
+          axis: { title: null },
+        },
+        color: {
+          field: "category",
+          type: "nominal",
+          scale: {
+            domain: [
+              "Hospital care",
+              "Physician & clinical services",
+              "Prescription drugs",
+              "Other health & residential care",
+              "Insurance overhead",
+              "Nursing & retirement facilities",
+              "Dental services",
+              "Other professional services",
+              "Home health care",
+              "Government public health",
+            ],
+            range: [
+              "#94a3b8",
+              "#94a3b8",
+              "#e09c41",
+              "#94a3b8",
+              "#c44e52",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+            ],
+          },
+        },
+      },
+      labels: { density: "all", format: "$,.0fB" },
+      legend: { show: false },
+      animation: true,
+      chrome: {
+        title:
+          "Insurance overhead alone costs more than dental care or home health",
+        subtitle:
+          "US National Health Expenditures by category, 2024 (top 10 categories shown)",
+        source: "CMS National Health Expenditure Accounts, 2024",
+      },
+    }}
+  />
+</Figure>
+
+Prescription drugs at $467 billion and insurance overhead at $306 billion jump out. And the $306 billion understates the real administrative burden, because it only counts the insurer side. It doesn't include the $43 billion hospitals spend on payment collection, $18 billion on denial appeals, or the $83 billion in total admin transaction costs the CAQH estimates across all providers.
+
+In 2000, the net cost of health insurance was $63 billion. By 2024, it reached $306 billion, a nearly five-fold increase that grew faster than every major clinical spending category.
+
+---
+
+There are legitimate counterarguments. The pharmaceutical industry argues higher US prices fund R&D for the entire world. Cost Plus handles roughly 2,000 mostly generic medications, not the complex biologics (drugs made from living cells, like Enbrel) that drive the highest costs. And the "$10,000 retail price" is a list price: most insured patients pay less through copays, though the list price still determines what many patients owe out of pocket, since coinsurance (where you pay a percentage of the drug's price rather than a flat copay) is increasingly common.
+
+These caveats are real. But the structural picture doesn't change. The US pays more than peer countries for every category of healthcare, not just drugs. And when negotiation actually happens, prices drop 38-79% without manufacturers refusing to participate.
+
+{/* Synthesis chart: the imatinib journey from acquisition cost through three channels
+Data: cms/nadac (NADAC $96), Cost Plus ($47, Lancet PMID:36777318), GoodRx retail ($10,000+)
+Verified: 2026-04-19 */}
+
+<Figure alt="Horizontal bar chart showing a single drug (imatinib, 30-day supply) priced through three channels: Cost Plus at $47, pharmacy acquisition cost at $96, and listed retail price at $10,000+. The gap between acquisition and retail represents intermediary extraction.">
+  <Chart
+    spec={{
+      mark: { type: "bar", orient: "horizontal" },
+      data: [
+        { channel: "Cost Plus Drugs", cost: 47 },
+        { channel: "Pharmacy acquisition (NADAC)", cost: 96 },
+        { channel: "Listed retail price", cost: 10000 },
+      ],
+      encoding: {
+        x: {
+          field: "cost",
+          type: "quantitative",
+          axis: {
+            title: "Imatinib 400mg, 30-day supply",
+            format: "$~s",
+            tickCount: 4,
+          },
+          scale: { type: "log", domain: [30, 15000], nice: false },
+        },
+        y: {
+          field: "channel",
+          type: "nominal",
+          axis: { title: null },
+          sort: [
+            "Listed retail price",
+            "Pharmacy acquisition (NADAC)",
+            "Cost Plus Drugs",
+          ],
+        },
+        color: {
+          field: "channel",
+          type: "nominal",
+          scale: {
+            domain: [
+              "Listed retail price",
+              "Pharmacy acquisition (NADAC)",
+              "Cost Plus Drugs",
+            ],
+            range: ["#c44e52", "#e09c41", "#6a9f58"],
+          },
+        },
+      },
+      labels: { density: "all", format: "$,.0f" },
+      legend: { show: false },
+      annotations: [
+        {
+          type: "text",
+          x: 700,
+          y: "Cost Plus Drugs",
+          text: "Same pill. Same manufacturer.",
+          dx: 0,
+          dy: -24,
+          fontSize: 13,
+          fontWeight: 600,
+          fill: "#6b7280",
+        },
+      ],
+      animation: true,
+      chrome: {
+        title: "One drug, three prices: the middleman gap",
+        subtitle:
+          "Imatinib mesylate 400mg (generic leukemia drug), 30-day supply cost by channel",
+        source:
+          "CMS NADAC, Cost Plus Drugs (via Lancet Regional Health Americas), GoodRx retail estimate",
+      },
+    }}
+  />
+</Figure>
+
+The imatinib story is a miniature of the entire system. A product with a knowable, verifiable cost gets marked up through a chain of intermediaries, each with an incentive to keep prices opaque. The insurance industry takes $306 billion off the top before a single claim is paid. PBM-affiliated pharmacies generated $7.3 billion in excess revenue from just 51 specialty generics over five years. And when someone cuts through the chain, prices drop immediately.
+
+The question isn't whether lower prices are possible. Cost Plus proved that. Medicare's negotiators proved it again. Every other wealthy country proves it every year. The question is how long a $5 trillion system continues routing billions through intermediaries who profit from the complexity they were hired to reduce.
+
+## Data sources & methodology
+
+**Datasets used:**
+
+- `owid/healthcare-spending` — Per-capita healthcare spending in USD PPP for 10 high-income countries, 2000-2022
+- `owid/life-expectancy` — Life expectancy at birth by country, 2022
+- `oecd/health-expenditure-by-function` — Per-capita administration/governance spending, 2022
+- `oecd/pharma-spending` — Per-capita pharmaceutical spending, 2023
+- `cms/nhe-by-category` — US National Health Expenditure by category, 2000-2024
+- `cms/nadac` — National Average Drug Acquisition Cost per unit, March 2026 vintage
+- `cms/ira-drug-prices` — Medicare negotiated Maximum Fair Prices, effective 2026
+- `cms/part-d-spending` — Medicare Part D spending by drug, 2023 data year
+
+- `aha/costs-of-caring` — Hospital financial and operational metrics from the AHA Costs of Caring 2026 report: payment friction ($43B collection, $18B denial appeals), Medicare underpayment ($100B), billing staff counts, denial rates. Underlying data from Strata Decision Technology, KFF, Health Affairs, CAQH. Source: [aha.org/costsofcaring](https://www.aha.org/costsofcaring)
+- `aha/service-line-margins` — All-payer operating margins by hospital service line, 2025. Source: AHA analysis of Strata Decision Technology benchmark data. [PDF](https://www.aha.org/system/files/media/file/2026/03/Costs-of-Caring-2026.pdf)
+
+**Non-API sources:**
+
+- Cost Plus Drugs prices: _CostPlus and implications for generic imatinib_, Lancet Regional Health Americas (2023), PMID: 36777318. Direct product pages returned HTTP 403 during data collection.
+- FTC PBM report: _Specialty Generic Drugs: A Growing Profit Center for Vertically Integrated PBMs_, FTC Second Interim Staff Report, January 2025.
+- IRA list prices (WAC): Medicare Rights Center citing CMS announcement, October 2025.
+- PBM market share: Drug Channels annual PBM report, March 2025.
+- Traditional retail prices: GoodRx and SingleCare average retail price estimates, April 2026.
+- KFF Employer Health Benefits Survey 2024: Self-insured employer share (67% of covered workers).
+- CAQH 2024 Index Report: $83 billion all-provider administrative transaction costs, 97% provider share. Source: [caqh.org/blog](https://www.caqh.org/blog/new-caqh-report-reveals-significant-differences-in-administrative-costs).
+
+**Calculations & transformations:**
+NADAC per-unit costs converted to 30-day supply costs using standard dosing regimens: imatinib 400mg = 1 tab/day × 30; celecoxib 200mg = 1 cap/day × 30; fingolimod 0.5mg = 1 cap/day × 30; abiraterone 250mg = 4 tabs/day × 30; enbrel 50mg/mL = 1 mL/week × 4. Drug price comparison chart uses log scale because the ratio between acquisition cost and retail price spans 2-3 orders of magnitude; linear scale would make the lower-cost bars invisible. IRA chart also uses log scale for the same reason.
+
+**Limitations:**
+NADAC reflects average pharmacy acquisition costs and may differ from specific pharmacy costs. Cost Plus Drugs prices are mail-order only and exclude drugs requiring cold chain or specialty handling. "Traditional retail price" varies widely; we use average cash price estimates from GoodRx/SingleCare, which represent list prices before any insurance or coupon application. The FTC's $7.3 billion figure covers specialty generics only (51 drugs, 882 NDCs, 2017-2022); the full scope of PBM markups across all drugs is unknown. IRA negotiated prices apply only to Medicare Part D beneficiaries and do not directly affect commercial insurance pricing. OECD PPP-adjusted comparisons embed price-level differences, meaning raw currency comparisons would show an even larger US gap.
+
+_Data accessed on 2026-04-19 via the [OpenData API](https://tryopendata.ai)._
