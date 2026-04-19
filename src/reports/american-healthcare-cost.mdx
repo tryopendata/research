@@ -650,86 +650,25 @@ Verified: 2026-04-19 */}
     spec={{
       layer: [
         {
-          mark: { type: "rule" },
+          mark: { type: "rule", strokeWidth: 2, fill: "#94a3b8" },
           data: [
-            {
-              drug: "Januvia",
-              list: 527,
-              negotiated: 113,
-              discount: "79% off",
-            },
-            {
-              drug: "NovoLog / Fiasp",
-              list: 495,
-              negotiated: 119,
-              discount: "76% off",
-            },
-            {
-              drug: "Farxiga",
-              list: 556,
-              negotiated: 178,
-              discount: "68% off",
-            },
-            {
-              drug: "Enbrel",
-              list: 7106,
-              negotiated: 2355,
-              discount: "67% off",
-            },
-            {
-              drug: "Stelara",
-              list: 13836,
-              negotiated: 4695,
-              discount: "66% off",
-            },
-            {
-              drug: "Jardiance",
-              list: 573,
-              negotiated: 197,
-              discount: "66% off",
-            },
-            {
-              drug: "Xarelto",
-              list: 517,
-              negotiated: 197,
-              discount: "62% off",
-            },
-            {
-              drug: "Eliquis",
-              list: 521,
-              negotiated: 231,
-              discount: "56% off",
-            },
-            {
-              drug: "Entresto",
-              list: 628,
-              negotiated: 295,
-              discount: "53% off",
-            },
-            {
-              drug: "Imbruvica",
-              list: 14934,
-              negotiated: 9319,
-              discount: "38% off",
-            },
+            { drug: "Entresto", list: 628, negotiated: 295 },
+            { drug: "Eliquis", list: 521, negotiated: 231 },
+            { drug: "Xarelto", list: 517, negotiated: 197 },
+            { drug: "Jardiance", list: 573, negotiated: 197 },
+            { drug: "Farxiga", list: 556, negotiated: 178 },
+            { drug: "NovoLog / Fiasp", list: 495, negotiated: 119 },
+            { drug: "Januvia", list: 527, negotiated: 113 },
+            { drug: "Enbrel", list: 7106, negotiated: 2355 },
+            { drug: "Imbruvica", list: 14934, negotiated: 9319 },
+            { drug: "Stelara", list: 13836, negotiated: 4695 },
           ],
           encoding: {
             y: {
               field: "drug",
               type: "nominal",
-              axis: { title: null },
-              sort: [
-                "Januvia",
-                "NovoLog / Fiasp",
-                "Farxiga",
-                "Enbrel",
-                "Stelara",
-                "Jardiance",
-                "Xarelto",
-                "Eliquis",
-                "Entresto",
-                "Imbruvica",
-              ],
+              sort: null,
+              axis: { title: null, tickCount: 10, labelPadding: 8 },
             },
             x: {
               field: "negotiated",
@@ -740,49 +679,25 @@ Verified: 2026-04-19 */}
           },
         },
         {
-          mark: { type: "point" },
+          mark: { type: "circle", size: 140, fill: "#c44e52" },
           data: [
-            { drug: "Januvia", cost: 527, type: "List price (WAC)" },
-            { drug: "NovoLog / Fiasp", cost: 495, type: "List price (WAC)" },
-            { drug: "Farxiga", cost: 556, type: "List price (WAC)" },
-            { drug: "Enbrel", cost: 7106, type: "List price (WAC)" },
-            { drug: "Stelara", cost: 13836, type: "List price (WAC)" },
-            { drug: "Jardiance", cost: 573, type: "List price (WAC)" },
-            { drug: "Xarelto", cost: 517, type: "List price (WAC)" },
-            { drug: "Eliquis", cost: 521, type: "List price (WAC)" },
-            { drug: "Entresto", cost: 628, type: "List price (WAC)" },
-            { drug: "Imbruvica", cost: 14934, type: "List price (WAC)" },
-            { drug: "Januvia", cost: 113, type: "Negotiated price (MFP)" },
-            {
-              drug: "NovoLog / Fiasp",
-              cost: 119,
-              type: "Negotiated price (MFP)",
-            },
-            { drug: "Farxiga", cost: 178, type: "Negotiated price (MFP)" },
-            { drug: "Enbrel", cost: 2355, type: "Negotiated price (MFP)" },
-            { drug: "Stelara", cost: 4695, type: "Negotiated price (MFP)" },
-            { drug: "Jardiance", cost: 197, type: "Negotiated price (MFP)" },
-            { drug: "Xarelto", cost: 197, type: "Negotiated price (MFP)" },
-            { drug: "Eliquis", cost: 231, type: "Negotiated price (MFP)" },
-            { drug: "Entresto", cost: 295, type: "Negotiated price (MFP)" },
-            { drug: "Imbruvica", cost: 9319, type: "Negotiated price (MFP)" },
+            { drug: "Entresto", cost: 628 },
+            { drug: "Eliquis", cost: 521 },
+            { drug: "Xarelto", cost: 517 },
+            { drug: "Jardiance", cost: 573 },
+            { drug: "Farxiga", cost: 556 },
+            { drug: "NovoLog / Fiasp", cost: 495 },
+            { drug: "Januvia", cost: 527 },
+            { drug: "Enbrel", cost: 7106 },
+            { drug: "Imbruvica", cost: 14934 },
+            { drug: "Stelara", cost: 13836 },
           ],
           encoding: {
             y: {
               field: "drug",
               type: "nominal",
-              sort: [
-                "Januvia",
-                "NovoLog / Fiasp",
-                "Farxiga",
-                "Enbrel",
-                "Stelara",
-                "Jardiance",
-                "Xarelto",
-                "Eliquis",
-                "Entresto",
-                "Imbruvica",
-              ],
+              sort: null,
+              axis: { title: null, tickCount: 10, labelPadding: 8 },
             },
             x: {
               field: "cost",
@@ -790,28 +705,48 @@ Verified: 2026-04-19 */}
               axis: {
                 title: "30-day supply cost",
                 format: "$~s",
-                tickCount: 5,
+                tickCount: 4,
               },
               scale: { type: "log", domain: [80, 20000], nice: false },
             },
-            color: {
-              field: "type",
+          },
+        },
+        {
+          mark: { type: "circle", size: 140, fill: "#6a9f58" },
+          data: [
+            { drug: "Entresto", cost: 295 },
+            { drug: "Eliquis", cost: 231 },
+            { drug: "Xarelto", cost: 197 },
+            { drug: "Jardiance", cost: 197 },
+            { drug: "Farxiga", cost: 178 },
+            { drug: "NovoLog / Fiasp", cost: 119 },
+            { drug: "Januvia", cost: 113 },
+            { drug: "Enbrel", cost: 2355 },
+            { drug: "Imbruvica", cost: 9319 },
+            { drug: "Stelara", cost: 4695 },
+          ],
+          encoding: {
+            y: {
+              field: "drug",
               type: "nominal",
-              scale: {
-                domain: ["List price (WAC)", "Negotiated price (MFP)"],
-                range: ["#c44e52", "#6a9f58"],
-              },
+              sort: null,
+              axis: { title: null, tickCount: 10, labelPadding: 8 },
+            },
+            x: {
+              field: "cost",
+              type: "quantitative",
+              scale: { type: "log", domain: [80, 20000], nice: false },
             },
           },
         },
       ],
-      legend: { position: "top" },
+      legend: { show: false },
       animation: true,
       chrome: {
         title:
           "Medicare negotiation cut drug prices 38-79% on the first 10 drugs",
         subtitle:
-          "Wholesale Acquisition Cost (list price) vs. Maximum Fair Price (negotiated), per 30-day supply, effective 2026",
+          "Red = list price (WAC). Green = negotiated price (MFP). Per 30-day supply, effective 2026.",
         source:
           "CMS Medicare Drug Price Negotiation Program, Medicare Rights Center",
       },
@@ -1179,10 +1114,10 @@ These caveats are real. But the structural picture doesn't change. The US pays m
 Data: cms/nadac (NADAC $96), Cost Plus ($47, Lancet PMID:36777318), GoodRx retail ($10,000+)
 Verified: 2026-04-19 */}
 
-<Figure alt="Horizontal bar chart showing a single drug (imatinib, 30-day supply) priced through three channels: Cost Plus at $47, pharmacy acquisition cost at $96, and listed retail price at $10,000+. The gap between acquisition and retail represents intermediary extraction.">
+<Figure alt="Horizontal lollipop chart showing a single drug (imatinib, 30-day supply) priced through three channels: Cost Plus at $47, pharmacy acquisition cost at $96, and listed retail price at $10,000+. The gap between acquisition and retail represents intermediary extraction.">
   <Chart
     spec={{
-      mark: { type: "bar", orient: "horizontal" },
+      mark: "lollipop",
       data: [
         { channel: "Cost Plus Drugs", cost: 47 },
         { channel: "Pharmacy acquisition (NADAC)", cost: 96 },
@@ -1203,22 +1138,18 @@ Verified: 2026-04-19 */}
           field: "channel",
           type: "nominal",
           axis: { title: null },
-          sort: [
-            "Listed retail price",
-            "Pharmacy acquisition (NADAC)",
-            "Cost Plus Drugs",
-          ],
+          sort: null,
         },
         color: {
           field: "channel",
           type: "nominal",
           scale: {
             domain: [
-              "Listed retail price",
-              "Pharmacy acquisition (NADAC)",
               "Cost Plus Drugs",
+              "Pharmacy acquisition (NADAC)",
+              "Listed retail price",
             ],
-            range: ["#c44e52", "#e09c41", "#6a9f58"],
+            range: ["#6a9f58", "#e09c41", "#c44e52"],
           },
         },
       },
