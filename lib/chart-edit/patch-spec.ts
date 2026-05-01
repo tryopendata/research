@@ -13,7 +13,6 @@ export function patchSpec(specSource: string, edit: ChartEdit): string | null {
   let ast: any
 
   try {
-    // parseExpressionAt treats `{` as an ObjectExpression in expression context
     ast = acorn.parseExpressionAt(specSource, 0, {
       ecmaVersion: 2022,
       sourceType: 'module',
@@ -26,7 +25,7 @@ export function patchSpec(specSource: string, edit: ChartEdit): string | null {
 
   switch (edit.type) {
     case 'annotation':
-      patchAnnotationOffset(ctx, ast, edit.annotation.text, 'offset', edit.offset)
+      patchAnnotationOffset(ctx, ast, edit.annotation.text, edit.offset)
       break
     case 'annotation-connector':
       patchAnnotationConnectorOffset(ctx, ast, edit.annotation.text, edit.endpoint, edit.offset)
@@ -46,13 +45,31 @@ export function patchSpec(specSource: string, edit: ChartEdit): string | null {
     case 'legend':
       patchLegend(ctx, ast, edit.offset)
       break
+    case 'delete':
+      if (edit.element.type === 'annotation' && edit.element.index != null) {
+        patchAnnotationDelete(ctx, ast, edit.element.index, edit.element.text)
+      }
+      break
     default:
       return null
   }
 
   if (ctx.splices.length === 0) return null
 
-  return applySplices(specSource, ctx.splices)
+  const patched = applySplices(specSource, ctx.splices)
+
+  // Re-parse to ensure patched source is valid JS
+  try {
+    acorn.parseExpressionAt(patched, 0, {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+    })
+  } catch {
+    console.warn('[patchSpec] Patched output failed validation, discarding edit')
+    return null
+  }
+
+  return patched
 }
 
 // ─── Types ───────────────────────────────────────────────────────
@@ -104,7 +121,6 @@ function isValidIdentifier(s: string): boolean {
 
 // ─── Indentation detection ───────────────────────────────────────
 
-/** Detect the indentation of a line containing a given position in the source */
 function detectIndent(src: string, pos: number): string {
   let lineStart = pos
   while (lineStart > 0 && src[lineStart - 1] !== '\n') lineStart--
@@ -113,7 +129,6 @@ function detectIndent(src: string, pos: number): string {
   return match ? match[1] : '      '
 }
 
-/** Get the indentation used by the first property of an object node */
 function objectPropertyIndent(ctx: PatchContext, objNode: any): string {
   if (objNode.properties.length > 0) {
     return detectIndent(ctx.specSource, objNode.properties[0].key.start)
@@ -127,6 +142,12 @@ function objectPropertyIndent(ctx: PatchContext, objNode: any): string {
 function hasTrailingComma(ctx: PatchContext, lastPropEnd: number, objEnd: number): boolean {
   const between = ctx.specSource.slice(lastPropEnd, objEnd)
   return /^\s*,/.test(between)
+}
+
+// ─── Single-line detection ───────────────────────────────────────
+
+function isSingleLineNode(ctx: PatchContext, node: any): boolean {
+  return !ctx.specSource.slice(node.start, node.end).includes('\n')
 }
 
 // ─── Serialization ───────────────────────────────────────────────
@@ -158,8 +179,6 @@ function insertProperty(ctx: PatchContext, objNode: any, key: string, valueSourc
   const objEnd = objNode.end
 
   if (props.length === 0) {
-    // Empty object: insert between the braces
-    // Find the position just after `{` and just before `}`
     const indent = detectIndent(ctx.specSource, objNode.start) + '  '
     const keyStr = isValidIdentifier(key) ? key : JSON.stringify(key)
     const insertion = '\n' + indent + keyStr + ': ' + valueSource + '\n' + detectIndent(ctx.specSource, objNode.start)
@@ -169,25 +188,133 @@ function insertProperty(ctx: PatchContext, objNode: any, key: string, valueSourc
 
   const lastProp = props[props.length - 1]
   const lastEnd = lastProp.end
-
   const needsComma = !hasTrailingComma(ctx, lastEnd, objEnd)
-  const indent = objectPropertyIndent(ctx, objNode)
   const keyStr = isValidIdentifier(key) ? key : JSON.stringify(key)
-  const insertion = (needsComma ? ',' : '') + '\n' + indent + keyStr + ': ' + valueSource
 
-  ctx.splices.push({ start: lastEnd, end: lastEnd, replacement: insertion })
+  if (isSingleLineNode(ctx, objNode)) {
+    const insertion = (needsComma ? ', ' : ' ') + keyStr + ': ' + valueSource
+    ctx.splices.push({ start: lastEnd, end: lastEnd, replacement: insertion })
+  } else {
+    const indent = objectPropertyIndent(ctx, objNode)
+    const insertion = (needsComma ? ',' : '') + '\n' + indent + keyStr + ': ' + valueSource
+    ctx.splices.push({ start: lastEnd, end: lastEnd, replacement: insertion })
+  }
+}
+
+// ─── Remove property from object ─────────────────────────────────
+
+function removeProperty(ctx: PatchContext, objNode: any, key: string): void {
+  const props = objNode.properties
+  const idx = props.findIndex((p: any) => {
+    if (p.type !== 'Property') return false
+    const k = p.key
+    return (k.type === 'Identifier' && k.name === key) ||
+           (k.type === 'Literal' && k.value === key)
+  })
+  if (idx === -1) return
+
+  const prop = props[idx]
+  const isOnly = props.length === 1
+  const isLast = idx === props.length - 1
+
+  if (isOnly) {
+    ctx.splices.push({ start: objNode.start + 1, end: objNode.end - 1, replacement: '' })
+    return
+  }
+
+  if (isLast) {
+    // Remove from after previous property end (consuming preceding comma) through this property end
+    const prevProp = props[idx - 1]
+    const between = ctx.specSource.slice(prevProp.end, prop.key.start)
+    const commaIdx = between.indexOf(',')
+    const removeStart = commaIdx !== -1 ? prevProp.end + commaIdx : prevProp.end
+    ctx.splices.push({ start: removeStart, end: prop.end, replacement: '' })
+  } else {
+    // Remove this property through the separator before the next property
+    const nextProp = props[idx + 1]
+    const afterProp = ctx.specSource.slice(prop.end, nextProp.key.start)
+    const commaMatch = afterProp.match(/^\s*,\s*/)
+    const removeEnd = commaMatch ? prop.end + commaMatch[0].length : nextProp.key.start
+    // Also consume leading whitespace on this line
+    let removeStart = prop.key.start
+    const before = ctx.specSource.slice(0, prop.key.start)
+    const lastNl = before.lastIndexOf('\n')
+    if (lastNl !== -1) {
+      const linePrefix = before.slice(lastNl + 1)
+      if (/^\s*$/.test(linePrefix)) {
+        removeStart = lastNl + 1
+      }
+    }
+    ctx.splices.push({ start: removeStart, end: removeEnd, replacement: '' })
+  }
+}
+
+// ─── Remove element from array ───────────────────────────────────
+
+function removeArrayElement(ctx: PatchContext, arrNode: any, index: number): void {
+  const elements = arrNode.elements
+  if (index < 0 || index >= elements.length) return
+
+  const element = elements[index]
+  const isOnly = elements.length === 1
+  const isLast = index === elements.length - 1
+
+  if (isOnly) {
+    ctx.splices.push({ start: arrNode.start + 1, end: arrNode.end - 1, replacement: '' })
+    return
+  }
+
+  if (isLast) {
+    const prevElement = elements[index - 1]
+    const between = ctx.specSource.slice(prevElement.end, element.start)
+    const commaIdx = between.indexOf(',')
+    const removeStart = commaIdx !== -1 ? prevElement.end + commaIdx : prevElement.end
+    ctx.splices.push({ start: removeStart, end: element.end, replacement: '' })
+  } else {
+    const nextElement = elements[index + 1]
+    const afterElement = ctx.specSource.slice(element.end, nextElement.start)
+    const commaMatch = afterElement.match(/^\s*,\s*/)
+    const removeEnd = commaMatch ? element.end + commaMatch[0].length : nextElement.start
+    let removeStart = element.start
+    const before = ctx.specSource.slice(0, element.start)
+    const lastNl = before.lastIndexOf('\n')
+    if (lastNl !== -1) {
+      const linePrefix = before.slice(lastNl + 1)
+      if (/^\s*$/.test(linePrefix)) {
+        removeStart = lastNl + 1
+      }
+    }
+    ctx.splices.push({ start: removeStart, end: removeEnd, replacement: '' })
+  }
 }
 
 // ─── Patch operations ────────────────────────────────────────────
 
 function patchAnnotationOffset(
-  ctx: PatchContext, ast: any, text: string, offsetKey: string, offset: Offset
+  ctx: PatchContext, ast: any, text: string, offset: Offset
 ): void {
   const arr = findAnnotationsArray(ast)
   if (!arr) return
   const anno = findAnnotationByField(arr, 'text', text)
   if (!anno) return
-  upsertProperty(ctx, anno, offsetKey, serializeOffset(offset))
+
+  // Offset values from openchart are absolute (accumulated base + drag delta).
+  // Write directly without adding to existing values.
+  const newDx = Math.round(offset.dx ?? 0)
+  const newDy = Math.round(offset.dy ?? 0)
+
+  const existingOffset = findProperty(anno, 'offset')
+
+  if (existingOffset && existingOffset.value.type === 'ObjectExpression') {
+    upsertProperty(ctx, existingOffset.value, 'dx', String(newDx))
+    upsertProperty(ctx, existingOffset.value, 'dy', String(newDy))
+  } else {
+    upsertProperty(ctx, anno, 'offset', serializeOffset({ dx: newDx, dy: newDy }))
+  }
+
+  // Clean up stale top-level dx/dy left by previous buggy edits
+  if (findProperty(anno, 'dx')) removeProperty(ctx, anno, 'dx')
+  if (findProperty(anno, 'dy')) removeProperty(ctx, anno, 'dy')
 }
 
 function patchAnnotationConnectorOffset(
@@ -281,4 +408,28 @@ function patchLegend(
 
   if (legendProp.value.type !== 'ObjectExpression') return
   upsertProperty(ctx, legendProp.value, 'offset', serializeOffset(offset))
+}
+
+function patchAnnotationDelete(
+  ctx: PatchContext, ast: any, index: number, expectedText?: string
+): void {
+  const arr = findAnnotationsArray(ast)
+  if (!arr) return
+
+  const elements = arr.elements
+  if (index < 0 || index >= elements.length) return
+
+  // Verify the annotation at this index matches expected text (if provided)
+  if (expectedText) {
+    const element = elements[index]
+    if (element.type === 'ObjectExpression') {
+      const textProp = findProperty(element, 'text')
+      if (textProp?.value.type === 'Literal' && textProp.value.value !== expectedText) {
+        console.warn(`[patchSpec] Annotation at index ${index} has text "${textProp.value.value}", expected "${expectedText}". Skipping delete.`)
+        return
+      }
+    }
+  }
+
+  removeArrayElement(ctx, arr, index)
 }

@@ -1,0 +1,1193 @@
+export const meta = {
+  title: "America's Entrepreneurship Boom Has a Catch",
+  date: "2026-05-01",
+  description:
+    "The US filed 5.7 million business applications in 2025, 57% more than 2019. But the surge is almost entirely solopreneurs, not employers. Corporate filings haven't moved in 20 years.",
+  tags: ["business", "entrepreneurship", "economy", "small-business", "labor"],
+};
+
+import { Chart } from "../components/Chart";
+import { Figure } from "../components/Figure";
+
+{/* Primary (applications/surge): #2563eb (blue)
+Danger/decline/gap: #c44e52 (red)
+Corporate/flat/context: #94a3b8 (steel gray)
+Incorporation havens: #e09c41 (amber)
+Growth/positive: #6a9f58 (green)
+International peers: #d1d5db (light gray)
+US highlight: #2563eb (blue) */}
+
+America filed 5.7 million new business applications in 2025. That is 57 percent more than any year before the pandemic.
+
+The surge arrived in the summer of 2020, peaked at more than 600,000 applications in a single month, and then did something nobody predicted: it held. Five years later, applications are still running at a pace that would have been unrecognizable in 2019. Politicians and pundits cite the number as proof of American economic dynamism. And the top-line figure is genuinely striking.
+
+But the data underneath that headline complicates the picture considerably. The entire surge is non-corporate: sole proprietors, single-member LLCs, freelancers. Corporate filings, the kind that signal a business planning to hire employees and build something durable, have been flat at roughly 550,000 a year for two decades. Their share of total applications has fallen from one in three to fewer than one in ten.
+
+What the US is experiencing is a mass migration into self-employment entity formation, not a small-business boom in the traditional sense. More EIN filings, more LLCs, more paperwork. Whether that translates into more businesses, more jobs, or more economic output is a different question, and one the data can actually answer.
+
+## Five million applications a year, and it never went back down
+
+For 15 years before the pandemic, business applications ran in a narrow band between 2.4 million and 3.5 million per year. The trend was gently upward, but nothing dramatic. Then 2020 happened.
+
+{/* API: POST /v1/datasets/census/business-formation-weekly/query
+SQL: SELECT year, SUM(business_applications) as total, SUM(high_propensity_applications) as high_propensity, SUM(corporate_applications) as corporate FROM data GROUP BY year ORDER BY year
+Verified: 2026-05-01 */}
+
+<Figure alt="Line chart showing total US business applications from 2006 to 2025, with a sharp jump in 2020 from 3.5 million to over 5 million that has persisted through 2025">
+  <Chart
+    spec={{
+      mark: { type: "area", point: true, interpolate: "monotone", stroke: "#2563eb", strokeWidth: 2, fill: { gradient: "linear", x1: 0, y1: 1, x2: 0, y2: 0, stops: [{ offset: 0, color: "#5b93f5", opacity: 0.05 }, { offset: 1, color: "#5b93f5", opacity: 0.5 }] } },
+      data: [
+        { year: "2006", apps: 2.63 },
+        { year: "2007", apps: 2.65 },
+        { year: "2008", apps: 2.57 },
+        { year: "2009", apps: 2.42 },
+        { year: "2010", apps: 2.49 },
+        { year: "2011", apps: 2.56 },
+        { year: "2012", apps: 2.56 },
+        { year: "2013", apps: 2.6 },
+        { year: "2014", apps: 2.7 },
+        { year: "2015", apps: 2.81 },
+        { year: "2016", apps: 2.96 },
+        { year: "2017", apps: 3.19 },
+        { year: "2018", apps: 3.5 },
+        { year: "2019", apps: 3.51 },
+        { year: "2020", apps: 4.37 },
+        { year: "2021", apps: 5.4 },
+        { year: "2022", apps: 5.07 },
+        { year: "2023", apps: 5.48 },
+        { year: "2024", apps: 5.24 },
+        { year: "2025", apps: 5.68 },
+      ],
+      encoding: {
+        x: { field: "year", type: "ordinal", axis: { labelAngle: -45 } },
+        y: {
+          field: "apps",
+          type: "quantitative",
+          axis: {
+            title: "Applications (millions)",
+            format: ".1f",
+            tickCount: 5,
+            grid: true,
+          },
+          scale: { domain: [2, 6.5], nice: false, zero: false },
+        },
+      },
+      annotations: [
+        {
+          type: "text",
+          x: "2025",
+          y: 5.9,
+          text: "5.7M peak",
+          fontSize: 12,
+          fontWeight: 600,
+          fill: "#2563eb",
+          dx: -241,
+          dy: -34,
+        },
+        {
+          type: "refline",
+          y: 3.51,
+          stroke: "#94a3b8",
+          strokeDash: [4, 4],
+          label: "2019 baseline",
+          labelAnchor: "top",
+        },
+      ],
+      chrome: {
+        title: "Business applications jumped 57% above 2019 and stayed there",
+        subtitle: "Total EIN applications per year, 2006-2025",
+        source: "Source: Census Bureau, Business Formation Statistics",
+      },
+      theme: { colors: ["#2563eb"] },
+      labels: { density: "none" },
+    }}
+  />
+</Figure>
+
+April 2020 was the sharpest single-month drop in the history of the series, a 22 percent decline as lockdowns froze economic activity. But by July of that year, applications had already surpassed pre-pandemic levels. By March 2021, the country was filing more than 600,000 applications in a single month, roughly double the typical monthly rate from 2019.
+
+The rebound wasn't temporary. Each year from 2020 through 2025 has exceeded 5 million total applications, and the pre-pandemic ceiling of 3.5 million now looks like a relic from a different economy. Something structural shifted, and the composition of these filings reveals what.
+
+## Corporate filings flatlined. Everything else tripled.
+
+The composition of that surge reveals the first complication. A corporate application signals intent to create a formal entity with shareholders, governance, and typically employees. A non-corporate filing can be anything from a consulting LLC to a DBA for an Etsy storefront or a weekend dog-walking service.
+
+{/* API: Same query as above, derived: non_corporate = total - corporate
+2006 corporate: 872,930 non_corp: 1,754,660
+2019 corporate: 532,400 non_corp: 2,978,530
+2025 corporate: 538,120 non_corp: 5,145,750 */}
+
+<Figure alt="Two-line chart showing corporate applications flat at around 550K from 2006 to 2025 while non-corporate applications surged from 1.8 million to over 5 million">
+  <Chart
+    spec={{
+      mark: { type: "line", point: true, interpolate: "monotone" },
+      data: [
+        { year: "2006", type: "Non-corporate", apps: 1.75 },
+        { year: "2007", type: "Non-corporate", apps: 1.82 },
+        { year: "2008", type: "Non-corporate", apps: 1.91 },
+        { year: "2009", type: "Non-corporate", apps: 1.83 },
+        { year: "2010", type: "Non-corporate", apps: 1.92 },
+        { year: "2011", type: "Non-corporate", apps: 2.01 },
+        { year: "2012", type: "Non-corporate", apps: 2.02 },
+        { year: "2013", type: "Non-corporate", apps: 2.07 },
+        { year: "2014", type: "Non-corporate", apps: 2.15 },
+        { year: "2015", type: "Non-corporate", apps: 2.26 },
+        { year: "2016", type: "Non-corporate", apps: 2.42 },
+        { year: "2017", type: "Non-corporate", apps: 2.65 },
+        { year: "2018", type: "Non-corporate", apps: 2.93 },
+        { year: "2019", type: "Non-corporate", apps: 2.98 },
+        { year: "2020", type: "Non-corporate", apps: 3.82 },
+        { year: "2021", type: "Non-corporate", apps: 4.8 },
+        { year: "2022", type: "Non-corporate", apps: 4.5 },
+        { year: "2023", type: "Non-corporate", apps: 4.91 },
+        { year: "2024", type: "Non-corporate", apps: 4.68 },
+        { year: "2025", type: "Non-corporate", apps: 5.15 },
+        { year: "2006", type: "Corporate", apps: 0.87 },
+        { year: "2007", type: "Corporate", apps: 0.82 },
+        { year: "2008", type: "Corporate", apps: 0.66 },
+        { year: "2009", type: "Corporate", apps: 0.59 },
+        { year: "2010", type: "Corporate", apps: 0.57 },
+        { year: "2011", type: "Corporate", apps: 0.55 },
+        { year: "2012", type: "Corporate", apps: 0.54 },
+        { year: "2013", type: "Corporate", apps: 0.54 },
+        { year: "2014", type: "Corporate", apps: 0.55 },
+        { year: "2015", type: "Corporate", apps: 0.55 },
+        { year: "2016", type: "Corporate", apps: 0.54 },
+        { year: "2017", type: "Corporate", apps: 0.55 },
+        { year: "2018", type: "Corporate", apps: 0.57 },
+        { year: "2019", type: "Corporate", apps: 0.53 },
+        { year: "2020", type: "Corporate", apps: 0.54 },
+        { year: "2021", type: "Corporate", apps: 0.61 },
+        { year: "2022", type: "Corporate", apps: 0.57 },
+        { year: "2023", type: "Corporate", apps: 0.57 },
+        { year: "2024", type: "Corporate", apps: 0.55 },
+        { year: "2025", type: "Corporate", apps: 0.54 },
+      ],
+      encoding: {
+        x: { field: "year", type: "ordinal", axis: { labelAngle: -45 } },
+        y: {
+          field: "apps",
+          type: "quantitative",
+          axis: {
+            title: "Applications (millions)",
+            format: ".1f",
+            tickCount: 5,
+            grid: true,
+          },
+          scale: { domain: [0, 5.5], nice: false },
+        },
+        color: {
+          field: "type",
+          type: "nominal",
+          scale: {
+            domain: ["Non-corporate", "Corporate"],
+            range: ["#2563eb", "#c44e52"],
+          },
+        },
+      },
+      chrome: {
+        title: "Corporate filings flatlined at ~550K. Everything else tripled.",
+        subtitle:
+          "Annual business applications by entity type, millions, 2006-2025",
+        source: "Source: Census Bureau, Business Formation Statistics",
+      },
+      labels: { density: "none" },
+      legend: { show: false },
+      annotations: [
+        { type: "text", x: "2023", y: 5.15, text: "Non-corporate", fontSize: 12, fontWeight: 600, fill: "#2563eb", connector: false, offset: { dx: 0, dy: -16 } },
+        { type: "text", x: "2023", y: 0.54, text: "Corporate", fontSize: 12, fontWeight: 600, fill: "#c44e52", connector: false, offset: { dx: 0, dy: -16 } },
+      ],
+    }}
+  />
+</Figure>
+
+In 2006, corporate applications made up about one in three filings. By 2025, they account for fewer than one in ten. The corporate line is essentially flat across the entire 20-year window, hovering between 530,000 and 610,000 regardless of economic conditions. It barely flinched during the pandemic surge.
+
+The non-corporate line, meanwhile, went from 1.75 million to 5.15 million. That is the entire story of the "entrepreneurship boom" in one chart. And this trend predates the pandemic. Non-corporate filings were already climbing steadily through the 2010s, driven by the rise of gig platforms, online commerce, and the growing popularity of the LLC as a legal structure. The pandemic poured accelerant on a fire that was already burning.
+
+## The share of applications likely to hire anyone has been cut in half
+
+The Census Bureau flags certain applications as "high-propensity," meaning they have characteristics that predict the filer will actually generate payroll and hire employees. In 2006, nearly three in five applications carried that flag. By 2025, fewer than one in three do.
+
+{/* API: Same query as Chart 1, derived: hp_share = high_propensity/total
+2006: 1,554,080/2,627,590 = 59.1%
+2019: 1,328,020/3,510,930 = 37.8%
+2025: 1,721,160/5,683,870 = 30.3% */}
+
+<Figure alt="Line chart showing the high-propensity share of business applications declining from 59 percent in 2006 to 30 percent in 2025">
+  <Chart
+    spec={{
+      mark: { type: "area", point: true, interpolate: "monotone", stroke: "#c44e52", strokeWidth: 2, fill: { gradient: "linear", x1: 0, y1: 1, x2: 0, y2: 0, stops: [{ offset: 0, color: "#e88a8d", opacity: 0.05 }, { offset: 1, color: "#e88a8d", opacity: 0.5 }] } },
+      data: [
+        { year: "2006", share: 59.1 },
+        { year: "2007", share: 56.7 },
+        { year: "2008", share: 49.6 },
+        { year: "2009", share: 48.2 },
+        { year: "2010", share: 46.8 },
+        { year: "2011", share: 46.4 },
+        { year: "2012", share: 45.5 },
+        { year: "2013", share: 44.9 },
+        { year: "2014", share: 44.1 },
+        { year: "2015", share: 43.3 },
+        { year: "2016", share: 41.8 },
+        { year: "2017", share: 39.8 },
+        { year: "2018", share: 38.4 },
+        { year: "2019", share: 37.8 },
+        { year: "2020", share: 35.0 },
+        { year: "2021", share: 34.3 },
+        { year: "2022", share: 34.2 },
+        { year: "2023", share: 33.9 },
+        { year: "2024", share: 33.0 },
+        { year: "2025", share: 30.3 },
+      ],
+      encoding: {
+        x: { field: "year", type: "ordinal", axis: { labelAngle: -45 } },
+        y: {
+          field: "share",
+          type: "quantitative",
+          axis: {
+            title: "High-propensity share (%)",
+            format: ".0f",
+            tickCount: 5,
+            grid: true,
+          },
+          scale: { domain: [20, 65], nice: false },
+        },
+      },
+      annotations: [
+        {
+          type: "text",
+          x: "2006",
+          y: 59.1,
+          text: "59%",
+          fontSize: 13,
+          fontWeight: 600,
+          fill: "#c44e52",
+          dy: -15,
+        },
+        {
+          type: "text",
+          x: "2025",
+          y: 30.3,
+          text: "30%",
+          fontSize: 13,
+          fontWeight: 600,
+          fill: "#c44e52",
+          dy: 18,
+        },
+      ],
+      chrome: {
+        title:
+          "The share of applications likely to hire dropped from 59% to 30%",
+        subtitle:
+          "High-propensity applications as percent of total EIN filings, 2006-2025",
+        source: "Source: Census Bureau, Business Formation Statistics",
+      },
+      theme: { colors: ["#c44e52"] },
+      labels: { density: "none" },
+    }}
+  />
+</Figure>
+
+To be clear, the absolute number of high-propensity applications did grow modestly, from about 1.55 million in 2006 to 1.72 million in 2025, an 11 percent increase. But total applications nearly doubled over the same period, so the serious filers got diluted by a flood of non-employer entities. The applications with planned wages, the strongest signal of hiring intent, have been essentially flat at around 500,000 to 650,000 for two decades.
+
+This is a critical distinction. When someone cites 5.7 million business applications as evidence of entrepreneurial dynamism, roughly 4 million of those applications show no characteristics that predict they will ever hire a single person.
+
+## Firm births peaked in 2021 and are already falling back
+
+There is an even more important distinction than the Census Bureau's propensity flags, and that is whether a business application actually becomes a business. The Bureau of Labor Statistics tracks establishment births and deaths through payroll records, which means a "birth" in the BLS data is a real operating business that paid at least one employee.
+
+{/* API: POST /v1/datasets/bls/business-dynamics/query
+SQL: SELECT year, SUM(TRY_CAST(value AS DOUBLE)) as total FROM data WHERE series_id = 'BDS0000000000000000111502LQ5' AND period != 'Q05' GROUP BY year ORDER BY year
+(same for deaths with series_id ...111702LQ5)
+Verified: 2026-05-01 */}
+
+<Figure alt="Two-line chart showing establishment births and deaths from 1993 to 2024, with births peaking at 991 thousand in 2021 then declining to 824 thousand by 2024">
+  <Chart
+    spec={{
+      mark: { type: "line", point: true, interpolate: "monotone" },
+      data: [
+        { year: "1993", type: "Births", count: 768 },
+        { year: "1994", type: "Births", count: 802 },
+        { year: "1995", type: "Births", count: 823 },
+        { year: "1996", type: "Births", count: 838 },
+        { year: "1997", type: "Births", count: 874 },
+        { year: "1998", type: "Births", count: 881 },
+        { year: "1999", type: "Births", count: 918 },
+        { year: "2000", type: "Births", count: 925 },
+        { year: "2001", type: "Births", count: 843 },
+        { year: "2002", type: "Births", count: 816 },
+        { year: "2003", type: "Births", count: 815 },
+        { year: "2004", type: "Births", count: 863 },
+        { year: "2005", type: "Births", count: 870 },
+        { year: "2006", type: "Births", count: 896 },
+        { year: "2007", type: "Births", count: 878 },
+        { year: "2008", type: "Births", count: 787 },
+        { year: "2009", type: "Births", count: 684 },
+        { year: "2010", type: "Births", count: 753 },
+        { year: "2011", type: "Births", count: 777 },
+        { year: "2012", type: "Births", count: 790 },
+        { year: "2013", type: "Births", count: 806 },
+        { year: "2014", type: "Births", count: 843 },
+        { year: "2015", type: "Births", count: 850 },
+        { year: "2016", type: "Births", count: 837 },
+        { year: "2017", type: "Births", count: 857 },
+        { year: "2018", type: "Births", count: 869 },
+        { year: "2019", type: "Births", count: 856 },
+        { year: "2020", type: "Births", count: 867 },
+        { year: "2021", type: "Births", count: 991 },
+        { year: "2022", type: "Births", count: 955 },
+        { year: "2023", type: "Births", count: 880 },
+        { year: "2024", type: "Births", count: 824 },
+        { year: "1993", type: "Deaths", count: 571 },
+        { year: "1994", type: "Deaths", count: 600 },
+        { year: "1995", type: "Deaths", count: 613 },
+        { year: "1996", type: "Deaths", count: 623 },
+        { year: "1997", type: "Deaths", count: 642 },
+        { year: "1998", type: "Deaths", count: 654 },
+        { year: "1999", type: "Deaths", count: 677 },
+        { year: "2000", type: "Deaths", count: 672 },
+        { year: "2001", type: "Deaths", count: 619 },
+        { year: "2002", type: "Deaths", count: 592 },
+        { year: "2003", type: "Deaths", count: 588 },
+        { year: "2004", type: "Deaths", count: 635 },
+        { year: "2005", type: "Deaths", count: 644 },
+        { year: "2006", type: "Deaths", count: 654 },
+        { year: "2007", type: "Deaths", count: 637 },
+        { year: "2008", type: "Deaths", count: 580 },
+        { year: "2009", type: "Deaths", count: 502 },
+        { year: "2010", type: "Deaths", count: 547 },
+        { year: "2011", type: "Deaths", count: 566 },
+        { year: "2012", type: "Deaths", count: 572 },
+        { year: "2013", type: "Deaths", count: 583 },
+        { year: "2014", type: "Deaths", count: 598 },
+        { year: "2015", type: "Deaths", count: 608 },
+        { year: "2016", type: "Deaths", count: 597 },
+        { year: "2017", type: "Deaths", count: 613 },
+        { year: "2018", type: "Deaths", count: 615 },
+        { year: "2019", type: "Deaths", count: 613 },
+        { year: "2020", type: "Deaths", count: 632 },
+        { year: "2021", type: "Deaths", count: 707 },
+        { year: "2022", type: "Deaths", count: 684 },
+        { year: "2023", type: "Deaths", count: 624 },
+        { year: "2024", type: "Deaths", count: 586 },
+      ],
+      encoding: {
+        x: { field: "year", type: "temporal", axis: { labelAngle: -45, format: "%Y" }, scale: { nice: false } },
+        y: {
+          field: "count",
+          type: "quantitative",
+          axis: {
+            title: "Establishments (thousands)",
+            tickCount: 5,
+            grid: true,
+          },
+          scale: { domain: [400, 1050], nice: false },
+        },
+        color: {
+          field: "type",
+          type: "nominal",
+          scale: {
+            domain: ["Births", "Deaths"],
+            range: ["#2563eb", "#c44e52"],
+          },
+        },
+      },
+      annotations: [
+        {
+          type: "range",
+          x1: "2008",
+          x2: "2010",
+          fill: "#94a3b8",
+          opacity: 0.15,
+          label: "Great Recession",
+          labelAnchor: "top",
+        },
+        {
+          type: "range",
+          x1: "2020",
+          x2: "2022",
+          fill: "#94a3b8",
+          opacity: 0.15,
+          label: "COVID era",
+          labelAnchor: "top",
+        },
+        {
+          type: "text",
+          x: "2021",
+          y: 991,
+          text: "991K",
+          fontSize: 12,
+          fontWeight: 600,
+          fill: "#2563eb",
+          offset: { dy: -14, dx: -15 },
+          connector: false,
+        },
+      ],
+      chrome: {
+        title: "Actual firm creation peaked in 2021 and has dropped 17% since",
+        subtitle:
+          "Establishment births and deaths per year, thousands, 1993-2024",
+        source:
+          "Source: Bureau of Labor Statistics, Business Dynamics Statistics",
+      },
+      labels: { density: "endpoints" },
+      legend: { show: false },
+    }}
+  />
+</Figure>
+
+The 2021 peak of 991,000 establishment births was genuinely impressive. It was the highest single year in the 30-plus year history of the BLS series, well above the previous record set during the dot-com era. But by 2024, births had dropped to 824,000, a 17 percent decline from the peak and only modestly above the pre-pandemic average of roughly 850,000.
+
+The gap between the Census application numbers and the BLS birth numbers puts the boom in perspective. In 2024, the US filed 5.24 million business applications. Roughly 824,000 new establishments actually showed up in payroll data.
+
+That is a conversion rate of about 16 percent. For every six people who filed paperwork to start a business, five never showed up in payroll records.
+
+Net creation, the gap between births and deaths, has been consistently positive throughout the series. Even in the depths of the Great Recession, more businesses were born than died. But the gap is narrowing back toward its pre-pandemic average, suggesting that the burst of creative energy from 2020 to 2022 was more of a temporary acceleration than a permanent shift.
+
+## Where entrepreneurs are filing vs. where they're building
+
+Wyoming has 580,000 residents and posted 225 percent growth in business applications since 2019. Its residents did not suddenly become the most entrepreneurial people in America. The state has become one of the country's most popular destinations for LLC registration services, and its surge tells you more about legal structure shopping than about economic activity. Across the country, the states with the fastest growth are not necessarily the states producing the most meaningful businesses.
+
+{/* API: POST /v1/datasets/census/business-formation-weekly/query
+SQL: subquery joining 2024 state totals to 2019 state totals, computing growth_pct and hp_share
+Verified: 2026-05-01 */}
+
+<Figure alt="Scatter plot showing each US state as a dot, with growth rate on x-axis and high-propensity share on y-axis. Wyoming and Delaware are outliers with extreme growth but low quality. New York, California, and Massachusetts cluster at lower growth but higher quality.">
+  <Chart
+    spec={{
+      mark: "point",
+      data: [
+        {
+          state: "WY",
+          growth: 224.6,
+          hp: 24.5,
+          apps: 64720,
+          group: "Registration haven",
+        },
+        {
+          state: "DE",
+          growth: 128.3,
+          hp: 33.3,
+          apps: 59730,
+          group: "Registration haven",
+        },
+        {
+          state: "NV",
+          growth: 47.6,
+          hp: 29.9,
+          apps: 62920,
+          group: "Registration haven",
+        },
+        {
+          state: "NM",
+          growth: 97.3,
+          hp: 28.5,
+          apps: 34940,
+          group: "Other states",
+        },
+        {
+          state: "MT",
+          growth: 88.7,
+          hp: 29.1,
+          apps: 27160,
+          group: "Other states",
+        },
+        {
+          state: "IN",
+          growth: 67.7,
+          hp: 31.9,
+          apps: 90620,
+          group: "Other states",
+        },
+        {
+          state: "SC",
+          growth: 67.4,
+          hp: 29.0,
+          apps: 86600,
+          group: "Other states",
+        },
+        {
+          state: "KY",
+          growth: 63.9,
+          hp: 29.6,
+          apps: 54340,
+          group: "Other states",
+        },
+        {
+          state: "FL",
+          growth: 61.8,
+          hp: 33.3,
+          apps: 634610,
+          group: "Other states",
+        },
+        {
+          state: "TX",
+          growth: 60.9,
+          hp: 30.7,
+          apps: 491210,
+          group: "Other states",
+        },
+        {
+          state: "AZ",
+          growth: 58.1,
+          hp: 29.6,
+          apps: 121500,
+          group: "Other states",
+        },
+        {
+          state: "NC",
+          growth: 57.7,
+          hp: 32.0,
+          apps: 163860,
+          group: "Other states",
+        },
+        {
+          state: "AL",
+          growth: 57.1,
+          hp: 29.6,
+          apps: 65550,
+          group: "Other states",
+        },
+        {
+          state: "WA",
+          growth: 56.7,
+          hp: 29.9,
+          apps: 110780,
+          group: "Other states",
+        },
+        {
+          state: "TN",
+          growth: 53.7,
+          hp: 33.9,
+          apps: 90570,
+          group: "Other states",
+        },
+        {
+          state: "OH",
+          growth: 53.2,
+          hp: 29.2,
+          apps: 145880,
+          group: "Other states",
+        },
+        {
+          state: "OR",
+          growth: 52.2,
+          hp: 30.0,
+          apps: 60060,
+          group: "Other states",
+        },
+        {
+          state: "WV",
+          growth: 51.4,
+          hp: 32.3,
+          apps: 15410,
+          group: "Other states",
+        },
+        {
+          state: "CO",
+          growth: 51.1,
+          hp: 32.0,
+          apps: 130950,
+          group: "Other states",
+        },
+        {
+          state: "MS",
+          growth: 49.0,
+          hp: 30.9,
+          apps: 47030,
+          group: "Other states",
+        },
+        {
+          state: "MN",
+          growth: 46.8,
+          hp: 33.1,
+          apps: 67920,
+          group: "Other states",
+        },
+        {
+          state: "IL",
+          growth: 46.0,
+          hp: 36.9,
+          apps: 171600,
+          group: "Other states",
+        },
+        {
+          state: "SD",
+          growth: 45.9,
+          hp: 32.2,
+          apps: 11730,
+          group: "Other states",
+        },
+        {
+          state: "IA",
+          growth: 45.2,
+          hp: 31.0,
+          apps: 32340,
+          group: "Other states",
+        },
+        {
+          state: "MO",
+          growth: 44.5,
+          hp: 29.7,
+          apps: 85260,
+          group: "Other states",
+        },
+        {
+          state: "ID",
+          growth: 43.6,
+          hp: 33.6,
+          apps: 31340,
+          group: "Other states",
+        },
+        {
+          state: "VA",
+          growth: 43.6,
+          hp: 30.3,
+          apps: 126610,
+          group: "Other states",
+        },
+        {
+          state: "PA",
+          growth: 43.4,
+          hp: 31.9,
+          apps: 147660,
+          group: "Other states",
+        },
+        {
+          state: "MI",
+          growth: 42.5,
+          hp: 29.8,
+          apps: 135080,
+          group: "Other states",
+        },
+        {
+          state: "AR",
+          growth: 42.3,
+          hp: 33.1,
+          apps: 36610,
+          group: "Other states",
+        },
+        {
+          state: "NH",
+          growth: 42.2,
+          hp: 33.1,
+          apps: 16200,
+          group: "Other states",
+        },
+        {
+          state: "CT",
+          growth: 41.8,
+          hp: 31.2,
+          apps: 46980,
+          group: "Other states",
+        },
+        {
+          state: "CA",
+          growth: 41.6,
+          hp: 40.5,
+          apps: 517360,
+          group: "Other states",
+        },
+        {
+          state: "KS",
+          growth: 41.5,
+          hp: 33.9,
+          apps: 32180,
+          group: "Other states",
+        },
+        {
+          state: "WI",
+          growth: 41.5,
+          hp: 31.8,
+          apps: 62320,
+          group: "Other states",
+        },
+        {
+          state: "GA",
+          growth: 41.2,
+          hp: 29.8,
+          apps: 243310,
+          group: "Other states",
+        },
+        {
+          state: "ME",
+          growth: 39.7,
+          hp: 38.2,
+          apps: 14310,
+          group: "Other states",
+        },
+        {
+          state: "NE",
+          growth: 39.2,
+          hp: 33.1,
+          apps: 21110,
+          group: "Other states",
+        },
+        {
+          state: "UT",
+          growth: 37.6,
+          hp: 29.4,
+          apps: 68690,
+          group: "Other states",
+        },
+        {
+          state: "NJ",
+          growth: 36.1,
+          hp: 31.0,
+          apps: 153270,
+          group: "Other states",
+        },
+        {
+          state: "MA",
+          growth: 31.6,
+          hp: 40.1,
+          apps: 75670,
+          group: "Other states",
+        },
+        {
+          state: "RI",
+          growth: 31.0,
+          hp: 35.3,
+          apps: 11450,
+          group: "Other states",
+        },
+        {
+          state: "OK",
+          growth: 30.5,
+          hp: 31.2,
+          apps: 53830,
+          group: "Other states",
+        },
+        {
+          state: "VT",
+          growth: 30.4,
+          hp: 36.1,
+          apps: 7540,
+          group: "Other states",
+        },
+        {
+          state: "NY",
+          growth: 27.6,
+          hp: 41.8,
+          apps: 292120,
+          group: "Other states",
+        },
+        {
+          state: "LA",
+          growth: 26.5,
+          hp: 29.5,
+          apps: 68720,
+          group: "Other states",
+        },
+        {
+          state: "MD",
+          growth: 26.4,
+          hp: 31.3,
+          apps: 95700,
+          group: "Other states",
+        },
+        {
+          state: "HI",
+          growth: 23.6,
+          hp: 32.6,
+          apps: 18260,
+          group: "Other states",
+        },
+        {
+          state: "ND",
+          growth: 21.8,
+          hp: 35.7,
+          apps: 8660,
+          group: "Other states",
+        },
+        {
+          state: "DC",
+          growth: 16.0,
+          hp: 32.1,
+          apps: 14470,
+          group: "Other states",
+        },
+        {
+          state: "AK",
+          growth: 12.0,
+          hp: 34.3,
+          apps: 9360,
+          group: "Other states",
+        },
+      ],
+      encoding: {
+        x: {
+          field: "growth",
+          type: "quantitative",
+          axis: {
+            title: "Growth in applications, 2019 to 2024 (%)",
+            format: ".0f",
+            tickCount: 5,
+            grid: true,
+          },
+          scale: { nice: false, domain: [0, 250] },
+        },
+        y: {
+          field: "hp",
+          type: "quantitative",
+          axis: {
+            title: "High-propensity share (%)",
+            format: ".0f",
+            tickCount: 5,
+            grid: true,
+          },
+          scale: { nice: false, domain: [22, 47] },
+        },
+        size: {
+          field: "apps",
+          type: "quantitative",
+          scale: { range: [30, 600] },
+        },
+        color: {
+          field: "group",
+          type: "nominal",
+          scale: {
+            domain: ["Other states", "Registration haven"],
+            range: ["#2563eb", "#e09c41"],
+          },
+        },
+        tooltip: [
+          { field: "state", type: "nominal", title: "State" },
+          {
+            field: "growth",
+            type: "quantitative",
+            title: "Growth %",
+            format: ".1f",
+          },
+          {
+            field: "hp",
+            type: "quantitative",
+            title: "HP share %",
+            format: ".1f",
+          },
+          {
+            field: "apps",
+            type: "quantitative",
+            title: "Apps (2024)",
+            format: ",.0f",
+          },
+        ],
+      },
+      annotations: [
+        {
+          type: "text",
+          x: 224.6,
+          y: 24.5,
+          text: "Wyoming",
+          fontSize: 11,
+          fontWeight: 600,
+          fill: "#e09c41",
+          dx: -85,
+          dy: -12,
+        },
+        {
+          type: "text",
+          x: 128.3,
+          y: 33.3,
+          text: "Delaware",
+          fontSize: 11,
+          fontWeight: 600,
+          fill: "#e09c41",
+          dx: -45,
+          dy: -10,
+        },
+        {
+          type: "text",
+          x: 27.6,
+          y: 41.8,
+          text: "NY",
+          fontSize: 11,
+          fontWeight: 600,
+          fill: "#2563eb",
+          dx: -18,
+          dy: -10,
+        },
+        {
+          type: "text",
+          x: 41.6,
+          y: 40.5,
+          text: "CA",
+          fontSize: 11,
+          fontWeight: 600,
+          fill: "#2563eb",
+          dx: 10,
+          dy: -10,
+        },
+        {
+          type: "text",
+          x: 31.6,
+          y: 40.1,
+          text: "MA",
+          fontSize: 11,
+          fontWeight: 600,
+          fill: "#2563eb",
+          dx: 10,
+          dy: 5,
+        },
+        {
+          type: "text",
+          x: 61.8,
+          y: 33.3,
+          text: "FL",
+          fontSize: 11,
+          fill: "#64748b",
+          dx: 10,
+          dy: -8,
+        },
+        {
+          type: "text",
+          x: 60.9,
+          y: 30.7,
+          text: "TX",
+          fontSize: 11,
+          fill: "#64748b",
+          dx: 10,
+          dy: 5,
+        },
+      ],
+      chrome: {
+        title:
+          "States with the most growth often produce the fewest likely employers",
+        subtitle:
+          "Each dot = one state. Size = total applications. Amber = registration havens.",
+        source: "Source: Census Bureau, Business Formation Statistics",
+      },
+      legend: { show: false },
+      labels: { density: "none" },
+    }}
+  />
+</Figure>
+
+The scatter plot tells a counterintuitive story. New York, California, and Massachusetts, states regularly ranked among the worst for business climate, have the highest share of high-propensity applications in the country. About 42 percent of New York's filings show characteristics predictive of actual employer formation. In California, it is 40.5 percent. In Massachusetts, 40.1 percent.
+
+Wyoming sits at the opposite corner: 225 percent growth, but only 24.5 percent high-propensity, the lowest rate in the country. Its low fees, zero state income tax, and strong privacy protections make it a magnet for out-of-state LLC registrations. Delaware, the corporate registration capital for a century, shows a similar pattern: 128 percent growth, moderate quality.
+
+These aren't anomalies to dismiss. They reveal how the business formation system actually works. A meaningful chunk of the 5.7 million annual applications represents legal structure shopping, not local economic activity. For the states where real businesses are actually being built, what predicts serious entrepreneurship isn't tax policy or regulatory friendliness. It is the size and sophistication of the local economy, the talent pool, and the density of existing industry.
+
+## Workers at new micro-firms earn $25,000 less than their corporate counterparts
+
+The composition of the business formation surge matters for another reason: workers at smaller firms earn substantially less than their counterparts at large employers, and the gap is getting wider.
+
+{/* API: POST /v1/datasets/census/statistics-of-us-businesses/query
+SQL: SELECT year, size_class_name, SUM(annual_payroll)*1000/SUM(employment) as avg_pay FROM data WHERE naics='00' AND state_name IS NULL AND year IN (2018,2022) GROUP BY year, size_class_name
+Verified: 2026-05-01 \*/}
+
+<Figure alt="Grouped bar chart showing average annual pay by firm size in 2018 and 2022. The gap between small firms and large firms widened from about 14 thousand dollars to over 18 thousand dollars.">
+  <Chart
+    spec={{
+      mark: "bar",
+      data: [
+        { size: "<5 employees", year: "2018", pay: 48200 },
+        { size: "<5 employees", year: "2022", pay: 56400 },
+        { size: "<20 employees", year: "2018", pay: 42100 },
+        { size: "<20 employees", year: "2022", pay: 49500 },
+        { size: "<500 employees", year: "2018", pay: 46000 },
+        { size: "<500 employees", year: "2022", pay: 55700 },
+        { size: "5,000+ employees", year: "2018", pay: 62300 },
+        { size: "5,000+ employees", year: "2022", pay: 74800 },
+      ],
+      encoding: {
+        y: {
+          field: "size",
+          type: "nominal",
+          sort: null,
+          axis: { title: null },
+        },
+        x: {
+          field: "pay",
+          type: "quantitative",
+          stack: null,
+          axis: {
+            title: "Average annual pay per employee",
+            format: "$~s",
+            tickCount: 5,
+            grid: true,
+          },
+          scale: { domain: [0, 85000], nice: false },
+        },
+        color: {
+          field: "year",
+          type: "nominal",
+          scale: {
+            domain: ["2018", "2022"],
+            range: ["#94a3b8", "#2563eb"],
+          },
+        },
+      },
+      chrome: {
+        title:
+          "The wage gap between small and large firms grew 25% in four years",
+        subtitle:
+          "Average annual pay per employee by firm size, all industries",
+        source: "Source: Census Bureau, Statistics of US Businesses (SUSB)",
+      },
+      labels: { density: "all", format: "$~s" },
+      legend: { position: "top" },
+    }}
+  />
+</Figure>
+
+In 2018, workers at firms with fewer than 20 employees earned about $42,000 a year. At firms with 5,000 or more employees, the figure was $62,000, a gap of roughly $20,000. By 2022, the small-firm average had risen to about $50,000, but the large-firm average had jumped to nearly $75,000. The gap widened to more than $25,000, a 25 percent increase in four years.
+
+Large firms didn't just pay more. Their pay grew faster: 20 percent versus 17.5 percent for micro-firms. The entire entrepreneurship boom is concentrated in the tier of the economy where wages are lowest and growing slowest.
+
+A freelance web developer who incorporates an LLC might gain autonomy and flexibility. But at the macro level, a structural shift from large-firm employment toward micro-firm self-employment represents a shift toward lower average compensation, fewer benefits, and less bargaining power.
+
+## Despite record filings, fewer Americans are actually self-employed
+
+The US is filing more business applications than ever, but the share of Americans who are actually self-employed has been declining for 25 years.
+
+{/* API: POST /v1/datasets/worldbank/wdi/query
+SQL: SELECT country_name, year, value FROM data WHERE indicator_code='SL.EMP.SELF.ZS' AND country_code IN ('USA','DEU','JPN','GBR','FRA','ITA','CAN') AND year >= 2000 ORDER BY country_name, year
+Verified: 2026-05-01 */}
+
+<Figure alt="Multi-line chart showing self-employment rates for G7 countries from 2000 to 2024. The US line sits at the bottom, declining from 8 percent to about 6 percent, while all other G7 nations range from 8 to 21 percent.">
+  <Chart
+    spec={{
+      mark: { type: "line", point: false, interpolate: "monotone" },
+      data: [
+        { country: "Italy", year: "2000", rate: 28.2 },
+        { country: "Italy", year: "2004", rate: 27.9 },
+        { country: "Italy", year: "2008", rate: 25.5 },
+        { country: "Italy", year: "2012", rate: 24.9 },
+        { country: "Italy", year: "2016", rate: 23.9 },
+        { country: "Italy", year: "2020", rate: 22.6 },
+        { country: "Italy", year: "2024", rate: 21.3 },
+        { country: "Canada", year: "2000", rate: 16.1 },
+        { country: "Canada", year: "2004", rate: 15.4 },
+        { country: "Canada", year: "2008", rate: 15.4 },
+        { country: "Canada", year: "2012", rate: 15.2 },
+        { country: "Canada", year: "2016", rate: 15.0 },
+        { country: "Canada", year: "2020", rate: 15.2 },
+        { country: "Canada", year: "2024", rate: 13.0 },
+        { country: "Japan", year: "2000", rate: 16.1 },
+        { country: "Japan", year: "2004", rate: 14.7 },
+        { country: "Japan", year: "2008", rate: 12.8 },
+        { country: "Japan", year: "2012", rate: 11.6 },
+        { country: "Japan", year: "2016", rate: 10.5 },
+        { country: "Japan", year: "2020", rate: 9.9 },
+        { country: "Japan", year: "2024", rate: 9.3 },
+        { country: "UK", year: "2000", rate: 12.3 },
+        { country: "UK", year: "2004", rate: 13.1 },
+        { country: "UK", year: "2008", rate: 13.3 },
+        { country: "UK", year: "2012", rate: 14.7 },
+        { country: "UK", year: "2016", rate: 15.3 },
+        { country: "UK", year: "2020", rate: 14.5 },
+        { country: "UK", year: "2024", rate: 13.2 },
+        { country: "France", year: "2000", rate: 11.4 },
+        { country: "France", year: "2004", rate: 11.0 },
+        { country: "France", year: "2008", rate: 10.6 },
+        { country: "France", year: "2012", rate: 11.5 },
+        { country: "France", year: "2016", rate: 11.8 },
+        { country: "France", year: "2020", rate: 12.4 },
+        { country: "France", year: "2024", rate: 13.3 },
+        { country: "Germany", year: "2000", rate: 10.9 },
+        { country: "Germany", year: "2004", rate: 12.1 },
+        { country: "Germany", year: "2008", rate: 11.5 },
+        { country: "Germany", year: "2012", rate: 11.6 },
+        { country: "Germany", year: "2016", rate: 10.5 },
+        { country: "Germany", year: "2020", rate: 8.9 },
+        { country: "Germany", year: "2024", rate: 8.2 },
+        { country: "United States", year: "2000", rate: 8.0 },
+        { country: "United States", year: "2004", rate: 8.0 },
+        { country: "United States", year: "2008", rate: 7.5 },
+        { country: "United States", year: "2012", rate: 7.2 },
+        { country: "United States", year: "2016", rate: 6.8 },
+        { country: "United States", year: "2020", rate: 6.3 },
+        { country: "United States", year: "2024", rate: 6.2 },
+      ],
+      encoding: {
+        x: { field: "year", type: "ordinal", scale: { domain: ["2000", "2004", "2008", "2012", "2016", "2020", "2024"], nice: false } },
+        y: {
+          field: "rate",
+          type: "quantitative",
+          axis: {
+            title: "Self-employed (% of total employment)",
+            format: ".0f",
+            tickCount: 5,
+            grid: true,
+          },
+          scale: { domain: [0, 30], nice: false },
+        },
+        color: {
+          field: "country",
+          type: "nominal",
+          scale: {
+            domain: [
+              "United States",
+              "Italy",
+              "Germany",
+              "Japan",
+              "France",
+              "UK",
+              "Canada",
+            ],
+            range: [
+              "#2563eb",
+              "#e09c41",
+              "#6a9f58",
+              "#8b97a5",
+              "#a3adb8",
+              "#b0b8c2",
+              "#7a8999",
+            ],
+          },
+        },
+      },
+      chrome: {
+        title:
+          "Despite record filings, the US has the lowest self-employment rate in the G7",
+        subtitle:
+          "Self-employed as share of total employment, ILO modeled estimates, 2000-2024",
+        source: "Source: World Bank, International Labour Organization",
+      },
+      labels: { density: "none" },
+      legend: { position: "top" },
+      seriesStyles: {
+        "United States": { strokeWidth: 2.5 },
+      },
+    }}
+  />
+</Figure>
+
+The US self-employment rate has drifted from 8 percent in 2000 to 6.2 percent in 2024, the lowest in the G7 by a wide margin. Italy, at the top, has more than three times the rate. Even Germany, which has seen its own sharp decline, sits at 8.2 percent.
+
+This is the finding that puts the entire business formation surge in its starkest context. The US filed 5.7 million EIN applications last year. But the share of its workforce that is actually self-employed barely moved. What is growing is entity formation: LLC registrations, EIN filings, the administrative paperwork of self-employment in an economy that increasingly routes independent work through formal business structures.
+
+The post-pandemic surge was real, and it represents something genuinely new in the US economy. But 84 percent of those applications never show up in payroll data. The states with the fastest growth are often producing paper companies, not local employers. Actual firm births have already peaked and are declining. And workers at the new micro-firms earn $25,000 less than their counterparts at large companies.
+
+5.7 million applications. The number is impressive. What it measures is paperwork.
+
+## Data sources & methodology
+
+**Datasets used:**
+
+- `census/business-formation-weekly`: Weekly EIN applications by state, 2006-2026. Aggregated to annual totals for charts 1-3 and the state scatter plot. High-propensity defined by Census Bureau as applications with characteristics predictive of employer business formation.
+- `bls/business-dynamics`: Annual establishment births and deaths from the Business Dynamics Statistics program, 1992-2024. Series IDs BDS0000000000000000111502LQ5 (births) and BDS0000000000000000111702LQ5 (deaths), quarterly values summed to annual. Values in thousands.
+- `census/statistics-of-us-businesses`: Firm size, employment, and annual payroll by state and NAICS code, 2018-2022. Average pay computed as (annual_payroll \* 1000) / employment. National totals using naics code '00'.
+- `worldbank/wdi`: Self-employment rate by country (indicator SL.EMP.SELF.ZS), ILO modeled estimates, 2000-2024. Sampled at 4-year intervals for chart readability.
+
+**Calculations:**
+
+- Growth rates: (2024 total - 2019 total) / 2019 total, computed from state-level annual aggregates
+- High-propensity share: high_propensity_applications / total_business_applications per state per year
+- Non-corporate applications: total_business_applications - corporate_applications
+- Wage gap widening: computed from SUSB average pay per employee, comparing the difference between firms with fewer than 20 employees and firms with 5,000 or more employees in 2018 ($20,172) vs 2022 ($25,325)
+
+**Limitations:**
+
+- Business applications (Census BFS) measure intent to operate, not actual business formation. An EIN application is a piece of paper, not a firm.
+- High-propensity classification is a Census Bureau model prediction, not an observed outcome. Its accuracy for post-pandemic cohorts has not been publicly validated.
+- BLS Business Dynamics Statistics have an 18-24 month publication lag. The 2024 data is preliminary.
+- Wyoming, Delaware, and Nevada business formation numbers are heavily influenced by out-of-state LLC and corporate registrations, which inflate their apparent entrepreneurship rates.
+- SUSB excludes self-employed sole proprietors without paid employees, so the wage data only covers employer firms.
+- Self-employment rates from the World Bank/ILO are modeled estimates that may not fully capture gig platform workers who file as independent contractors but do not self-identify as self-employed in household surveys.
+
+**Access date:** May 1, 2026

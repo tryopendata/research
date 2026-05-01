@@ -1,0 +1,579 @@
+export const meta = {
+  title: "Texas Sends Billions in School Taxes to the State. Charter Schools Get the Check.",
+  date: "2026-04-16",
+  description: "Texas property-wealthy districts sent $4.5 billion in recaptured school taxes to Austin in a single year. As charter enrollment grows, the districts footing the bill are left with less.",
+  tags: ["education", "texas", "charter-schools", "school-finance", "recapture"],
+}
+
+import { Chart } from '../components/Chart'
+import { DataTable } from '@opendata-ai/openchart-react'
+import { Figure } from '../components/Figure'
+
+{/*
+  Report color palette:
+  - Recapture / negative / cost: #c44e52 (red)
+  - Charter / growth: #d47215 (orange)
+  - Traditional ISD / context: #1b7fa3 (teal)
+  - State funding / neutral: #6a9f58 (green)
+  - Gray / de-emphasis: #94a3b8
+  - Basic allotment frozen: #c44e52 (red, same as cost)
+*/}
+
+In 2023, Texas property-wealthy school districts sent $4.5 billion back to the state through recapture, the wealth-equalization mechanism critics call "Robin Hood." That same year, charter school enrollment crossed 400,000 students for the first time, each one funded almost entirely by state dollars.
+
+The two trends are not a coincidence. They are two halves of the same financial loop.
+
+Texas school finance runs on a simple idea: local property taxes fund schools, and the state takes excess revenue from wealthy districts to redistribute to poorer ones. But as property values climb and charter schools pull students out of traditional districts, that system is producing results nobody designed. Districts lose students to charters but keep the same property tax base, which pushes their wealth-per-student higher, which triggers more recapture, which sends more money to the state, which funds more charter schools. Rinse, repeat.
+
+The numbers tell the story of a system eating its own tail.
+
+## Recapture has tripled in 15 years
+
+When Texas created the recapture system in 1993, 34 districts sent a combined $131 million to the state. By 2023, 299 districts were writing checks totaling $4.5 billion, a 34-fold increase. Even adjusting for inflation and enrollment growth, the trajectory is staggering.
+
+{/* API: POST /v1/datasets/tea/recapture/query — SQL: SELECT year, SUM(recapture) as total_recapture, COUNT(DISTINCT district_id) as num_districts FROM data WHERE year >= 1994 AND year <= 2025 GROUP BY year ORDER BY year
+Verified: 2026-04-16 */}
+<Figure alt="Line chart showing total statewide recapture payments from 1994 to 2025, rising from $131 million to nearly $3 billion with a spike to $4.5 billion in 2023">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "1994", recapture: 0.13 },
+      { year: "1995", recapture: 0.26 },
+      { year: "1996", recapture: 0.27 },
+      { year: "1997", recapture: 0.21 },
+      { year: "1998", recapture: 0.24 },
+      { year: "1999", recapture: 0.48 },
+      { year: "2000", recapture: 0.47 },
+      { year: "2001", recapture: 0.53 },
+      { year: "2002", recapture: 0.76 },
+      { year: "2003", recapture: 0.97 },
+      { year: "2004", recapture: 1.08 },
+      { year: "2005", recapture: 1.11 },
+      { year: "2006", recapture: 1.30 },
+      { year: "2007", recapture: 1.43 },
+      { year: "2008", recapture: 1.14 },
+      { year: "2009", recapture: 1.43 },
+      { year: "2010", recapture: 1.06 },
+      { year: "2011", recapture: 1.04 },
+      { year: "2012", recapture: 1.09 },
+      { year: "2013", recapture: 1.07 },
+      { year: "2014", recapture: 1.21 },
+      { year: "2015", recapture: 1.49 },
+      { year: "2016", recapture: 1.58 },
+      { year: "2017", recapture: 1.72 },
+      { year: "2018", recapture: 2.06 },
+      { year: "2019", recapture: 2.69 },
+      { year: "2020", recapture: 2.56 },
+      { year: "2021", recapture: 2.96 },
+      { year: "2022", recapture: 3.00 },
+      { year: "2023", recapture: 4.53 },
+      { year: "2024", recapture: 2.68 },
+      { year: "2025", recapture: 2.97 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", axis: { title: null }, scale: { nice: false } },
+      y: {
+        field: "recapture",
+        type: "quantitative",
+        axis: { title: "Total recapture", format: "$,.1f", tickCount: 5 },
+        scale: { domain: [0, 5], nice: false },
+      },
+    },
+    annotations: [
+      {
+        type: "text",
+        x: "2023",
+        y: 4.53,
+        text: "$4.5 billion\n(2023 peak)",
+        anchor: "top",
+        offset: { dx: -60, dy: -15 },
+        connector: true,
+        fontSize: 12,
+        fontWeight: 600,
+      },
+      {
+        type: "refline",
+        x: "2019",
+        label: "HB 3 reform",
+        style: "dashed",
+        stroke: "#94a3b8",
+        labelAnchor: "bottom",
+      },
+    ],
+    chrome: {
+      title: "Texas recapture hit $4.5 billion in 2023, then fell back",
+      subtitle: "Total statewide recapture payments in billions, 1994-2025 (2025 projected)",
+      source: "Source: Texas Education Agency, recapture payments by district",
+    },
+    theme: { colors: ["#c44e52"] },
+    labels: { density: "none" },
+  }} />
+</Figure>
+
+The 2019 reform bill (HB 3) was supposed to fix this. It injected $6.4 billion into school finance and temporarily cut recapture by 29%. But the relief was short-lived. Rising property values, especially the Permian Basin oil boom, pushed recapture past its pre-reform peak within three years.
+
+The 2024 dip to $2.7 billion reflects property tax rate compression and legislative adjustments, not a structural fix. TEA projects recapture will climb back above $3 billion in 2025.
+
+## One district pays more than the next four combined
+
+Recapture doesn't fall evenly. Austin ISD, sitting in one of the fastest-appreciating real estate markets in the country, has become the single largest payer in the system by a wide margin. The district has sent $7.4 billion to the state since 2001.
+
+{/* API: POST /v1/datasets/tea/recapture/query — SQL: SELECT district_name, SUM(recapture) as total_recapture FROM data WHERE year <= 2024 GROUP BY district_name ORDER BY total_recapture DESC LIMIT 15
+Verified: 2026-04-16 */}
+<Figure alt="Horizontal bar chart showing the top 10 cumulative recapture payers, with Austin ISD at $7.4 billion dwarfing all others">
+  <Chart spec={{
+    mark: "bar",
+    data: [
+      { district: "Lake Travis ISD", recapture: 777 },
+      { district: "La Porte ISD", recapture: 777 },
+      { district: "Midland ISD", recapture: 917 },
+      { district: "Pecos-Barstow-Toyah ISD", recapture: 925 },
+      { district: "Grapevine-Colleyville ISD", recapture: 931 },
+      { district: "Houston ISD", recapture: 1216 },
+      { district: "Eanes ISD", recapture: 1702 },
+      { district: "Highland Park ISD", recapture: 2108 },
+      { district: "Plano ISD", recapture: 2824 },
+      { district: "Austin ISD", recapture: 7417 },
+    ],
+    encoding: {
+      x: {
+        field: "recapture",
+        type: "quantitative",
+        axis: { title: null, format: "$~s", tickCount: 5 },
+      },
+      y: {
+        field: "district",
+        type: "nominal",
+        sort: null,
+        axis: { title: null },
+      },
+      color: {
+        condition: { test: { field: "district", equal: "Austin ISD" }, value: "#c44e52" },
+        value: "#94a3b8",
+      },
+    },
+    chrome: {
+      title: "Austin ISD has paid more in recapture than any other Texas district",
+      subtitle: "Cumulative recapture payments, 2001-2024 (millions)",
+      source: "Source: Texas Education Agency",
+    },
+    labels: { density: "all", format: "$,.0f" },
+  }} />
+</Figure>
+
+In 2024, Austin ISD sent $661 million in recapture to the state. That's 96% of every dollar the district collected in local property taxes. Put another way: for every dollar Austin homeowners paid in school property taxes, 96 cents left the district.
+
+The list of top payers splits into two categories. Suburban ISDs with expensive real estate (Austin, Plano, Eanes, Highland Park, Lake Travis) and small West Texas oil patch districts (Pecos-Barstow-Toyah, Midland) where a handful of drilling rigs can push property wealth per student into the tens of millions.
+
+## While recapture grew, charter enrollment grew faster
+
+Over the same period that recapture tripled, charter school enrollment in Texas grew sixfold. In 2009, about 71,000 students attended charter schools, roughly 1.5% of the public school population. By 2025, that number hit 435,000, nearly 8%.
+
+{/* API: POST /v1/query — SQL: cross-dataset join tea/summarized-finance + tea/district-directory, grouping by district_type
+Verified: 2026-04-16 */}
+<Figure alt="Dual line chart showing charter school enrollment rising steeply from 71,000 to 435,000 while traditional ISD enrollment plateaus around 5 million">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2009", type: "Charter schools", enrollment: 71264, pct: 1.5 },
+      { year: "2010", type: "Charter schools", enrollment: 83667, pct: 1.8 },
+      { year: "2011", type: "Charter schools", enrollment: 98563, pct: 2.0 },
+      { year: "2012", type: "Charter schools", enrollment: 116454, pct: 2.4 },
+      { year: "2013", type: "Charter schools", enrollment: 137745, pct: 2.7 },
+      { year: "2014", type: "Charter schools", enrollment: 159577, pct: 3.1 },
+      { year: "2015", type: "Charter schools", enrollment: 187101, pct: 3.6 },
+      { year: "2016", type: "Charter schools", enrollment: 219970, pct: 4.2 },
+      { year: "2017", type: "Charter schools", enrollment: 245988, pct: 4.6 },
+      { year: "2018", type: "Charter schools", enrollment: 270484, pct: 5.0 },
+      { year: "2019", type: "Charter schools", enrollment: 311071, pct: 5.7 },
+      { year: "2020", type: "Charter schools", enrollment: 331358, pct: 6.0 },
+      { year: "2021", type: "Charter schools", enrollment: 361049, pct: 6.7 },
+      { year: "2022", type: "Charter schools", enrollment: 374068, pct: 6.9 },
+      { year: "2023", type: "Charter schools", enrollment: 400261, pct: 7.3 },
+      { year: "2024", type: "Charter schools", enrollment: 421523, pct: 7.6 },
+      { year: "2025", type: "Charter schools", enrollment: 434986, pct: 7.9 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", axis: { title: null }, scale: { nice: false } },
+      y: {
+        field: "enrollment",
+        type: "quantitative",
+        axis: { title: "Enrollment", format: "~s", tickCount: 5 },
+        scale: { domain: [0, 500000], nice: false },
+      },
+    },
+    annotations: [
+      {
+        type: "text",
+        x: "2025",
+        y: 434986,
+        text: "435,000 students\n7.9% of all public school enrollment",
+        anchor: "left",
+        offset: { dx: -230, dy: -30 },
+        connector: true,
+        fontSize: 11,
+        fontWeight: 600,
+      },
+      {
+        type: "text",
+        x: "2009",
+        y: 71264,
+        text: "71,000 (1.5%)",
+        anchor: "right",
+        offset: { dx: 20, dy: -20 },
+        connector: true,
+        fontSize: 11,
+      },
+    ],
+    chrome: {
+      title: "Texas charter enrollment grew sixfold in 16 years",
+      subtitle: "Students enrolled in open-enrollment charter schools, 2009-2025",
+      source: "Source: Texas Education Agency, PEIMS enrollment data",
+    },
+    theme: { colors: ["#d47215"] },
+    labels: { density: "none" },
+  }} />
+</Figure>
+
+That growth came almost entirely from traditional ISDs. While charter enrollment added 364,000 students, traditional ISD enrollment grew by just 481,000 over the same period, and actually dipped below its 2019 level after the pandemic and never fully recovered. Some of that ISD plateau is demographic (Texas birth rates have declined), but a significant share is students crossing over to charters.
+
+The financial implications are significant. Charter schools don't levy property taxes. They have no local tax base. Every dollar of their funding comes from the state.
+
+## Charters get more state money per student than traditional districts
+
+The funding structure creates an imbalance. Because charter schools have zero local revenue, the state must cover their entire per-pupil cost. In 2025, the state spent $10,973 per charter student compared to $5,181 per traditional ISD student. Total per-pupil revenue is closer (charters get $13,462 vs. ISDs' $12,598), but the state's share of the tab is wildly different.
+
+{/* API: POST /v1/query — SQL: cross-dataset join tea/summarized-finance + tea/district-directory, per-pupil by type
+Verified: 2026-04-16 */}
+<Figure alt="Grouped bar chart comparing per-pupil state funding: charter schools receive $10,973 vs $5,181 for traditional ISDs in 2025">
+  <Chart spec={{
+    mark: "bar",
+    data: [
+      { year: "2009", type: "Charter", state_pp: 7850 },
+      { year: "2011", type: "Charter", state_pp: 8149 },
+      { year: "2013", type: "Charter", state_pp: 7399 },
+      { year: "2015", type: "Charter", state_pp: 8086 },
+      { year: "2017", type: "Charter", state_pp: 8471 },
+      { year: "2019", type: "Charter", state_pp: 9173 },
+      { year: "2021", type: "Charter", state_pp: 10158 },
+      { year: "2023", type: "Charter", state_pp: 10182 },
+      { year: "2025", type: "Charter", state_pp: 10973 },
+      { year: "2009", type: "Traditional ISD", state_pp: 3715 },
+      { year: "2011", type: "Traditional ISD", state_pp: 3581 },
+      { year: "2013", type: "Traditional ISD", state_pp: 3451 },
+      { year: "2015", type: "Traditional ISD", state_pp: 3751 },
+      { year: "2017", type: "Traditional ISD", state_pp: 3688 },
+      { year: "2019", type: "Traditional ISD", state_pp: 3730 },
+      { year: "2021", type: "Traditional ISD", state_pp: 4222 },
+      { year: "2023", type: "Traditional ISD", state_pp: 3846 },
+      { year: "2025", type: "Traditional ISD", state_pp: 5181 },
+    ],
+    encoding: {
+      x: { field: "year", type: "ordinal", axis: { title: null } },
+      y: {
+        field: "state_pp",
+        type: "quantitative",
+        axis: { title: "Per-pupil state funding", format: "$,.0f", tickCount: 5 },
+        scale: { domain: [0, 12000], nice: false },
+        stack: null,
+      },
+      color: {
+        field: "type",
+        type: "nominal",
+        scale: {
+          domain: ["Charter", "Traditional ISD"],
+          range: ["#d47215", "#1b7fa3"],
+        },
+      },
+    },
+    chrome: {
+      title: "The state spends 2x more per charter student than per ISD student",
+      subtitle: "Per-pupil state revenue, selected years 2009-2025",
+      source: "Source: Texas Education Agency, PEIMS financial data",
+    },
+    labels: { density: "none" },
+  }} />
+</Figure>
+
+This isn't because charter students are more expensive to educate. It's because the state is the sole funder. Traditional ISDs split the bill between local property taxes and state aid. Charters can't. The result: every student who moves from an ISD to a charter costs the state roughly twice as much in state dollars, even though the total per-pupil cost is similar.
+
+In 2025, with 435,000 charter students generating roughly $10,973 each in state aid, the state's charter tab comes to about $4.8 billion. That's a significant share of the $31.2 billion the state spent on all public education.
+
+## The feedback loop: fewer students, more recapture
+
+Here's where the two trends collide. When a student leaves a traditional ISD for a charter school, the district loses the state funding that followed that student. But the district's property tax base doesn't change. A house in Austin is worth what it's worth whether the kid next door attends the neighborhood school or a charter across town.
+
+So the district's property wealth per student goes up, which triggers more recapture. The district now sends more money to the state while serving fewer students.
+
+{/* API: POST /v1/datasets/tea/recapture/query — SQL: Austin ISD recapture + enrollment from tea/summarized-finance
+Verified: 2026-04-16 */}
+<Figure alt="Line chart showing Austin ISD recapture rising from $128 million to $905 million between 2014 and 2023 while enrollment declined">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2014", recapture: 128 },
+      { year: "2015", recapture: 181 },
+      { year: "2016", recapture: 260 },
+      { year: "2017", recapture: 397 },
+      { year: "2018", recapture: 541 },
+      { year: "2019", recapture: 665 },
+      { year: "2020", recapture: 637 },
+      { year: "2021", recapture: 711 },
+      { year: "2022", recapture: 766 },
+      { year: "2023", recapture: 905 },
+      { year: "2024", recapture: 661 },
+      { year: "2025", recapture: 771 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", axis: { title: null }, scale: { nice: false } },
+      y: {
+        field: "recapture",
+        type: "quantitative",
+        axis: { title: "Recapture payment", format: "$,.0f", tickCount: 5 },
+        scale: { domain: [0, 1000], nice: false },
+      },
+    },
+    annotations: [
+      {
+        type: "text",
+        x: "2023",
+        y: 905,
+        text: "$905M peak\n(2023)",
+        anchor: "top",
+        offset: { dx: -50, dy: -15 },
+        connector: true,
+        fontSize: 12,
+        fontWeight: 600,
+      },
+      {
+        type: "text",
+        x: "2024",
+        y: 661,
+        text: "Still $661M\nafter reform",
+        anchor: "bottom",
+        offset: { dx: 10, dy: 25 },
+        connector: true,
+        fontSize: 11,
+      },
+    ],
+    chrome: {
+      title: "Austin ISD's recapture bill grew 7x in a decade",
+      subtitle: "Annual recapture payments in millions, 2014-2025 (2025 projected)",
+      source: "Source: Texas Education Agency",
+    },
+    theme: { colors: ["#c44e52"] },
+    labels: { density: "none" },
+  }} />
+</Figure>
+
+Austin ISD's trajectory is the clearest illustration. The district's recapture bill went from $128 million in 2014 to $905 million in 2023, a sevenfold increase. In 2024, even after legislative relief brought it down to $661 million, that still represented 96 cents of every local tax dollar leaving the district.
+
+Meanwhile, Austin ISD's enrollment has been declining. The district enrolled about 80,000 students in 2019 but fell to around 73,000 by 2024, losing students to both charter schools and suburban ISDs. Fewer students, same property values, more recapture.
+
+## The per-student foundation has been frozen for seven years
+
+All of this plays out against a frozen basic allotment. The basic allotment is the per-student amount that forms the foundation of Texas school funding. It was last raised in 2019 to $6,160 under HB 3. It hasn't moved since, despite cumulative inflation of roughly 25% over that period.
+
+{/* API: GET /v1/datasets/tea/basic-allotment?limit=50&sort=year
+Verified: 2026-04-16 */}
+<Figure alt="Step chart showing the Texas basic allotment per student, frozen at $6,160 since 2019 after a history of periodic increases">
+  <Chart spec={{
+    mark: { type: "line", interpolate: "step-after" },
+    data: [
+      { year: "1984", allotment: 1350 },
+      { year: "1990", allotment: 2400 },
+      { year: "1993", allotment: 2300 },
+      { year: "1997", allotment: 2537 },
+      { year: "2006", allotment: 3710 },
+      { year: "2009", allotment: 4765 },
+      { year: "2014", allotment: 5040 },
+      { year: "2017", allotment: 5140 },
+      { year: "2019", allotment: 6160 },
+      { year: "2026", allotment: 6160 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", axis: { title: null }, scale: { nice: false } },
+      y: {
+        field: "allotment",
+        type: "quantitative",
+        axis: { title: "Basic allotment per student", format: "$,.0f", tickCount: 5 },
+        scale: { domain: [0, 8000], nice: false },
+      },
+    },
+    annotations: [
+      {
+        type: "range",
+        x1: "2019",
+        x2: "2026",
+        label: "Frozen at $6,160",
+        fill: "#c44e52",
+        opacity: 0.08,
+        labelAnchor: "top",
+      },
+      {
+        type: "text",
+        x: "2019",
+        y: 6160,
+        text: "HB 3\n$6,160",
+        anchor: "top",
+        offset: { dx: -30, dy: -20 },
+        connector: true,
+        fontSize: 11,
+        fontWeight: 600,
+      },
+    ],
+    chrome: {
+      title: "Texas hasn't raised per-student funding since 2019",
+      subtitle: "Basic allotment per student, 1984-2026",
+      source: "Source: Texas Education Agency",
+    },
+    theme: { colors: ["#1b7fa3"] },
+    labels: { density: "none" },
+  }} />
+</Figure>
+
+In real terms, that $6,160 is worth closer to $4,900 today. Districts are being asked to educate students with less purchasing power per head while simultaneously writing larger recapture checks. The 89th Legislature (2025) ended its session without increasing the allotment.
+
+The freeze matters because it affects how much revenue a district is "entitled" to keep before recapture kicks in. A higher allotment would raise the threshold and reduce recapture for many districts. Keeping it frozen while property values rise is a policy choice that mechanically increases recapture collections.
+
+## The property wealth gap between districts is enormous
+
+Texas has over 1,000 school districts, and the spread in property wealth per student is hard to overstate. Wink-Loving ISD in the Permian Basin sits on $27.3 million in property value per weighted student. Roscoe Collegiate ISD has $20,000. That's a 1,367-to-1 ratio.
+
+{/* API: POST /v1/datasets/tea/wealth-per-wada/query — SQL: SELECT district_name, wealth_per_wada FROM data ORDER BY wealth_per_wada DESC LIMIT 20 + bottom 20
+Verified: 2026-04-16 */}
+<Figure alt="Data table showing the 10 wealthiest and 10 poorest Texas school districts by property value per student, revealing a 1,367x gap">
+  <DataTable spec={{
+    type: "table",
+    data: [
+      { district: "Wink-Loving ISD", wealth: 27274041, students: 757, region: "Permian Basin" },
+      { district: "Grady ISD", wealth: 24553750, students: 401, region: "Permian Basin" },
+      { district: "Rankin ISD", wealth: 23472279, students: 594, region: "Permian Basin" },
+      { district: "Glasscock County ISD", wealth: 17226495, students: 534, region: "Permian Basin" },
+      { district: "Klondike ISD", wealth: 12206785, students: 410, region: "Permian Basin" },
+      { district: "...", wealth: null, students: null, region: "..." },
+      { district: "Roma ISD", wealth: 88276, students: 9278, region: "Rio Grande Valley" },
+      { district: "Fabens ISD", wealth: 87251, students: 2889, region: "El Paso border" },
+      { district: "Edcouch-Elsa ISD", wealth: 81626, students: 6086, region: "Rio Grande Valley" },
+      { district: "Tornillo ISD", wealth: 69406, students: 1448, region: "El Paso border" },
+      { district: "Roscoe Collegiate ISD", wealth: 19956, students: 20814, region: "West Texas" },
+    ],
+    columns: [
+      { key: "district", label: "District", width: "35%" },
+      { key: "wealth", label: "Wealth per student", format: "$,.0f", bar: { color: "#c44e52" } },
+      { key: "students", label: "WADA", format: ",.0f" },
+      { key: "region", label: "Region" },
+    ],
+    chrome: {
+      title: "A 1,367x gap in property wealth per student",
+      subtitle: "Property value per weighted average daily attendance, selected districts",
+      source: "Source: Texas Education Agency, wealth-per-WADA data",
+    },
+  }} />
+</Figure>
+
+The pattern is consistent. The wealthiest districts are tiny oil and gas communities in the Permian Basin. The poorest are border communities in the Rio Grande Valley and El Paso County with large student populations and minimal taxable property. Recapture is designed to bridge this gap, taking from the Wink-Lovings and redistributing to the Torrillos.
+
+But there's a catch. The oil patch districts paying the most in recapture per student are tiny, sometimes enrolling fewer than 500 kids. The urban districts like Austin, Plano, and Dallas that dominate the absolute dollar totals are property-wealthy for a different reason: expensive real estate in booming metros.
+
+## Some districts send back more than they collect
+
+The most extreme cases are in West Texas. Grady ISD, with 249 students, sends back nearly five times its local tax collections in recapture. Rankin ISD (294 students) sends back 4.6 times. These tiny districts generate enormous property tax revenue from oil and gas operations but have so few students that their per-pupil wealth triggers massive recapture obligations.
+
+{/* API: POST /v1/query — SQL: cross-dataset join tea/recapture + tea/summarized-finance for recapture as % of local tax
+Verified: 2026-04-16 */}
+<Figure alt="Horizontal bar chart showing recapture as a percentage of local tax revenue for top districts, with several oil patch ISDs above 300%">
+  <Chart spec={{
+    mark: "bar",
+    data: [
+      { district: "Austin ISD", pct: 96, dollars: 661 },
+      { district: "Eanes ISD", pct: 131, dollars: 90 },
+      { district: "Highland Park ISD", pct: 138, dollars: 78 },
+      { district: "Carrizo Springs CISD", pct: 192, dollars: 42 },
+      { district: "Stanton ISD", pct: 211, dollars: 40 },
+      { district: "Cotulla ISD", pct: 233, dollars: 38 },
+      { district: "Reagan County ISD", pct: 301, dollars: 50 },
+      { district: "Pecos-Barstow-Toyah ISD", pct: 364, dollars: 197 },
+      { district: "Wink-Loving ISD", pct: 367, dollars: 138 },
+      { district: "Culberson Co-Allamoore ISD", pct: 375, dollars: 45 },
+      { district: "Rankin ISD", pct: 458, dollars: 91 },
+      { district: "Glasscock County ISD", pct: 471, dollars: 52 },
+      { district: "Grady ISD", pct: 495, dollars: 59 },
+    ],
+    encoding: {
+      x: {
+        field: "pct",
+        type: "quantitative",
+        axis: { title: "Recapture as % of local tax revenue", format: ".0f%", tickCount: 5 },
+      },
+      y: {
+        field: "district",
+        type: "nominal",
+        sort: null,
+        axis: { title: null },
+      },
+      color: {
+        condition: { test: { field: "pct", gte: 100 }, value: "#c44e52" },
+        value: "#d47215",
+      },
+    },
+    annotations: [
+      {
+        type: "refline",
+        x: 100,
+        label: "100% threshold",
+        style: "dashed",
+        stroke: "#64748b",
+        labelAnchor: "top",
+      },
+    ],
+    chrome: {
+      title: "Some Texas districts send back 5x what they collect in local taxes",
+      subtitle: "Recapture as percentage of local M&O tax revenue, 2024",
+      source: "Source: Texas Education Agency",
+    },
+    labels: { density: "all", format: ".0f%" },
+  }} />
+</Figure>
+
+This is possible because recapture is calculated on total taxable property value relative to the number of students, not on the district's actual tax collections. A district like Grady ISD collects $11.9 million in local property taxes but owes $58.9 million in recapture. The state essentially treats the district's oil wealth as belonging to the system, not the district.
+
+Austin ISD is a different animal. At 96%, it's not technically over 100%, but it's close enough that the practical effect is the same: nearly every local tax dollar leaves the district. For a city of Austin's size, with 73,000 students and all the fixed costs of running a major urban school system, that leaves very little room to maneuver.
+
+---
+
+The political tension around recapture has been building for years. In 2023, several North Texas ISDs, including Keller and Carroll, voted to stop making recapture payments in protest, though they ultimately complied.
+
+The May 2025 passage of Senate Bill 2, which created $10,300 education savings accounts (vouchers) for private schools, adds another variable. Vouchers follow the same financial logic as charter schools: students leave traditional districts, enrollment drops, property wealth per student rises, recapture grows.
+
+If Texas follows the trajectory of the last decade, the system will keep concentrating more financial pressure on the districts that can least afford it. The basic allotment hasn't been raised since 2019. Property values continue to climb. Charter enrollment keeps growing.
+
+Austin ISD has paid $7.4 billion since 2001. By 2030, it will have paid more than $10 billion.
+
+The question isn't whether recapture should exist. Equalizing funding across wealthy and poor districts is a legitimate and necessary goal. The question is whether a system designed in 1993 can handle the pressures of 2026: rising property values, frozen per-student funding, and a rapidly growing charter sector that receives state funding without contributing to local tax bases.
+
+Right now, the math says it can't.
+
+## Data sources & methodology
+
+**Datasets used:**
+- `tea/recapture` - Statewide recapture payments by district, 1994-2025 (2025 are TEA projections, not actuals)
+- `tea/summarized-finance` - PEIMS financial data by district, 2009-2025. Revenue and enrollment by district type.
+- `tea/basic-allotment` - Historical per-student basic allotment amounts, 1984-2026
+- `tea/wealth-per-wada` - Property values per weighted average daily attendance, current snapshot
+- `tea/district-directory` - District classification (charter vs. independent ISD) used for enrollment and finance breakdowns
+
+**Calculations & transformations:**
+- Charter vs. traditional ISD classification was determined by joining `tea/summarized-finance` with `tea/district-directory` on district ID, using the `district_type` field
+- Per-pupil state revenue calculated as total state revenue divided by fall survey enrollment for each district type
+- Recapture as percentage of local tax revenue calculated as recapture payment divided by all-funds local M&O tax revenue per district
+- Statewide charter state funding estimate (approximately $4.8 billion) calculated as charter enrollment (434,986) multiplied by per-pupil state revenue ($10,973)
+
+**Limitations:**
+- The district directory is a current-year snapshot, not a historical time series. Districts that converted to or from charter status during 2009-2025 may be misclassified for earlier years. The impact is likely small given the stability of district types.
+- 2025 recapture figures are TEA projections, not final actuals
+- The recapture-as-percentage-of-local-tax calculation for oil patch districts exceeds 100% because recapture is calculated on total taxable property value, which can exceed actual tax collections when the recapture formula determines a higher obligation than local M&O rates generate
+- Federal revenue spikes in 2022-2023 reflect one-time ESSER/COVID relief funds, not structural funding increases
+- Inflation adjustment claims (25% cumulative since 2019) are based on CPI-U general index, not education-specific cost indices
+
+*Data accessed on 2026-04-16 via the [OpenData API](https://tryopendata.ai).*

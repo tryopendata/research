@@ -7,6 +7,12 @@ export interface Offset {
   dy?: number
 }
 
+export type ChartElementRef =
+  | { type: 'annotation'; index: number; id?: string; text?: string }
+  | { type: 'chrome'; key: 'title' | 'subtitle' | 'source' | 'byline' | 'footer' }
+  | { type: 'series-label'; series: string }
+  | { type: 'legend' }
+
 export type ChartEdit =
   | { type: 'annotation'; annotation: { text: string }; offset: Offset }
   | { type: 'annotation-connector'; annotation: { text: string }; endpoint: 'from' | 'to'; offset: Offset }
@@ -15,6 +21,7 @@ export type ChartEdit =
   | { type: 'chrome'; key: 'title' | 'subtitle' | 'source' | 'byline' | 'footer'; text: string; offset: Offset }
   | { type: 'series-label'; series: string; offset: Offset }
   | { type: 'legend'; offset: Offset }
+  | { type: 'delete'; element: ChartElementRef }
 
 export interface ChartEditRequest {
   slug: string

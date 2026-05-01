@@ -1,0 +1,578 @@
+{/*
+PALETTE:
+- Florida / highlight:      #c44e52  (red)
+- Texas:                    #e09c41  (amber)
+- Mississippi / improver:   #6a9f58  (green)
+- Illinois / neutral:       #4a7ab5  (blue)
+- Massachusetts:            #7b68a8  (purple)
+- National average:         #94a3b8  (gray)
+- Positive change:          #6a9f58  (green)
+- Negative change:          #c44e52  (red)
+*/}
+
+export const meta = {
+  title: "America's Education Report Card: Who's Gaining Ground and Who's Falling Behind",
+  date: "2026-04-24",
+  description: "NAEP scores reveal that Florida and Texas, once held up as reform models, are now declining faster than the national average, while Mississippi has pulled off the most dramatic improvement in modern education history.",
+  tags: ["education", "NAEP", "states", "testing", "COVID-recovery"],
+};
+
+import { Chart } from "../components/Chart";
+import { DataTable } from "@opendata-ai/openchart-react";
+import { Figure } from "../components/Figure";
+
+In 2003, Mississippi's 4th graders scored dead last in the nation on the NAEP math exam, 11 points below the national average. By 2024, they'd pulled nearly even, gaining 16 points while the rest of the country lost ground. Over the same period, Texas 8th graders went from 1 point above the national average to 3 points below, dropping 21 points from their 2011 peak. Florida's 8th grade reading scores fell 10.5 points in just five years.
+
+The Nation's Report Card, the only standardized test given uniformly across all 50 states, tells a story that upends the conventional wisdom about American education. The states once held up as reform models are stumbling. The states written off as hopeless are climbing. And the COVID learning loss that dominated headlines turns out to be unevenly distributed in ways that reveal something deeper about which education strategies actually produce lasting gains.
+
+## Mississippi pulled off something nobody expected
+
+Mississippi was synonymous with last place in education for decades, and not without reason. In 2003, its 4th graders scored 223 in math, the lowest in the nation. Its 4th grade reading score of 206 was similarly bottom-of-the-barrel.
+
+Then something changed. In 2013, Mississippi enacted the Literacy-Based Promotion Act, which required 3rd graders to demonstrate reading proficiency before advancing to 4th grade. The state invested in intensive reading instruction, teacher training, and early identification of struggling readers. Critics called it harsh. The results have been undeniable.
+
+{/* API: POST /v1/datasets/nces/naep/query
+SQL: SELECT jurisdiction_name, ROUND(MAX(CASE WHEN year=2024 THEN score END) - MAX(CASE WHEN year=2003 THEN score END), 1) as change FROM data WHERE subject = 'reading' AND grade = 4 GROUP BY jurisdiction_name ORDER BY change DESC
+Verified: 2026-04-24 */}
+
+<Figure alt="Horizontal bar chart showing 4th grade reading score changes from 2003 to 2024 by state. DC gained 20.8 points, Mississippi gained 13.0, and Louisiana gained 11.2, while Delaware lost 14.4 and Maine lost 14.3.">
+  <Chart spec={{
+    mark: "bar",
+    data: [
+      { state: "D.C.", change: 20.8 },
+      { state: "Mississippi", change: 13.0 },
+      { state: "Louisiana", change: 11.2 },
+      { state: "Hawaii", change: 7.5 },
+      { state: "Nevada", change: 6.2 },
+      { state: "Alabama", change: 6.1 },
+      { state: "California", change: 6.1 },
+      { state: "Tennessee", change: 3.1 },
+      { state: "Kentucky", change: 2.3 },
+      { state: "Florida", change: 0.2 },
+      { state: "Natl. avg.", change: -2.2 },
+      { state: "Illinois", change: -2.1 },
+      { state: "Texas", change: -2.9 },
+      { state: "New York", change: -6.1 },
+      { state: "Virginia", change: -8.2 },
+      { state: "Maine", change: -14.3 },
+      { state: "Delaware", change: -14.4 },
+    ],
+    encoding: {
+      x: {
+        field: "change", type: "quantitative",
+        axis: { title: "Point change (2003-2024)", tickCount: 5 },
+        scale: { nice: false },
+      },
+      y: {
+        field: "state", type: "nominal",
+        axis: { title: "" },
+        sort: null,
+      },
+      color: {
+        condition: { test: { field: "change", gte: 0 }, value: "#6a9f58" },
+        value: "#c44e52",
+      },
+    },
+    annotations: [
+      { type: "refline", x: 0 },
+    ],
+    chrome: {
+      title: "Mississippi led the nation in 4th grade reading gains",
+      subtitle: "Change in NAEP 4th grade reading score, 2003 to 2024 (selected states)",
+      source: "Source: National Center for Education Statistics, NAEP",
+    },
+    labels: { density: "all", format: "+.1f" },
+    legend: { show: false },
+  }} />
+</Figure>
+
+Mississippi climbed 13 points in 4th grade reading between 2003 and 2024. The national average fell 2 points over the same period. That's a 15-point relative swing, driven largely by gains after the literacy law took effect in 2015. By 2019, Mississippi had crossed above the national average for the first time in the state's history.
+
+The gains weren't just in reading. Mississippi's 4th grade math scores rose 16 points, and its 8th grade math improved 8 points, both among the largest gains in the country. Alabama and Louisiana, neighboring states that adopted similar early-literacy strategies, also showed gains, though less dramatic. The Deep South, long the butt of education jokes, has been quietly outperforming the national trend for a decade.
+
+## Florida's elementary success story has a sequel, and it's not a good one
+
+Florida was the original reform darling. Under Jeb Bush's administration in the early 2000s, the state implemented A-F school grading, expanded school choice, and emphasized early reading. The results at the elementary level were real: 4th grade math scores rose from 234 in 2003 to 246 in 2017, consistently outpacing the national average.
+
+But that progress masked a growing problem in the upper grades.
+
+{/* API: POST /v1/datasets/nces/naep/query
+SQL: SELECT jurisdiction_name, year, ROUND(score, 1) as score FROM data WHERE subject = 'math' AND grade = 8 AND jurisdiction_code IN ('FL', 'TX', 'IL', 'MS', 'NP', 'MA') ORDER BY jurisdiction_name, year
+Verified: 2026-04-24 */}
+
+<Figure alt="Line chart showing 8th grade math scores from 2003 to 2024 for Florida, Texas, Illinois, Mississippi, Massachusetts, and the national average. Texas peaked in 2011 at 290 and fell to 269 by 2024. Florida declined from 281 to 267. Mississippi rose from 261 to 269.">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { state: "Massachusetts", year: 2003, score: 286.5 },
+      { state: "Massachusetts", year: 2005, score: 291.5 },
+      { state: "Massachusetts", year: 2007, score: 297.9 },
+      { state: "Massachusetts", year: 2009, score: 298.9 },
+      { state: "Massachusetts", year: 2011, score: 298.5 },
+      { state: "Massachusetts", year: 2013, score: 300.6 },
+      { state: "Massachusetts", year: 2015, score: 296.9 },
+      { state: "Massachusetts", year: 2017, score: 297.0 },
+      { state: "Massachusetts", year: 2019, score: 294.5 },
+      { state: "Massachusetts", year: 2022, score: 283.6 },
+      { state: "Massachusetts", year: 2024, score: 283.5 },
+      { state: "Texas", year: 2003, score: 277.1 },
+      { state: "Texas", year: 2005, score: 281.1 },
+      { state: "Texas", year: 2007, score: 285.9 },
+      { state: "Texas", year: 2009, score: 286.7 },
+      { state: "Texas", year: 2011, score: 290.3 },
+      { state: "Texas", year: 2013, score: 288.2 },
+      { state: "Texas", year: 2015, score: 283.8 },
+      { state: "Texas", year: 2017, score: 282.3 },
+      { state: "Texas", year: 2019, score: 279.7 },
+      { state: "Texas", year: 2022, score: 272.7 },
+      { state: "Texas", year: 2024, score: 269.4 },
+      { state: "Illinois", year: 2003, score: 277.2 },
+      { state: "Illinois", year: 2005, score: 277.7 },
+      { state: "Illinois", year: 2007, score: 280.5 },
+      { state: "Illinois", year: 2009, score: 282.4 },
+      { state: "Illinois", year: 2011, score: 283.2 },
+      { state: "Illinois", year: 2013, score: 284.9 },
+      { state: "Illinois", year: 2015, score: 282.0 },
+      { state: "Illinois", year: 2017, score: 281.6 },
+      { state: "Illinois", year: 2019, score: 282.6 },
+      { state: "Illinois", year: 2022, score: 275.2 },
+      { state: "Illinois", year: 2024, score: 277.4 },
+      { state: "Natl. avg.", year: 2003, score: 276.1 },
+      { state: "Natl. avg.", year: 2005, score: 277.5 },
+      { state: "Natl. avg.", year: 2007, score: 280.2 },
+      { state: "Natl. avg.", year: 2009, score: 281.7 },
+      { state: "Natl. avg.", year: 2011, score: 282.7 },
+      { state: "Natl. avg.", year: 2013, score: 283.6 },
+      { state: "Natl. avg.", year: 2015, score: 281.3 },
+      { state: "Natl. avg.", year: 2017, score: 282.0 },
+      { state: "Natl. avg.", year: 2019, score: 281.0 },
+      { state: "Natl. avg.", year: 2022, score: 273.1 },
+      { state: "Natl. avg.", year: 2024, score: 272.2 },
+      { state: "Florida", year: 2003, score: 271.4 },
+      { state: "Florida", year: 2005, score: 274.0 },
+      { state: "Florida", year: 2007, score: 277.4 },
+      { state: "Florida", year: 2009, score: 279.3 },
+      { state: "Florida", year: 2011, score: 277.8 },
+      { state: "Florida", year: 2013, score: 280.9 },
+      { state: "Florida", year: 2015, score: 275.3 },
+      { state: "Florida", year: 2017, score: 279.1 },
+      { state: "Florida", year: 2019, score: 278.5 },
+      { state: "Florida", year: 2022, score: 271.2 },
+      { state: "Florida", year: 2024, score: 267.2 },
+      { state: "Mississippi", year: 2003, score: 260.9 },
+      { state: "Mississippi", year: 2005, score: 262.5 },
+      { state: "Mississippi", year: 2007, score: 264.9 },
+      { state: "Mississippi", year: 2009, score: 265.0 },
+      { state: "Mississippi", year: 2011, score: 269.2 },
+      { state: "Mississippi", year: 2013, score: 271.2 },
+      { state: "Mississippi", year: 2015, score: 270.6 },
+      { state: "Mississippi", year: 2017, score: 270.9 },
+      { state: "Mississippi", year: 2019, score: 273.7 },
+      { state: "Mississippi", year: 2022, score: 265.6 },
+      { state: "Mississippi", year: 2024, score: 269.1 },
+    ],
+    encoding: {
+      x: { field: "year", type: "ordinal", axis: { title: "" } },
+      y: {
+        field: "score", type: "quantitative",
+        axis: { title: "NAEP score", tickCount: 5 },
+        scale: { domain: [255, 305], nice: false },
+      },
+      color: {
+        field: "state", type: "nominal",
+        scale: {
+          domain: ["Massachusetts", "Texas", "Illinois", "Natl. avg.", "Florida", "Mississippi"],
+          range: ["#7b68a8", "#e09c41", "#4a7ab5", "#94a3b8", "#c44e52", "#6a9f58"],
+        },
+      },
+    },
+    annotations: [
+      { type: "text", x: 2011, y: 292, text: "TX peak: 290", dx: 0, dy: -12, fontSize: 11, fontWeight: 600, fill: "#e09c41" },
+    ],
+    chrome: {
+      title: "Texas lost 21 points in 8th grade math from its 2011 peak",
+      subtitle: "8th grade math scores, NAEP (0-500 scale)",
+      source: "Source: National Center for Education Statistics, NAEP",
+    },
+    labels: { density: "endpoints" },
+    legend: { show: false },
+  }} />
+</Figure>
+
+The decline at the 8th grade level is striking. Texas peaked at 290 in 2011, 8 points above the national average, then fell 21 points to 269 by 2024, landing 3 points *below* the average. That's a full reversal of position in 13 years. Florida followed a similar trajectory, dropping from 281 in 2013 to 267 in 2024, now 5 points below the national average.
+
+Illinois, by contrast, looks boring in the best way. Its 8th grade math scores have barely moved (277 in 2003, 277 in 2024), which in the context of a nationwide decline actually means it quietly climbed from 1 point above average to 5 points above.
+
+The divergence between elementary and middle school results raises an uncomfortable question: were the early-grade reform gains real learning, or were they test-score bumps that evaporated as students aged? Mississippi's gains, notably, have held up through 8th grade, up 8 points since 2003. Florida's and Texas's did not.
+
+## COVID exposed who was already sinking
+
+The pandemic didn't create the achievement gaps between states. It widened the ones that already existed. Between 2019 and 2024, the national average in 4th grade math fell 2.7 points. But the range across states ran from Alabama gaining 6.7 points to Virginia losing 9 points.
+
+{/* API: POST /v1/datasets/nces/naep/query
+SQL: SELECT a.jurisdiction_name as state, a.jurisdiction_code as code, ROUND(b.score - a.score, 1) as change FROM data a JOIN data b ON a.jurisdiction_code = b.jurisdiction_code WHERE a.subject = 'math' AND b.subject = 'math' AND a.grade = 4 AND b.grade = 4 AND a.year = 2019 AND b.year = 2024 AND a.jurisdiction_code != 'NP' ORDER BY change DESC
+Verified: 2026-04-24 */}
+
+<Figure alt="Horizontal bar chart showing 4th grade math score changes from 2019 to 2024 for selected states. Alabama gained 6.7 points. Virginia lost 9 points. Most states lost between 1 and 6 points.">
+  <Chart spec={{
+    mark: "bar",
+    data: [
+      { state: "Alabama", change: 6.7 },
+      { state: "Louisiana", change: 3.3 },
+      { state: "South Carolina", change: 0.9 },
+      { state: "Tennessee", change: -0.1 },
+      { state: "Massachusetts", change: -0.8 },
+      { state: "Illinois", change: -1.3 },
+      { state: "Mississippi", change: -1.5 },
+      { state: "Florida", change: -2.6 },
+      { state: "Natl. avg.", change: -2.7 },
+      { state: "Texas", change: -3.1 },
+      { state: "Connecticut", change: -4.2 },
+      { state: "New Jersey", change: -5.8 },
+      { state: "Delaware", change: -6.1 },
+      { state: "Alaska", change: -6.4 },
+      { state: "Oregon", change: -7.7 },
+      { state: "Minnesota", change: -7.7 },
+      { state: "Virginia", change: -9.0 },
+    ],
+    encoding: {
+      x: {
+        field: "change", type: "quantitative",
+        axis: { title: "Score change (points)", format: "+.0f", tickCount: 5 },
+      },
+      y: { field: "state", type: "nominal", sort: null, axis: { title: "" } },
+      color: {
+        condition: { test: { field: "change", gte: 0 }, value: "#6a9f58" },
+        value: "#c44e52",
+      },
+    },
+    annotations: [
+      { type: "refline", x: 0, stroke: "#6b7280", strokeDasharray: "4 4" },
+      { type: "refline", x: -2.7, stroke: "#94a3b8", strokeDasharray: "2 4", label: "Natl. avg.", labelAnchor: "top",
+      labelOffset: { dx: 27, dy: 5 } },
+    ],
+    chrome: {
+      title: "Most states lost ground in 4th grade math since 2019",
+      subtitle: "Change in NAEP 4th grade math scores, 2019 to 2024 (selected states)",
+      source: "Source: National Center for Education Statistics, NAEP",
+    },
+    labels: { density: "all", format: "+.1f" },
+  }} />
+</Figure>
+
+The pattern isn't random. The states that gained ground, or at least held steady, are disproportionately in the South: Alabama, Louisiana, South Carolina, Tennessee. Several of these states reopened schools faster after COVID closures, but the pattern predates the pandemic. Alabama and Mississippi were already trending upward before 2020.
+
+The hardest-hit states include some surprises. Virginia lost 9 points, the largest decline in the nation. Minnesota dropped 7.7. Oregon fell 7.7. These aren't states associated with educational dysfunction, they were traditionally strong performers that gave back years of progress in a single pandemic cycle.
+
+Massachusetts, the consistent number one, lost less than a point in 4th grade math, preserving its lead. But its 8th grade math dropped 11 points between 2019 and 2024. Even the best systems proved vulnerable at the middle school level.
+
+## The elementary-to-middle-school fade raises deeper questions
+
+One of the most important patterns in the data isn't about any single state. It's about what happens between 4th and 8th grade. Several states that show impressive elementary gains watch those gains evaporate by middle school.
+
+{/* API: POST /v1/datasets/nces/naep/query
+SQL: Multiple queries for 4th grade and 8th grade math, 2003 vs 2024 scores for FL, TX, MS, IL, NP
+Verified: 2026-04-24 */}
+
+<Figure alt="Grouped bar chart comparing 4th grade and 8th grade math score changes from 2003 to 2024 for five states. Florida gained 10 in 4th grade but lost 4 in 8th grade. Mississippi gained 16 in 4th and 8 in 8th." minHeight={380}>
+  <Chart spec={{
+    mark: "bar",
+    data: [
+      { state: "Mississippi", grade: "4th grade", change: 16.3 },
+      { state: "Mississippi", grade: "8th grade", change: 8.2 },
+      { state: "Florida", grade: "4th grade", change: 9.7 },
+      { state: "Florida", grade: "8th grade", change: -4.2 },
+      { state: "Texas", grade: "4th grade", change: 3.2 },
+      { state: "Texas", grade: "8th grade", change: -7.7 },
+      { state: "Illinois", grade: "4th grade", change: 3.2 },
+      { state: "Illinois", grade: "8th grade", change: 0.2 },
+      { state: "Natl. avg.", grade: "4th grade", change: 3.3 },
+      { state: "Natl. avg.", grade: "8th grade", change: -3.9 },
+    ],
+    encoding: {
+      x: { field: "state", type: "nominal", sort: null, axis: { title: "" } },
+      y: {
+        field: "change", type: "quantitative", stack: null,
+        axis: { title: "Score change (points)", format: "+.0f", tickCount: 5 },
+      },
+      color: {
+        field: "grade", type: "nominal",
+        scale: {
+          domain: ["4th grade", "8th grade"],
+          range: ["#4a7ab5", "#c44e52"],
+        },
+      },
+    },
+    annotations: [
+      { type: "refline", y: 0, stroke: "#6b7280", strokeDasharray: "4 4" },
+    ],
+    chrome: {
+      title: "Elementary gains don't always survive to middle school",
+      subtitle: "Change in NAEP math scores, 2003 to 2024",
+      source: "Source: National Center for Education Statistics, NAEP",
+    },
+    labels: { density: "all", format: "+.1f" },
+  }} />
+</Figure>
+
+Florida's split is the most dramatic. Its 4th graders gained nearly 10 points over two decades, a genuine achievement. But its 8th graders lost 4 points over the same period. The elementary reforms that earned national attention didn't translate into sustained learning.
+
+Texas shows the same pattern, only worse. A modest 3-point gain in 4th grade math sits alongside a nearly 8-point decline in 8th grade. Whatever Texas was doing at the elementary level, it wasn't building a foundation that held.
+
+Mississippi stands apart because its gains survived the transition. An impressive 16-point jump in 4th grade math was accompanied by an 8-point gain in 8th grade. The 8th grade gain is roughly half the elementary gain, which suggests some fade, but it's a genuine improvement rather than a washout.
+
+This pattern has implications beyond these three states. Nationwide, 4th grade math rose 3.3 points while 8th grade math fell 3.9 points. That 7-point gap between elementary improvement and middle school decline suggests something systemic: either the reforms focused on early grades aren't building transferable skills, or the middle school years introduce problems that overwhelm whatever foundation was laid earlier.
+
+## Reading is declining almost everywhere, and nobody has the answer
+
+If there's one chart that should alarm everyone involved in education, it's 4th grade reading. Unlike math, where there are at least pockets of improvement, reading scores are falling in nearly every state.
+
+{/* API: POST /v1/datasets/nces/naep/query
+SQL: SELECT jurisdiction_name, year, ROUND(score, 1) as score FROM data WHERE subject = 'reading' AND grade = 4 AND jurisdiction_code IN ('FL', 'TX', 'IL', 'MS', 'NP') ORDER BY jurisdiction_name, year
+Verified: 2026-04-24 */}
+
+<Figure alt="Line chart showing 4th grade reading scores from 2003 to 2024 for Florida, Texas, Illinois, Mississippi, and the national average. All lines decline after 2017, with Florida dropping from 228 to 218 and Texas from 219 to 212.">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { state: "Florida", year: 2003, score: 218.0 },
+      { state: "Florida", year: 2005, score: 219.5 },
+      { state: "Florida", year: 2007, score: 223.5 },
+      { state: "Florida", year: 2009, score: 225.7 },
+      { state: "Florida", year: 2011, score: 224.5 },
+      { state: "Florida", year: 2013, score: 227.5 },
+      { state: "Florida", year: 2015, score: 227.2 },
+      { state: "Florida", year: 2017, score: 228.3 },
+      { state: "Florida", year: 2019, score: 224.7 },
+      { state: "Florida", year: 2022, score: 224.7 },
+      { state: "Florida", year: 2024, score: 218.2 },
+      { state: "Mississippi", year: 2003, score: 205.5 },
+      { state: "Mississippi", year: 2005, score: 204.4 },
+      { state: "Mississippi", year: 2007, score: 207.8 },
+      { state: "Mississippi", year: 2009, score: 210.5 },
+      { state: "Mississippi", year: 2011, score: 209.2 },
+      { state: "Mississippi", year: 2013, score: 208.5 },
+      { state: "Mississippi", year: 2015, score: 214.1 },
+      { state: "Mississippi", year: 2017, score: 215.2 },
+      { state: "Mississippi", year: 2019, score: 219.3 },
+      { state: "Mississippi", year: 2022, score: 217.2 },
+      { state: "Mississippi", year: 2024, score: 218.5 },
+      { state: "Natl. avg.", year: 2003, score: 216.5 },
+      { state: "Natl. avg.", year: 2005, score: 217.3 },
+      { state: "Natl. avg.", year: 2007, score: 219.7 },
+      { state: "Natl. avg.", year: 2009, score: 219.6 },
+      { state: "Natl. avg.", year: 2011, score: 220.0 },
+      { state: "Natl. avg.", year: 2013, score: 220.7 },
+      { state: "Natl. avg.", year: 2015, score: 221.4 },
+      { state: "Natl. avg.", year: 2017, score: 220.8 },
+      { state: "Natl. avg.", year: 2019, score: 219.4 },
+      { state: "Natl. avg.", year: 2022, score: 216.1 },
+      { state: "Natl. avg.", year: 2024, score: 214.3 },
+      { state: "Illinois", year: 2003, score: 216.3 },
+      { state: "Illinois", year: 2005, score: 216.5 },
+      { state: "Illinois", year: 2007, score: 219.4 },
+      { state: "Illinois", year: 2009, score: 219.2 },
+      { state: "Illinois", year: 2011, score: 219.4 },
+      { state: "Illinois", year: 2013, score: 218.5 },
+      { state: "Illinois", year: 2015, score: 222.0 },
+      { state: "Illinois", year: 2017, score: 220.4 },
+      { state: "Illinois", year: 2019, score: 218.2 },
+      { state: "Illinois", year: 2022, score: 217.8 },
+      { state: "Illinois", year: 2024, score: 214.2 },
+      { state: "Texas", year: 2003, score: 214.8 },
+      { state: "Texas", year: 2005, score: 218.7 },
+      { state: "Texas", year: 2007, score: 219.6 },
+      { state: "Texas", year: 2009, score: 218.9 },
+      { state: "Texas", year: 2011, score: 218.3 },
+      { state: "Texas", year: 2013, score: 216.9 },
+      { state: "Texas", year: 2015, score: 217.9 },
+      { state: "Texas", year: 2017, score: 214.9 },
+      { state: "Texas", year: 2019, score: 216.0 },
+      { state: "Texas", year: 2022, score: 214.2 },
+      { state: "Texas", year: 2024, score: 211.9 },
+    ],
+    encoding: {
+      x: { field: "year", type: "ordinal", axis: { title: "" } },
+      y: {
+        field: "score", type: "quantitative",
+        axis: { title: "NAEP score", tickCount: 5 },
+        scale: { domain: [200, 232], nice: false },
+      },
+      color: {
+        field: "state", type: "nominal",
+        scale: {
+          domain: ["Florida", "Mississippi", "Natl. avg.", "Illinois", "Texas"],
+          range: ["#c44e52", "#6a9f58", "#94a3b8", "#4a7ab5", "#e09c41"],
+        },
+      },
+    },
+    annotations: [
+      { type: "range", x1: 2019, x2: 2024, fill: "#94a3b8", opacity: 0.08, label: "" },
+      { type: "text", x: 2022, y: 231, text: "COVID era", fontSize: 11, fill: "#94a3b8" },
+    ],
+    chrome: {
+      title: "Mississippi is now the only state gaining ground in reading",
+      subtitle: "4th grade reading scores, NAEP (0-500 scale)",
+      source: "Source: National Center for Education Statistics, NAEP",
+    },
+    labels: { density: "endpoints" },
+    legend: { show: false },
+  }} />
+</Figure>
+
+Florida's reading decline is especially notable because it was once the poster child for reading reform. Its 4th grade reading score peaked at 228 in 2017, well above the national average. By 2024, it had dropped back to 218, essentially where it started in 2003. Two decades of gains, erased in seven years.
+
+Texas never really had a reading success story to begin with. Its 4th grade reading score in 2003 was 215, below the national average. In 2024 it's 212, still below average. Twenty years of education policy and billions of dollars, and the state's youngest students read no better than they did at the start.
+
+Mississippi is the lone standout. Its 4th graders gained 13 points in reading, climbing from 206 to 219. By 2019, Mississippi had actually *passed* Florida in 4th grade reading, a sentence that nobody would have believed a decade earlier. Even after COVID disruptions, Mississippi's 2024 reading score of 219 sits above the national average of 214, while both Florida and Illinois sit at or below it.
+
+## The teacher pay puzzle
+
+States that pay teachers more don't automatically produce better outcomes. But the states with the lowest-paid teachers are increasingly concentrated in the lowest-performing group, and the gap is growing.
+
+{/* API: POST /v1/datasets/nces/teacher-salary-by-state/query
+SQL: SELECT state, value FROM data WHERE metric = 'salary_constant' AND period = '2021_22' ORDER BY value DESC
+Cross-referenced with 2024 NAEP 8th grade math scores
+Verified: 2026-04-24 */}
+
+<Figure alt="Scatter plot showing teacher salary in 2022 dollars on the x-axis and 8th grade math NAEP score on the y-axis. Points are labeled by state. Higher-paying states tend to cluster in the upper right, but with notable exceptions.">
+  <Chart spec={{
+    mark: { type: "point", filled: true },
+    data: [
+      { state: "MA", salary: 88903, score: 283.5, tier: "High pay" },
+      { state: "NJ", salary: 79045, score: 281.7, tier: "High pay" },
+      { state: "CT", salary: 81185, score: 276.7, tier: "High pay" },
+      { state: "IL", salary: 72301, score: 277.4, tier: "High pay" },
+      { state: "NY", salary: 92222, score: 270.9, tier: "High pay" },
+      { state: "CA", salary: 87275, score: 268.8, tier: "High pay" },
+      { state: "MD", salary: 75766, score: 268.2, tier: "High pay" },
+      { state: "WI", salary: 60453, score: 282.6, tier: "Mid pay" },
+      { state: "MN", salary: 68491, score: 282.1, tier: "Mid pay" },
+      { state: "UT", salary: 58619, score: 281.8, tier: "Mid pay" },
+      { state: "IN", salary: 54126, score: 278.2, tier: "Mid pay" },
+      { state: "OH", salary: 63153, score: 278.8, tier: "Mid pay" },
+      { state: "TX", salary: 58887, score: 269.4, tier: "Mid pay" },
+      { state: "FL", salary: 51230, score: 267.2, tier: "Low pay" },
+      { state: "MS", salary: 47162, score: 269.1, tier: "Low pay" },
+      { state: "AL", salary: 55834, score: 261.8, tier: "Low pay" },
+      { state: "OK", salary: 54804, score: 264.5, tier: "Low pay" },
+      { state: "NM", salary: 54272, score: 256.2, tier: "Low pay" },
+      { state: "WV", salary: 50315, score: 260.8, tier: "Low pay" },
+      { state: "SD", salary: 49761, score: 281.1, tier: "Low pay" },
+    ],
+    encoding: {
+      x: {
+        field: "salary", type: "quantitative",
+        axis: { title: "Avg. teacher salary (2022 dollars)", format: "$~s", tickCount: 5 },
+        scale: { nice: false },
+      },
+      y: {
+        field: "score", type: "quantitative",
+        axis: { title: "8th grade math score (2024)", tickCount: 5 },
+        scale: { domain: [254, 286], nice: false },
+      },
+      color: {
+        field: "tier", type: "ordinal",
+        scale: {
+          domain: ["Low pay", "Mid pay", "High pay"],
+          range: ["#c44e52", "#e09c41", "#4a7ab5"],
+        },
+      },
+      tooltip: [
+        { field: "state", type: "nominal", title: "State" },
+        { field: "salary", type: "quantitative", title: "Salary", format: "$,.0f" },
+        { field: "score", type: "quantitative", title: "Math score", format: ".0f" },
+      ],
+    },
+    annotations: [
+      { type: "text", x: 49761, y: 282.5, text: "SD", dx: -12, dy: -6, fontSize: 11, fontWeight: 600, fill: "#374151" },
+      { type: "text", x: 88903, y: 285, text: "MA", dx: -12, dy: -6, fontSize: 11, fontWeight: 600, fill: "#374151" },
+      { type: "text", x: 47162, y: 270.5, text: "MS", dx: -12, dy: -6, fontSize: 11, fontWeight: 600, fill: "#374151" },
+      { type: "text", x: 51230, y: 265.8, text: "FL", dx: 8, dy: 0, fontSize: 11, fontWeight: 600, fill: "#374151" },
+      { type: "text", x: 92222, y: 269.5, text: "NY", dx: -12, dy: -6, fontSize: 11, fontWeight: 600, fill: "#374151" },
+    ],
+    chrome: {
+      title: "Higher pay correlates loosely with better scores, but outliers tell the story",
+      subtitle: "20 states by teacher compensation and 8th grade math performance",
+      source: "Source: NCES Teacher Salary Data, NAEP",
+    },
+  }} />
+</Figure>
+
+Massachusetts pays teachers $89,000 in inflation-adjusted dollars and has the highest 8th grade math scores in the country. But South Dakota pays $50,000 and posts scores nearly as high. New York pays the most in the nation, $92,000, but sits 12 points below Massachusetts in math.
+
+Florida's position is worth lingering on. It pays teachers $51,000 in real dollars, among the lowest in the country, and *less than it paid them 50 years ago* after adjusting for inflation. A Florida teacher in 1970 earned the equivalent of $63,000 in today's money. That decades-long erosion of real pay has consequences that compound: fewer talented people entering the profession, higher turnover, and an experience gap that shows up most clearly in the upper grades where subject expertise matters more.
+
+Mississippi, the lowest-paying state at $47,000, is an obvious counterexample to the "just pay more" argument. It has dramatically improved outcomes while remaining at the bottom of the salary table. But that doesn't mean pay doesn't matter. It means that *how* you teach can overcome *how much* you pay for a while, especially at the elementary level. Whether Mississippi can sustain its gains as it asks teachers to do demanding, high-skill work for the lowest pay in the country is an open question.
+
+---
+
+The NAEP data tells a story that refuses to conform to easy political narratives. School choice hasn't prevented Florida's decline. High spending hasn't protected Massachusetts from COVID losses. Low spending hasn't stopped Mississippi from climbing.
+
+What the data does suggest is that targeted, evidence-based interventions at the elementary level, particularly in literacy, produce real gains. Mississippi's reading reforms worked. But those gains face a harder test as students advance to middle school, where the curriculum demands shift and the strategies that moved the needle in early grades may not transfer.
+
+The most sobering finding is also the simplest one. In 2003, the national 4th grade reading average was 217. In 2024, it's 214. After two decades, trillions of dollars in education spending, and countless reform initiatives, America's 9-year-olds read slightly worse than their counterparts did a generation ago. That's not a state-level problem. It's a national one.
+
+{/* API: POST /v1/datasets/nces/naep/query
+SQL: Multiple queries for 2003 vs 2024 scores across all metrics
+Verified: 2026-04-24 */}
+
+<Figure alt="Data table showing 2003 and 2024 NAEP scores for key states across math and reading at 4th and 8th grade, with the change calculated.">
+  <DataTable spec={{
+    type: "table",
+    columns: [
+      { field: "state", header: "State", width: 110 },
+      { field: "metric", header: "Metric", width: 130 },
+      { field: "s2003", header: "2003", format: ".0f", width: 70 },
+      { field: "s2024", header: "2024", format: ".0f", width: 70 },
+      { field: "change", header: "Change", format: "+.1f", width: 80,
+        heatmap: { domain: [-15, 15], colors: ["#c44e52", "#f5f5f5", "#6a9f58"] } },
+    ],
+    data: [
+      { state: "Mississippi", metric: "Math, 4th grade", s2003: 223, s2024: 239, change: 16.3 },
+      { state: "Mississippi", metric: "Reading, 4th grade", s2003: 206, s2024: 219, change: 13.0 },
+      { state: "Mississippi", metric: "Math, 8th grade", s2003: 261, s2024: 269, change: 8.2 },
+      { state: "Florida", metric: "Math, 4th grade", s2003: 234, s2024: 243, change: 9.7 },
+      { state: "Florida", metric: "Math, 8th grade", s2003: 271, s2024: 267, change: -4.2 },
+      { state: "Florida", metric: "Reading, 4th grade", s2003: 218, s2024: 218, change: 0.2 },
+      { state: "Florida", metric: "Reading, 8th grade", s2003: 257, s2024: 253, change: -4.4 },
+      { state: "Texas", metric: "Math, 4th grade", s2003: 237, s2024: 241, change: 3.2 },
+      { state: "Texas", metric: "Math, 8th grade", s2003: 277, s2024: 269, change: -7.7 },
+      { state: "Texas", metric: "Reading, 4th grade", s2003: 215, s2024: 212, change: -2.9 },
+      { state: "Texas", metric: "Reading, 8th grade", s2003: 259, s2024: 252, change: -6.5 },
+      { state: "Illinois", metric: "Math, 4th grade", s2003: 233, s2024: 236, change: 3.2 },
+      { state: "Illinois", metric: "Math, 8th grade", s2003: 277, s2024: 277, change: 0.2 },
+      { state: "Illinois", metric: "Reading, 4th grade", s2003: 216, s2024: 214, change: -2.1 },
+      { state: "Illinois", metric: "Reading, 8th grade", s2003: 266, s2024: 262, change: -4.8 },
+      { state: "Natl. avg.", metric: "Math, 4th grade", s2003: 234, s2024: 237, change: 3.3 },
+      { state: "Natl. avg.", metric: "Math, 8th grade", s2003: 276, s2024: 272, change: -3.9 },
+      { state: "Natl. avg.", metric: "Reading, 4th grade", s2003: 217, s2024: 214, change: -2.2 },
+      { state: "Natl. avg.", metric: "Reading, 8th grade", s2003: 261, s2024: 257, change: -4.7 },
+    ],
+    chrome: {
+      title: "Two decades of change: the full scorecard",
+      subtitle: "NAEP scores, 2003 vs. 2024",
+      source: "Source: National Center for Education Statistics, NAEP",
+    },
+  }} />
+</Figure>
+
+## Data sources & methodology
+
+**Datasets used:**
+- `nces/naep` — NAEP (National Assessment of Educational Progress) scores by state, subject, and grade level, 2003-2024. The NAEP is administered biennially to nationally representative samples of students in participating schools. It was not administered in 2020 due to COVID-19.
+- `nces/teacher-salary-by-state` — Average teacher salary by state in current and constant (inflation-adjusted) dollars, from NCES Digest of Education Statistics Table 211.60. Covers selected years from 1969-70 through 2021-22.
+
+**Calculations & transformations:**
+- Score changes are simple differences (2024 score minus 2003 or 2019 score). No adjustments for demographic shifts or enrollment changes.
+- Teacher salaries use the "constant dollar" metric from NCES, which adjusts for inflation using the Consumer Price Index. The 2021-22 values are in 2022 dollars.
+- State rankings use the full set of 51 jurisdictions (50 states plus DC).
+
+**Limitations:**
+- NAEP scores are on a 0-500 scale within each subject and grade, but are not directly comparable across subjects or grades. A 5-point gain in math does not necessarily represent the same magnitude of improvement as a 5-point gain in reading.
+- NAEP was not administered in 2020, creating a gap during the critical early COVID period. The 2022 results capture the cumulative pandemic effect but miss the trajectory.
+- Teacher salary data uses state averages, which mask significant within-state variation (urban vs. rural, district-level pay scales).
+- Correlation between teacher pay and student outcomes is confounded by cost of living, state wealth, demographics, and numerous other factors. The scatter plot is descriptive, not causal.
+- Mississippi's gains coincide with the Literacy-Based Promotion Act but also with other policy changes and demographic shifts. Causal attribution to any single policy should be made cautiously.
+
+*Data accessed on 2026-04-24 via the [OpenData API](https://tryopendata.ai).*

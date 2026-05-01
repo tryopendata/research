@@ -1,6 +1,26 @@
 import { Chart as OpenChart, type ChartProps } from '@opendata-ai/openchart-react'
 import type { ElementEdit, TextAnnotation, RangeAnnotation, RefLineAnnotation } from '@opendata-ai/openchart-core'
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
+import { useContainerWidth } from '../hooks/use-container-width'
+
+/** Mobile breakpoint (px). Charts narrower than this apply `mobileSpec` overrides. */
+const MOBILE_BREAKPOINT = 500
+
+/**
+ * Deep-merge `override` onto `base`. Arrays and primitives replace; plain
+ * objects merge recursively. Used to apply narrow-viewport overrides to a
+ * chart spec.
+ */
+function deepMerge<T>(base: T, override: unknown): T {
+  if (override === undefined || override === null) return base
+  if (Array.isArray(override) || typeof override !== 'object') return override as T
+  if (base === null || typeof base !== 'object' || Array.isArray(base)) return override as T
+  const out: Record<string, unknown> = { ...(base as Record<string, unknown>) }
+  for (const [key, value] of Object.entries(override as Record<string, unknown>)) {
+    out[key] = deepMerge(out[key], value)
+  }
+  return out as T
+}
 
 // Module-level chart counter for ordinal index tracking.
 // Resets each time the URL changes (route navigation).
@@ -19,14 +39,31 @@ function getChartIndex(): number {
 // Debounce timers keyed by chart+edit identifier
 const debounceTimers = new Map<string, ReturnType<typeof setTimeout>>()
 
-function persistEdit(slug: string, chartTitle: string | undefined, chartIndex: number, edit: ElementEdit) {
+function sendEdit(slug: string, chartTitle: string | undefined, chartIndex: number, edit: ElementEdit | Record<string, unknown>) {
+  fetch('/__chart-edit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ slug, chartTitle, chartIndex, edit }),
+  }).catch(err => {
+    console.warn('[chart-edit] Failed to persist edit:', err)
+  })
+}
+
+function persistEdit(slug: string, chartTitle: string | undefined, chartIndex: number, edit: ElementEdit | Record<string, unknown>) {
+  // Deletes are discrete actions -- send immediately, no debounce
+  if ((edit as any).type === 'delete') {
+    sendEdit(slug, chartTitle, chartIndex, edit)
+    return
+  }
+
   // Build a debounce key so rapid drags of the same element coalesce
-  const editKey = edit.type === 'annotation' ? `anno:${edit.annotation.text}` :
-                  edit.type === 'annotation-connector' ? `conn:${edit.annotation.text}:${edit.endpoint}` :
-                  edit.type === 'range-label' ? `range:${edit.annotation.label}` :
-                  edit.type === 'refline-label' ? `refline:${edit.annotation.label}` :
-                  edit.type === 'chrome' ? `chrome:${edit.key}` :
-                  edit.type === 'series-label' ? `series:${edit.series}` :
+  const e = edit as ElementEdit
+  const editKey = e.type === 'annotation' ? `anno:${e.annotation.text}` :
+                  e.type === 'annotation-connector' ? `conn:${e.annotation.text}:${e.endpoint}` :
+                  e.type === 'range-label' ? `range:${e.annotation.label}` :
+                  e.type === 'refline-label' ? `refline:${e.annotation.label}` :
+                  e.type === 'chrome' ? `chrome:${e.key}` :
+                  e.type === 'series-label' ? `series:${e.series}` :
                   'legend'
   const debounceId = `${slug}:${chartIndex}:${editKey}`
 
@@ -35,13 +72,7 @@ function persistEdit(slug: string, chartTitle: string | undefined, chartIndex: n
 
   debounceTimers.set(debounceId, setTimeout(() => {
     debounceTimers.delete(debounceId)
-    fetch('/__chart-edit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug, chartTitle, chartIndex, edit }),
-    }).catch(err => {
-      console.warn('[chart-edit] Failed to persist edit:', err)
-    })
+    sendEdit(slug, chartTitle, chartIndex, edit)
   }, 300))
 }
 
@@ -69,8 +100,21 @@ function getSlug(): string {
  * In dev mode, edits are also sent to the Vite dev server to be written
  * back to the source .mdx file for permanent persistence.
  */
-export function Chart(props: ChartProps) {
-  const { spec, onEdit: externalOnEdit, ...rest } = props
+export function Chart(props: ChartProps & { mobileSpec?: Partial<ChartProps['spec']> }) {
+  const { spec: baseSpec, mobileSpec, onEdit: externalOnEdit, ...rest } = props
+  const containerRef = useRef<HTMLDivElement>(null)
+  const containerWidth = useContainerWidth(containerRef)
+  const isMobile = containerWidth !== null && containerWidth < MOBILE_BREAKPOINT
+
+  // Apply mobile overrides when container is narrow. deepMerge preserves base
+  // spec fields that aren't overridden. Memoized so identity is stable across
+  // renders — without this, a new object every render triggers the reset
+  // useEffect below into an infinite loop.
+  const spec = useMemo(
+    () => (isMobile && mobileSpec ? deepMerge(baseSpec, mobileSpec) : baseSpec),
+    [baseSpec, mobileSpec, isMobile]
+  )
+
   const specRef = useRef(spec)
   // Assign ordinal index exactly once per mount via useState initializer
   const [chartIndex] = useState(() => getChartIndex())
@@ -185,6 +229,42 @@ export function Chart(props: ChartProps) {
         }))
         break
       }
+      case 'delete': {
+        if (edit.element.type === 'annotation') {
+          // Capture text BEFORE mutating state for server-side verification
+          const currentAnnotations = overrides.annotations ?? spec.annotations ?? []
+          const deletedAnno = currentAnnotations[edit.element.index]
+          const deletedText = deletedAnno?.type === 'text'
+            ? (deletedAnno as TextAnnotation).text
+            : undefined
+
+          setOverrides(prev => {
+            const annotations = [...(prev.annotations ?? spec.annotations ?? [])]
+            if (edit.element.type === 'annotation' && edit.element.index >= 0 && edit.element.index < annotations.length) {
+              annotations.splice(edit.element.index, 1)
+            }
+            return { ...prev, annotations }
+          })
+
+          // Persist immediately with enriched text
+          if (import.meta.env.DEV) {
+            const slug = getSlug()
+            if (slug) {
+              const enrichedEdit = {
+                type: 'delete' as const,
+                element: { ...edit.element, ...(deletedText && { text: deletedText }) },
+              }
+              persistEdit(slug, getChartTitle(spec), chartIndex, enrichedEdit)
+            }
+          }
+          externalOnEdit?.(edit)
+          return
+        }
+        break
+      }
+      case 'legend-toggle':
+      case 'text-edit':
+        return
     }
 
     // Persist to source file in dev mode
@@ -196,7 +276,7 @@ export function Chart(props: ChartProps) {
     }
 
     externalOnEdit?.(edit)
-  }, [spec, externalOnEdit])
+  }, [spec, overrides, chartIndex, externalOnEdit])
 
   // Merge overrides into the spec
   const mergedSpec = {
@@ -207,5 +287,9 @@ export function Chart(props: ChartProps) {
     ...(overrides.labels && { labels: overrides.labels }),
   }
 
-  return <OpenChart spec={mergedSpec} onEdit={handleEdit} {...rest} />
+  return (
+    <div ref={containerRef} style={{ width: '100%', height: '100%' }}>
+      <OpenChart spec={mergedSpec} onEdit={handleEdit} {...rest} />
+    </div>
+  )
 }

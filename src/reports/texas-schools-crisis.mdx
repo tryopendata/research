@@ -113,7 +113,7 @@ Austin ISD's own financial reporting shows just how fast this burden has grown. 
     annotations: [
       { type: "text", x: "2024", y: 51.1, text: "51%", dy: -12, fontSize: 13, fontWeight: 600, fill: "#dc2626" },
       { type: "refline", x: "2006", stroke: "#6b7280", strokeDash: [3, 3], strokeWidth: 1, label: "HB 1 compresses tax rates", labelAnchor: "top",
-      labelOffset: { dx: -78, dy: 50 } },
+      labelOffset: { dx: 46, dy: 58 } },
       { type: "refline", x: "2011", stroke: "#6b7280", strokeDash: [3, 3], strokeWidth: 1, label: "Austin property boom begins", labelAnchor: "top",
       labelOffset: { dx: -79, dy: 19 } },
       { type: "refline", x: "2019", stroke: "#6b7280", strokeDash: [3, 3], strokeWidth: 1, label: "HB 3 reform", labelAnchor: "top",
@@ -498,7 +498,7 @@ Texas ranks 34th among states in per-pupil spending at $16,621. The national med
 
 Recapture is supposed to level the playing field. Eanes ISD and Austin ISD test that theory. The two districts share a metro area. Their boundary lines are roughly ten miles apart. But they occupy different financial universes.
 
-Eanes ISD covers Westlake Hills and Rollingwood, some of the most expensive real estate in Texas. It enrolls about 7,700 students. Austin ISD serves the city proper, about 73,000 students, increasingly low-income. Both are Chapter 49 recapture districts. Both send hundreds of millions to the state every year. The surprise is what the data shows about where their spending ends up.
+Eanes ISD covers Westlake Hills and Rollingwood, some of the most expensive real estate in Texas. It enrolls about 7,700 students. Austin ISD serves the city proper, about 73,000 students, increasingly low-income. Both are Chapter 49 recapture districts. Austin sends roughly $870 million to the state each year; Eanes sends about $25 million. The surprise is what the data shows about where their spending ends up.
 
 {/* API: POST /v1/datasets/tea/public-school-finance/query
      SQL: SELECT district, fundyear, SUM(amount) as instructional_spending FROM data WHERE district IN (227901, 227909) AND report_type = 'actual' AND function_code = 11 AND CAST(object_code AS INTEGER) BETWEEN 6100 AND 6699 AND fundyear >= 2009 AND fundyear <= 2023 GROUP BY district, fundyear ORDER BY district, fundyear
@@ -559,9 +559,11 @@ Eanes ISD covers Westlake Hills and Rollingwood, some of the most expensive real
   }} />
 </Figure>
 
-Here's what's counterintuitive: in 2023, Eanes spent $7,068 per student on classroom instruction. Austin ISD spent $6,972. Nearly identical. On this measure, recapture works exactly as designed. It forces property-wealthy districts to send their surplus to the state, leaving them with roughly the same per-pupil instructional budget as their neighbors.
+Here's what's counterintuitive: in 2023, Eanes spent $7,068 per student on classroom instruction. Austin ISD spent $6,972. Nearly identical. On this narrow measure, recapture works exactly as designed. It forces property-wealthy districts to send their surplus to the state, leaving them with roughly the same per-pupil instructional budget as their neighbors.
 
-But instructional spending is only part of the picture. Eanes generates about $29,900 per pupil in local property tax revenue before recapture, compared to Austin ISD's $25,500. The gap has narrowed from 1.9x in 2009 to 1.2x today as Austin's property values surged. What that extra revenue buys, beyond what PEIMS tracks as "instruction," is where the real inequality lives. The Eanes Education Foundation raised $2.65 million in 2022-23, funding over 50 teaching positions that the district budget can't cover after recapture. That's the equivalent of an extra $340 per student from community donations alone. Eanes has 7,700 students. Austin has 73,000. A well-organized PTA fundraiser in Westlake Hills generates more per student than one in East Austin, simply because the donor base is wealthier.
+But instruction is one line item. Expand the lens to total operating expenditure and Eanes spends about $32,500 per student compared to Austin's $30,300, a gap of roughly $2,200 that compounds across 13 years of schooling. And the recapture burden that produces this supposed parity is wildly asymmetric: Austin sends about $12,000 per student to the state each year. Eanes sends $3,200. The wealthier district pays less than a third as much per pupil to fund the system that's supposed to equalize them.
+
+Eanes also generates about $29,900 per pupil in local property tax revenue before recapture, compared to Austin ISD's $25,500. The gap has narrowed from 1.9x in 2009 to 1.2x today as Austin's property values surged. What that extra revenue buys, beyond what PEIMS tracks as "instruction," is where the real inequality lives. The Eanes Education Foundation raised $2.65 million in 2022-23, funding over 50 teaching positions that the district budget can't cover after recapture. That's the equivalent of an extra $340 per student from community donations alone. Eanes has 7,700 students. Austin has 73,000. A well-organized PTA fundraiser in Westlake Hills generates more per student than one in East Austin, simply because the donor base is wealthier.
 
 {/* API: POST /v1/datasets/tea/public-school-finance/query
      SQL: SELECT district, fundyear, SUM(amount) as revenue FROM data WHERE district IN (227901, 227909) AND report_type = 'actual' AND CAST(object_code AS INTEGER) BETWEEN 5700 AND 5799 AND fundyear >= 2009 AND fundyear <= 2023 GROUP BY district, fundyear ORDER BY district, fundyear
@@ -638,12 +640,12 @@ The spending parity makes what follows even more striking. Despite nearly identi
     columns: [
       { key: "metric", header: "Metric", width: "200px" },
       { key: "eanes", header: "Eanes ISD", categoryColors: {
-        "4.3%": "#22c55e", "A (94)": "#22c55e", "$7,068": "#22c55e",
-        "7,738": "transparent", "62.1%": "transparent", "15.4%": "transparent", "0.9%": "transparent", "12.3 : 1": "transparent",
+        "4.3%": "#22c55e", "A (94)": "#22c55e", "$7,068": "#22c55e", "$3,245": "#22c55e",
+        "7,738": "transparent", "62.1%": "transparent", "15.4%": "transparent", "0.9%": "transparent", "12.3 : 1": "transparent", "$32,535": "transparent", "$29,887": "transparent",
       }},
       { key: "austin", header: "Austin ISD", categoryColors: {
-        "51.5%": "#ef4444", "C (77)": "#eab308", "$6,972": "#eab308",
-        "72,830": "transparent", "30.4%": "transparent", "54.4%": "transparent", "6.0%": "transparent", "14.0 : 1": "transparent",
+        "51.5%": "#ef4444", "C (77)": "#eab308", "$6,972": "#eab308", "$11,988": "#ef4444",
+        "72,830": "transparent", "30.4%": "transparent", "54.4%": "transparent", "6.0%": "transparent", "14.0 : 1": "transparent", "$30,282": "transparent", "$25,537": "transparent",
       }},
     ],
     data: [
@@ -655,7 +657,9 @@ The spending parity makes what follows even more striking. Despite nearly identi
       { metric: "TEA rating", eanes: "A (94)", austin: "C (77)" },
       { metric: "Student-teacher ratio", eanes: "12.3 : 1", austin: "14.0 : 1" },
       { metric: "Per-pupil instructional spending", eanes: "$7,068", austin: "$6,972" },
+      { metric: "Per-pupil total operating expenditure", eanes: "$32,535", austin: "$30,282" },
       { metric: "Per-pupil property tax revenue", eanes: "$29,887", austin: "$25,537" },
+      { metric: "Per-pupil recapture paid to state", eanes: "$3,245", austin: "$11,988" },
     ],
     chrome: {
       title: "Two districts, ten miles apart, different worlds",
@@ -664,7 +668,7 @@ The spending parity makes what follows even more striking. Despite nearly identi
   }} />
 </Figure>
 
-Recapture does equalize instructional spending, at least on paper. But it doesn't equalize outcomes. The 17-point gap in TEA accountability scores between districts with nearly identical per-pupil instruction budgets suggests the real inequality flows through channels the formula doesn't reach: education foundations, PTA fundraising, community donations, tutoring, enrichment programs, and the compounding advantages of a student body where 96 percent of families aren't economically disadvantaged. Eanes doesn't need to outspend Austin in the classroom. Its students arrive with advantages that no funding formula can redistribute.
+Recapture does equalize instructional spending, at least on paper. But it doesn't equalize outcomes, and it doesn't equalize the cost of participation. Austin pays nearly four times as much per student in recapture as Eanes. The 17-point gap in TEA accountability scores between districts with nearly identical per-pupil instruction budgets suggests the real inequality flows through channels the formula doesn't reach: education foundations, PTA fundraising, community donations, tutoring, enrichment programs, and the compounding advantages of a student body where 96 percent of families aren't economically disadvantaged. Eanes doesn't need to outspend Austin in the classroom. Its students arrive with advantages that no funding formula can redistribute.
 
 ## What the data does and doesn't prove
 
@@ -678,7 +682,7 @@ But the structural tension is real. Property-wealthy urban districts generate su
 
 There is no single villain. Charter schools serve real families making rational choices. Recapture was designed to address real inequities. The legislature faces real budget constraints.
 
-But the math doesn't care about intentions. Austin's property values tripled. Its recapture bill quintupled. The state's contribution flatlined. And now the district is closing schools and cutting librarians while Eanes ISD, ten miles west, spends almost exactly the same per student on instruction yet earns a 94 from the state's own accountability system. Recapture equalized the dollars. It didn't equalize the outcomes.
+But the math doesn't care about intentions. Austin's property values tripled. Its recapture bill quintupled. The state's contribution flatlined. And now the district is closing schools and cutting librarians while paying $12,000 per student to the state in recapture. Ten miles west, Eanes ISD pays a third of that per student, spends nearly the same on classroom instruction, and earns a 94 from the state's own accountability system. Recapture equalized one line item. It didn't equalize the outcomes, and it didn't equalize the burden.
 
 Austin voters approved a tax increase for their schools and watched three-quarters of it leave. A year later, the district needs $181 million more and is running out of things to cut.
 

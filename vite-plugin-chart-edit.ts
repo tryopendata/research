@@ -117,6 +117,7 @@ export function chartEditPlugin(): Plugin {
                              edit.type === 'chrome' ? `chrome.${edit.key}` :
                              edit.type === 'legend' ? 'legend' :
                              edit.type === 'series-label' ? `series "${edit.series}"` :
+                             edit.type === 'delete' ? `delete ${edit.element.type}` :
                              edit.type
             console.log(`[chart-edit] Updated ${editDesc} offset in ${slug}.mdx`)
 

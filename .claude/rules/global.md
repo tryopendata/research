@@ -42,7 +42,7 @@ Make sure these skills are loaded: openchart, opendata-api, data-journalist, dat
 - Chart titles should be assertions, not labels ("GDP surpassed $31T" not "GDP Over Time")
 - Each Figure needs an `alt` describing the chart
 - Put data source attribution in `chrome.source` inside the Chart spec, not in `<Figure caption="">`. Only use Figure caption for context not already in the chart (e.g., methodology notes)
-- Aim for 5-7 charts per report. Fewer than 4 usually means the report isn't deep enough. More than 8 usually means you're not editing enough.
+- No hard cap on chart count. If the data supports it and each chart earns its place with a distinct insight, include it. Fewer than 4 usually means the report isn't deep enough. The bar is quality, not quantity.
 
 ## Visualization design (non-negotiable)
 
@@ -70,6 +70,8 @@ Follow the `openchart` skill's design philosophy references for every chart. Loa
 These are patterns that passed code review but broke at render time. Check these before writing any chart spec:
 
 - **Use lollipop for narrow-range categorical rankings.** When values don't include zero (happiness 6-8, temperatures 0.8-1.2), `mark: "lollipop"` avoids the zero-baseline problem that makes bar differences invisible.
+- **Bar charts with `color` encoding default to stacked, not grouped.** When using `color` to distinguish groups (e.g., year "2018" vs "2022"), bars stack end-to-end by default. This makes bars extend far past the x-axis maximum because values are summed. For side-by-side grouped bars, set `stack: null` on the quantitative axis encoding. This is the most common bar chart mistake.
+- **Range annotations on ordinal axes may merge into one band.** Multiple range annotations (e.g., Great Recession 2008-2010 and COVID 2020-2022) can render as a single continuous shaded region on ordinal x-axes. Use `type: "temporal"` on the x-axis instead of `"ordinal"` when you need distinct range annotation bands.
 - **Never mix incompatible units on a shared axis.** Putting percentages (2-8%), dollars ($531-$1,432), and counts (4-6.8) on the same quantitative axis makes some bars invisible. Normalize to a common unit (e.g., US-to-peer ratio) or use separate charts.
 - **Stacked bar labels truncate inside narrow segments.** `labels: { density: "all" }` on stacked bars will clip labels like "$8,003" to "$8" when segments are thin. Use `labels: { density: "none" }` on stacked bars, or use `"$~s"` format (shows "$8k") instead of `"$,.0f"` (shows "$8,003" which gets clipped).
 
@@ -79,14 +81,19 @@ These are patterns that passed code review but broke at render time. Check these
 - **`.0f%` format on pre-computed percentages renders 710% not 7.1%.** D3's `%` format multiplies by 100. If your data is already in percent form (e.g., 7.1 meaning 7.1%), use `".1f"` with "%" in the axis title, not `".0f%"` in the format string.
 - **Data unit consistency across a chart.** If one country's migration data is in millions (1) and others are in thousands (334, 268), the labels will be misleading. Normalize all values to the same unit before embedding in the spec.
 - **Verify the closing synthesis chart is genuinely different from earlier charts.** If it uses the same chart type, same categories, and same encoding as an earlier chart with just fewer rows, it's a duplicate, not a synthesis. A good synthesis uses a different framing: ratio chart instead of absolute, diverging gap instead of side-by-side, indexed comparison instead of raw values.
+- **Log scales need `tickCount: 3` or lower.** D3 log scales ignore `tickCount` as a literal count and use it as a subdivision density hint. At `tickCount: 5`, a log axis from $5 to $25k generates 20+ overlapping sub-power ticks ($5$6$7$8$9$10$20...). Use `tickCount: 3` for clean power-of-10 labels ($10, $100, $1k, $10k). Always pair log scales with `format: "$~s"` or `"~s"`.
+- **`sort: "descending"` on nominal axes sorts alphabetically, not by value.** To sort bars/lollipops by their quantitative value, set `sort: null` on the categorical axis and control order via the data array (first item = bottom for horizontal bars, last = top).
+- **`labels: { density: "endpoints" }` adds right-side padding.** Endpoint labels reserve pixel space for label text beyond the last data point. If right-side whitespace is unacceptable, use `density: "none"` with `annotations` of type `"text"` positioned at the final data points instead.
+- **Bubble charts need domain padding for bubble radius.** When using `size` encoding on scatter plots, large bubbles clip at domain boundaries. Add 10-15% padding beyond the max data values in your explicit domain (e.g., if max y is 18.3, use `[0, 21]`). Check both x and y.
 
 ## MDX syntax safety (do not introduce parse errors)
 
 These are JS/MDX syntax failures that have crashed the dev server during chart edits. Prevent them BEFORE saving:
 
-- **Annotation objects only accept documented fields.** The openchart `TextAnnotation` schema has `type`, `x`, `y`, `text`, `dx`, `dy`, `fontSize`, `fontWeight`, `fill`, `textAnchor`. There is NO `offset` field. Do not nest `offset: { dx, dy }` inside an annotation — use top-level `dx`/`dy` instead.
+- **Annotation positioning uses `offset: { dx, dy }`.** The openchart `TextAnnotation` schema uses `offset: { dx?: number, dy?: number }` for pixel offsets from the data position. The edit-mode `patchSpec` system uses top-level `dx`/`dy` instead. Both forms work, but prefer `offset: { dx, dy }` in hand-authored specs (matches the skill reference and examples).
 - **Every property in an object literal needs a trailing comma before the next key.** When editing annotation objects, verify the last line before a new key ends in `,`. Missing commas are the #1 source of MDX build failures on this project. Example of the bug: `fill: "#c44e52"\n  offset: { dx: -70 }` — the missing comma after `"#c44e52"` is a JS syntax error.
 - **Write MDX comments as a single line when possible.** Use `{/* API: POST /v1/... — Verified: YYYY-MM-DD */}` on one line. For multi-line comments, keep the body as plain prose with no Markdown-style bullet lists (`- item`), leading dashes, or asterisks. Prettier can (and does) re-escape `*` inside comment bodies that look like Markdown, turning `{/* ... */}` into `{/_ ... _/}` across the whole file and breaking every comment.
+- **Prevention over cure for Prettier mangling.** Never use `-` bullets, `*` emphasis, or any markdown formatting inside MDX comments. Use plain prose separated by semicolons. Example: `{/* Sources: CMS Part D 2023; FRED CPI-U; verified 2026-05-01 */}`. If you need multiple items, use numbered prose: `{/* 1. NHE spending data 2. CPI baseline 3. IRA drug prices */}`.
 - **After any edit to annotations or comments, reload the page in playwright-cli and screenshot before declaring done.** A silent parse error shows as a Vite error overlay covering the chart; only a visual check catches it. Do not rely on "the file saved" as evidence the edit is correct.
 - **If Prettier has mangled comment markers to `{/_ ... _/}`, restore with:** `perl -i -pe 's/\{\/_/\{\/*/g; s/_\/\}/*\/\}/g' src/reports/<file>.mdx`. Then restructure the comment body (remove bullets/asterisks) so Prettier leaves it alone on the next save.
 

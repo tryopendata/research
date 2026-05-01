@@ -1,12 +1,14 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
+
+type TierKey = "insurer" | "pbm" | "pharmacy";
 
 type Tier = {
-  key: "parent" | "insurer" | "pbm" | "pharmacy";
+  key: TierKey;
   label: string;
-  color: string;
+  accent: string;
 };
 
-const columns = [
+const conglomerates = [
   {
     parent: "UnitedHealth Group",
     insurer: "UnitedHealthcare",
@@ -28,142 +30,281 @@ const columns = [
 ] as const;
 
 const tiers: Tier[] = [
-  { key: "parent", label: "Parent company", color: "#c44e52" },
-  { key: "insurer", label: "Insurer", color: "#e09c41" },
-  { key: "pbm", label: "Pharmacy Benefit Manager", color: "#4a7ab5" },
-  { key: "pharmacy", label: "Pharmacy", color: "#6a9f58" },
+  { key: "insurer", label: "Insurer", accent: "#e09c41" },
+  { key: "pbm", label: "Pharmacy Benefit Manager", accent: "#4a7ab5" },
+  { key: "pharmacy", label: "Pharmacy", accent: "#6a9f58" },
 ];
 
+const ROW_LABEL_WIDTH = 168;
+const CONNECTOR_GAP = 20;
+const MOBILE_BREAKPOINT = 640;
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
+    const update = () => setIsMobile(mql.matches);
+    update();
+    mql.addEventListener("change", update);
+    return () => mql.removeEventListener("change", update);
+  }, []);
+  return isMobile;
+}
+
 export function PBMConglomeratesDiagram() {
+  const isMobile = useIsMobile();
+
   return (
-    <div style={{ padding: "24px 16px", fontFamily: "inherit" }}>
+    <div
+      style={{
+        padding: isMobile ? "20px 16px 16px" : "28px 24px 20px",
+        fontFamily: "inherit",
+        background: "var(--oc-bg, #fbfaf7)",
+        color: "var(--oc-text, #1f2937)",
+      }}
+    >
       <div
         style={{
-          textAlign: "center",
-          marginBottom: 4,
-          fontSize: 18,
+          fontSize: isMobile ? 16 : 17,
           fontWeight: 600,
-          color: "var(--oc-text, #1f2937)",
+          letterSpacing: "-0.01em",
+          marginBottom: 4,
+          color: "var(--oc-text, #111827)",
         }}
       >
         Three conglomerates own the insurer, PBM, and pharmacy
       </div>
       <div
         style={{
-          textAlign: "center",
-          marginBottom: 20,
           fontSize: 13,
+          lineHeight: 1.5,
           color: "var(--oc-text-muted, #6b7280)",
+          marginBottom: isMobile ? 20 : 28,
+          maxWidth: 640,
         }}
       >
-        The Big 3 PBMs control ~80% of US prescription claims, covering 270 million people
+        The Big 3 PBMs control roughly 80% of US prescription claims, covering
+        270 million people. Each parent owns the insurer that decides coverage,
+        the PBM that negotiates the price, and the pharmacy that fills the
+        script.
       </div>
+
+      {isMobile ? (
+        <MobileLayout />
+      ) : (
+        <DesktopLayout />
+      )}
+
       <div
         style={{
-          display: "grid",
-          gridTemplateColumns: "180px repeat(3, 1fr)",
-          gap: 0,
-          alignItems: "stretch",
+          marginTop: 24,
+          paddingTop: 12,
+          borderTop: "1px solid var(--oc-border, #e5e7eb)",
+          fontSize: 11,
+          color: "var(--oc-text-muted, #94a3b8)",
         }}
       >
-        <div />
-        {columns.map((c, i) => (
+        Source: FTC Second Interim Staff Report on PBMs (January 2025), Drug
+        Channels (March 2025)
+      </div>
+    </div>
+  );
+}
+
+function DesktopLayout() {
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: `${ROW_LABEL_WIDTH}px repeat(3, 1fr)`,
+        rowGap: 0,
+        columnGap: 16,
+        alignItems: "stretch",
+      }}
+    >
+      {/* Header row: parent companies */}
+      <div />
+      {conglomerates.map((c) => (
+        <ParentCard key={c.parent} name={c.parent} />
+      ))}
+
+      {/* Tier rows */}
+      {tiers.map((tier, tierIndex) => (
+        <Fragment key={tier.key}>
+          {/* Row label */}
           <div
-            key={c.parent}
             style={{
-              textAlign: "center",
-              fontSize: 11,
-              fontWeight: 600,
-              color: "var(--oc-text-muted, #6b7280)",
-              letterSpacing: 0.6,
-              textTransform: "uppercase",
-              paddingBottom: 8,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              paddingRight: 16,
+              fontSize: 12,
+              fontWeight: 500,
+              color: "var(--oc-text-secondary, #4b5563)",
+              textAlign: "right",
+              lineHeight: 1.2,
             }}
           >
-            Conglomerate {i + 1}
+            {tier.label}
           </div>
-        ))}
-        {tiers.map((tier, tierIdx) => (
-          <Fragment key={tier.key}>
+
+          {/* Tier cells with connector spanning the full gap above */}
+          {conglomerates.map((c) => (
             <div
+              key={c.parent + tier.key}
               style={{
+                position: "relative",
                 display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                paddingRight: 14,
-                fontSize: 12,
-                fontWeight: 500,
-                color: "var(--oc-text, #374151)",
-                borderRight: "1px solid var(--oc-border, #e5e7eb)",
+                flexDirection: "column",
+                alignItems: "stretch",
+                paddingTop: CONNECTOR_GAP,
               }}
             >
-              <span
+              {/* Vertical connector line spanning full gap */}
+              <div
+                aria-hidden
                 style={{
-                  display: "inline-block",
-                  width: 10,
-                  height: 10,
-                  borderRadius: "50%",
-                  background: tier.color,
-                  marginRight: 8,
-                  flexShrink: 0,
+                  position: "absolute",
+                  top: -1,
+                  bottom: 0,
+                  left: "50%",
+                  width: 1,
+                  marginLeft: -0.5,
+                  background: "var(--oc-border, #d1d5db)",
+                  zIndex: 0,
                 }}
               />
-              <span style={{ textAlign: "right" }}>{tier.label}</span>
-            </div>
-            {columns.map((c) => (
+              {/* Subsidiary card */}
               <div
-                key={c.parent + tier.key}
+                style={{
+                  position: "relative",
+                  padding: "12px 14px",
+                  background: "var(--oc-surface, #ffffff)",
+                  border: "1px solid var(--oc-border, #e5e7eb)",
+                  borderLeft: `3px solid ${tier.accent}`,
+                  borderRadius: 6,
+                  fontSize: 13,
+                  fontWeight: 500,
+                  color: "var(--oc-text, #111827)",
+                  textAlign: "left",
+                  boxShadow: "0 1px 0 rgba(15, 23, 42, 0.03)",
+                  zIndex: 1,
+                }}
+              >
+                {c[tier.key]}
+              </div>
+            </div>
+          ))}
+        </Fragment>
+      ))}
+    </div>
+  );
+}
+
+function MobileLayout() {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+      {conglomerates.map((c) => (
+        <div key={c.parent}>
+          <ParentCard name={c.parent} />
+          {tiers.map((tier) => (
+            <div
+              key={tier.key}
+              style={{
+                position: "relative",
+                paddingTop: CONNECTOR_GAP,
+              }}
+            >
+              <div
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  top: -1,
+                  bottom: 0,
+                  left: "50%",
+                  width: 1,
+                  marginLeft: -0.5,
+                  background: "var(--oc-border, #d1d5db)",
+                  zIndex: 0,
+                }}
+              />
+              <div
                 style={{
                   position: "relative",
                   padding: "10px 12px",
+                  background: "var(--oc-surface, #ffffff)",
+                  border: "1px solid var(--oc-border, #e5e7eb)",
+                  borderLeft: `3px solid ${tier.accent}`,
+                  borderRadius: 6,
+                  boxShadow: "0 1px 0 rgba(15, 23, 42, 0.03)",
+                  zIndex: 1,
                   display: "flex",
-                  justifyContent: "center",
+                  flexDirection: "column",
+                  gap: 2,
                 }}
               >
-                {tierIdx > 0 && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: -1,
-                      left: "50%",
-                      width: 2,
-                      height: 12,
-                      background: "var(--oc-border, #cbd5e1)",
-                      transform: "translateX(-50%)",
-                    }}
-                  />
-                )}
                 <div
                   style={{
-                    width: "100%",
-                    maxWidth: 220,
-                    padding: "10px 12px",
-                    borderRadius: 6,
-                    background: tier.color,
-                    color: "#fff",
-                    textAlign: "center",
-                    fontSize: 13,
+                    fontSize: 10,
                     fontWeight: 600,
-                    boxShadow: "0 1px 2px rgba(0,0,0,0.08)",
+                    letterSpacing: "0.06em",
+                    textTransform: "uppercase",
+                    color: "var(--oc-text-faint, #94a3b8)",
+                  }}
+                >
+                  {tier.label}
+                </div>
+                <div
+                  style={{
+                    fontSize: 14,
+                    fontWeight: 500,
+                    color: "var(--oc-text, #111827)",
                   }}
                 >
                   {c[tier.key]}
                 </div>
               </div>
-            ))}
-          </Fragment>
-        ))}
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ParentCard({ name }: { name: string }) {
+  return (
+    <div
+      style={{
+        padding: "16px 16px 18px",
+        background: "var(--oc-surface, #ffffff)",
+        border: "1px solid var(--oc-border, #e5e7eb)",
+        borderRadius: 8,
+        boxShadow: "0 1px 0 rgba(15, 23, 42, 0.04)",
+        textAlign: "center",
+      }}
+    >
+      <div
+        style={{
+          fontSize: 10,
+          fontWeight: 600,
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+          color: "var(--oc-text-faint, #94a3b8)",
+          marginBottom: 6,
+        }}
+      >
+        Parent company
       </div>
       <div
         style={{
-          marginTop: 20,
-          fontSize: 11,
-          color: "var(--oc-text-muted, #6b7280)",
-          borderTop: "1px solid var(--oc-border, #e5e7eb)",
-          paddingTop: 8,
+          fontSize: 16,
+          fontWeight: 600,
+          letterSpacing: "-0.01em",
+          color: "var(--oc-text, #111827)",
         }}
       >
-        Source: FTC Second Interim Staff Report on PBMs (January 2025), Drug Channels (March 2025)
+        {name}
       </div>
     </div>
   );

@@ -257,6 +257,61 @@ Verified: 2026-04-14 */}
         source: "Our World in Data / OECD Health Statistics",
       },
     }}
+    mobileSpec={{
+      encoding: {
+        x: {
+          axis: {
+            values: [
+              "2000-06-01",
+              "2008-06-01",
+              "2016-06-01",
+              "2022-06-01",
+            ],
+          },
+        },
+        y: {
+          axis: {
+            values: [1000, 5000, 9000, 13000],
+          },
+        },
+        color: {
+          field: "country",
+          type: "nominal",
+          scale: {
+            domain: [
+              "United States",
+              "Japan",
+              "Germany",
+              "Switzerland",
+              "Netherlands",
+              "Sweden",
+              "Canada",
+              "Australia",
+              "France",
+              "United Kingdom",
+            ],
+            range: [
+              "#c44e52",
+              "#4a7ab5",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+            ],
+          },
+        },
+      },
+      annotations: [],
+      legend: {
+        show: true,
+        position: "top",
+        symbolLimit: 2,
+      },
+    }}
   />
 </Figure>
 
@@ -410,6 +465,60 @@ Verified: 2026-04-19 */}
         source: "Our World in Data / OECD Health Statistics",
       },
     }}
+    mobileSpec={{
+      annotations: [],
+      encoding: {
+        color: {
+          field: "country",
+          type: "nominal",
+          scale: {
+            domain: [
+              "United States",
+              "Japan",
+              "Switzerland",
+              "Norway",
+              "Germany",
+              "Ireland",
+              "Austria",
+              "Netherlands",
+              "Belgium",
+              "Denmark",
+              "Sweden",
+              "Australia",
+              "Canada",
+              "France",
+              "United Kingdom",
+              "Finland",
+              "South Korea",
+            ],
+            range: [
+              "#c44e52",
+              "#4a7ab5",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+              "#94a3b8",
+            ],
+          },
+        },
+      },
+      legend: {
+        show: true,
+        position: "top",
+        symbolLimit: 2,
+      },
+    }}
   />
 </Figure>
 
@@ -456,30 +565,11 @@ Verified: 2026-04-19 */}
           axis: { title: null },
         },
         color: {
-          field: "country",
-          type: "nominal",
-          scale: {
-            domain: [
-              "United States",
-              "Germany",
-              "Switzerland",
-              "Canada",
-              "Japan",
-              "France",
-              "Sweden",
-              "Netherlands",
-            ],
-            range: [
-              "#c44e52",
-              "#94a3b8",
-              "#94a3b8",
-              "#94a3b8",
-              "#94a3b8",
-              "#94a3b8",
-              "#94a3b8",
-              "#94a3b8",
-            ],
+          condition: {
+            test: { field: "country", equal: "United States" },
+            value: "#c44e52",
           },
+          value: "#94a3b8",
         },
       },
       legend: { show: false },
@@ -535,14 +625,14 @@ Verified: 2026-04-19 */}
           label: "Cost Plus",
           format: "$,.0f",
           align: "right",
-          heatmap: { palette: "green" },
+          heatmap: { palette: ["#3d7a2e"] },
         },
         {
           key: "retail",
           label: "Retail price",
           format: "$,.0f",
           align: "right",
-          heatmap: { palette: ["#fef2f2", "#c44e52"] },
+          heatmap: { palette: ["#c44e52"] },
         },
         { key: "markup", label: "Retail vs. NADAC", align: "right" },
       ],
@@ -622,116 +712,87 @@ List prices (WAC): Medicare Rights Center citing CMS announcement (October 2025)
 URL: https://medicareadvocacy.org/medicare-announces-results-of-first-round-of-historic-drug-price-negotiations-effective-2026/
 Verified: 2026-04-19 */}
 
-<Figure alt="Dumbbell chart showing the list price versus the negotiated Medicare price for the first 10 IRA drugs. Discounts range from 38% (Imbruvica) to 79% (Januvia). The largest absolute price drops are for specialty drugs like Stelara and Imbruvica.">
+<Figure alt="Grouped horizontal bar chart comparing what Medicare paid per 30-day supply in 2023 versus the IRA negotiated price effective 2026, for the top 5 IRA drugs by total Medicare spending. The negotiated bar is consistently 60 to 80 percent shorter than the 2023 bar.">
   <Chart
     spec={{
-      layer: [
-        {
-          mark: { type: "rule", strokeWidth: 2, fill: "#94a3b8" },
-          data: [
-            { drug: "Entresto", list: 628, negotiated: 295 },
-            { drug: "Eliquis", list: 521, negotiated: 231 },
-            { drug: "Xarelto", list: 517, negotiated: 197 },
-            { drug: "Jardiance", list: 573, negotiated: 197 },
-            { drug: "Farxiga", list: 556, negotiated: 178 },
-            { drug: "NovoLog / Fiasp", list: 495, negotiated: 119 },
-            { drug: "Januvia", list: 527, negotiated: 113 },
-            { drug: "Enbrel", list: 7106, negotiated: 2355 },
-            { drug: "Imbruvica", list: 14934, negotiated: 9319 },
-            { drug: "Stelara", list: 13836, negotiated: 4695 },
-          ],
-          encoding: {
-            y: {
-              field: "drug",
-              type: "nominal",
-              sort: null,
-              axis: { title: null, tickCount: 10, labelPadding: 8 },
-            },
-            x: {
-              field: "negotiated",
-              type: "quantitative",
-              scale: { type: "log", domain: [80, 20000], nice: false },
-            },
-            x2: { field: "list" },
-          },
-        },
-        {
-          mark: { type: "circle", size: 140, fill: "#c44e52" },
-          data: [
-            { drug: "Entresto", cost: 628 },
-            { drug: "Eliquis", cost: 521 },
-            { drug: "Xarelto", cost: 517 },
-            { drug: "Jardiance", cost: 573 },
-            { drug: "Farxiga", cost: 556 },
-            { drug: "NovoLog / Fiasp", cost: 495 },
-            { drug: "Januvia", cost: 527 },
-            { drug: "Enbrel", cost: 7106 },
-            { drug: "Imbruvica", cost: 14934 },
-            { drug: "Stelara", cost: 13836 },
-          ],
-          encoding: {
-            y: {
-              field: "drug",
-              type: "nominal",
-              sort: null,
-              axis: { title: null, tickCount: 10, labelPadding: 8 },
-            },
-            x: {
-              field: "cost",
-              type: "quantitative",
-              axis: {
-                title: "30-day supply cost",
-                format: "$~s",
-                tickCount: 4,
-              },
-              scale: { type: "log", domain: [80, 20000], nice: false },
-            },
-          },
-        },
-        {
-          mark: { type: "circle", size: 140, fill: "#6a9f58" },
-          data: [
-            { drug: "Entresto", cost: 295 },
-            { drug: "Eliquis", cost: 231 },
-            { drug: "Xarelto", cost: 197 },
-            { drug: "Jardiance", cost: 197 },
-            { drug: "Farxiga", cost: 178 },
-            { drug: "NovoLog / Fiasp", cost: 119 },
-            { drug: "Januvia", cost: 113 },
-            { drug: "Enbrel", cost: 2355 },
-            { drug: "Imbruvica", cost: 9319 },
-            { drug: "Stelara", cost: 4695 },
-          ],
-          encoding: {
-            y: {
-              field: "drug",
-              type: "nominal",
-              sort: null,
-              axis: { title: null, tickCount: 10, labelPadding: 8 },
-            },
-            x: {
-              field: "cost",
-              type: "quantitative",
-              scale: { type: "log", domain: [80, 20000], nice: false },
-            },
-          },
-        },
+      mark: { type: "bar", orient: "horizontal" },
+      data: [
+        { drug: "Eliquis ($18.3B)", series: "Medicare paid (2023)", price: 862 },
+        { drug: "Eliquis ($18.3B)", series: "IRA negotiated (2026)", price: 231 },
+        { drug: "Jardiance ($8.8B)", series: "Medicare paid (2023)", price: 1084 },
+        { drug: "Jardiance ($8.8B)", series: "IRA negotiated (2026)", price: 197 },
+        { drug: "Xarelto ($6.3B)", series: "Medicare paid (2023)", price: 948 },
+        { drug: "Xarelto ($6.3B)", series: "IRA negotiated (2026)", price: 197 },
+        { drug: "Farxiga ($4.3B)", series: "Medicare paid (2023)", price: 1010 },
+        { drug: "Farxiga ($4.3B)", series: "IRA negotiated (2026)", price: 178 },
+        { drug: "Januvia ($4.1B)", series: "Medicare paid (2023)", price: 1015 },
+        { drug: "Januvia ($4.1B)", series: "IRA negotiated (2026)", price: 113 },
       ],
-      legend: { show: false },
+      encoding: {
+        y: {
+          field: "drug",
+          type: "nominal",
+          sort: null,
+          axis: { title: null, labelPadding: 8 },
+        },
+        x: {
+          field: "price",
+          type: "quantitative",
+          stack: null,
+          axis: {
+            title: "Cost per 30-day supply",
+            format: "$,.0f",
+            tickCount: 5,
+          },
+          scale: { domain: [0, 1200], nice: false },
+        },
+        color: {
+          field: "series",
+          type: "nominal",
+          scale: {
+            domain: ["Medicare paid (2023)", "IRA negotiated (2026)"],
+            range: ["#94a3b8", "#1b7fa3"],
+          },
+        },
+      },
+      labels: { density: "all", format: "$,.0f" },
+      legend: { position: "top", show: true },
       animation: true,
       chrome: {
-        title:
-          "Medicare negotiation cut drug prices 38-79% on the first 10 drugs",
+        title: "The IRA cuts Medicare drug costs 73-89%",
         subtitle:
-          "Red = list price (WAC). Green = negotiated price (MFP). Per 30-day supply, effective 2026.",
+          "Cost per 30-day supply: what Medicare paid in 2023 vs. IRA negotiated price (effective 2026). Top 5 drugs by total spending.",
         source:
-          "CMS Medicare Drug Price Negotiation Program, Medicare Rights Center",
+          "CMS Part D Spending by Drug (2023) + CMS IRA Drug Prices (2026)",
+      },
+    }}
+    mobileSpec={{
+      data: [
+        { drug: "Jardiance ($8.8B)", series: "Medicare", price: 1084 },
+        { drug: "Jardiance ($8.8B)", series: "IRA 2026", price: 197 },
+        { drug: "Eliquis ($18.3B)", series: "Medicare", price: 862 },
+        { drug: "Eliquis ($18.3B)", series: "IRA 2026", price: 231 },
+        { drug: "Januvia ($4.1B)", series: "Medicare", price: 1015 },
+        { drug: "Januvia ($4.1B)", series: "IRA 2026", price: 113 },
+      ],
+      encoding: {
+        color: {
+          field: "series",
+          type: "nominal",
+          scale: {
+            domain: ["Medicare", "IRA 2026"],
+            range: ["#94a3b8", "#1b7fa3"],
+          },
+        },
+      },
+      chrome: {
+        subtitle: "30-day cost: Medicare 2023 vs IRA 2026. Top 3 drugs.",
       },
     }}
   />
 </Figure>
 
-Januvia, a diabetes drug taken by 843,000 Medicare beneficiaries, dropped 79%, from $527 to $113 per month. NovoLog insulin fell 76%, from $495 to $119. Enbrel, a biologic for rheumatoid arthritis, dropped 67%, from $7,106 to $2,355.
+Januvia, a diabetes drug taken by 843,000 Medicare beneficiaries, dropped 89%, from $1,015 to $113 per 30-day supply. Eliquis, a blood thinner that cost Medicare $18.3 billion in 2023 alone, fell 73%, from $862 to $231. Jardiance, Xarelto, and Farxiga all dropped roughly 80%.
 
 These 10 drugs accounted for $56.2 billion in Medicare Part D spending in 2023. CMS projects the negotiated prices will save Medicare $6 billion and beneficiaries $1.5 billion in out-of-pocket costs in 2026 alone. The program is expanding: 15 more drugs for 2027, another 15 for 2028, and 20 per year after that.
 
@@ -842,31 +903,14 @@ Medicare: medicare_reimbursement_rate=0.83, medicare_underpayment_billions=100.
 Source documents: AHA Costs of Caring 2026, CAQH 2024 Index Report.
 Verified: 2026-04-19 */}
 
-<Figure alt="Horizontal bar chart showing annual costs hospitals incur to navigate the payment system. Total payment collection costs are $43 billion, with claims denial appeals at $18 billion. An industry-wide CAQH figure shows $83 billion across all providers.">
+<Figure alt="Horizontal bar chart showing three categories of annual administrative cost hospitals incur navigating the payment system: $43B payment collection, $30B cybersecurity, and $18B denial appeals.">
   <Chart
     spec={{
-      mark: { type: "bar", orient: "horizontal" },
+      mark: { type: "bar", orient: "horizontal", fill: "#c44e52" },
       data: [
-        {
-          category: "Hospital denial appeals",
-          cost: 18,
-          color_group: "hospital",
-        },
-        {
-          category: "Hospital cybersecurity",
-          cost: 30,
-          color_group: "hospital",
-        },
-        {
-          category: "Hospital payment collection",
-          cost: 43,
-          color_group: "hospital",
-        },
-        {
-          category: "All-provider admin transactions (CAQH)",
-          cost: 83,
-          color_group: "industry",
-        },
+        { category: "Payment collection", cost: 43 },
+        { category: "Cybersecurity", cost: 30 },
+        { category: "Denial appeals", cost: 18 },
       ],
       encoding: {
         x: {
@@ -877,21 +921,13 @@ Verified: 2026-04-19 */}
             format: "$,.0fB",
             tickCount: 5,
           },
-          scale: { nice: false },
+          scale: { nice: false, domain: [0, 50] },
         },
         y: {
           field: "category",
           type: "nominal",
           sort: null,
           axis: { title: null },
-        },
-        color: {
-          field: "color_group",
-          type: "nominal",
-          scale: {
-            domain: ["industry", "hospital"],
-            range: ["#94a3b8", "#c44e52"],
-          },
         },
       },
       labels: { density: "all", format: "$,.0fB" },
@@ -900,7 +936,8 @@ Verified: 2026-04-19 */}
       chrome: {
         title:
           "Hospitals spend $43 billion a year just collecting what insurers owe",
-        subtitle: "Annual administrative and payment friction costs, 2025",
+        subtitle:
+          "Annual hospital administrative and payment friction costs, 2025. For context, CAQH estimates $83B in admin transaction costs across all US healthcare providers — hospitals shoulder a major share.",
         source:
           "aha/costs-of-caring via OpenData API — AHA Costs of Caring 2026, CAQH 2024 Index Report",
       },
@@ -991,32 +1028,16 @@ DME: $86B (1.7%), Gov Admin: $66B (1.3%) */}
     spec={{
       mark: { type: "bar", orient: "horizontal" },
       data: [
-        { category: "Government public health", spending: 158, label: "$158B" },
-        { category: "Home health care", spending: 169, label: "$169B" },
-        {
-          category: "Other professional services",
-          spending: 185,
-          label: "$185B",
-        },
-        { category: "Dental services", spending: 189, label: "$189B" },
-        {
-          category: "Nursing & retirement facilities",
-          spending: 220,
-          label: "$220B",
-        },
-        { category: "Insurance overhead", spending: 306, label: "$306B" },
-        {
-          category: "Other health & residential care",
-          spending: 320,
-          label: "$320B",
-        },
-        { category: "Prescription drugs", spending: 467, label: "$467B" },
-        {
-          category: "Physician & clinical services",
-          spending: 1110,
-          label: "$1.11T",
-        },
-        { category: "Hospital care", spending: 1635, label: "$1.64T" },
+        { category: "Government public health", spending: 158e9 },
+        { category: "Home health care", spending: 169e9 },
+        { category: "Other professional services", spending: 185e9 },
+        { category: "Dental services", spending: 189e9 },
+        { category: "Nursing & retirement facilities", spending: 220e9 },
+        { category: "Insurance overhead", spending: 306e9 },
+        { category: "Other health & residential care", spending: 320e9 },
+        { category: "Prescription drugs", spending: 467e9 },
+        { category: "Physician & clinical services", spending: 1110e9 },
+        { category: "Hospital care", spending: 1635e9 },
       ],
       encoding: {
         x: {
@@ -1024,7 +1045,7 @@ DME: $86B (1.7%), Gov Admin: $66B (1.3%) */}
           type: "quantitative",
           axis: {
             title: "2024 spending",
-            format: "$,.0fB",
+            format: "$.2~s",
             tickCount: 5,
           },
           scale: { nice: false },
@@ -1066,7 +1087,7 @@ DME: $86B (1.7%), Gov Admin: $66B (1.3%) */}
           },
         },
       },
-      labels: { density: "all", format: "$,.0fB" },
+      labels: { density: "all", format: "$.2~s" },
       legend: { show: false },
       animation: true,
       chrome: {
@@ -1094,25 +1115,25 @@ These caveats are real. But the structural picture doesn't change. The US pays m
 Data: cms/nadac (NADAC $96), Cost Plus ($47, Lancet PMID:36777318), GoodRx retail ($10,000+)
 Verified: 2026-04-19 */}
 
-<Figure alt="Horizontal lollipop chart showing a single drug (imatinib, 30-day supply) priced through three channels: Cost Plus at $47, pharmacy acquisition cost at $96, and listed retail price at $10,000+. The gap between acquisition and retail represents intermediary extraction.">
+<Figure alt="Horizontal bar chart showing a single drug (imatinib, 30-day supply) priced through three channels: Cost Plus Drugs at $47 and pharmacy acquisition (NADAC) at $96 are barely visible next to the listed retail price of $10,000. The visual gap is the story.">
   <Chart
     spec={{
-      mark: "lollipop",
+      mark: { type: "bar", orient: "horizontal" },
       data: [
-        { channel: "Cost Plus Drugs", cost: 47 },
-        { channel: "Pharmacy acquisition (NADAC)", cost: 96 },
-        { channel: "Listed retail price", cost: 10000 },
+        { channel: "Listed retail price", cost: 10000, color: "#c44e52" },
+        { channel: "Pharmacy acquisition (NADAC)", cost: 96, color: "#e09c41" },
+        { channel: "Cost Plus Drugs", cost: 47, color: "#6a9f58" },
       ],
       encoding: {
         x: {
           field: "cost",
           type: "quantitative",
           axis: {
-            title: "Imatinib 400mg, 30-day supply",
-            format: "$~s",
-            tickCount: 4,
+            title: "30-day supply cost",
+            format: "$,.0f",
+            tickCount: 5,
           },
-          scale: { type: "log", domain: [30, 15000], nice: false },
+          scale: { domain: [0, 10500], nice: false },
         },
         y: {
           field: "channel",
@@ -1125,34 +1146,21 @@ Verified: 2026-04-19 */}
           type: "nominal",
           scale: {
             domain: [
-              "Cost Plus Drugs",
-              "Pharmacy acquisition (NADAC)",
               "Listed retail price",
+              "Pharmacy acquisition (NADAC)",
+              "Cost Plus Drugs",
             ],
-            range: ["#6a9f58", "#e09c41", "#c44e52"],
+            range: ["#c44e52", "#e09c41", "#6a9f58"],
           },
         },
       },
       labels: { density: "all", format: "$,.0f" },
       legend: { show: false },
-      annotations: [
-        {
-          type: "text",
-          x: 700,
-          y: "Cost Plus Drugs",
-          text: "Same pill. Same manufacturer.",
-          dx: 0,
-          dy: -24,
-          fontSize: 13,
-          fontWeight: 600,
-          fill: "#6b7280",
-        },
-      ],
       animation: true,
       chrome: {
         title: "One drug, three prices: the middleman gap",
         subtitle:
-          "Imatinib mesylate 400mg (generic leukemia drug), 30-day supply cost by channel",
+          "Imatinib mesylate 400mg (generic leukemia drug), 30-day supply cost by channel. Same pill, same manufacturer.",
         source:
           "CMS NADAC, Cost Plus Drugs (via Lancet Regional Health Americas), GoodRx retail estimate",
       },

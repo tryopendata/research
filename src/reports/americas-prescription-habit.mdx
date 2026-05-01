@@ -1,0 +1,724 @@
+export const meta = {
+  title: "America's $467 Billion Prescription Habit",
+  date: "2026-05-01",
+  description: "The US spent $467 billion on prescription drugs in 2024, growing twice as fast as inflation. A deep dive into what we're buying, what it costs, and who's paying.",
+  tags: ["healthcare", "prescription-drugs", "medicare", "pharmaceutical", "ira"],
+}
+
+import { Chart } from '../components/Chart'
+import { DataTable } from '@opendata-ai/openchart-react'
+import { Figure } from '../components/Figure'
+
+{/* Report color palette:
+  - Primary accent (highlight): #1b7fa3 (teal-blue)
+  - Secondary accent (GLP-1/diabetes): #d47215 (orange)
+  - Negative/cost: #c44e52 (red)
+  - Positive/generic: #6a9f58 (green)
+  - Context/gray: #94a3b8
+*/}
+
+Atorvastatin, a cholesterol pill that costs about $60 a year per patient, was prescribed to 16.8 million Americans through Medicare in 2023. It racked up 68.5 million prescription claims, more than any other drug in the program. Meanwhile, Eliquis, a blood thinner taken by fewer than 4 million people, cost the program $18.3 billion, almost as much as the next two most expensive drugs combined.
+
+That gap tells the story of American prescription drugs in one sentence: doctors prescribe cheap generics by the hundreds of millions, but the money flows overwhelmingly to a small number of expensive brand-name medications. Medicare Part D, the federal prescription drug benefit covering roughly 50 million seniors and disabled Americans, spent $276 billion on drugs in 2023. Just ten medications accounted for more than a quarter of that total.
+
+## Cholesterol and blood pressure drugs dominate the prescription pad
+
+The most-prescribed medications in America read like a textbook for managing chronic disease in an aging population. The top ten drugs by prescription volume are all generics, and nearly all treat cardiovascular conditions: high cholesterol, high blood pressure, and diabetes.
+
+{/* API: POST /v1/datasets/cms/part-d-spending/query — SQL: SELECT brand_name, generic_name, total_beneficiaries, total_claims, total_dosage_units, total_spending, avg_spending_per_beneficiary FROM data WHERE manufacturer = 'Overall' ORDER BY total_claims DESC LIMIT 10
+Verified: 2026-04-30 */}
+
+<Figure alt="Horizontal bar chart showing the 10 most-prescribed drugs by total claims, led by atorvastatin with 68.5 million claims">
+  <Chart spec={{
+    mark: "bar",
+    data: [
+      { drug: "Metformin", claims: 23.9, category: "Diabetes", cost_per_patient: "$42/yr" },
+      { drug: "Rosuvastatin", claims: 25.9, category: "Cholesterol", cost_per_patient: "$87/yr" },
+      { drug: "Omeprazole", claims: 28.1, category: "Acid reflux", cost_per_patient: "$58/yr" },
+      { drug: "Metoprolol Succinate", claims: 29.6, category: "Blood pressure", cost_per_patient: "$82/yr" },
+      { drug: "Losartan", claims: 33.2, category: "Blood pressure", cost_per_patient: "$60/yr" },
+      { drug: "Gabapentin", claims: 35.1, category: "Nerve pain", cost_per_patient: "$87/yr" },
+      { drug: "Lisinopril", claims: 36.1, category: "Blood pressure", cost_per_patient: "$38/yr" },
+      { drug: "Levothyroxine", claims: 41.7, category: "Thyroid", cost_per_patient: "$75/yr" },
+      { drug: "Amlodipine", claims: 47.5, category: "Blood pressure", cost_per_patient: "$35/yr" },
+      { drug: "Atorvastatin", claims: 68.5, category: "Cholesterol", cost_per_patient: "$60/yr" },
+    ],
+    encoding: {
+      x: {
+        field: "claims",
+        type: "quantitative",
+        axis: { title: "Claims filled (millions)", format: ",.0f", tickCount: 5 },
+        scale: { nice: false },
+      },
+      y: { field: "drug", type: "nominal", sort: null },
+      color: {
+        field: "category",
+        type: "nominal",
+        scale: {
+          domain: ["Cholesterol", "Blood pressure", "Thyroid", "Nerve pain", "Acid reflux", "Diabetes"],
+          range: ["#1b7fa3", "#6a9f58", "#d47215", "#c44e52", "#94a3b8", "#8b5cf6"],
+        },
+      },
+      tooltip: [
+        { field: "drug", type: "nominal", title: "Drug" },
+        { field: "claims", type: "quantitative", title: "Claims (M)", format: ",.1f" },
+        { field: "cost_per_patient", type: "nominal", title: "Avg cost" },
+      ],
+    },
+    chrome: {
+      title: "America's most-prescribed drugs are almost all generics",
+      subtitle: "Medicare Part D claims filled in 2023, millions",
+      source: "Source: CMS Medicare Part D Spending by Drug, 2023",
+    },
+    labels: { density: "all", format: ",.1f" },
+    legend: { position: "top" },
+  }} />
+</Figure>
+
+Atorvastatin alone was prescribed to nearly 17 million people, one in three Medicare beneficiaries. Four of the top ten drugs treat high blood pressure. Together, these ten generics cost Medicare about $4.5 billion, or roughly $50 to $90 per patient per year. They're the workhorses of American medicine: cheap, widely prescribed, and effective at managing the chronic conditions that define life after 60.
+
+These volume leaders barely register on the spending side of the ledger. Atorvastatin's $1 billion in total spending is a rounding error next to the drugs that actually drive Medicare's prescription bill.
+
+## Ten drugs eat a quarter of Medicare's drug bill
+
+If volume tells you what doctors prescribe, spending tells you what the pharmaceutical industry charges. The top ten drugs by total Medicare spending share almost no overlap with the most-prescribed list. They're newer brand-name medications costing thousands per patient per year.
+
+{/* API: POST /v1/datasets/cms/part-d-spending/query — SQL: SELECT brand_name, generic_name, total_spending, total_beneficiaries, total_claims, avg_spending_per_beneficiary FROM data WHERE manufacturer = 'Overall' ORDER BY total_spending DESC LIMIT 10
+Verified: 2026-04-30 */}
+
+<Figure alt="Horizontal bar chart showing the 10 most expensive drugs by total Medicare spending, led by Eliquis at $18.3 billion">
+  <Chart spec={{
+    mark: "bar",
+    data: [
+      { drug: "Revlimid", spend: 3.9, patients: "37K", type: "Cancer" },
+      { drug: "Januvia", spend: 4.1, patients: "843K", type: "Diabetes" },
+      { drug: "Farxiga", spend: 4.3, patients: "994K", type: "Diabetes" },
+      { drug: "Humira Pen", spend: 4.4, patients: "61K", type: "Autoimmune" },
+      { drug: "Trelegy Ellipta", spend: 4.5, patients: "1.1M", type: "COPD" },
+      { drug: "Xarelto", spend: 6.3, patients: "1.3M", type: "Blood thinner" },
+      { drug: "Trulicity", spend: 7.4, patients: "939K", type: "GLP-1 / Diabetes" },
+      { drug: "Jardiance", spend: 8.8, patients: "1.9M", type: "Diabetes" },
+      { drug: "Ozempic", spend: 9.2, patients: "1.5M", type: "GLP-1 / Diabetes" },
+      { drug: "Eliquis", spend: 18.3, patients: "3.9M", type: "Blood thinner" },
+    ],
+    encoding: {
+      x: {
+        field: "spend",
+        type: "quantitative",
+        axis: { title: "Total spending ($ billions)", format: "$,.0f", tickCount: 5 },
+        scale: { nice: false },
+      },
+      y: { field: "drug", type: "nominal", sort: null },
+      color: {
+        field: "type",
+        type: "nominal",
+        scale: {
+          domain: ["Blood thinner", "GLP-1 / Diabetes", "Diabetes", "COPD", "Autoimmune", "Cancer"],
+          range: ["#c44e52", "#d47215", "#8b5cf6", "#94a3b8", "#1b7fa3", "#374151"],
+        },
+      },
+      tooltip: [
+        { field: "drug", type: "nominal", title: "Drug" },
+        { field: "spend", type: "quantitative", title: "Spending ($B)", format: "$,.1f" },
+        { field: "patients", type: "nominal", title: "Patients" },
+        { field: "type", type: "nominal", title: "Category" },
+      ],
+    },
+    chrome: {
+      title: "Eliquis costs Medicare more than the next two drugs combined",
+      subtitle: "Medicare Part D total spending in 2023, billions",
+      source: "Source: CMS Medicare Part D Spending by Drug, 2023",
+    },
+    labels: { density: "all", format: "$,.1f" },
+    legend: { position: "top" },
+  }} />
+</Figure>
+
+Eliquis (apixaban), a blood thinner made by Bristol-Myers Squibb and Pfizer, cost Medicare $18.3 billion in 2023, more than all ten of the most-prescribed generics combined. At $4,652 per patient per year, it isn't even the most expensive drug per person. It just has a massive patient base of nearly 4 million, many of whom take it indefinitely for atrial fibrillation or blood clot prevention.
+
+These ten drugs represent just 0.5 percent of the 1,938 unique medications in the Part D formulary, but they account for $71.1 billion, or 26 percent, of total spending. Five of them treat diabetes or use GLP-1 mechanisms.
+
+## The $467 billion prescription market
+
+Medicare Part D's $276 billion is a large piece of a much larger market. Total national spending on prescription drugs hit $467 billion in 2024, up from $122 billion in 2000. That's a 3.8-fold increase in 24 years. But even after adjusting for inflation, real drug spending roughly doubled, growing far faster than the general price level.
+
+{/* API: POST /v1/datasets/cms/nhe-by-category/query — SQL: SELECT category, spending_millions, year FROM data WHERE category = 'Prescription Drugs' AND year >= 2000 ORDER BY year
+CPI baseline computed from fred/cpi annual averages (2000 base = 172.2). Inflation-only line = $122B * (CPI_year / CPI_2000)
+Verified: 2026-05-01 */}
+
+<Figure alt="Line chart showing national prescription drug spending from 2000 to 2024, with an inflation-only baseline showing spending grew roughly twice as fast as general inflation">
+  <Chart spec={{
+    mark: { type: "line", point: true, interpolate: "monotone" },
+    data: [
+      { year: "2000", series: "Actual spending", value: 122 },
+      { year: "2001", series: "Actual spending", value: 141 },
+      { year: "2002", series: "Actual spending", value: 160 },
+      { year: "2003", series: "Actual spending", value: 180 },
+      { year: "2004", series: "Actual spending", value: 196 },
+      { year: "2005", series: "Actual spending", value: 209 },
+      { year: "2006", series: "Actual spending", value: 228 },
+      { year: "2007", series: "Actual spending", value: 239 },
+      { year: "2008", series: "Actual spending", value: 244 },
+      { year: "2009", series: "Actual spending", value: 254 },
+      { year: "2010", series: "Actual spending", value: 253 },
+      { year: "2011", series: "Actual spending", value: 256 },
+      { year: "2012", series: "Actual spending", value: 257 },
+      { year: "2013", series: "Actual spending", value: 259 },
+      { year: "2014", series: "Actual spending", value: 291 },
+      { year: "2015", series: "Actual spending", value: 312 },
+      { year: "2016", series: "Actual spending", value: 314 },
+      { year: "2017", series: "Actual spending", value: 316 },
+      { year: "2018", series: "Actual spending", value: 321 },
+      { year: "2019", series: "Actual spending", value: 334 },
+      { year: "2020", series: "Actual spending", value: 345 },
+      { year: "2021", series: "Actual spending", value: 366 },
+      { year: "2022", series: "Actual spending", value: 391 },
+      { year: "2023", series: "Actual spending", value: 433 },
+      { year: "2024", series: "Actual spending", value: 467 },
+      { year: "2000", series: "If inflation only", value: 122 },
+      { year: "2001", series: "If inflation only", value: 125 },
+      { year: "2002", series: "If inflation only", value: 128 },
+      { year: "2003", series: "If inflation only", value: 130 },
+      { year: "2004", series: "If inflation only", value: 134 },
+      { year: "2005", series: "If inflation only", value: 138 },
+      { year: "2006", series: "If inflation only", value: 143 },
+      { year: "2007", series: "If inflation only", value: 147 },
+      { year: "2008", series: "If inflation only", value: 153 },
+      { year: "2009", series: "If inflation only", value: 152 },
+      { year: "2010", series: "If inflation only", value: 154 },
+      { year: "2011", series: "If inflation only", value: 159 },
+      { year: "2012", series: "If inflation only", value: 163 },
+      { year: "2013", series: "If inflation only", value: 165 },
+      { year: "2014", series: "If inflation only", value: 168 },
+      { year: "2015", series: "If inflation only", value: 168 },
+      { year: "2016", series: "If inflation only", value: 170 },
+      { year: "2017", series: "If inflation only", value: 174 },
+      { year: "2018", series: "If inflation only", value: 178 },
+      { year: "2019", series: "If inflation only", value: 181 },
+      { year: "2020", series: "If inflation only", value: 183 },
+      { year: "2021", series: "If inflation only", value: 192 },
+      { year: "2022", series: "If inflation only", value: 207 },
+      { year: "2023", series: "If inflation only", value: 216 },
+      { year: "2024", series: "If inflation only", value: 222 },
+    ],
+    encoding: {
+      x: { field: "year", type: "temporal", axis: { title: null, tickCount: 6 }, scale: { nice: false, domain: ["2000", "2024"] } },
+      y: { field: "value", type: "quantitative", axis: { title: "Spending ($ billions)", format: "$,.0f", tickCount: 5 }, scale: { nice: false } },
+      color: {
+        field: "series",
+        type: "nominal",
+        scale: {
+          domain: ["Actual spending", "If inflation only"],
+          range: ["#c44e52", "#94a3b8"],
+        },
+      },
+    },
+    chrome: {
+      title: "Drug spending grew twice as fast as inflation since 2000",
+      subtitle: "Total US prescription drug expenditure vs. CPI-adjusted baseline, billions",
+      source: "Source: CMS National Health Expenditure Accounts, BLS CPI-U",
+    },
+    seriesStyles: {
+      "If inflation only": { lineStyle: "dashed", strokeWidth: 1.5, opacity: 0.7 },
+    },
+    labels: { density: "none" },
+    annotations: [
+      { type: "text", x: "2024", y: 467, text: "$467B", dx: -87, dy: -28, fontSize: 12, fontWeight: 600, fill: "#9ca3af" },
+      { type: "text", x: "2024", y: 222, text: "$222B", dx: -45, dy: 16, fontSize: 12, fontWeight: 600, fill: "#9ca3af" },
+    ],
+    legend: { position: "top" },
+  }} />
+</Figure>
+
+The gap between the actual line and the inflation baseline represents roughly $245 billion in spending that cannot be explained by general price increases alone. Some of that gap reflects genuine medical advances: new drugs that treat conditions that were previously untreatable. But much of it reflects the structural economics of the pharmaceutical market, where a small number of brand-name drugs command prices that bear little relationship to their manufacturing costs.
+
+## Two parallel economies inside one formulary
+
+Medicare Part D contains 3,598 unique drugs, but they operate in two fundamentally different economic regimes. A handful of metrics tells the whole story: generics account for more than 90 percent of prescriptions filled but only 12 percent of spending. Ultra-specialty drugs, those costing more than $50,000 per patient per year, serve fewer than one million people but consume more than a quarter of the entire $276 billion budget.
+
+{/* API: POST /v1/datasets/cms/part-d-spending/query — SQL: SELECT CASE WHEN avg_spending_per_beneficiary < 500 THEN 'Generic' WHEN avg_spending_per_beneficiary < 5000 THEN 'Brand' WHEN avg_spending_per_beneficiary < 50000 THEN 'Specialty' ELSE 'Ultra-specialty' END as tier, COUNT(*) as drugs, SUM(total_spending) as spend, SUM(total_beneficiaries) as patients, SUM(total_claims) as claims FROM data WHERE manufacturer = 'Overall' GROUP BY tier ORDER BY spend DESC
+Verified: 2026-05-01 */}
+
+<Figure alt="Two stacked 100% horizontal bars showing that generics account for 91% of patients but only 12% of spending, while specialty and ultra-specialty drugs account for 51% of spending but serve less than 2% of patients">
+  <Chart spec={{
+    mark: "bar",
+    data: [
+      { metric: "Share of spending", tier: "Generic (<$500/yr)", value: 12.2 },
+      { metric: "Share of spending", tier: "Brand ($500-$5K/yr)", value: 36.8 },
+      { metric: "Share of spending", tier: "Specialty ($5K-$50K/yr)", value: 25.0 },
+      { metric: "Share of spending", tier: "Ultra-specialty (>$50K/yr)", value: 25.9 },
+      { metric: "Share of patients", tier: "Generic (<$500/yr)", value: 90.7 },
+      { metric: "Share of patients", tier: "Brand ($500-$5K/yr)", value: 7.6 },
+      { metric: "Share of patients", tier: "Specialty ($5K-$50K/yr)", value: 1.5 },
+      { metric: "Share of patients", tier: "Ultra-specialty (>$50K/yr)", value: 0.2 },
+    ],
+    encoding: {
+      x: { field: "value", type: "quantitative", axis: { title: "Percent", format: ".0%", tickCount: 5 }, stack: "normalize" },
+      y: { field: "metric", type: "nominal", sort: null },
+      color: {
+        field: "tier",
+        type: "nominal",
+        scale: {
+          domain: ["Generic (<$500/yr)", "Brand ($500-$5K/yr)", "Specialty ($5K-$50K/yr)", "Ultra-specialty (>$50K/yr)"],
+          range: ["#6a9f58", "#1b7fa3", "#d47215", "#c44e52"],
+        },
+      },
+    },
+    chrome: {
+      title: "Generics dominate volume, specialty drugs dominate dollars",
+      subtitle: "Share of Medicare Part D patients vs. spending by drug cost tier, 2023",
+      source: "Source: CMS Medicare Part D Spending by Drug, 2023",
+    },
+    labels: { density: "none" },
+    legend: { position: "top" },
+  }} />
+</Figure>
+
+Put differently: the 525 ultra-specialty drugs that serve 800,000 patients cost Medicare $72 billion. The 1,380 generics that serve 434 million patient-visits cost $34 billion. One ultra-specialty patient costs the program as much as roughly 540 generic prescriptions. These are two separate markets that happen to share a formulary.
+
+## GLP-1 drugs now cost Medicare $22 billion a year
+
+The fastest-growing category in the 2023 spending data is GLP-1 receptor agonists, the class that includes Ozempic and Mounjaro. Originally developed for type 2 diabetes, these medications have become some of the most-discussed drugs in America since Ozempic's weight-loss effects went mainstream.
+
+{/* API: POST /v1/datasets/cms/part-d-spending/query — SQL: SELECT brand_name, generic_name, total_spending, total_beneficiaries, total_claims, avg_spending_per_beneficiary, avg_spending_per_claim FROM data WHERE manufacturer = 'Overall' AND (generic_name LIKE '%Semaglutide%' OR generic_name LIKE '%Tirzepatide%' OR generic_name LIKE '%Dulaglutide%' OR generic_name LIKE '%Liraglutide%') ORDER BY total_spending DESC
+Verified: 2026-04-30 */}
+
+<Figure alt="Bar chart showing GLP-1 drug spending, with Ozempic leading at $9.2 billion">
+  <Chart spec={{
+    mark: "bar",
+    data: [
+      { drug: "Victoza", compound: "Liraglutide", spend: 1322, patients: 225990, per_patient: 5851 },
+      { drug: "Rybelsus", compound: "Semaglutide", spend: 1666, patients: 285693, per_patient: 5831 },
+      { drug: "Mounjaro", compound: "Tirzepatide", spend: 2361, patients: 370203, per_patient: 6379 },
+      { drug: "Trulicity", compound: "Dulaglutide", spend: 7364, patients: 938731, per_patient: 7844 },
+      { drug: "Ozempic", compound: "Semaglutide", spend: 9194, patients: 1464468, per_patient: 6278 },
+    ],
+    encoding: {
+      x: {
+        field: "spend",
+        type: "quantitative",
+        axis: { title: "Total spending ($ millions)", format: "$,.0f", tickCount: 5 },
+        scale: { nice: false },
+      },
+      y: { field: "drug", type: "nominal", sort: null },
+    },
+    chrome: {
+      title: "GLP-1 drugs cost Medicare $22 billion in 2023",
+      subtitle: "Total Medicare Part D spending on GLP-1 receptor agonists, 2023",
+      source: "Source: CMS Medicare Part D Spending by Drug, 2023",
+    },
+    labels: { density: "all", format: "$,.0f" },
+    legend: { show: false },
+    theme: { colors: ["#d47215"] },
+    annotations: [
+      {
+        type: "text",
+        x: 2361,
+        y: "Mounjaro",
+        text: "$6,278 per patient/year",
+        textAnchor: "start",
+        dx: 15,
+        dy: 0,
+        fontSize: 11,
+      },
+    ],
+  }} />
+</Figure>
+
+Combined, the five major GLP-1 drugs cost Medicare roughly $22 billion in 2023, serving about 3.3 million beneficiaries. To put that in perspective, Ozempic alone cost Medicare more than the program spent on atorvastatin, amlodipine, lisinopril, losartan, metoprolol, omeprazole, and metformin combined, drugs that together serve more than 70 million patients.
+
+At $6,000 to $8,000 per patient per year, GLP-1s are expensive but not in the same league as specialty drugs. Their budget impact comes from the sheer number of patients. Mounjaro, which only launched in 2022, already reached 370,000 Medicare beneficiaries and $2.4 billion in spending. With Wegovy (the weight-loss version of semaglutide) gaining coverage and Medicare negotiating drug prices under the Inflation Reduction Act, this category will only grow.
+
+## Specialty drugs cost more per patient than most Americans earn
+
+At the far end of the cost spectrum sit specialty medications, drugs that treat cancer, rare diseases, and autoimmune conditions. These drugs serve tiny patient populations at costs that dwarf the median American income.
+
+{/* API: POST /v1/datasets/cms/part-d-spending/query — SQL: SELECT brand_name, generic_name, total_spending, total_beneficiaries, avg_spending_per_beneficiary, total_claims FROM data WHERE manufacturer = 'Overall' AND avg_spending_per_beneficiary > 50000 ORDER BY total_spending DESC LIMIT 10
+Verified: 2026-04-30 */}
+
+<Figure alt="Lollipop chart showing per-patient costs for specialty drugs, ranging from $60,000 to $178,000">
+  <Chart spec={{
+    mark: "lollipop",
+    data: [
+      { drug: "Humira Pen", condition: "Autoimmune", cost: 71898, patients: 61474 },
+      { drug: "Xtandi", condition: "Prostate cancer", cost: 90778, patients: 28658 },
+      { drug: "Revlimid", condition: "Multiple myeloma", cost: 104412, patients: 36967 },
+      { drug: "Ibrance", condition: "Breast cancer", cost: 126188, patients: 16015 },
+      { drug: "Stelara", condition: "Autoimmune", cost: 130300, patients: 22930 },
+      { drug: "Tagrisso", condition: "Lung cancer", cost: 131241, patients: 9387 },
+      { drug: "Pomalyst", condition: "Multiple myeloma", cost: 134177, patients: 12739 },
+      { drug: "Jakafi", condition: "Blood cancer", cost: 138221, patients: 14041 },
+      { drug: "Imbruvica", condition: "Blood cancer", cost: 138707, patients: 17100 },
+      { drug: "Vyndamax", condition: "Heart disease", cost: 177844, patients: 7589 },
+    ],
+    encoding: {
+      x: {
+        field: "cost",
+        type: "quantitative",
+        axis: { title: "Average annual cost per patient", format: "$~s", tickCount: 5 },
+        scale: { nice: false },
+      },
+      y: { field: "drug", type: "nominal", sort: null },
+      tooltip: [
+        { field: "drug", type: "nominal", title: "Drug" },
+        { field: "condition", type: "nominal", title: "Treats" },
+        { field: "cost", type: "quantitative", title: "Cost/patient", format: "$,.0f" },
+        { field: "patients", type: "quantitative", title: "Patients", format: ",.0f" },
+      ],
+    },
+    chrome: {
+      title: "Some drugs cost more per patient than the median US income",
+      subtitle: "Average annual Medicare spending per beneficiary, 2023",
+      source: "Source: CMS Medicare Part D Spending by Drug, 2023",
+    },
+    labels: { density: "all", format: "$~s" },
+    legend: { show: false },
+    theme: { colors: ["#c44e52"] },
+    annotations: [
+      {
+        type: "refline",
+        x: 59384,
+        label: "US median income",
+        style: "dashed",
+        stroke: "#94a3b8",
+        labelAnchor: "bottom",
+        labelOffset: { dx: -44, dy: -181 },
+      },
+    ],
+  }} />
+</Figure>
+
+Vyndamax, a heart disease drug made by Pfizer, costs $177,844 per patient per year, roughly three times the median American household income. It serves just 7,589 people but still generated $1.3 billion in total spending. Imbruvica and Jakafi, both blood cancer treatments, run about $138,000 per patient.
+
+Eight of the ten most expensive drugs per patient treat cancer. These are often the only treatment options for patients with advanced malignancies, which gives pharmaceutical companies significant pricing power. A patient with multiple myeloma on Pomalyst doesn't have the option to switch to a cheaper generic.
+
+The total spending on these ten drugs, about $22 billion, is roughly the same as the entire GLP-1 category. But they reach less than a tenth as many patients: about 227,000 people compared to 3.3 million on GLP-1s.
+
+## The drugs getting more expensive every year
+
+High prices are one problem. Prices that grow faster than inflation are a compounding one. The Part D data tracks each drug's compound annual growth rate in cost per unit over five years. Among the 25 highest-spending drugs, several are compounding at 6 to 10 percent per year, meaning they'll double in cost within 7 to 12 years at current rates.
+
+{/* API: POST /v1/datasets/cms/part-d-spending/query — SQL: SELECT brand_name, total_spending, total_beneficiaries, cagr_cost_per_unit FROM data WHERE manufacturer = 'Overall' AND total_spending > 500000000 AND cagr_cost_per_unit IS NOT NULL ORDER BY total_spending DESC LIMIT 25
+Verified: 2026-05-01 */}
+
+<Figure alt="Scatter plot showing drugs by annual spending and 5-year price growth rate, with bubble size representing number of patients served">
+  <Chart spec={{
+    mark: "point",
+    data: [
+      { drug: "Eliquis", spend: 18.3, cagr: 6.9, patients: 3928 },
+      { drug: "Ozempic", spend: 9.2, cagr: -4.2, patients: 1464 },
+      { drug: "Jardiance", spend: 8.8, cagr: 5.5, patients: 1883 },
+      { drug: "Trulicity", spend: 7.4, cagr: 6.1, patients: 939 },
+      { drug: "Xarelto", spend: 6.3, cagr: 5.3, patients: 1324 },
+      { drug: "Trelegy Ellipta", spend: 4.5, cagr: 4.9, patients: 1051 },
+      { drug: "Humira", spend: 4.4, cagr: 9.2, patients: 61 },
+      { drug: "Farxiga", spend: 4.3, cagr: 4.5, patients: 994 },
+      { drug: "Januvia", spend: 4.1, cagr: 5.9, patients: 843 },
+      { drug: "Revlimid", spend: 3.9, cagr: 4.2, patients: 37 },
+      { drug: "Entresto", spend: 3.4, cagr: 8.1, patients: 664 },
+      { drug: "Xtandi", spend: 2.6, cagr: 10.6, patients: 29 },
+      { drug: "Imbruvica", spend: 2.4, cagr: 7.6, patients: 17 },
+      { drug: "Mounjaro", spend: 2.4, cagr: 4.9, patients: 370 },
+      { drug: "Enbrel", spend: 2.1, cagr: 8.1, patients: 34 },
+      { drug: "Ibrance", spend: 2.0, cagr: 6.6, patients: 16 },
+      { drug: "Stelara", spend: 3.0, cagr: 5.1, patients: 23 },
+      { drug: "Jakafi", spend: 1.9, cagr: 6.9, patients: 14 },
+    ],
+    encoding: {
+      x: {
+        field: "cagr",
+        type: "quantitative",
+        axis: { title: "5-year CAGR in cost per unit (%)", format: ".0f", tickCount: 5 },
+        scale: { domain: [-6, 13], nice: false },
+      },
+      y: {
+        field: "spend",
+        type: "quantitative",
+        axis: { title: "Total annual spending ($ billions)", format: "$,.0f", tickCount: 5 },
+        scale: { domain: [0, 23], nice: false },
+      },
+      size: { field: "patients", type: "quantitative", scale: { range: [40, 800] } },
+      color: {
+        field: "cagr",
+        type: "quantitative",
+        scale: { domain: [-5, 11], range: ["#6a9f58", "#d47215", "#c44e52"] },
+      },
+      tooltip: [
+        { field: "drug", type: "nominal", title: "Drug" },
+        { field: "spend", type: "quantitative", title: "Annual spend ($B)", format: "$,.1f" },
+        { field: "cagr", type: "quantitative", title: "5yr CAGR (%)", format: ".1f" },
+        { field: "patients", type: "quantitative", title: "Patients (thousands)", format: ",.0f" },
+      ],
+    },
+    annotations: [
+      { type: "text", x: 10.6, y: 2.6, text: "Xtandi", dx: -30, dy: -12, fontSize: 11, fontWeight: 600, fill: "#c44e52" },
+      { type: "text", x: 9.2, y: 4.4, text: "Humira", dx: -30, dy: -12, fontSize: 11, fontWeight: 600, fill: "#c44e52" },
+      { type: "text", x: 6.9, y: 18.3, text: "Eliquis", dx: 10, dy: -5, fontSize: 11, fontWeight: 600, fill: "#c44e52" },
+      { type: "text", x: -4.2, y: 9.2, text: "Ozempic", dx: 10, dy: -5, fontSize: 11, fontWeight: 600, fill: "#6a9f58" },
+    ],
+    chrome: {
+      title: "Billion-dollar drugs are still getting more expensive every year",
+      subtitle: "Medicare Part D drugs with >$500M annual spend. Bubble size = patients served (thousands). 5-year CAGR in cost per unit.",
+      source: "Source: CMS Medicare Part D Spending by Drug, 2023",
+    },
+    labels: { density: "none" },
+    legend: { show: false },
+  }} />
+</Figure>
+
+The upper-right quadrant tells the worst story: Xtandi (prostate cancer) has been compounding at 10.6 percent per year while costing $2.6 billion annually. Humira, despite serving only 61,000 patients, grew at 9.2 percent and costs $4.4 billion. Entresto and Enbrel are both compounding at 8 percent.
+
+Ozempic is the notable outlier going the other direction. Its per-unit cost has actually declined 4.2 percent per year, likely reflecting competition from Mounjaro and pressure from PBM negotiations. But its total spending is growing explosively because so many more people are taking it each year.
+
+The drugs in the upper-right quadrant are precisely the ones the Inflation Reduction Act's negotiation authority was designed to target.
+
+## 20 million opioid prescriptions still flow through Medicare
+
+Amid the broader opioid epidemic, the Medicare Part D data reveals that opioids remain a substantial part of the prescribing picture. Hydrocodone-acetaminophen (brand names like Vicodin) is still the 14th most-prescribed drug in the program, with more than 20 million claims and 5.2 million patients.
+
+{/* API: POST /v1/datasets/cms/part-d-spending/query — SQL: SELECT brand_name, generic_name, total_spending, total_beneficiaries, total_claims, avg_spending_per_beneficiary FROM data WHERE manufacturer = 'Overall' AND (generic_name LIKE '%Hydrocodone%' OR generic_name LIKE '%Oxycodone%' OR ...) ORDER BY total_claims DESC
+Verified: 2026-04-30 */}
+
+<Figure alt="Horizontal bar chart showing opioid prescription volumes, with treatment drugs alongside pain medications">
+  <Chart spec={{
+    mark: "bar",
+    data: [
+      { drug: "OxyContin", claims: 0.5, type: "Pain", spend: 391 },
+      { drug: "Fentanyl (rx)", claims: 0.9, type: "Pain", spend: 98 },
+      { drug: "Buprenorphine-Naloxone", claims: 1.5, type: "Treatment", spend: 231 },
+      { drug: "Morphine Sulfate ER", claims: 2.0, type: "Pain", spend: 66 },
+      { drug: "Acetaminophen-Codeine", claims: 2.5, type: "Pain", spend: 31 },
+      { drug: "Oxycodone", claims: 8.4, type: "Pain", spend: 152 },
+      { drug: "Oxycodone-Acetaminophen", claims: 8.6, type: "Pain", spend: 263 },
+      { drug: "Tramadol", claims: 12.7, type: "Pain", spend: 92 },
+      { drug: "Hydrocodone-Acetaminophen", claims: 20.0, type: "Pain", spend: 423 },
+    ],
+    encoding: {
+      x: {
+        field: "claims",
+        type: "quantitative",
+        axis: { title: "Claims filled (millions)", format: ",.1f", tickCount: 5 },
+        scale: { nice: false },
+      },
+      y: { field: "drug", type: "nominal", sort: null },
+      color: {
+        field: "type",
+        type: "nominal",
+        scale: {
+          domain: ["Pain", "Treatment"],
+          range: ["#c44e52", "#6a9f58"],
+        },
+      },
+      tooltip: [
+        { field: "drug", type: "nominal", title: "Drug" },
+        { field: "claims", type: "quantitative", title: "Claims (M)", format: ",.1f" },
+        { field: "spend", type: "quantitative", title: "Spending ($M)", format: "$,.0f" },
+      ],
+    },
+    chrome: {
+      title: "20 million opioid painkiller prescriptions still flow through Medicare",
+      subtitle: "Medicare Part D claims in 2023, millions. Green = addiction treatment drug.",
+      source: "Source: CMS Medicare Part D Spending by Drug, 2023",
+    },
+    labels: { density: "all", format: ",.1f" },
+    legend: { position: "top" },
+  }} />
+</Figure>
+
+What stands out in this picture is both the scale and the economics. The opioid pain medications are overwhelmingly generic and cheap, between $24 and $82 per patient per year for most formulations. The exception is OxyContin, which at $6,003 per patient costs 73 times what generic hydrocodone costs, despite containing the same active ingredient (oxycodone) in a time-release formulation.
+
+Buprenorphine-naloxone, the green bar in the chart, is worth calling out. That's Suboxone and its generics, the gold-standard treatment for opioid addiction. At 1.5 million claims, it's far smaller than the pain medications, but its presence in the data reflects the dual nature of America's opioid problem: the same system that prescribes the drugs also prescribes the treatment.
+
+## A tiny fraction of drugs drive most of the spending
+
+Spending concentration tells the sharpest version of this story. Of the 1,938 unique drugs in the formulary, the top ten account for 26 percent of all spending. Zoom out a bit and the concentration only gets sharper.
+
+{/* Calculation: Top 10 spend: 71,149,073,626.8 / Total spend: 275,924,520,550.87 = 25.8% */}
+
+<Figure alt="Donut chart showing concentration of Medicare Part D spending">
+  <Chart spec={{
+    mark: { type: "arc", innerRadius: 50 },
+    data: [
+      { category: "Top 10 drugs", spend: 71.1, share: "26%" },
+      { category: "Next 40 drugs", spend: 80.5, share: "29%" },
+      { category: "Remaining 1,888 drugs", spend: 124.3, share: "45%" },
+    ],
+    encoding: {
+      y: { field: "spend", type: "quantitative" },
+      color: {
+        field: "category",
+        type: "nominal",
+        scale: {
+          domain: ["Top 10 drugs", "Next 40 drugs", "Remaining 1,888 drugs"],
+          range: ["#c44e52", "#d47215", "#94a3b8"],
+        },
+      },
+    },
+    chrome: {
+      title: "50 drugs account for more than half of Medicare's drug bill",
+      subtitle: "Share of total Medicare Part D spending ($276B), 2023",
+      source: "Source: CMS Medicare Part D Spending by Drug, 2023",
+    },
+    labels: { density: "all" },
+  }} />
+</Figure>
+
+The top 50 drugs, just 2.6 percent of the formulary, account for roughly 55 percent of total spending. The remaining 1,888 drugs split the other 45 percent. Cost follows a power-law distribution in healthcare, but the concentration here means that pricing decisions on a handful of brand-name drugs have outsized effects on the entire system.
+
+This concentration also explains why Medicare's new drug price negotiation authority under the Inflation Reduction Act could have substantial impact. The first round of negotiations targeted Eliquis, Jardiance, and Januvia, three drugs that together account for $31 billion in annual spending. Even modest price reductions on these three drugs could save more than all 1,888 of the cheapest drugs cost combined.
+
+## The IRA's first negotiated prices cut costs 38 to 79 percent
+
+In August 2024, the Centers for Medicare and Medicaid Services announced the first-ever negotiated drug prices under the Inflation Reduction Act. Ten drugs were selected based on their total Medicare spending and lack of generic competition. The negotiated "Maximum Fair Prices" take effect January 2026.
+
+{/* API: POST /v1/datasets/cms/ira-drug-prices/query — SQL: SELECT DISTINCT drug_name, active_ingredient, price_per_30_day_supply FROM data ORDER BY drug_name
+Before prices from CMS August 2024 fact sheet: https://www.cms.gov/files/document/fact-sheet-medicare-selected-drug-negotiation-list-2026.pdf
+Verified: 2026-05-01 */}
+
+<Figure alt="Horizontal bar chart showing percent price reduction for the 10 drugs in Medicare's first-ever price negotiation, ranging from 38 percent for Imbruvica to 79 percent for Januvia">
+  <Chart spec={{
+    mark: "bar",
+    data: [
+      { drug: "Imbruvica (blood cancer)", reduction: 38, before: 14934, after: 9319, spend: 2.4 },
+      { drug: "Entresto (heart failure)", reduction: 53, before: 628, after: 295, spend: 3.4 },
+      { drug: "Eliquis (blood thinner)", reduction: 56, before: 521, after: 231, spend: 18.3 },
+      { drug: "Xarelto (blood thinner)", reduction: 62, before: 517, after: 197, spend: 6.3 },
+      { drug: "Jardiance (diabetes)", reduction: 66, before: 573, after: 197, spend: 8.8 },
+      { drug: "Stelara (autoimmune)", reduction: 66, before: 13836, after: 4695, spend: 3.0 },
+      { drug: "Enbrel (arthritis)", reduction: 66, before: 6922, after: 2355, spend: 2.1 },
+      { drug: "Farxiga (diabetes/heart)", reduction: 68, before: 556, after: 179, spend: 4.3 },
+      { drug: "Fiasp/NovoLog (insulin)", reduction: 76, before: 495, after: 119, spend: 1.9 },
+      { drug: "Januvia (diabetes)", reduction: 79, before: 527, after: 113, spend: 4.1 },
+    ],
+    encoding: {
+      x: {
+        field: "reduction",
+        type: "quantitative",
+        axis: { title: "Price reduction (%)", format: ".0f", tickCount: 5 },
+        scale: { domain: [0, 85], nice: false },
+      },
+      y: { field: "drug", type: "nominal", sort: null },
+      color: {
+        field: "reduction",
+        type: "quantitative",
+        scale: { domain: [35, 80], range: ["#d47215", "#6a9f58"] },
+      },
+      tooltip: [
+        { field: "drug", type: "nominal", title: "Drug" },
+        { field: "before", type: "quantitative", title: "Before (30-day)", format: "$,.0f" },
+        { field: "after", type: "quantitative", title: "Negotiated (30-day)", format: "$,.0f" },
+        { field: "reduction", type: "quantitative", title: "Reduction", format: ".0f" },
+        { field: "spend", type: "quantitative", title: "Annual spend ($B)", format: "$,.1f" },
+      ],
+    },
+    chrome: {
+      title: "Medicare's first drug price negotiations cut costs 38-79%",
+      subtitle: "Percent reduction from list price to Maximum Fair Price (effective 2026), per 30-day supply",
+      source: "Source: CMS Maximum Fair Price data, August 2024. Before prices from CMS fact sheet.",
+    },
+    labels: { density: "all", format: ".0f" },
+    legend: { show: false },
+  }} />
+</Figure>
+
+Januvia tops the list at 79 percent, dropping from $527 to $113 per month. That makes sense: it's a diabetes drug facing increasing competition from newer SGLT2 inhibitors (Jardiance, Farxiga) and GLP-1s. Its manufacturer had less leverage.
+
+The two blood thinners, Eliquis and Xarelto, saw reductions of 56 and 62 percent respectively. These are the drugs that appear at the very top of the spending chart earlier in this report. Eliquis alone accounts for $18.3 billion in annual Medicare spending. Even at the "modest" 56 percent reduction, the savings on this single drug could exceed $10 billion annually.
+
+CMS estimates the first round of negotiations will save Medicare $6 billion in the first year, with savings growing as additional drugs are added in subsequent rounds. The second round, announced in January 2025, added 15 more drugs including Ozempic, Wegovy, and several cancer treatments.
+
+## The two-tier reality of American prescribing
+
+{/* Synthesis chart: spending per claim reveals the two tiers
+   Atorvastatin: $1,004M / 68.5M claims = $14.66/claim
+   Amlodipine: $404M / 47.5M = $8.51
+   Metformin: $177M / 23.9M = $7.41
+   Eliquis: $18,342M / 21.2M = $865.19
+   Ozempic: $9,194M / 6.9M = $1,332.17
+   Revlimid: $3,861M / 0.222M = $17,392
+   Humira Pen: $4,422M / 0.536M = $8,250
+   Vyndamax: $1,350M / 0.055M = $24,545 */}
+
+<Figure alt="Lollipop chart showing cost per claim on a log scale, revealing generics cost under $20 while specialty drugs cost over $17,000 per claim">
+  <Chart spec={{
+    mark: "lollipop",
+    data: [
+      { drug: "Metformin", cost_per_claim: 7, claims: 23.9, tier: "Generic" },
+      { drug: "Amlodipine", cost_per_claim: 9, claims: 47.5, tier: "Generic" },
+      { drug: "Atorvastatin", cost_per_claim: 15, claims: 68.5, tier: "Generic" },
+      { drug: "Eliquis", cost_per_claim: 865, claims: 21.2, tier: "Brand" },
+      { drug: "Ozempic", cost_per_claim: 1332, claims: 6.9, tier: "Brand" },
+      { drug: "Humira Pen", cost_per_claim: 8250, claims: 0.5, tier: "Specialty" },
+      { drug: "Revlimid", cost_per_claim: 17392, claims: 0.2, tier: "Specialty" },
+      { drug: "Vyndamax", cost_per_claim: 24545, claims: 0.06, tier: "Specialty" },
+    ],
+    encoding: {
+      x: {
+        field: "cost_per_claim",
+        type: "quantitative",
+        axis: { title: "Medicare spending per claim", format: "$~s", tickCount: 3 },
+        scale: { type: "log", nice: false, domain: [5, 30000] },
+      },
+      y: { field: "drug", type: "nominal", sort: null },
+      color: {
+        field: "tier",
+        type: "nominal",
+        scale: {
+          domain: ["Generic", "Brand", "Specialty"],
+          range: ["#6a9f58", "#1b7fa3", "#c44e52"],
+        },
+      },
+      tooltip: [
+        { field: "drug", type: "nominal", title: "Drug" },
+        { field: "cost_per_claim", type: "quantitative", title: "Cost/claim", format: "$,.0f" },
+        { field: "claims", type: "quantitative", title: "Claims (M)", format: ",.1f" },
+        { field: "tier", type: "nominal", title: "Tier" },
+      ],
+    },
+    chrome: {
+      title: "A single Vyndamax claim costs Medicare what 1,700 atorvastatin claims cost",
+      subtitle: "Medicare spending per claim by drug tier, 2023 (log scale)",
+      source: "Source: CMS Medicare Part D Spending by Drug, 2023",
+    },
+    labels: { density: "all", format: "$,.0f" },
+    legend: { position: "top" },
+  }} />
+</Figure>
+
+---
+
+The drugs doctors write most often, the statins and ACE inhibitors and metformins that keep tens of millions of older Americans healthy, barely register in the spending data. They're cheap, they're generic, and they work.
+
+The spending is driven by a different set of drugs entirely: brand-name blood thinners, GLP-1 agonists, cancer drugs, and biologics that serve far fewer patients at far higher prices. Eliquis serves a quarter as many patients as atorvastatin but costs 18 times as much in total. Revlimid treats 37,000 people at $104,000 each.
+
+Blood thinners prevent strokes. GLP-1 drugs help people manage diabetes. Cancer drugs extend lives. None of that is in dispute. What's in dispute is sustainability: whether a system that spends $467 billion annually on prescription drugs, where 50 medications drive more than half of Medicare's drug bill, can hold together as the population ages and new high-cost therapies reach the market. Atorvastatin will still cost $60 a year. The question is what happens to everything else. The IRA's negotiation authority is the first structural attempt at an answer.
+
+## Data sources & methodology
+
+**Datasets used:**
+- `cms/part-d-spending` — Medicare Part D Spending by Drug, 2023 data. Includes total spending, claims, beneficiaries, cost per unit CAGR, and cost metrics for all drugs in the Part D formulary. Each row represents a unique drug with manufacturer-level and overall aggregates.
+- `cms/nhe-by-category` — National Health Expenditure Accounts, 2000-2024. Used for total US prescription drug spending over time ($122B in 2000 to $467B in 2024).
+- `fred/cpi` — Bureau of Labor Statistics Consumer Price Index (CPI-U), all items. Used to compute the inflation baseline: 2000 spending ($122B) compounded at actual CPI annual growth to show what spending would have been if it only tracked general inflation.
+- `cms/ira-drug-prices` — CMS Maximum Fair Prices (negotiated under IRA), effective 2026. Contains the 10 drugs selected for the first round of Medicare drug price negotiations with their negotiated 30-day supply prices.
+
+**Calculations & transformations:**
+- Inflation baseline calculated as: $122B (2000 NHE Rx spending) × (CPI_year / CPI_2000). CPI_2000 = 172.2. This gives the counterfactual spending path if Rx had only grown at the general inflation rate.
+- Tier categorization based on avg_spending_per_beneficiary: Generic (under $500), Brand ($500-$5K), Specialty ($5K-$50K), Ultra-specialty (over $50K). Share percentages computed from sum of total_beneficiaries and total_spending within each tier.
+- IRA percent reductions from CMS August 2024 fact sheet comparing list prices to negotiated Maximum Fair Prices on a per-30-day-supply basis.
+- CAGR scatter: `cagr_cost_per_unit` is the 5-year compound annual growth rate (2019-2023) in cost per dosage unit, computed by CMS. Total spending displayed in billions. Patient counts in thousands.
+- GLP-1 total spending calculated by summing all semaglutide, tirzepatide, dulaglutide, and liraglutide formulations (Ozempic, Trulicity, Mounjaro, Rybelsus, Victoza 2-Pak and 3-Pak, Xultophy). Total: approximately $22 billion across 3.3 million beneficiaries.
+- Opioid prescriptions aggregated across all formulations of hydrocodone, oxycodone, tramadol, fentanyl, morphine, codeine, and buprenorphine.
+- Spending concentration calculated as sum of top N drugs' total_spending divided by total program spending ($275.9 billion). Top 10 = $71.1B (25.8%). "Next 40" spending estimated from the remaining top 50 minus top 10.
+- Per-patient costs from `avg_spending_per_beneficiary` field. This represents Medicare program spending, not necessarily out-of-pocket patient costs.
+
+**Limitations:**
+- Medicare Part D covers approximately 50 million beneficiaries, predominantly seniors and disabled Americans. The prescribing picture for the commercially insured population (younger, working-age Americans) would differ, showing more antidepressants, birth control, stimulants, and fewer cardiovascular drugs.
+- Total beneficiary counts across drugs sum to more than 50 million because individuals take multiple medications.
+- Spending represents what Medicare paid (including plan and beneficiary contributions), not manufacturer revenue.
+- NHE data tracks total national expenditure from all payers (Medicare, Medicaid, private insurance, out-of-pocket), not just Medicare Part D.
+- IRA "before" prices are CMS's published list prices from their August 2024 fact sheet. Actual net prices after rebates were lower, so the real savings to Medicare may be less dramatic than the percent reductions suggest.
+- The `cagr_cost_per_unit` field covers 2019-2023. Drugs with fewer than 5 years of Part D data have no CAGR value.
+- GLP-1 weight-loss prescribing (Wegovy) is nearly invisible in this data ($200K total) because Medicare Part D did not broadly cover weight-loss indications in 2023. Coverage expanded in 2024.
+- Drugs with fewer than 30 beneficiaries are excluded by CMS for privacy.
+
+*Data accessed on 2026-04-30 and 2026-05-01 via the [OpenData API](https://tryopendata.ai).*

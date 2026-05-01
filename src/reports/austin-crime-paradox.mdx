@@ -1,0 +1,688 @@
+export const meta = {
+  title: "Austin Crime Is Down 37%. So Why Doesn't It Feel That Way?",
+  date: "2026-04-18",
+  description:
+    "Reported crime in Austin has fallen steadily since 2010, but auto theft tripled, mental health calls surged tenfold, and the UT campus district still accounts for 16% of all incidents.",
+  tags: ["austin", "crime", "public-safety", "ut-austin", "west-campus"],
+};
+
+import { Chart } from "../components/Chart";
+import { Figure } from "../components/Figure";
+
+Austin reported 86,267 crimes in 2024, down from 136,520 in 2010. That's a 37 percent drop in a city that added nearly 190,000 residents over the same period. By any standard measure, Austin is getting safer.
+
+But zoom into the neighborhoods around the University of Texas, and the picture gets complicated. Auto theft has tripled. Mental health crisis calls jumped from 1 percent of police dispatches to nearly 12 percent in just two years. Murder spiked to levels not seen in decades. And the UT district still generates a disproportionate share of all crime in the city, a pattern that hasn't budged in 15 years.
+
+The overall trend is real, and it's good news. But averages are generous. They smooth over the categories that got worse, the hours that got more dangerous, and the neighborhoods that didn't share the improvement.
+
+## Crime has dropped every year since 2010, with no signs of reversing
+
+Austin's decline isn't a blip or a pandemic artifact. It started in 2010 and has continued almost every year since. The city went from 136,520 reported incidents to 86,267 in 2024, a steady compression that held through population booms, a pandemic, and a national crime wave.
+
+<Figure alt="Line chart showing Austin's total reported crime incidents declining from 136,520 in 2010 to 86,267 in 2024">
+  <Chart
+    spec={{
+      mark: {
+        type: "area",
+        interpolate: "monotone",
+        point: true,
+        fill: {
+          gradient: "linear",
+          stops: [
+            { offset: 0, color: "#1b7fa3", opacity: 0.6 },
+            { offset: 1, color: "#1b7fa3", opacity: 0.05 },
+          ],
+        },
+      },
+      data: [
+        { year: "2010", incidents: 136520 },
+        { year: "2011", incidents: 127949 },
+        { year: "2012", incidents: 127428 },
+        { year: "2013", incidents: 122981 },
+        { year: "2014", incidents: 114733 },
+        { year: "2015", incidents: 110701 },
+        { year: "2016", incidents: 107060 },
+        { year: "2017", incidents: 103801 },
+        { year: "2018", incidents: 97927 },
+        { year: "2019", incidents: 103068 },
+        { year: "2020", incidents: 98862 },
+        { year: "2021", incidents: 91609 },
+        { year: "2022", incidents: 88081 },
+        { year: "2023", incidents: 86945 },
+        { year: "2024", incidents: 86267 },
+      ],
+      encoding: {
+        x: {
+          field: "year",
+          type: "temporal",
+          axis: { title: "" },
+          scale: { nice: false },
+        },
+        y: {
+          field: "incidents",
+          type: "quantitative",
+          axis: { title: "Reported incidents", format: "~s", tickCount: 5 },
+          scale: { domain: [85000, 140000], nice: false },
+        },
+      },
+      annotations: [
+        {
+          type: "text",
+          x: "2010",
+          y: 136520,
+          text: "136,520",
+          dy: -14,
+          fontSize: 13,
+          fontWeight: 600,
+          fill: "#1b7fa3",
+        },
+        {
+          type: "text",
+          x: "2024",
+          y: 86267,
+          text: "86,267",
+          dy: 18,
+          fontSize: 13,
+          fontWeight: 600,
+          fill: "#1b7fa3",
+        },
+        {
+          type: "text",
+          x: "2019",
+          y: 103068,
+          text: "Brief uptick",
+          dy: -14,
+          fontSize: 11,
+          fontWeight: 500,
+          fill: "#64748b",
+        },
+      ],
+      chrome: {
+        title: "Austin crime fell 37% over 15 years",
+        subtitle: "Total reported incidents per year, 2010-2024",
+        source: "Source: Austin Police Department via OpenData API",
+      },
+      theme: { colors: ["#1b7fa3"] },
+      labels: { density: "none" },
+      animation: true,
+    }}
+  />
+</Figure>
+
+The decline is broad-based. Theft, the single largest crime category, dropped from 34,681 reports in 2010 to 21,831 in 2024. Burglary fell 52 percent. Robbery is down 31 percent. These are the property crimes that make up the bulk of what police departments count, and they've all been heading in the same direction.
+
+But treating the decline as a single story misses the categories that went the other direction entirely.
+
+## Auto theft tripled while everything else fell
+
+Auto theft is the outlier that breaks the "crime is falling" narrative. Austin recorded 2,113 auto thefts in 2010. By 2023, that number had more than tripled to 6,790. Aggravated assault also climbed, from about 1,900 to a peak of 2,899 in 2022, before moderating slightly.
+
+<Figure alt="Multi-line chart showing theft and burglary declining from 2010-2024 while auto theft tripled and aggravated assault rose 50%">
+  <Chart
+    spec={{
+      mark: { type: "line", point: true, interpolate: "monotone" },
+      data: [
+        { year: "2010", category: "Theft", change: 0 },
+        { year: "2012", category: "Theft", change: -3 },
+        { year: "2014", category: "Theft", change: -16 },
+        { year: "2016", category: "Theft", change: -25 },
+        { year: "2018", category: "Theft", change: -24 },
+        { year: "2020", category: "Theft", change: -21 },
+        { year: "2022", category: "Theft", change: -30 },
+        { year: "2024", category: "Theft", change: -37 },
+        { year: "2010", category: "Burglary", change: 0 },
+        { year: "2012", category: "Burglary", change: -18 },
+        { year: "2014", category: "Burglary", change: -35 },
+        { year: "2016", category: "Burglary", change: -41 },
+        { year: "2018", category: "Burglary", change: -52 },
+        { year: "2020", category: "Burglary", change: -45 },
+        { year: "2022", category: "Burglary", change: -46 },
+        { year: "2024", category: "Burglary", change: -52 },
+        { year: "2010", category: "Auto Theft", change: 0 },
+        { year: "2012", category: "Auto Theft", change: 2 },
+        { year: "2014", category: "Auto Theft", change: 3 },
+        { year: "2016", category: "Auto Theft", change: -5 },
+        { year: "2018", category: "Auto Theft", change: 15 },
+        { year: "2020", category: "Auto Theft", change: 83 },
+        { year: "2022", category: "Auto Theft", change: 141 },
+        { year: "2024", category: "Auto Theft", change: 176 },
+        { year: "2010", category: "Agg. Assault", change: 0 },
+        { year: "2012", category: "Agg. Assault", change: -1 },
+        { year: "2014", category: "Agg. Assault", change: -5 },
+        { year: "2016", category: "Agg. Assault", change: 9 },
+        { year: "2018", category: "Agg. Assault", change: 8 },
+        { year: "2020", category: "Agg. Assault", change: 35 },
+        { year: "2022", category: "Agg. Assault", change: 52 },
+        { year: "2024", category: "Agg. Assault", change: 30 },
+      ],
+      encoding: {
+        x: {
+          field: "year",
+          type: "temporal",
+          axis: { title: "" },
+          scale: { nice: false },
+        },
+        y: {
+          field: "change",
+          type: "quantitative",
+          axis: { title: "Change from 2010 baseline", format: "+.0f%", tickCount: 5 },
+          scale: { nice: false },
+        },
+        color: {
+          field: "category",
+          type: "nominal",
+          scale: {
+            domain: ["Theft", "Burglary", "Auto Theft", "Agg. Assault"],
+            range: ["#94a3b8", "#94a3b8", "#d47215", "#c44e52"],
+          },
+        },
+      },
+      annotations: [
+        {
+          type: "refline",
+          y: 0,
+          stroke: "#64748b",
+          strokeDasharray: "4 4",
+        },
+      ],
+      chrome: {
+        title: "Auto theft surged +176% while theft and burglary fell",
+        subtitle: "Percent change from 2010 baseline, Austin UCR Part I categories",
+        source: "Source: Austin Police Department via OpenData API",
+      },
+      labels: { density: "none" },
+      legend: { position: "top" },
+      animation: true,
+    }}
+  />
+</Figure>
+
+The scale of the multi-category chart obscures just how sharp the auto theft surge actually was. Isolated on its own, the trajectory is unmistakable.
+
+<Figure alt="Area chart showing Austin auto thefts rising from 2,113 in 2010 to a peak of 6,790 in 2023, then declining to 5,828 in 2024">
+  <Chart
+    spec={{
+      mark: {
+        type: "area",
+        interpolate: "monotone",
+        point: true,
+        fill: {
+          gradient: "linear",
+          stops: [
+            { offset: 0, color: "#d47215", opacity: 0.7 },
+            { offset: 1, color: "#d47215", opacity: 0.05 },
+          ],
+        },
+      },
+      data: [
+        { year: "2010", thefts: 2113 },
+        { year: "2011", thefts: 1926 },
+        { year: "2012", thefts: 2164 },
+        { year: "2013", thefts: 2055 },
+        { year: "2014", thefts: 2166 },
+        { year: "2015", thefts: 2018 },
+        { year: "2016", thefts: 2015 },
+        { year: "2017", thefts: 1998 },
+        { year: "2018", thefts: 2430 },
+        { year: "2019", thefts: 2951 },
+        { year: "2020", thefts: 3864 },
+        { year: "2021", thefts: 4397 },
+        { year: "2022", thefts: 5102 },
+        { year: "2023", thefts: 6790 },
+        { year: "2024", thefts: 5828 },
+      ],
+      encoding: {
+        x: {
+          field: "year",
+          type: "temporal",
+          axis: { title: "" },
+          scale: { nice: false },
+        },
+        y: {
+          field: "thefts",
+          type: "quantitative",
+          axis: { title: "Auto thefts", format: "~s", tickCount: 5 },
+          scale: { domain: [1800, 7500], nice: false },
+        },
+      },
+      annotations: [
+        {
+          type: "range",
+          x1: "2010",
+          x2: "2017",
+          label: "Flat baseline\n~2,000/yr",
+          fill: "#94a3b8",
+          opacity: 0.08,
+        },
+        {
+          type: "text",
+          x: "2023",
+          y: 6790,
+          text: "6,790",
+          dy: -14,
+          fontSize: 13,
+          fontWeight: 600,
+          fill: "#d47215",
+          offset: { dx: -24, dy: -14 },
+        },
+        {
+          type: "text",
+          x: "2024",
+          y: 5828,
+          text: "5,828",
+          dy: 18,
+          fontSize: 12,
+          fontWeight: 600,
+          fill: "#d47215",
+          offset: { dx: -37, dy: 23 },
+        },
+      ],
+      chrome: {
+        title: "Auto theft tripled in six years, peaking in 2023",
+        subtitle: "Reported auto thefts per year, Austin citywide",
+        source: "Source: Austin Police Department via OpenData API",
+      },
+      theme: { colors: ["#d47215"] },
+      labels: { density: "none" },
+      animation: true,
+    }}
+  />
+</Figure>
+
+The surge isn't unique to Austin. It tracks a national pattern tied to Kia and Hyundai models vulnerable to a viral theft method that spread on social media starting around 2020. But the numbers are still striking: 5,828 cars stolen in 2024, nearly three times the 2010 baseline. The trend has started bending down from its 2023 peak of 6,790, but it's nowhere close to returning to the ~2,000-per-year baseline that held for nearly a decade.
+
+Aggravated assault followed a different arc. It rose steadily through the late 2010s, peaked during the pandemic years, and has since come down, though it's still about 30 percent above where it was in 2010. The uptick aligns with a national pattern of rising violent crime that crested around 2021-2022.
+
+## Austin's deadliest year came and went quickly
+
+In 2021, 75 people were murdered in Austin. That was more than double the prior year and three times the 2015 count. It was a genuine spike, not a reclassification or a reporting change.
+
+<Figure alt="Bar chart showing Austin murders by year, with a spike to 75 in 2021">
+  <Chart
+    spec={{
+      mark: "bar",
+      data: [
+        { year: "2015", murders: 24, zone: "Normal" },
+        { year: "2016", murders: 38, zone: "Normal" },
+        { year: "2017", murders: 25, zone: "Normal" },
+        { year: "2018", murders: 30, zone: "Normal" },
+        { year: "2019", murders: 32, zone: "Normal" },
+        { year: "2020", murders: 43, zone: "Elevated" },
+        { year: "2021", murders: 75, zone: "Spike" },
+        { year: "2022", murders: 61, zone: "Elevated" },
+        { year: "2023", murders: 57, zone: "Elevated" },
+        { year: "2024", murders: 56, zone: "Elevated" },
+      ],
+      encoding: {
+        x: { field: "year", type: "ordinal", axis: { title: "" } },
+        y: {
+          field: "murders",
+          type: "quantitative",
+          axis: { title: "Murders", tickCount: 5 },
+          scale: { domain: [0, 85] },
+        },
+        color: {
+          field: "zone",
+          type: "nominal",
+          scale: {
+            domain: ["Normal", "Elevated", "Spike"],
+            range: ["#94a3b8", "#d47215", "#c44e52"],
+          },
+        },
+      },
+      annotations: [
+        {
+          type: "range",
+          x1: "2020",
+          x2: "2022",
+          label: "COVID era",
+          fill: "#c44e52",
+          opacity: 0.06,
+          labelOffset: { dx: -1, dy: -18 },
+        },
+        {
+          type: "refline",
+          y: 30,
+          stroke: "#64748b",
+          strokeDasharray: "4 4",
+          label: "2015-2019 avg",
+          labelAnchor: "top",
+          labelOffset: { dx: 1, dy: 21 },
+        },
+      ],
+      chrome: {
+        title: "Murders nearly tripled in 2021, then plateaued",
+        subtitle: "Homicides per year, Austin citywide",
+        source: "Source: Austin Police Department via OpenData API",
+      },
+      legend: { show: false },
+      labels: { density: "all" },
+      animation: true,
+    }}
+  />
+</Figure>
+
+The spike tracked a national pattern. Cities across the country saw sharp increases in homicides during 2020-2021, a trend researchers have linked to pandemic-era disruptions in policing, social services, and community networks. Austin's count has come down from the peak but remains stuck in the mid-50s, roughly double the pre-pandemic baseline of 25-30 per year. The city hasn't returned to its pre-2020 normal.
+
+## The UT district generates 16% of Austin's crime, and it's been that way for 15 years
+
+Council District 9 covers the UT campus, West Campus, and Hyde Park. It's one of 10 council districts, but it consistently accounts for about 16 percent of all reported crime in the city. That share has barely moved in 15 years.
+
+<Figure alt="Line chart showing District 9's share of Austin crime hovering between 14.5% and 16.3% from 2010 to 2024">
+  <Chart
+    spec={{
+      mark: { type: "line", point: true, interpolate: "monotone" },
+      data: [
+        { year: "2010", share: 15.5 },
+        { year: "2011", share: 16.3 },
+        { year: "2012", share: 16.2 },
+        { year: "2013", share: 15.9 },
+        { year: "2014", share: 15.9 },
+        { year: "2015", share: 16.1 },
+        { year: "2016", share: 15.9 },
+        { year: "2017", share: 15.9 },
+        { year: "2018", share: 15.3 },
+        { year: "2019", share: 16.1 },
+        { year: "2020", share: 14.5 },
+        { year: "2021", share: 15.2 },
+        { year: "2022", share: 15.1 },
+        { year: "2023", share: 15.3 },
+        { year: "2024", share: 15.9 },
+      ],
+      encoding: {
+        x: {
+          field: "year",
+          type: "temporal",
+          axis: { title: "" },
+          scale: { nice: false },
+        },
+        y: {
+          field: "share",
+          type: "quantitative",
+          axis: {
+            title: "Share of citywide crime",
+            format: ".0f%",
+            tickCount: 5,
+          },
+          scale: { domain: [13, 18], nice: false },
+        },
+      },
+      annotations: [
+        {
+          type: "refline",
+          y: 10,
+          stroke: "#64748b",
+          strokeDasharray: "4 4",
+          label: "Expected share (1 of 10 districts)",
+          labelAnchor: "bottom",
+        },
+        {
+          type: "text",
+          x: "2020",
+          y: 14.5,
+          text: "COVID dip",
+          dy: 16,
+          fontSize: 11,
+          fontWeight: 500,
+          fill: "#64748b",
+          offset: { dx: -31, dy: 27 },
+        },
+      ],
+      chrome: {
+        title: "District 9's crime share hasn't budged in 15 years",
+        subtitle:
+          "District 9 (UT/West Campus) as a percent of total Austin crime",
+        source: "Source: Austin Police Department via OpenData API",
+      },
+      theme: { colors: ["#1b7fa3"] },
+      labels: { density: "endpoints", format: ".1f%" },
+      animation: true,
+    }}
+  />
+</Figure>
+
+This isn't because the area is getting more dangerous relative to the rest of the city. District 9's absolute crime count has fallen at almost exactly the same rate as citywide totals (from 21,202 in 2010 to 13,734 in 2024). The area is structurally high-activity: dense housing, high foot traffic, a concentration of bars and nightlife, thousands of students cycling through each year, and a large transient population. That formula produces a consistent baseline of incidents that scales proportionally with the city as a whole.
+
+The only notable dip came in 2020 (14.5 percent), when COVID emptied the campus and shuttered the bars along Guadalupe. It snapped right back to 15-16 percent once everything reopened.
+
+## In the UT area, auto theft tripled while bicycle theft stayed the defining crime
+
+The UT district's crime profile looks different from the rest of Austin. Bicycle theft ranks seventh overall, with 9,118 reports since 2010. DWI ranks fifth, at 11,651, reflecting the density of bars and nightlife along Guadalupe and the Drag. Neither of those crimes cracks the top 10 citywide.
+
+<Figure alt="Horizontal bar chart showing top 10 crime types in Austin's District 9, with theft, vehicle break-ins, and criminal mischief leading">
+  <Chart
+    spec={{
+      mark: { type: "bar", orient: "horizontal", bandPaddingInner: 0.15, fill: "#BF5700" },
+      data: [
+        { offense: "Theft", total: 27259 },
+        { offense: "Vehicle break-in", total: 22140 },
+        { offense: "Criminal mischief", total: 13414 },
+        { offense: "Assault by contact", total: 12893 },
+        { offense: "DWI", total: 11651 },
+        { offense: "Assault w/ injury", total: 11289 },
+        { offense: "Bicycle theft", total: 9118 },
+        { offense: "Warrant arrest", total: 8875 },
+        { offense: "Family disturbance", total: 8143 },
+        { offense: "Criminal trespass", total: 6639 },
+      ],
+      encoding: {
+        x: {
+          field: "total",
+          type: "quantitative",
+          axis: {
+            title: "Total reports, 2010-2024",
+            format: "~s",
+            tickCount: 5,
+          },
+        },
+        y: {
+          field: "offense",
+          type: "nominal",
+          sort: null,
+          axis: { title: "" },
+        },
+      },
+      chrome: {
+        title: "Bicycle theft and DWI define the UT district",
+        subtitle: "Top 10 offense types in Council District 9, 2010-2024",
+        source: "Source: Austin Police Department via OpenData API",
+      },
+      labels: { density: "all", format: "~s" },
+      legend: { show: false },
+      animation: true,
+    }}
+  />
+</Figure>
+
+The auto theft surge hit District 9 even harder than the city average. The area went from 233 auto thefts in 2010 to 725 in 2023, a 211 percent increase, compared to about 176 percent citywide. Parking garages and lots are the second most common crime location in the district (14,497 incidents since 2018), which tracks. Vehicle break-ins and auto theft account for a huge share of District 9's crime profile, and the dense parking infrastructure around campus makes it a target-rich environment.
+
+## After midnight, the UT area becomes a different place
+
+Police dispatch data from the George sector (which covers the UT/West Campus area) reveals a pattern that won't surprise anyone who's spent a Friday night on the Drag. The highest call volume comes between 10pm and 2am, with a cliff at 3am when the bars close.
+
+<Figure alt="Area chart showing police dispatch calls in the UT area by hour of day, peaking at midnight-2am and hitting a low at 5am">
+  <Chart
+    spec={{
+      mark: { type: "area", interpolate: "monotone" },
+      data: [
+        { hour: "12am", calls: 7442, period: "Late night" },
+        { hour: "1am", calls: 7685, period: "Late night" },
+        { hour: "2am", calls: 7771, period: "Late night" },
+        { hour: "3am", calls: 3467, period: "Early morning" },
+        { hour: "4am", calls: 2248, period: "Early morning" },
+        { hour: "5am", calls: 1827, period: "Early morning" },
+        { hour: "6am", calls: 3221, period: "Early morning" },
+        { hour: "7am", calls: 4240, period: "Daytime" },
+        { hour: "8am", calls: 4450, period: "Daytime" },
+        { hour: "9am", calls: 4282, period: "Daytime" },
+        { hour: "10am", calls: 4422, period: "Daytime" },
+        { hour: "11am", calls: 4741, period: "Daytime" },
+        { hour: "12pm", calls: 4471, period: "Daytime" },
+        { hour: "1pm", calls: 3880, period: "Daytime" },
+        { hour: "2pm", calls: 3663, period: "Daytime" },
+        { hour: "3pm", calls: 4849, period: "Daytime" },
+        { hour: "4pm", calls: 5763, period: "Evening" },
+        { hour: "5pm", calls: 5161, period: "Evening" },
+        { hour: "6pm", calls: 5740, period: "Evening" },
+        { hour: "7pm", calls: 5648, period: "Evening" },
+        { hour: "8pm", calls: 5793, period: "Evening" },
+        { hour: "9pm", calls: 6360, period: "Evening" },
+        { hour: "10pm", calls: 7785, period: "Late night" },
+        { hour: "11pm", calls: 7443, period: "Late night" },
+      ],
+      encoding: {
+        x: { field: "hour", type: "ordinal", axis: { title: "" } },
+        y: {
+          field: "calls",
+          type: "quantitative",
+          axis: {
+            title: "Dispatch calls (2023-2025)",
+            format: "~s",
+            tickCount: 5,
+          },
+          scale: { domain: [0, 9000] },
+        },
+      },
+      annotations: [
+        {
+          type: "text",
+          x: "2am",
+          y: 7771,
+          text: "Bar close\npeak",
+          dy: -18,
+          fontSize: 11,
+          fontWeight: 600,
+          fill: "#1b7fa3",
+          offset: { dx: 15, dy: -24 },
+        },
+        {
+          type: "text",
+          x: "5am",
+          y: 1827,
+          text: "Quietest hour",
+          dy: -14,
+          fontSize: 11,
+          fontWeight: 500,
+          fill: "#64748b",
+          offset: { dx: -37, dy: 26 },
+        },
+      ],
+      chrome: {
+        title: "The UT area's busiest police hours are midnight to 2am",
+        subtitle:
+          "Total 911 dispatch calls by hour, George sector, 2023-2025 combined",
+        source: "Source: Austin Police Department via OpenData API",
+      },
+      theme: { colors: ["#1b7fa3"] },
+      labels: { density: "none" },
+      animation: true,
+    }}
+  />
+</Figure>
+
+The 2am peak, 7,771 calls over three years, represents bar-closing time. Calls drop by more than half within an hour as the crowds disperse, hitting a low of 1,827 at 5am. By mid-morning they've climbed back to a steady daytime plateau of 4,000-5,000. Then the cycle starts again in the evening.
+
+Saturday is the busiest day (19,962 calls), followed closely by Sunday (19,496), which makes sense since Saturday night bleeds into Sunday morning. The quietest day is Tuesday (15,659), about 22 percent fewer calls than Saturday.
+
+## Mental health calls surged tenfold and haven't come back down
+
+This is probably the most striking pattern in the data. In 2017 and 2018, mental health incidents made up about 1 percent of all police dispatches in the George sector, roughly 600-700 calls a year. By 2020, that number hit 3,131. By 2021, it reached 3,477, or nearly 12 percent of all calls.
+
+<Figure alt="Dual-axis chart showing mental health calls rising from 722 in 2017 to 2,998 in 2025, and their share of total calls jumping from 1% to 6%">
+  <Chart
+    spec={{
+      mark: { type: "bar" },
+      data: [
+        { year: "2017", calls: 722 },
+        { year: "2018", calls: 609 },
+        { year: "2019", calls: 920 },
+        { year: "2020", calls: 3131 },
+        { year: "2021", calls: 3477 },
+        { year: "2022", calls: 2872 },
+        { year: "2023", calls: 2409 },
+        { year: "2024", calls: 2359 },
+        { year: "2025", calls: 2998 },
+      ],
+      encoding: {
+        x: { field: "year", type: "ordinal", axis: { title: "" } },
+        y: {
+          field: "calls",
+          type: "quantitative",
+          axis: {
+            title: "Mental health dispatch calls",
+            format: "~s",
+            tickCount: 5,
+          },
+          scale: { domain: [0, 4000] },
+        },
+        color: {
+          condition: { test: { field: "calls", gte: 2000 }, value: "#c44e52" },
+          value: "#94a3b8",
+        },
+      },
+      annotations: [
+        {
+          type: "refline",
+          y: 665,
+          stroke: "#64748b",
+          strokeDasharray: "4 4",
+          label: "2017-2018 avg",
+          labelAnchor: "top",
+        },
+      ],
+      chrome: {
+        title: "Mental health crisis calls jumped 5x and stayed there",
+        subtitle:
+          "Mental health-flagged dispatches, George sector (UT/West Campus)",
+        source: "Source: Austin Police Department via OpenData API",
+      },
+      labels: { density: "all", format: ",.0f" },
+      legend: { show: false },
+      animation: true,
+    }}
+  />
+</Figure>
+
+The percentage has come down from that 2021 peak, settling around 6 percent. But that's a misleading comfort. The raw number of mental health calls has stayed between 2,300 and 3,000 per year since 2020. The percentage dropped because total dispatch volume recovered (from 28,604 calls in 2020 to 50,009 in 2025), not because the crisis subsided.
+
+Part of this is a classification change: APD began systematically flagging mental health incidents around 2019-2020, which explains some of the jump. But even accounting for that, the sustained volume of 2,400-3,500 calls per year in a single patrol sector represents a genuine shift in what police in this neighborhood are dealing with day to day.
+
+This pattern also raises a question about whether armed police officers are the right responders for a growing share of these calls. Austin launched its EMCOT (Expanded Mobile Crisis Outreach Team) program to pair mental health clinicians with 911 response, but the program covers only a fraction of calls. In a district where 1 in 17 dispatches involves a mental health crisis, the mismatch between the problem and the response is hard to ignore.
+
+---
+
+Austin is safer than it was 15 years ago by nearly every aggregate measure. That's not spin; it's what 2.6 million records show. But the aggregates hide a few trends that matter to people who live, work, and park their cars near campus.
+
+Auto theft tripled. Murder spiked and hasn't fully come back down. Mental health crises consume a growing share of police time. And the UT district, with its bars and dorms and parking garages, keeps generating about 16 percent of the city's crime, year after year, like a law of nature.
+
+The interesting question isn't whether Austin is getting safer. It is. The question is whether the specific things that got worse are the things people feel most, and whether the tools the city has for dealing with them, patrol cars and handcuffs, are the right ones for a problem that increasingly looks like it belongs to someone else.
+
+## Data sources & methodology
+
+**Datasets used:**
+
+- `austin/crime-reports` (2,629,147 rows) - APD incident reports with offense categories, council district, and occurrence dates. Used for all crime trend and category analysis. Date range: 2003-2025, filtered to 2010-2024 for this report.
+- `austin/dispatch-incidents` (3,940,755 rows) - APD 911 dispatch records with sector, problem category, mental health flag, and response time/hour data. Date range: 2017-2025.
+- `austin/arrests` (118,592 rows) - Arrest records with sector codes and arrest types. Date range: 2020-2025. Used for supplementary verification of enforcement trends.
+
+**Geographic definitions:**
+
+- "District 9" / "UT area" refers to Austin City Council District 9, which encompasses the UT Austin campus, West Campus, and Hyde Park neighborhoods.
+- "George sector" is the APD patrol sector that broadly overlaps with Council District 9. Dispatch and arrest data use this sector designation.
+- No latitude/longitude data is available in the crime-reports dataset, so geographic analysis is limited to district and sector level. Point-level mapping of West Campus specifically is not possible with this data.
+
+**Calculations:**
+
+- Year-over-year percent changes calculated as (new - old) / old x 100.
+- District 9 share of citywide crime calculated as District 9 incidents / total citywide incidents per year.
+- Mental health call percentage calculated as mental health-flagged dispatches / total dispatches per year per sector.
+- 2025 data is partial (through approximately March 2025) and is excluded from trend calculations except where noted. The mental health chart includes 2025 because it shows the most recent available data point.
+
+**Limitations:**
+
+- UCR Part I categories (Theft, Burglary, Auto Theft, Aggravated Assault, Robbery, Rape, Murder) cover only a subset of total incidents. `category_description` is null for the majority of reports, which include non-UCR offenses like family disturbance, criminal mischief, and drug possession.
+- The mental health flag in dispatch data was not systematically applied before 2019-2020. The jump from ~1% to ~11% reflects both a real increase in calls and a change in how incidents are classified. The two effects cannot be fully separated.
+- Response time data shows a structural break between 2018 and 2019 (average jumped from ~29 minutes to ~89 minutes), likely reflecting a methodology change in measurement. Response time trends are therefore not reported.
+- Dispatch call volume dropped sharply in 2020-2022 and has since recovered. Percentages calculated during this period (like the 11.8% mental health share in 2021) are amplified by the lower denominator.
+
+_Data accessed on 2026-04-18 via the [OpenData API](https://tryopendata.ai)._
